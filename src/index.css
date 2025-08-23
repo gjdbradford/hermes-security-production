@@ -1,0 +1,307 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hermes Security Design System - Professional Cybersecurity Aesthetic */
+
+/* Critical CSS - Inline for above-the-fold content */
+@layer base {
+  :root {
+    /* Primary Brand Colors - Deep Security Blues */
+    --background: 0 0% 100%;
+    --foreground: 222 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 84% 4.9%;
+
+    /* Primary: Deep security blue */
+    --primary: 212 85% 15%;
+    --primary-foreground: 0 0% 98%;
+    
+    /* Security accent - Electric blue */
+    --accent-security: 203 100% 50%;
+    --accent-security-foreground: 0 0% 98%;
+
+    /* Secondary: Professional light */
+    --secondary: 210 25% 96%;
+    --secondary-foreground: 212 85% 15%;
+
+    --muted: 210 25% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 25% 96%;
+    --accent-foreground: 212 85% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 203 100% 50%;
+
+    --radius: 0.75rem;
+
+    /* Hero & Dark Sections */
+    --hero-background: 212 95% 8%;
+    --hero-foreground: 0 0% 98%;
+    --hero-muted: 212 30% 75%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(212 95% 8%) 0%, hsl(212 85% 12%) 100%);
+    --gradient-security: linear-gradient(135deg, hsl(203 100% 50% / 0.1) 0%, hsl(212 85% 15% / 0.1) 100%);
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(210 25% 98%) 100%);
+
+    /* Shadows */
+    --shadow-security: 0 25px 50px -12px hsl(212 85% 15% / 0.25);
+    --shadow-card: 0 4px 6px -1px hsl(212 85% 15% / 0.1);
+    --shadow-hero: 0 0 100px hsl(203 100% 50% / 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Dark mode hero adjustments */
+    --hero-background: 212 100% 6%;
+    --hero-foreground: 0 0% 98%;
+    --hero-muted: 212 25% 70%;
+  }
+}
+
+/* Optimized scrollbar for modern look */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--accent-security));
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--accent-security) / 0.8);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Performance optimizations */
+@layer utilities {
+  /* Optimize animations for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  
+  /* Optimize for high contrast mode */
+  @media (prefers-contrast: high) {
+    :root {
+      --border: 0 0% 0%;
+      --muted: 0 0% 0%;
+    }
+  }
+}
+
+/* Cross-browser compatibility */
+@layer base {
+  /* Ensure consistent box-sizing across browsers */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* Ensure consistent font rendering */
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Ensure consistent form element styling */
+  input,
+  button,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  /* Ensure consistent button styling */
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  /* Ensure consistent link styling */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Ensure consistent list styling */
+  ul,
+  ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Ensure consistent table styling */
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  /* Ensure consistent image styling */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+}
+
+/* Browser-specific compatibility fixes */
+/* Internet Explorer 11 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .flex {
+    display: -ms-flexbox !important;
+  }
+  
+  .flex-col {
+    -ms-flex-direction: column !important;
+  }
+  
+  .justify-center {
+    -ms-flex-pack: center !important;
+  }
+  
+  .items-center {
+    -ms-flex-align: center !important;
+  }
+  
+  .backdrop-blur-md {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+/* Safari specific fixes */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+  
+  .sticky {
+    position: -webkit-sticky !important;
+  }
+}
+
+/* Firefox specific fixes */
+@-moz-document url-prefix() {
+  .backdrop-blur-md {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+/* Mobile Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available !important;
+  }
+  
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Focus styles for all browsers */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid hsl(var(--accent-security));
+  outline-offset: 2px;
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .hover\:scale:hover {
+    transform: none !important;
+  }
+}
+
+/* Mobile touch targets */
+@media (max-width: 768px) {
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

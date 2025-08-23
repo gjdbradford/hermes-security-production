@@ -1,0 +1,240 @@
+/* Browser-specific compatibility fixes */
+
+/* Internet Explorer 11 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE11 specific fixes */
+  .flex {
+    display: -ms-flexbox !important;
+  }
+  
+  .flex-col {
+    -ms-flex-direction: column !important;
+  }
+  
+  .justify-center {
+    -ms-flex-pack: center !important;
+  }
+  
+  .items-center {
+    -ms-flex-align: center !important;
+  }
+  
+  /* Fix for CSS Grid in IE11 */
+  .grid {
+    display: -ms-grid !important;
+  }
+  
+  /* Fix for backdrop-filter in IE11 */
+  .backdrop-blur-md {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+/* Safari specific fixes */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  /* Fix for Safari flexbox issues */
+  .flex {
+    display: -webkit-flex !important;
+  }
+  
+  /* Fix for Safari backdrop-filter */
+  .backdrop-blur-md {
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+  
+  /* Fix for Safari sticky positioning */
+  .sticky {
+    position: -webkit-sticky !important;
+  }
+}
+
+/* Firefox specific fixes */
+@-moz-document url-prefix() {
+  /* Fix for Firefox backdrop-filter */
+  .backdrop-blur-md {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+  
+  /* Fix for Firefox flexbox gap */
+  .gap-4 {
+    margin: -0.5rem !important;
+  }
+  
+  .gap-4 > * {
+    margin: 0.5rem !important;
+  }
+}
+
+/* Edge specific fixes */
+@supports (-ms-ime-align: auto) {
+  /* Fix for Edge backdrop-filter */
+  .backdrop-blur-md {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
+}
+
+/* Mobile Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* Fix for iOS Safari viewport issues */
+  .min-h-screen {
+    min-height: -webkit-fill-available !important;
+  }
+  
+  /* Fix for iOS Safari input zoom */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Ensure crisp rendering on high DPI displays */
+  .hero-section {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Print styles */
+@media print {
+  /* Hide non-essential elements when printing */
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Ensure proper page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  /* Ensure text is readable when printed */
+  body {
+    color: black !important;
+    background: white !important;
+  }
+  
+  /* Ensure links are visible when printed */
+  a {
+    color: black !important;
+    text-decoration: underline !important;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  /* Disable all animations and transitions */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Disable specific animations */
+  .animate-fade-in,
+  .animate-pulse-security,
+  .hover-scale {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  /* Ensure high contrast for better visibility */
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --primary: 0 0% 0%;
+    --primary-foreground: 0 0% 100%;
+    --border: 0 0% 0%;
+    --muted: 0 0% 0%;
+  }
+  
+  /* Ensure all text has high contrast */
+  * {
+    border-color: black !important;
+  }
+  
+  /* Ensure buttons are clearly visible */
+  button {
+    border: 2px solid black !important;
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  /* Ensure proper dark mode support across browsers */
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Light mode support */
+@media (prefers-color-scheme: light) {
+  /* Ensure proper light mode support across browsers */
+  :root {
+    color-scheme: light;
+  }
+}
+
+/* Focus visible polyfill for older browsers */
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+.js-focus-visible .focus-visible {
+  outline: 2px solid hsl(var(--accent-security));
+  outline-offset: 2px;
+}
+
+/* Ensure proper focus styles for all browsers */
+button:focus,
+a:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid hsl(var(--accent-security));
+  outline-offset: 2px;
+}
+
+/* Ensure proper hover states for touch devices */
+@media (hover: none) {
+  /* Disable hover effects on touch devices */
+  .hover\:scale:hover {
+    transform: none !important;
+  }
+  
+  .hover\:bg-hero-foreground\/50:hover {
+    background-color: transparent !important;
+  }
+  
+  .hover\:text-hero-foreground:hover {
+    color: inherit !important;
+  }
+}
+
+/* Ensure proper touch targets on mobile */
+@media (max-width: 768px) {
+  /* Ensure minimum touch target size */
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Ensure proper spacing for touch interactions */
+  .gap-4 {
+    gap: 1rem !important;
+  }
+}
+
