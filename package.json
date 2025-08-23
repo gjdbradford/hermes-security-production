@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://gbradford.github.io/hermes-security",
+  "homepage": "https://gjdbradford.github.io/hermes-security-production",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

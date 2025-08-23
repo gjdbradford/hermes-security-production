@@ -6,7 +6,7 @@ A modern, responsive website for Hermes Security - a European cybersecurity comp
 
 ## 🚀 Live Demo
 
-Visit the live website: [https://gbradford.github.io/hermes-security](https://gbradford.github.io/hermes-security)
+Visit the live website: [https://gjdbradford.github.io/hermes-security-production](https://gjdbradford.github.io/hermes-security-production)
 
 ## ✨ Features
 
@@ -32,8 +32,8 @@ Visit the live website: [https://gbradford.github.io/hermes-security](https://gb
 
 ```bash
 # Clone the repository
-git clone https://github.com/gbradford/hermes-security.git
-cd hermes-security
+git clone https://github.com/gjdbradford/hermes-security-production.git
+cd hermes-security-production
 
 # Install dependencies
 npm install
