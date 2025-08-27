@@ -41,13 +41,16 @@ jobs:
       - name: Copy static assets to root
         run: |
           # Copy static assets from public to dist root for GitHub Pages
-          cp public/logo.svg dist/
-          cp public/favicon.svg dist/
-          cp public/favicon.ico dist/
-          cp public/hero-bg.jpg dist/
-          cp public/site.webmanifest dist/
-          cp public/robots.txt dist/
-          cp public/sitemap.xml dist/
+          ls -la public/
+          ls -la dist/
+          cp public/logo.svg dist/ || echo "Failed to copy logo.svg"
+          cp public/favicon.svg dist/ || echo "Failed to copy favicon.svg"
+          cp public/favicon.ico dist/ || echo "Failed to copy favicon.ico"
+          cp public/hero-bg.jpg dist/ || echo "Failed to copy hero-bg.jpg"
+          cp public/site.webmanifest dist/ || echo "Failed to copy site.webmanifest"
+          cp public/robots.txt dist/ || echo "Failed to copy robots.txt"
+          cp public/sitemap.xml dist/ || echo "Failed to copy sitemap.xml"
+          ls -la dist/
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
