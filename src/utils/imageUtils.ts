@@ -14,15 +14,15 @@ export interface ImageConfig {
  * Get the correct image path based on environment
  */
 export const getImagePath = (path: string): string => {
-  // Remove any leading slashes to ensure consistent path handling
+  // Remove leading slash for consistent handling
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
-  // In development, use relative paths
-  if (import.meta.env.DEV) {
-    return `/${cleanPath}`;
+  // In production (GitHub Pages), use the base path
+  if (import.meta.env.PROD) {
+    return `/hermes-security-production/${cleanPath}`;
   }
   
-  // In production, use the base path
+  // In development, use relative path
   return `/${cleanPath}`;
 };
 

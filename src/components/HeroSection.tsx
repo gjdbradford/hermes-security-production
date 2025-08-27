@@ -91,7 +91,9 @@ export default function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-subtle-float"
         style={{
-          backgroundImage: 'url(/images/backgrounds/hero-bg.jpg)',
+          backgroundImage: import.meta.env.PROD 
+            ? 'url(/hermes-security-production/images/backgrounds/hero-bg.jpg)'
+            : 'url(/images/backgrounds/hero-bg.jpg)',
           backgroundPosition: 'center',
           backgroundSize: 'cover'
         }}
