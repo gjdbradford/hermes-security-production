@@ -320,7 +320,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
                 />
                 <label htmlFor="agreeToTerms" className="text-sm leading-relaxed">
                   I agree to the{" "}
-                  <a href="/terms" className="text-accent-security hover:underline">
+                  <a href="./terms" className="text-accent-security hover:underline">
                     Terms of Use
                   </a>{" "}
                   and understand that this form submission initiates our engagement process. *

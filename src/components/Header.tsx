@@ -57,10 +57,9 @@ export default function Header() {
           <div className="flex items-center justify-center">
             <Link to="/">
               <img 
-                src="/logo.svg" 
+                src="/hermes-security-production/logo.svg"
                 alt="Hermes Security Logo" 
-                className="h-8 w-auto transition-transform duration-300 hover:scale-110"
-                loading="eager"
+                className="h-8 w-auto"
               />
             </Link>
           </div>

@@ -24,11 +24,11 @@ export default function Index() {
         <meta property="og:description" content="Enterprise-grade cybersecurity with AI speed and human oversight." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://hermes-security.com" />
-        <meta property="og:image" content="/hero-bg.jpg" />
+        <meta property="og:image" content="/hermes-security-production/hero-bg.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Hermes Security - AI-Driven Penetration Testing" />
         <meta name="twitter:description" content="Enterprise-grade cybersecurity with AI speed and human oversight." />
-        <meta name="twitter:image" content="/hero-bg.jpg" />
+        <meta name="twitter:image" content="/hermes-security-production/hero-bg.jpg" />
         <link rel="canonical" href="https://hermes-security.com" />
       </Helmet>
 
