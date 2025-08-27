@@ -45,6 +45,8 @@ export default defineConfig(({ mode }) => ({
     // Asset optimization
     assetsInlineLimit: 4096,
     chunkSizeWarningLimit: 1000,
+    // Ensure static assets are copied correctly
+    copyPublicDir: true,
   },
   // Development optimizations
   optimizeDeps: {
