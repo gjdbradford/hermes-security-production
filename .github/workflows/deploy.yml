@@ -38,6 +38,17 @@ jobs:
       - name: Build
         run: npm run build
         
+      - name: Copy static assets to root
+        run: |
+          # Copy static assets from public to dist root for GitHub Pages
+          cp public/logo.svg dist/
+          cp public/favicon.svg dist/
+          cp public/favicon.ico dist/
+          cp public/hero-bg.jpg dist/
+          cp public/site.webmanifest dist/
+          cp public/robots.txt dist/
+          cp public/sitemap.xml dist/
+        
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
