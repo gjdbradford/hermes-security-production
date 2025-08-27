@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="hermesGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="15" fill="url(#hermesGradient)" stroke="#1E3A8A" stroke-width="1"/>
+  
+  <!-- Shield with wings -->
+  <g transform="translate(16, 16) scale(0.8)">
+    <!-- Left wing (forms 'S') -->
+    <path d="M-8,-6 L-4,-8 L-2,-6 L-4,-4 L-6,-2 L-4,0 L-2,-2 L0,-4 L-2,-6 L-4,-8" 
+          fill="url(#hermesGradient)" stroke="#1E3A8A" stroke-width="0.5"/>
+    
+    <!-- Right wing (forms 'E') -->
+    <path d="M8,-6 L4,-8 L2,-6 L4,-4 L6,-2 L4,0 L2,-2 L0,-4 L2,-6 L4,-8" 
+          fill="url(#hermesGradient)" stroke="#1E3A8A" stroke-width="0.5"/>
+    
+    <!-- Central shield body -->
+    <path d="M-6,-4 L6,-4 L8,0 L6,4 L4,6 L-4,6 L-6,4 L-8,0 Z" 
+          fill="url(#hermesGradient)" stroke="#1E3A8A" stroke-width="0.5"/>
+    
+    <!-- Central 'W' or 'M' shape -->
+    <path d="M-3,2 L-1,0 L1,2 L3,0 L3,2 L1,4 L-1,2 L-3,4 Z" 
+          fill="#FFFFFF" opacity="0.9"/>
+  </g>
+</svg>
