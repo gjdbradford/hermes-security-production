@@ -15,7 +15,7 @@ const heroContent = [
   {
     id: 2,
     subtitle: "Fix the Asymmetry",
-    title: "AI & human penetration testing.",
+    title: "AI Penetration Testing & Human Ethics.",
     description: "A typical enterprise faces nearly 2,000 cyberattacks every week. Cybersecurity is inherently asymmetric—a nonstop game of cat and mouse. Hermes closes the gap with machine speed plus human judgement.",
     cta: "Book a discovery call",
     icon: Shield
@@ -23,7 +23,7 @@ const heroContent = [
   {
     id: 3,
     subtitle: "The old way is gone",
-    title: "Ethical hacking with expert oversight.",
+    title: "Ethical Hacking. Expert Oversight.",
     description: "Organised as Initiate · Discover · Attack · Prioritise. Transform your security posture with AI-accelerated testing that maintains human ethics and oversight.",
     cta: "Book a discovery call",
     icon: Zap
@@ -31,7 +31,7 @@ const heroContent = [
   {
     id: 4,
     subtitle: "From alerts to action",
-    title: "Prioritises the most important vulnerabilities.",
+    title: "Prioritise Important Vulnerabilities.",
     description: "Focus where it counts and get your teams focused so they can act immediately.",
     cta: "Book a discovery call",
     icon: Users
