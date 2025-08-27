@@ -38,19 +38,12 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: Copy static assets to root
+      - name: Verify build output
         run: |
-          # Copy static assets from public to dist root for GitHub Pages
-          ls -la public/
+          echo "Checking dist folder contents:"
           ls -la dist/
-          cp public/logo.svg dist/ || echo "Failed to copy logo.svg"
-          cp public/favicon.svg dist/ || echo "Failed to copy favicon.svg"
-          cp public/favicon.ico dist/ || echo "Failed to copy favicon.ico"
-          cp public/hero-bg.jpg dist/ || echo "Failed to copy hero-bg.jpg"
-          cp public/site.webmanifest dist/ || echo "Failed to copy site.webmanifest"
-          cp public/robots.txt dist/ || echo "Failed to copy robots.txt"
-          cp public/sitemap.xml dist/ || echo "Failed to copy sitemap.xml"
-          ls -la dist/
+          echo "Checking for static assets:"
+          ls -la dist/*.svg dist/*.ico dist/*.jpg dist/*.txt dist/*.xml dist/*.webmanifest 2>/dev/null || echo "Some static assets not found"
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
