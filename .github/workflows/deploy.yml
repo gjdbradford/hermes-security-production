@@ -38,12 +38,20 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: Verify build output
+      - name: Ensure static assets are accessible
         run: |
+          # Copy .nojekyll file to prevent Jekyll processing
+          cp .nojekyll dist/ || echo ".nojekyll file not found, creating one"
+          echo "# This file tells GitHub Pages not to process the site with Jekyll" > dist/.nojekyll
+          
+          # Verify all static assets are present
           echo "Checking dist folder contents:"
           ls -la dist/
           echo "Checking for static assets:"
           ls -la dist/*.svg dist/*.ico dist/*.jpg dist/*.txt dist/*.xml dist/*.webmanifest 2>/dev/null || echo "Some static assets not found"
+          
+          # Ensure proper permissions
+          chmod 644 dist/*.svg dist/*.ico dist/*.jpg dist/*.txt dist/*.xml dist/*.webmanifest 2>/dev/null || echo "Some files not found for permission setting"
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
