@@ -92,7 +92,7 @@ export default function ServicesSection() {
     <section className="py-24 bg-hero text-hero-foreground">
       <div className="container mx-auto px-6">
         {/* Methodology */}
-        <div className="max-w-6xl mx-auto mb-20">
+        <div id="methodology" className="max-w-6xl mx-auto mb-20">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Our <span className="text-accent-security">Methodology</span>
@@ -133,7 +133,7 @@ export default function ServicesSection() {
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
               Service <span className="text-accent-security">Catalogue</span>
             </h2>
-            <p className="text-xl text-hero-muted leading-relaxed max-w-3xl mx-auto">
+            <p id="services" className="text-xl text-hero-muted leading-relaxed max-w-3xl mx-auto">
               Comprehensive security testing across your entire technology stack
             </p>
           </div>

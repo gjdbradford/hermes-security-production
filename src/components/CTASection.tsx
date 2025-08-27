@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Download, FileText, Calendar } from "lucide-react";
+import { TriggerHandlers } from "@/utils/crispTriggers";
 
 const ctaOptions = [
   {
@@ -66,6 +67,15 @@ export default function CTASection() {
                 variant={cta.variant} 
                 className="w-full group"
                 size="lg"
+                onClick={() => {
+                  if (cta.title === "Book a Discovery Call") {
+                    TriggerHandlers.discoveryCall();
+                  } else if (cta.title === "Download Methodology") {
+                    TriggerHandlers.downloadGuide();
+                  } else if (cta.title === "Sample Executive Report") {
+                    TriggerHandlers.requestSample();
+                  }
+                }}
               >
                 {cta.buttonText}
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -78,7 +88,7 @@ export default function CTASection() {
         <div className="mt-16 text-center">
           <div className="max-w-2xl mx-auto p-6 bg-hero-foreground/5 backdrop-blur-sm rounded-xl border border-hero-foreground/10">
             <p className="text-hero-muted mb-2">Questions? Speak directly with our security experts</p>
-            <p className="text-accent-security font-semibold">hello@hermessecurity.eu | +44 (0) 20 7946 0958</p>
+            <p className="text-accent-security font-semibold">contact@hermessecurity.io | +44 (0) 20 7946 0958</p>
           </div>
         </div>
       </div>

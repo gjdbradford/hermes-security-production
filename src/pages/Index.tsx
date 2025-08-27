@@ -1,87 +1,66 @@
-import { useEffect, lazy, Suspense } from "react";
-import Header from "@/components/Header";
-import HeroSection from "@/components/HeroSection";
-import SkipLink from "@/components/SkipLink";
+import { Suspense, lazy } from "react";
+import { Helmet } from "react-helmet-async";
 
-// Lazy load non-critical components
+// Lazy load components for better performance
+const Header = lazy(() => import("@/components/Header"));
+const HeroSection = lazy(() => import("@/components/HeroSection"));
 const ValueProposition = lazy(() => import("@/components/ValueProposition"));
 const ServicesSection = lazy(() => import("@/components/ServicesSection"));
-const ComplianceSection = lazy(() => import("@/components/ComplianceSection"));
+const CaseStudySection = lazy(() => import("@/components/CaseStudySection"));
 const CTASection = lazy(() => import("@/components/CTASection"));
 const Footer = lazy(() => import("@/components/Footer"));
 
-const Index = () => {
-  useEffect(() => {
-    // Update page metadata for SEO
-    document.title = "Hermes Security - AI-Driven Penetration Testing with Human Oversight";
-    
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'AI-accelerated penetration testing with ethical human oversight. SOC 2 aligned, GDPR compliant security testing for European enterprises. Web, API, Mobile, Cloud & AI Red Teaming.');
-    }
-
-    // Add structured data for SEO
-    const structuredData = {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Hermes Security",
-      "description": "AI-driven penetration testing with human oversight",
-      "url": "https://hermessecurity.eu",
-      "logo": "https://hermessecurity.eu/logo.png",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+44-20-7946-0958",
-        "contactType": "sales",
-        "email": "hello@hermessecurity.eu"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "GB",
-        "addressLocality": "London"
-      },
-      "sameAs": [
-        "https://linkedin.com/company/hermes-security"
-      ]
-    };
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(structuredData);
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
+export default function Index() {
   return (
-    <div className="min-h-screen bg-background">
-      <SkipLink />
-      <Header />
-      <main id="main-content">
-        <HeroSection />
-        <Suspense fallback={<div className="py-24 bg-background"><div className="container mx-auto px-6 text-center">Loading...</div></div>}>
+    <>
+      <Helmet>
+        <title>Hermes Security - AI-Driven Penetration Testing with Human Ethics</title>
+        <meta 
+          name="description" 
+          content="Enterprise-grade cybersecurity with AI speed and human oversight. Web app, API, mobile, cloud, and network penetration testing with SOC 2 alignment and GDPR compliance." 
+        />
+        <meta name="keywords" content="penetration testing, cybersecurity, AI security, ethical hacking, web app security, API security, cloud security, network security" />
+        <meta property="og:title" content="Hermes Security - AI-Driven Penetration Testing" />
+        <meta property="og:description" content="Enterprise-grade cybersecurity with AI speed and human oversight." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://hermes-security.com" />
+        <meta property="og:image" content="/hero-bg.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Hermes Security - AI-Driven Penetration Testing" />
+        <meta name="twitter:description" content="Enterprise-grade cybersecurity with AI speed and human oversight." />
+        <meta name="twitter:image" content="/hero-bg.jpg" />
+        <link rel="canonical" href="https://hermes-security.com" />
+      </Helmet>
+
+      <Suspense fallback={<div className="fixed top-0 w-full bg-hero/95 backdrop-blur-md z-50 h-16 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-security"></div></div>}>
+        <Header />
+      </Suspense>
+
+      <main className="min-h-screen">
+        <Suspense fallback={<div className="min-h-screen bg-hero flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <HeroSection />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-24 bg-background flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
           <ValueProposition />
         </Suspense>
-        <div id="services">
-          <Suspense fallback={<div className="py-24 bg-hero text-hero-foreground"><div className="container mx-auto px-6 text-center">Loading services...</div></div>}>
-            <ServicesSection />
-          </Suspense>
-        </div>
-        <div id="compliance">
-          <Suspense fallback={<div className="py-24 bg-background"><div className="container mx-auto px-6 text-center">Loading compliance...</div></div>}>
-            <ComplianceSection />
-          </Suspense>
-        </div>
-        <Suspense fallback={<div className="py-24 bg-gradient-hero text-hero-foreground"><div className="container mx-auto px-6 text-center">Loading...</div></div>}>
+
+        <Suspense fallback={<div className="py-24 bg-hero flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <ServicesSection />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-24 bg-background flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <CaseStudySection />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-24 bg-background flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
           <CTASection />
         </Suspense>
-      </main>
-      <Suspense fallback={<div className="bg-hero text-hero-foreground py-16"><div className="container mx-auto px-6 text-center">Loading...</div></div>}>
-        <Footer />
-      </Suspense>
-    </div>
-  );
-};
 
-export default Index;
+        <Suspense fallback={<div className="py-24 bg-hero flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <Footer />
+        </Suspense>
+      </main>
+    </>
+  );
+}

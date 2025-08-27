@@ -1,30 +1,39 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Shield, Zap, Users, ChevronRight, ArrowRight } from "lucide-react";
+import { Shield, Zap, Users, Target, ChevronRight, ArrowRight } from "lucide-react";
+import { TriggerHandlers } from "@/utils/crispTriggers";
 
 const heroContent = [
   {
     id: 1,
+    subtitle: "AI speed. Human ethics. Real impact.",
+    title: "Don't be in tomorrow's news.",
+    description: "We influence businesses unlike other security contractors and make a difference by eliminating incorrect development and security processes.",
+    cta: "Book a discovery call",
+    icon: Target
+  },
+  {
+    id: 2,
     subtitle: "Fix the Asymmetry",
-    title: "AI-driven penetration testing. Human-governed ethics.",
+    title: "AI & human penetration testing.",
     description: "A typical enterprise faces nearly 2,000 cyberattacks every week. Cybersecurity is inherently asymmetric—a nonstop game of cat and mouse. Hermes closes the gap with machine speed plus human judgement.",
     cta: "Book a discovery call",
     icon: Shield
   },
   {
-    id: 2,
+    id: 3,
     subtitle: "The old way is gone",
-    title: "Automated ethical hacking with expert oversight",
+    title: "Ethical hacking with expert oversight.",
     description: "Organised as Initiate · Discover · Attack · Prioritise. Transform your security posture with AI-accelerated testing that maintains human ethics and oversight.",
-    cta: "See how we run an engagement",
+    cta: "Book a discovery call",
     icon: Zap
   },
   {
-    id: 3,
+    id: 4,
     subtitle: "From alerts to action",
-    title: "Enterprise reporting that prioritises the most important vulnerabilities",
-    description: "Focus where it counts, fast — SOC 2-aligned, GDPR by design. Executive-ready reports that your teams can act on immediately.",
-    cta: "Download our methodology one-pager",
+    title: "Prioritises the most important vulnerabilities.",
+    description: "Focus where it counts and get your teams focused so they can act immediately.",
+    cta: "Book a discovery call",
     icon: Users
   }
 ];
@@ -77,9 +86,23 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen bg-gradient-hero text-hero-foreground overflow-hidden" role="banner" aria-labelledby="hero-title">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-gradient-security opacity-50" aria-hidden="true" />
+    <section className="relative min-h-screen text-hero-foreground overflow-hidden" role="banner" aria-labelledby="hero-title">
+      {/* Custom Background Image with Subtle Movement */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-subtle-float"
+        style={{
+          backgroundImage: 'url(/hero-bg.jpg)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover'
+        }}
+        aria-hidden="true"
+      />
+      
+      {/* Overlay for text readability */}
+      <div className="absolute inset-0 bg-hero/80 backdrop-blur-sm" aria-hidden="true" />
+      
+      {/* Enhanced Background Effects */}
+      <div className="absolute inset-0 bg-gradient-security opacity-30" aria-hidden="true" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-security/10 rounded-full blur-3xl animate-pulse-security" aria-hidden="true" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent-security/5 rounded-full blur-3xl" aria-hidden="true" />
       
@@ -114,7 +137,19 @@ export default function HeroSection() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: '0.8s' }}>
-              <Button variant="hero" size="lg" className="group" aria-label={`${currentHeroData.cta} - ${currentHeroData.title}`}>
+              <Button 
+                variant="hero" 
+                size="lg" 
+                className="group" 
+                aria-label={`${currentHeroData.cta} - ${currentHeroData.title}`}
+                onClick={() => {
+                  if (currentHeroData.cta.includes("discovery call")) {
+                    TriggerHandlers.discoveryCall();
+                  } else if (currentHeroData.cta.includes("methodology")) {
+                    TriggerHandlers.downloadGuide();
+                  }
+                }}
+              >
                 {currentHeroData.cta}
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
               </Button>

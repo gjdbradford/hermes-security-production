@@ -12,15 +12,12 @@ const footerLinks = {
   company: [
     { name: 'About Us', href: '#' },
     { name: 'Methodology', href: '#' },
-    { name: 'Compliance', href: '#' },
     { name: 'Careers', href: '#' },
     { name: 'Blog', href: '#' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '#' },
     { name: 'Terms of Service', href: '#' },
-    { name: 'GDPR Compliance', href: '#' },
-    { name: 'SOC 2 Report', href: '#' },
   ],
 };
 
@@ -39,12 +36,12 @@ export default function Footer() {
             </div>
             <p className="text-hero-muted mb-6 leading-relaxed max-w-md">
               AI-driven penetration testing with human oversight. 
-              Helping European enterprises secure their digital assets with speed, ethics, and compliance.
+              Helping European enterprises secure their digital assets with speed and ethics.
             </p>
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2 text-hero-muted">
                 <Mail className="w-4 h-4" />
-                hello@hermessecurity.eu
+                contact@hermessecurity.io
               </div>
               <div className="flex items-center gap-2 text-hero-muted">
                 <Phone className="w-4 h-4" />
@@ -87,7 +84,7 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="font-semibold mb-4">Legal & Compliance</h3>
+            <h3 className="font-semibold mb-4">Legal</h3>
             <ul className="space-y-2 text-sm">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
@@ -104,7 +101,7 @@ export default function Footer() {
         <div className="border-t border-hero-foreground/10 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-hero-muted">
-              © 2024 Hermes Security. All rights reserved. SOC 2 Type II certified, GDPR compliant.
+              © 2024 Hermes Security. All rights reserved.
             </p>
             <div className="flex items-center gap-4 text-sm text-hero-muted">
               <span>🇪🇺 EU-based security experts</span>

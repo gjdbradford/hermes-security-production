@@ -1,0 +1,168 @@
+{
+  "workflow": {
+    "name": "Hermes Contact Form Handler",
+    "description": "Processes contact form submissions from Hermes Security website with AI agent automation",
+    "version": "1.0.0",
+    "instance": "https://ilovemylife.app.n8n.cloud/",
+    "nodes": [
+      {
+        "id": "webhook-trigger",
+        "type": "webhook",
+        "name": "Contact Form Webhook",
+        "position": [100, 100],
+        "parameters": {
+          "httpMethod": "POST",
+          "path": "/hermes-contact",
+          "authentication": "bearerToken",
+          "responseMode": "responseNode"
+        }
+      },
+      {
+        "id": "data-validation",
+        "type": "function",
+        "name": "Validate Form Data",
+        "position": [300, 100],
+        "parameters": {
+          "functionCode": `
+            const formData = $input.first().json;
+            
+            // Validate required fields
+            const requiredFields = ['firstName', 'lastName', 'email', 'country', 'mobileNumber', 'problemDescription'];
+            const missingFields = requiredFields.filter(field => !formData[field]);
+            
+            if (missingFields.length > 0) {
+              throw new Error(\`Missing required fields: \${missingFields.join(', ')}\`);
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+            if (!emailRegex.test(formData.email)) {
+              throw new Error('Invalid email format');
+            }
+            
+            return { json: { ...formData, validated: true, timestamp: new Date().toISOString() } };
+          `
+        }
+      },
+      {
+        "id": "email-notification",
+        "type": "email",
+        "name": "Send Email to gjdbradford@gmail.com",
+        "position": [500, 100],
+        "parameters": {
+          "to": "gjdbradford@gmail.com",
+          "subject": "{{$json.firstName}} from {{$json.companyName || 'No Company'}} - Hermes Website Contact Enquiry [{{$json.serviceUrgency}}]",
+          "body": `
+            **New Contact Form Submission**
+            
+            **Personal Information:**
+            - Name: {{$json.firstName}} {{$json.lastName}}
+            - Email: {{$json.email}}
+            - Country: {{$json.country}}
+            - Mobile: {{$json.mobileNumber}}
+            
+            **Company Information:**
+            - Company: {{$json.companyName || 'Not provided'}}
+            - Size: {{$json.companySize || 'Not provided'}}
+            - Urgency: {{$json.serviceUrgency}}
+            
+            **Problem Description:**
+            {{$json.problemDescription}}
+            
+            **Consent:**
+            - GDPR Consent: {{$json.gdprConsent ? 'Yes' : 'No'}}
+            - Terms Agreement: {{$json.agreeToTerms ? 'Yes' : 'No'}}
+            
+            **Submission Details:**
+            - Timestamp: {{$json.timestamp}}
+            - User Agent: {{$json.userAgent}}
+            
+            ---
+            This lead has been automatically processed by the Hermes Security 8n8 workflow.
+          `
+        }
+      },
+      {
+        "id": "ai-agent-trigger",
+        "type": "httpRequest",
+        "name": "Trigger AI Agent Processing",
+        "position": [700, 100],
+        "parameters": {
+          "method": "POST",
+          "url": "{{$env.AI_AGENT_WEBHOOK_URL}}",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer {{$env.AI_AGENT_API_KEY}}"
+          },
+          "body": {
+            "lead_data": "{{$json}}",
+            "source": "hermes_website",
+            "priority": "{{$json.serviceUrgency === 'Super urgent' ? 'high' : 'normal'}}"
+          }
+        }
+      },
+      {
+        "id": "database-storage",
+        "type": "postgres",
+        "name": "Store Lead in Database",
+        "position": [900, 100],
+        "parameters": {
+          "operation": "insert",
+          "table": "contact_leads",
+          "columns": {
+            "first_name": "{{$json.firstName}}",
+            "last_name": "{{$json.lastName}}",
+            "email": "{{$json.email}}",
+            "country": "{{$json.country}}",
+            "mobile_number": "{{$json.mobileNumber}}",
+            "problem_description": "{{$json.problemDescription}}",
+            "company_name": "{{$json.companyName}}",
+            "company_size": "{{$json.companySize}}",
+            "service_urgency": "{{$json.serviceUrgency}}",
+            "gdpr_consent": "{{$json.gdprConsent}}",
+            "terms_consent": "{{$json.agreeToTerms}}",
+            "submission_timestamp": "{{$json.timestamp}}",
+            "user_agent": "{{$json.userAgent}}",
+            "status": "new"
+          }
+        }
+      },
+      {
+        "id": "response-node",
+        "type": "respondToWebhook",
+        "name": "Success Response",
+        "position": [1100, 100],
+        "parameters": {
+          "responseCode": 200,
+          "responseBody": {
+            "success": true,
+            "message": "Contact form submitted successfully",
+            "messageId": "{{$json.timestamp}}",
+            "nextSteps": [
+              "We've received your enquiry and will respond within 24 hours",
+              "Check your email for a confirmation",
+              "Our AI agent is processing your request"
+            ]
+          }
+        }
+      }
+    ],
+    "connections": {
+      "webhook-trigger": {
+        "main": [["data-validation"]]
+      },
+      "data-validation": {
+        "main": [["email-notification"], ["ai-agent-trigger"], ["database-storage"]]
+      },
+      "email-notification": {
+        "main": [["response-node"]]
+      },
+      "ai-agent-trigger": {
+        "main": [["response-node"]]
+      },
+      "database-storage": {
+        "main": [["response-node"]]
+      }
+    }
+  }
+}
