@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { TriggerHandlers } from "@/utils/crispTriggers";
+import OptimizedImage from "@/components/ui/optimized-image";
 
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId);
@@ -56,10 +57,11 @@ export default function Header() {
           {/* Logo */}
           <div className="flex items-center justify-center">
             <Link to="/">
-              <img 
-                src="/hermes-security-production/logo.svg"
+              <OptimizedImage 
+                src="/images/logos/logo.svg"
                 alt="Hermes Security Logo" 
                 className="h-8 w-auto"
+                loading="eager"
               />
             </Link>
           </div>

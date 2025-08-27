@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Building2, Shield, Globe, Heart, Monitor, Users, ArrowUpRight } from "lucide-react";
 import { TriggerHandlers } from "@/utils/crispTriggers";
+import OptimizedImage from "@/components/ui/optimized-image";
 
 // Case study data
 const caseStudies = [
@@ -22,7 +23,7 @@ const caseStudies = [
     services_used: ["API Pentest", "Web App Pentest"],
     compliance_flags: ["GDPR", "SOC 2"],
     logo_url: null,
-    hero_image_url: "/api-attack-path.png",
+    hero_image_url: "/images/case-studies/api-attack-path.svg",
     alt_text: "API attack path snapshot",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -42,7 +43,7 @@ const caseStudies = [
     services_used: ["Cloud Pentest", "Network Pentest"],
     compliance_flags: ["DORA", "SOC 2"],
     logo_url: null,
-    hero_image_url: "/cloud-lateral-movement.png",
+    hero_image_url: "/images/case-studies/cloud-lateral-movement.svg",
     alt_text: "Cloud lateral movement diagram",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -62,7 +63,7 @@ const caseStudies = [
     services_used: ["Mobile App Pentest", "API Pentest"],
     compliance_flags: ["HIPAA", "GDPR"],
     logo_url: null,
-    hero_image_url: "/mobile-security.png",
+    hero_image_url: "/images/case-studies/mobile-security.svg",
     alt_text: "Mobile security assessment",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -82,7 +83,7 @@ const caseStudies = [
     services_used: ["Web App Pentest", "API Pentest"],
     compliance_flags: ["SOC 2", "GDPR"],
     logo_url: null,
-    hero_image_url: "/web-security.png",
+    hero_image_url: "/images/case-studies/web-security.svg",
     alt_text: "Web application security",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -102,7 +103,7 @@ const caseStudies = [
     services_used: ["Network Pentest", "External Network Testing"],
     compliance_flags: ["Government Standards"],
     logo_url: null,
-    hero_image_url: "/network-security.png",
+    hero_image_url: "/images/case-studies/network-security.svg",
     alt_text: "Network security assessment",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -220,6 +221,16 @@ export default function CaseStudySection() {
                         </Button>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Case Study Image */}
+                  <div className="px-8 py-6">
+                    <OptimizedImage
+                      src={currentCaseData.hero_image_url}
+                      alt={currentCaseData.alt_text}
+                      className="w-full h-64 object-cover rounded-lg shadow-md"
+                      fallback="/images/icons/placeholder.svg"
+                    />
                   </div>
 
                   {/* Content */}

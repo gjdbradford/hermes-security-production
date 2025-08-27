@@ -30,7 +30,7 @@ const PerformanceMonitor = () => {
         // Test animation status
         const testAnimations = () => {
           const heroBackground = document.querySelector('.animate-subtle-float');
-          const logo = document.querySelector('img[src="./logo.svg"]');
+          const logo = document.querySelector('img[src="/images/logos/logo.svg"]');
           
           return {
             heroBackgroundAnimation: !!heroBackground,
