@@ -14,6 +14,7 @@ import AccessibilityTester from "./components/AccessibilityTester";
 import CrossBrowserTester from "./components/CrossBrowserTester";
 import SEOOptimizer from "./components/SEOOptimizer";
 import AnalyticsTracker from "./components/AnalyticsTracker";
+import { getImagePath } from "@/utils/imageUtils";
 
 const queryClient = new QueryClient();
 
@@ -31,9 +32,9 @@ const App = () => (
             title: "Hermes Security - AI-Driven Penetration Testing with Human Oversight | European Cybersecurity",
             description: "AI-accelerated penetration testing with ethical human oversight. SOC 2 aligned, GDPR compliant security testing for European enterprises. Web, API, Mobile, Cloud & AI Red Teaming services.",
             keywords: "penetration testing, AI security, cybersecurity, GDPR compliance, SOC 2, AI red teaming, ethical hacking, security testing, vulnerability assessment, European cybersecurity, cloud security, API security, mobile security, AI red teaming, security consulting",
-                canonical: "https://www.hermessecurity.io",
-            ogImage: "/hermes-security-production/images/social/og-image.svg",
-        twitterImage: "/hermes-security-production/images/social/twitter-image.svg"
+            canonical: "https://www.hermessecurity.io",
+            ogImage: getImagePath("images/social/og-image.svg"),
+            twitterImage: getImagePath("images/social/twitter-image.svg")
           }}
           pageType="home"
         />

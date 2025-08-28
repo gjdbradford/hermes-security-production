@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Shield, Zap, Users, Target, ChevronRight, ArrowRight } from "lucide-react";
 import { TriggerHandlers } from "@/utils/crispTriggers";
+import { getImagePath } from "@/utils/imageUtils";
 
 const heroContent = [
   {
@@ -91,7 +92,7 @@ export default function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-subtle-float"
         style={{
-          backgroundImage: 'url(/hermes-security-production/images/backgrounds/hero-bg.jpg)',
+          backgroundImage: `url(${getImagePath('images/backgrounds/hero-bg.jpg')})`,
           backgroundPosition: 'center',
           backgroundSize: 'cover'
         }}

@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import { Helmet } from "react-helmet-async";
+import { getImagePath } from "@/utils/imageUtils";
 
 // Lazy load components for better performance
 const Header = lazy(() => import("@/components/Header"));
@@ -24,11 +25,11 @@ export default function Index() {
         <meta property="og:description" content="Enterprise-grade cybersecurity with AI speed and human oversight." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://hermes-security.com" />
-        <meta property="og:image" content="/hermes-security-production/images/social/og-image.svg" />
+        <meta property="og:image" content={getImagePath("images/social/og-image.svg")} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Hermes Security - AI-Driven Penetration Testing" />
         <meta name="twitter:description" content="Enterprise-grade cybersecurity with AI speed and human oversight." />
-        <meta name="twitter:image" content="/hermes-security-production/images/social/twitter-image.svg" />
+        <meta name="twitter:image" content={getImagePath("images/social/twitter-image.svg")} />
         <link rel="canonical" href="https://hermes-security.com" />
       </Helmet>
 

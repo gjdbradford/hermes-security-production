@@ -23,8 +23,10 @@ export function getImagePath(imagePath: string): string {
     return `/${cleanPath}`;
   }
   
-  // In production/staging, use the base path
-  const basePath = import.meta.env.BASE_URL || '/hermes-security-production/';
+  // In production, check if we're in staging or production
+  const isStaging = import.meta.env.VITE_DEPLOY_ENV === 'staging';
+  const basePath = isStaging ? '/hermes-security-production/' : '/';
+  
   return `${basePath}${cleanPath}`;
 }
 
@@ -36,7 +38,8 @@ export function getBasePath(): string {
     return '/';
   }
   
-  return import.meta.env.BASE_URL || '/hermes-security-production/';
+  const isStaging = import.meta.env.VITE_DEPLOY_ENV === 'staging';
+  return isStaging ? '/hermes-security-production/' : '/';
 }
 
 /**
