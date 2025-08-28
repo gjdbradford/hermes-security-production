@@ -131,9 +131,9 @@ This project is private and proprietary to Hermes Security.
 
 ## 📞 Contact
 
-- **Email**: hello@hermessecurity.eu
+- **Email**: hello@hermessecurity.io
 - **Phone**: +44 (0) 20 7946 0958
-- **Website**: https://hermessecurity.eu
+- **Website**: https://www.hermessecurity.io
 
 ---
 

@@ -11,18 +11,13 @@ export interface ImageConfig {
 }
 
 /**
- * Get the correct image path based on environment
+ * Get the correct image path - now uses relative paths since base is handled by Vite
  */
 export const getImagePath = (path: string): string => {
   // Remove leading slash for consistent handling
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
-  // In production (GitHub Pages), use the base path
-  if (import.meta.env.PROD) {
-    return `/hermes-security-production/${cleanPath}`;
-  }
-  
-  // In development, use relative path
+  // Use relative path - Vite will handle the base path
   return `/${cleanPath}`;
 };
 

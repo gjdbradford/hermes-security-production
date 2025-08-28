@@ -58,10 +58,7 @@ export default function Header() {
           <div className="flex items-center justify-center">
             <Link to="/">
               <OptimizedImage 
-                src={import.meta.env.PROD 
-                  ? "/hermes-security-production/images/logos/logo.svg"
-                  : "/images/logos/logo.svg"
-                }
+                src="/images/logos/logo.svg"
                 alt="Hermes Security Logo" 
                 className="h-8 w-auto"
                 loading="eager"

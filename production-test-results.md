@@ -74,7 +74,7 @@
   - og:type: website
   - og:title: Hermes Security - AI-Driven Penetration Testing
   - og:description: AI-accelerated penetration testing with ethical human oversight
-  - og:url: https://hermessecurity.eu
+  - og:url: https://www.hermessecurity.io
 - **Structured Data**: ✅ PASSED (Schema.org JSON-LD)
 - **Canonical URLs**: ✅ PASSED (Proper canonical tags)
 

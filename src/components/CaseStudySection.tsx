@@ -23,9 +23,7 @@ const caseStudies = [
     services_used: ["API Pentest", "Web App Pentest"],
     compliance_flags: ["GDPR", "SOC 2"],
     logo_url: null,
-    hero_image_url: import.meta.env.PROD 
-      ? "/hermes-security-production/images/case-studies/api-attack-path.svg"
-      : "/images/case-studies/api-attack-path.svg",
+    hero_image_url: "/images/case-studies/api-attack-path.svg",
     alt_text: "API attack path snapshot",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -45,9 +43,7 @@ const caseStudies = [
     services_used: ["Cloud Pentest", "Network Pentest"],
     compliance_flags: ["DORA", "SOC 2"],
     logo_url: null,
-    hero_image_url: import.meta.env.PROD 
-      ? "/hermes-security-production/images/case-studies/cloud-lateral-movement.svg"
-      : "/images/case-studies/cloud-lateral-movement.svg",
+    hero_image_url: "/images/case-studies/cloud-lateral-movement.svg",
     alt_text: "Cloud lateral movement diagram",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -67,9 +63,7 @@ const caseStudies = [
     services_used: ["Mobile App Pentest", "API Pentest"],
     compliance_flags: ["HIPAA", "GDPR"],
     logo_url: null,
-    hero_image_url: import.meta.env.PROD 
-      ? "/hermes-security-production/images/case-studies/mobile-security.svg"
-      : "/images/case-studies/mobile-security.svg",
+    hero_image_url: "/images/case-studies/mobile-security.svg",
     alt_text: "Mobile security assessment",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -89,9 +83,7 @@ const caseStudies = [
     services_used: ["Web App Pentest", "API Pentest"],
     compliance_flags: ["SOC 2", "GDPR"],
     logo_url: null,
-    hero_image_url: import.meta.env.PROD 
-      ? "/hermes-security-production/images/case-studies/web-security.svg"
-      : "/images/case-studies/web-security.svg",
+    hero_image_url: "/images/case-studies/web-security.svg",
     alt_text: "Web application security",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -111,9 +103,7 @@ const caseStudies = [
     services_used: ["Network Pentest", "External Network Testing"],
     compliance_flags: ["Government Standards"],
     logo_url: null,
-    hero_image_url: import.meta.env.PROD 
-      ? "/hermes-security-production/images/case-studies/network-security.svg"
-      : "/images/case-studies/network-security.svg",
+    hero_image_url: "/images/case-studies/network-security.svg",
     alt_text: "Network security assessment",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -239,10 +229,7 @@ export default function CaseStudySection() {
                       src={currentCaseData.hero_image_url}
                       alt={currentCaseData.alt_text}
                       className="w-full h-64 object-cover rounded-lg shadow-md"
-                      fallback={import.meta.env.PROD 
-                        ? "/hermes-security-production/images/icons/placeholder.svg"
-                        : "/images/icons/placeholder.svg"
-                      }
+                      fallback="/images/icons/placeholder.svg"
                     />
                   </div>
 

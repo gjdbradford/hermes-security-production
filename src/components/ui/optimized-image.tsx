@@ -12,9 +12,7 @@ interface OptimizedImageProps extends ImageConfig {
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
   alt,
-  fallback = import.meta.env.PROD 
-    ? '/hermes-security-production/images/icons/placeholder.svg'
-    : '/images/icons/placeholder.svg',
+  fallback = '/images/icons/placeholder.svg',
   loading = 'lazy',
   className = '',
   width,

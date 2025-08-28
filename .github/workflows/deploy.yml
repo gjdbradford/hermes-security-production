@@ -35,8 +35,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-      - name: Build
-        run: npm run build
+      - name: Build for Staging
+        run: npm run build:staging
         
       - name: Ensure static assets are accessible
         run: |

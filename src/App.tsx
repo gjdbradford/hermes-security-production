@@ -7,6 +7,7 @@ import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import Contact from "./pages/Contact";
 import TestPage from "./pages/TestPage";
+import TestImage from "./pages/TestImage";
 import NotFound from "./pages/NotFound";
 import PerformanceMonitor from "./components/PerformanceMonitor";
 import AccessibilityTester from "./components/AccessibilityTester";
@@ -30,9 +31,9 @@ const App = () => (
             title: "Hermes Security - AI-Driven Penetration Testing with Human Oversight | European Cybersecurity",
             description: "AI-accelerated penetration testing with ethical human oversight. SOC 2 aligned, GDPR compliant security testing for European enterprises. Web, API, Mobile, Cloud & AI Red Teaming services.",
             keywords: "penetration testing, AI security, cybersecurity, GDPR compliance, SOC 2, AI red teaming, ethical hacking, security testing, vulnerability assessment, European cybersecurity, cloud security, API security, mobile security, AI red teaming, security consulting",
-            canonical: "https://hermessecurity.eu",
-            ogImage: "https://hermessecurity.eu/og-image.png",
-            twitterImage: "https://hermessecurity.eu/twitter-image.png"
+                canonical: "https://www.hermessecurity.io",
+    ogImage: "/images/social/og-image.svg",
+    twitterImage: "/images/social/twitter-image.svg"
           }}
           pageType="home"
         />
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/test" element={<TestPage />} />
+            <Route path="/testimage" element={<TestImage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

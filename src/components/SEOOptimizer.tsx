@@ -50,8 +50,8 @@ const SEOOptimizer = ({ data, pageType = 'home' }: SEOOptimizerProps) => {
       "mainEntity": {
         "@type": "Organization",
         "name": "Hermes Security",
-        "url": "https://hermessecurity.eu",
-        "logo": "https://hermessecurity.eu/logo.png",
+        "url": "https://www.hermessecurity.io",
+        "logo": "/images/logos/logo.svg",
         "description": "AI-accelerated penetration testing with ethical human oversight for European enterprises",
         "foundingDate": "2024",
         "address": {
@@ -62,7 +62,7 @@ const SEOOptimizer = ({ data, pageType = 'home' }: SEOOptimizerProps) => {
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "customer service",
-          "email": "contact@hermessecurity.eu"
+          "email": "contact@hermessecurity.io"
         },
         "sameAs": [
           "https://linkedin.com/company/hermes-security",

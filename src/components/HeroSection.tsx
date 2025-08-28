@@ -7,7 +7,7 @@ const heroContent = [
   {
     id: 1,
     subtitle: "AI speed. Human ethics. Real impact.",
-    title: "Don't be in tomorrow's news.",
+    title: "Stay Out of Tomorrow's News.",
     description: "We influence businesses unlike other security contractors and make a difference by eliminating incorrect development and security processes.",
     cta: "Book a discovery call",
     icon: Target
@@ -15,7 +15,7 @@ const heroContent = [
   {
     id: 2,
     subtitle: "Fix the Asymmetry",
-    title: "AI Penetration Testing & Human Ethics.",
+    title: "AI + Human Excellence.",
     description: "A typical enterprise faces nearly 2,000 cyberattacks every week. Cybersecurity is inherently asymmetric—a nonstop game of cat and mouse. Hermes closes the gap with machine speed plus human judgement.",
     cta: "Book a discovery call",
     icon: Shield
@@ -23,7 +23,7 @@ const heroContent = [
   {
     id: 3,
     subtitle: "The old way is gone",
-    title: "Ethical Hacking. Expert Oversight.",
+    title: "Ethical Hacking.",
     description: "Organised as Initiate · Discover · Attack · Prioritise. Transform your security posture with AI-accelerated testing that maintains human ethics and oversight.",
     cta: "Book a discovery call",
     icon: Zap
@@ -31,7 +31,7 @@ const heroContent = [
   {
     id: 4,
     subtitle: "From alerts to action",
-    title: "Prioritise Important Vulnerabilities.",
+    title: "Prioritise Vulnerabilities.",
     description: "Focus where it counts and get your teams focused so they can act immediately.",
     cta: "Book a discovery call",
     icon: Users
@@ -91,9 +91,7 @@ export default function HeroSection() {
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-subtle-float"
         style={{
-          backgroundImage: import.meta.env.PROD 
-            ? 'url(/hermes-security-production/images/backgrounds/hero-bg.jpg)'
-            : 'url(/images/backgrounds/hero-bg.jpg)',
+          backgroundImage: 'url(/images/backgrounds/hero-bg.jpg)',
           backgroundPosition: 'center',
           backgroundSize: 'cover'
         }}
