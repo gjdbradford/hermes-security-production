@@ -20,13 +20,13 @@ export default function TestImage() {
                 <h2 className="text-2xl font-semibold mb-6">Logo Test</h2>
                 <div className="flex items-center gap-4">
                   <OptimizedImage 
-                    src="/images/logos/logo.svg"
+                    src="/hermes-security-production/images/logos/logo.svg"
                     alt="Hermes Security Logo"
                     className="h-16 w-auto"
                     loading="eager"
                   />
                   <div>
-                    <p className="text-muted-foreground">Path: /images/logos/logo.svg</p>
+                    <p className="text-muted-foreground">Path: /hermes-security-production/images/logos/logo.svg</p>
                     <p className="text-sm text-muted-foreground">This should display the Hermes Security logo</p>
                   </div>
                 </div>
@@ -37,12 +37,12 @@ export default function TestImage() {
                 <h2 className="text-2xl font-semibold mb-6">Hero Background Test</h2>
                 <div className="space-y-4">
                   <OptimizedImage 
-                    src="/images/backgrounds/hero-bg.jpg"
+                    src="/hermes-security-production/images/backgrounds/hero-bg.jpg"
                     alt="Hero Background"
                     className="w-full h-64 object-cover rounded-lg"
                     loading="eager"
                   />
-                  <p className="text-muted-foreground">Path: /images/backgrounds/hero-bg.jpg</p>
+                  <p className="text-muted-foreground">Path: /hermes-security-production/images/backgrounds/hero-bg.jpg</p>
                 </div>
               </section>
 
@@ -52,7 +52,7 @@ export default function TestImage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div>
                     <OptimizedImage 
-                      src="/images/case-studies/api-attack-path.svg"
+                      src="/hermes-security-production/images/case-studies/api-attack-path.svg"
                       alt="API Attack Path"
                       className="w-full h-32 object-cover rounded-lg"
                       loading="lazy"
@@ -61,7 +61,7 @@ export default function TestImage() {
                   </div>
                   <div>
                     <OptimizedImage 
-                      src="/images/case-studies/cloud-lateral-movement.svg"
+                      src="/hermes-security-production/images/case-studies/cloud-lateral-movement.svg"
                       alt="Cloud Lateral Movement"
                       className="w-full h-32 object-cover rounded-lg"
                       loading="lazy"
@@ -70,7 +70,7 @@ export default function TestImage() {
                   </div>
                   <div>
                     <OptimizedImage 
-                      src="/images/case-studies/mobile-security.svg"
+                      src="/hermes-security-production/images/case-studies/mobile-security.svg"
                       alt="Mobile Security"
                       className="w-full h-32 object-cover rounded-lg"
                       loading="lazy"
@@ -79,7 +79,7 @@ export default function TestImage() {
                   </div>
                   <div>
                     <OptimizedImage 
-                      src="/images/case-studies/web-security.svg"
+                      src="/hermes-security-production/images/case-studies/web-security.svg"
                       alt="Web Security"
                       className="w-full h-32 object-cover rounded-lg"
                       loading="lazy"
@@ -88,7 +88,7 @@ export default function TestImage() {
                   </div>
                   <div>
                     <OptimizedImage 
-                      src="/images/case-studies/network-security.svg"
+                      src="/hermes-security-production/images/case-studies/network-security.svg"
                       alt="Network Security"
                       className="w-full h-32 object-cover rounded-lg"
                       loading="lazy"
@@ -103,12 +103,12 @@ export default function TestImage() {
                 <h2 className="text-2xl font-semibold mb-6">Error Handling Test</h2>
                 <div className="space-y-4">
                   <OptimizedImage 
-                    src="/images/nonexistent-image.jpg"
+                    src="/hermes-security-production/images/nonexistent-image.jpg"
                     alt="Non-existent Image"
                     className="w-full h-32 object-cover rounded-lg"
                     loading="lazy"
                   />
-                  <p className="text-muted-foreground">Path: /images/nonexistent-image.jpg (should show fallback)</p>
+                  <p className="text-muted-foreground">Path: /hermes-security-production/images/nonexistent-image.jpg (should show fallback)</p>
                 </div>
               </section>
 

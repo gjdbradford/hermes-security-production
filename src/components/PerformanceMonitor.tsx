@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { IMAGE_PATHS } from '@/utils/imageUtils';
 
 interface PerformanceMetrics {
   loadTime: number;
@@ -30,7 +31,7 @@ const PerformanceMonitor = () => {
         // Test animation status
         const testAnimations = () => {
           const heroBackground = document.querySelector('.animate-subtle-float');
-          const logo = document.querySelector('img[src="/images/logos/logo.svg"]');
+          const logo = document.querySelector(`img[src="${IMAGE_PATHS.logo()}"]`);
           
           return {
             heroBackgroundAnimation: !!heroBackground,

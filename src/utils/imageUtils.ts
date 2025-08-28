@@ -11,15 +11,52 @@ export interface ImageConfig {
 }
 
 /**
- * Get the correct image path - now uses relative paths since base is handled by Vite
+ * Utility function to get the correct image path based on environment
+ * This ensures images work correctly in both development and production
  */
-export const getImagePath = (path: string): string => {
-  // Remove leading slash for consistent handling
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+export function getImagePath(imagePath: string): string {
+  // Remove leading slash if present
+  const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
   
-  // Use relative path - Vite will handle the base path
-  return `/${cleanPath}`;
-};
+  // In development, use relative paths
+  if (import.meta.env.DEV) {
+    return `/${cleanPath}`;
+  }
+  
+  // In production/staging, use the base path
+  const basePath = import.meta.env.BASE_URL || '/hermes-security-production/';
+  return `${basePath}${cleanPath}`;
+}
+
+/**
+ * Get the correct base path for the current environment
+ */
+export function getBasePath(): string {
+  if (import.meta.env.DEV) {
+    return '/';
+  }
+  
+  return import.meta.env.BASE_URL || '/hermes-security-production/';
+}
+
+/**
+ * Common image paths that can be used throughout the application
+ */
+export const IMAGE_PATHS = {
+  logo: () => getImagePath('images/logos/logo.svg'),
+  heroBackground: () => getImagePath('images/backgrounds/hero-bg.jpg'),
+  favicon: () => getImagePath('images/icons/favicon.svg'),
+  placeholder: () => getImagePath('images/icons/placeholder.svg'),
+  ogImage: () => getImagePath('images/social/og-image.svg'),
+  twitterImage: () => getImagePath('images/social/twitter-image.svg'),
+  caseStudies: {
+    apiAttackPath: () => getImagePath('images/case-studies/api-attack-path.svg'),
+    cloudLateralMovement: () => getImagePath('images/case-studies/cloud-lateral-movement.svg'),
+    mobileSecurity: () => getImagePath('images/case-studies/mobile-security.svg'),
+    webSecurity: () => getImagePath('images/case-studies/web-security.svg'),
+    networkSecurity: () => getImagePath('images/case-studies/network-security.svg'),
+  }
+} as const;
 
 /**
  * Handle image loading errors with fallback

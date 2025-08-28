@@ -51,7 +51,7 @@ const SEOOptimizer = ({ data, pageType = 'home' }: SEOOptimizerProps) => {
         "@type": "Organization",
         "name": "Hermes Security",
         "url": "https://www.hermessecurity.io",
-        "logo": "/images/logos/logo.svg",
+        "logo": "/hermes-security-production/images/logos/logo.svg",
         "description": "AI-accelerated penetration testing with ethical human oversight for European enterprises",
         "foundingDate": "2024",
         "address": {
