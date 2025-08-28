@@ -18,13 +18,15 @@ export function getImagePath(imagePath: string): string {
   // Remove leading slash if present
   const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
   
-  // In development, use relative paths
-  if (import.meta.env.DEV) {
-    return `/${cleanPath}`;
+  // Check if we're in a browser environment (runtime)
+  if (typeof window !== 'undefined') {
+    // Use Vite's BASE_URL which is set by the vite.config.ts base option
+    const basePath = import.meta.env.BASE_URL || '/';
+    return `${basePath}${cleanPath}`;
   }
   
-  // In production, check if we're in staging or production
-  const isStaging = import.meta.env.VITE_DEPLOY_ENV === 'staging';
+  // Build-time environment - check environment variables
+  const isStaging = process.env.VITE_DEPLOY_ENV === 'staging';
   const basePath = isStaging ? '/hermes-security-production/' : '/';
   
   return `${basePath}${cleanPath}`;
@@ -34,11 +36,13 @@ export function getImagePath(imagePath: string): string {
  * Get the correct base path for the current environment
  */
 export function getBasePath(): string {
-  if (import.meta.env.DEV) {
-    return '/';
+  // Check if we're in a browser environment (runtime)
+  if (typeof window !== 'undefined') {
+    return import.meta.env.BASE_URL || '/';
   }
   
-  const isStaging = import.meta.env.VITE_DEPLOY_ENV === 'staging';
+  // Build-time environment
+  const isStaging = process.env.VITE_DEPLOY_ENV === 'staging';
   return isStaging ? '/hermes-security-production/' : '/';
 }
 
