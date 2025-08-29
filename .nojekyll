@@ -1,3 +1,8 @@
 # This file tells GitHub Pages not to process the site with Jekyll
 # This ensures static assets are served correctly
 # Place this file in the root directory of your repository
+# 
+# IMPORTANT: This is a React/Vite application that does NOT use Jekyll
+# GitHub Pages should serve static files directly without any Jekyll processing
+# 
+# This file must be present in both the repository root and the deployment directory
