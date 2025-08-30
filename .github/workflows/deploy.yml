@@ -38,20 +38,59 @@ jobs:
       - name: Build for Staging
         run: npm run build:staging
         
-      - name: Ensure static assets are accessible
+      - name: Disable Jekyll and prepare static assets
         run: |
-          # Copy .nojekyll file to prevent Jekyll processing
-          cp .nojekyll dist/ || echo ".nojekyll file not found, creating one"
+          # Create .nojekyll file to completely disable Jekyll processing
           echo "# This file tells GitHub Pages not to process the site with Jekyll" > dist/.nojekyll
+          echo "# Static site - no Jekyll processing required" >> dist/.nojekyll
+          
+          # Also create .nojekyll in root for extra safety
+          echo "# This file tells GitHub Pages not to process the site with Jekyll" > .nojekyll
+          echo "# Static site - no Jekyll processing required" >> .nojekyll
+          
+          # Copy .nojekyll to dist if it exists in root
+          if [ -f .nojekyll ]; then
+            cp .nojekyll dist/
+            echo "✅ .nojekyll file copied to dist/"
+          fi
+          
+          # Verify .nojekyll is present
+          if [ -f dist/.nojekyll ]; then
+            echo "✅ .nojekyll file confirmed in dist/"
+            cat dist/.nojekyll
+          else
+            echo "❌ .nojekyll file not found in dist/"
+            exit 1
+          fi
           
           # Verify all static assets are present
-          echo "Checking dist folder contents:"
+          echo "📁 Checking dist folder contents:"
           ls -la dist/
-          echo "Checking for static assets:"
-          ls -la dist/*.svg dist/*.ico dist/*.jpg dist/*.txt dist/*.xml dist/*.webmanifest 2>/dev/null || echo "Some static assets not found"
           
-          # Ensure proper permissions
-          chmod 644 dist/*.svg dist/*.ico dist/*.jpg dist/*.txt dist/*.xml dist/*.webmanifest 2>/dev/null || echo "Some files not found for permission setting"
+          # Check for critical files
+          echo "🔍 Checking for critical static assets:"
+          for file in index.html favicon.ico robots.txt sitemap.xml; do
+            if [ -f "dist/$file" ]; then
+              echo "✅ $file found"
+            else
+              echo "⚠️  $file not found"
+            fi
+          done
+          
+          # Check for assets directory
+          if [ -d "dist/assets" ]; then
+            echo "✅ assets directory found"
+            ls -la dist/assets/ | head -10
+          else
+            echo "❌ assets directory not found"
+            exit 1
+          fi
+          
+          # Ensure proper permissions for all files
+          echo "🔐 Setting proper permissions..."
+          find dist/ -type f -exec chmod 644 {} \;
+          find dist/ -type d -exec chmod 755 {} \;
+          echo "✅ Permissions set"
         
       - name: Setup Pages
         uses: actions/configure-pages@v4
