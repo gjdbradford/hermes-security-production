@@ -7,7 +7,7 @@ import { getImagePath } from "@/utils/imageUtils";
 const heroContent = [
   {
     id: 1,
-    subtitle: "AI speed. Human ethics. Real impact.",
+    subtitle: "AI speed + Human ethics = Real Impact.",
     title: "Stay Out of Tomorrow's News.",
     description: "We influence businesses unlike other security contractors and make a difference by eliminating incorrect development and security processes.",
     cta: "Book a discovery call",
