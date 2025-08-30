@@ -6,12 +6,7 @@ import { HashRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import Contact from "./pages/Contact";
-import TestPage from "./pages/TestPage";
-import TestImage from "./pages/TestImage";
 import NotFound from "./pages/NotFound";
-import PerformanceMonitor from "./components/PerformanceMonitor";
-import AccessibilityTester from "./components/AccessibilityTester";
-import CrossBrowserTester from "./components/CrossBrowserTester";
 import SEOOptimizer from "./components/SEOOptimizer";
 import AnalyticsTracker from "./components/AnalyticsTracker";
 import { getImagePath } from "@/utils/imageUtils";
@@ -24,9 +19,6 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <PerformanceMonitor />
-        <AccessibilityTester />
-        <CrossBrowserTester />
         <SEOOptimizer 
           data={{
             title: "Hermes Security - AI-Driven Penetration Testing with Human Oversight | European Cybersecurity",
@@ -43,8 +35,6 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/test" element={<TestPage />} />
-            <Route path="/testimage" element={<TestImage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
