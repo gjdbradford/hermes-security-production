@@ -23,7 +23,10 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   ...props
 }) => {
   const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>('loading');
-  const [currentSrc, setCurrentSrc] = useState(getImagePath(src));
+  // Check if src is already a complete URL (CDN) or needs processing
+  const [currentSrc, setCurrentSrc] = useState(
+    src.startsWith('http') ? src : getImagePath(src)
+  );
 
   const handleLoad = () => {
     setImageState('loaded');
@@ -36,6 +39,8 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     if (currentSrc !== fallback) {
       setCurrentSrc(fallback);
     }
+    // Log the error for debugging
+    console.warn(`OptimizedImage failed to load: ${currentSrc}`);
   };
 
   return (

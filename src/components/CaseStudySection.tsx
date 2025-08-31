@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Building2, Shield, Globe, Heart, Monitor, Users, ArrowUpRight } from "lucide-react";
 import { TriggerHandlers } from "@/utils/crispTriggers";
 import OptimizedImage from "@/components/ui/optimized-image";
-import { getImagePath } from "@/utils/imageUtils";
+import { IMAGE_PATHS } from "@/utils/imageUtils";
 
 // Case study data
 const caseStudies = [
@@ -24,7 +24,7 @@ const caseStudies = [
     services_used: ["API Pentest", "Web App Pentest"],
     compliance_flags: ["GDPR", "SOC 2"],
     logo_url: null,
-            hero_image_url: getImagePath("images/case-studies/api-attack-path.svg"),
+            hero_image_url: IMAGE_PATHS.caseStudies.apiAttackPath(),
     alt_text: "API attack path snapshot",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -44,7 +44,7 @@ const caseStudies = [
     services_used: ["Cloud Pentest", "Network Pentest"],
     compliance_flags: ["DORA", "SOC 2"],
     logo_url: null,
-            hero_image_url: getImagePath("images/case-studies/cloud-lateral-movement.svg"),
+            hero_image_url: IMAGE_PATHS.caseStudies.cloudLateralMovement(),
     alt_text: "Cloud lateral movement diagram",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -64,7 +64,7 @@ const caseStudies = [
     services_used: ["Mobile App Pentest", "API Pentest"],
     compliance_flags: ["HIPAA", "GDPR"],
     logo_url: null,
-            hero_image_url: getImagePath("images/case-studies/mobile-security.svg"),
+            hero_image_url: IMAGE_PATHS.caseStudies.mobileSecurity(),
     alt_text: "Mobile security assessment",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -84,7 +84,7 @@ const caseStudies = [
     services_used: ["Web App Pentest", "API Pentest"],
     compliance_flags: ["SOC 2", "GDPR"],
     logo_url: null,
-            hero_image_url: getImagePath("images/case-studies/web-security.svg"),
+            hero_image_url: IMAGE_PATHS.caseStudies.webSecurity(),
     alt_text: "Web application security",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -104,7 +104,7 @@ const caseStudies = [
     services_used: ["Network Pentest", "External Network Testing"],
     compliance_flags: ["Government Standards"],
     logo_url: null,
-            hero_image_url: getImagePath("images/case-studies/network-security.svg"),
+            hero_image_url: IMAGE_PATHS.caseStudies.networkSecurity(),
     alt_text: "Network security assessment",
     primary_cta: { label: "Read the case", url: "#" },
     source_urls: []
@@ -230,7 +230,7 @@ export default function CaseStudySection() {
                       src={currentCaseData.hero_image_url}
                       alt={currentCaseData.alt_text}
                       className="w-full h-64 object-cover rounded-lg shadow-md"
-                      fallback={getImagePath("images/icons/placeholder.svg")}
+                      fallback={IMAGE_PATHS.placeholder()}
                     />
                   </div>
 

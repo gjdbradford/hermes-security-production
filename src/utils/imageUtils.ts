@@ -1,6 +1,10 @@
 /**
  * Image utility functions for handling loading, errors, and optimization
+ * 
+ * Updated to use CDN-based asset management system
  */
+
+import { getAssetUrl, findAssetIdByPath } from '@/config/assets';
 
 export interface ImageConfig {
   src: string;
@@ -12,10 +16,19 @@ export interface ImageConfig {
 
 /**
  * Utility function to get the correct image path based on environment
- * This ensures images work correctly in both development and production
+ * Now uses CDN URLs when available, with fallback to local paths
  */
 export function getImagePath(imagePath: string): string {
-  // Remove leading slash if present
+  // First, try to find asset by local path and get CDN URL
+  const assetId = findAssetIdByPath(imagePath);
+  if (assetId) {
+    const cdnUrl = getAssetUrl(assetId);
+    if (cdnUrl) {
+      return cdnUrl;
+    }
+  }
+  
+  // Fallback to original logic for non-configured assets or when CDN is not available
   const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
   
   // Check if we're in a browser environment (runtime)
@@ -48,20 +61,21 @@ export function getBasePath(): string {
 
 /**
  * Common image paths that can be used throughout the application
+ * Now uses CDN URLs when available
  */
 export const IMAGE_PATHS = {
-  logo: () => getImagePath('images/logos/logo.svg'),
-  heroBackground: () => getImagePath('images/backgrounds/hero-bg.jpg'),
-  favicon: () => getImagePath('images/icons/favicon.svg'),
-  placeholder: () => getImagePath('images/icons/placeholder.svg'),
-  ogImage: () => getImagePath('images/social/og-image.svg'),
-  twitterImage: () => getImagePath('images/social/twitter-image.svg'),
+  logo: () => getAssetUrl('logo-main'),
+  heroBackground: () => getAssetUrl('hero-background'),
+  favicon: () => getAssetUrl('favicon'),
+  placeholder: () => getAssetUrl('placeholder'),
+  ogImage: () => getAssetUrl('og-image'),
+  twitterImage: () => getAssetUrl('twitter-image'),
   caseStudies: {
-    apiAttackPath: () => getImagePath('images/case-studies/api-attack-path.svg'),
-    cloudLateralMovement: () => getImagePath('images/case-studies/cloud-lateral-movement.svg'),
-    mobileSecurity: () => getImagePath('images/case-studies/mobile-security.svg'),
-    webSecurity: () => getImagePath('images/case-studies/web-security.svg'),
-    networkSecurity: () => getImagePath('images/case-studies/network-security.svg'),
+    apiAttackPath: () => getAssetUrl('case-study-api'),
+    cloudLateralMovement: () => getAssetUrl('case-study-cloud'),
+    mobileSecurity: () => getAssetUrl('case-study-mobile'),
+    webSecurity: () => getAssetUrl('case-study-web'),
+    networkSecurity: () => getAssetUrl('case-study-network'),
   }
 } as const;
 
