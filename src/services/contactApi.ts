@@ -1,4 +1,6 @@
 // Contact form API service for 8n8 integration and email backup
+import { sendContactFormEmail, ContactFormEmailData } from './emailService';
+
 export interface ContactFormData {
   firstName: string;
   lastName: string;
@@ -74,8 +76,8 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
   } catch (error) {
     console.error('❌ 8n8 Submission Error:', error);
     
-    // Fallback: Send email directly if 8n8 fails
-    await sendFallbackEmail(formData);
+    // Fallback: Send email directly with proper headers via Vercel
+    const emailSent = await sendFallbackEmail(formData);
     
     return {
       success: true,
@@ -83,56 +85,48 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       timestamp: new Date().toISOString(),
       nextSteps: [
         "We've received your enquiry and will respond within 24 hours",
-        "Note: Our automated system is temporarily unavailable, but your message has been sent"
+        emailSent ? "A confirmation email has been sent" : "Note: Our automated system is temporarily unavailable, but your message has been received"
       ]
     };
   }
 };
 
-// Fallback email service
-const sendFallbackEmail = async (formData: ContactFormData) => {
+// Enhanced fallback email service with proper headers via Vercel
+const sendFallbackEmail = async (formData: ContactFormData): Promise<boolean> => {
   try {
-    const emailData = {
-      to: 'gjdbradford@gmail.com',
-      subject: `${formData.firstName} from ${formData.companyName || 'No Company'} - Hermes Website Contact Enquiry [${formData.serviceUrgency}]`,
-      body: `
-        **New Contact Form Submission (Fallback)**
-        
-        **Personal Information:**
-        - Name: ${formData.firstName} ${formData.lastName}
-        - Email: ${formData.email}
-        - Country: ${formData.country}
-        - Mobile: ${formData.mobileNumber}
-        
-        **Company Information:**
-        - Company: ${formData.companyName || 'Not provided'}
-        - Size: ${formData.companySize || 'Not provided'}
-        - Urgency: ${formData.serviceUrgency}
-        
-        **Problem Description:**
-        ${formData.problemDescription}
-        
-        **Consent:**
-        - Terms Agreement: ${formData.agreeToTerms ? 'Yes' : 'No'}
-        
-        **Submission Details:**
-        - Timestamp: ${new Date().toISOString()}
-        - User Agent: ${navigator.userAgent}
-        
-        ---
-        This lead was sent via fallback email service due to 8n8 integration issues.
-      `
+    const emailData: ContactFormEmailData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      country: formData.country,
+      mobileNumber: formData.mobileNumber,
+      problemDescription: formData.problemDescription,
+      companyName: formData.companyName,
+      companySize: formData.companySize,
+      serviceUrgency: formData.serviceUrgency,
+      agreeToTerms: formData.agreeToTerms,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      ipAddress: undefined // IP address is not available in the browser context for this fallback
     };
 
-    // Use a simple email service (you can replace with your preferred service)
-    const emailResponse = await fetch('/api/send-email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(emailData)
-    });
+    const headers = generateEmailHeaders(emailData);
+    const { html, text } = generateEmailBody(emailData);
+    
+    const emailDataForVercel: EmailData = {
+      to: 'gjdbradford@gmail.com', // This should ideally be configurable
+      from: 'noreply@hermessecurity.io',
+      replyTo: formData.email,
+      subject: `🔒 ${formData.firstName} ${formData.lastName} from ${formData.companyName || 'No Company'} - Security Consultation Request [${formData.serviceUrgency}]`,
+      htmlBody: html,
+      textBody: text,
+      headers
+    };
 
-    console.log('📧 Fallback email sent:', emailResponse.ok);
+    return await sendEmail(emailDataForVercel);
+
   } catch (error) {
     console.error('❌ Fallback email failed:', error);
+    return false;
   }
 };
