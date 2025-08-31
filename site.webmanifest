@@ -1,0 +1,28 @@
+{
+  "name": "Hermes Security - AI-Driven Penetration Testing",
+  "short_name": "Hermes Security",
+  "description": "AI-accelerated penetration testing with ethical human oversight for European enterprises",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#1e3a8a",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["security", "business", "technology"],
+  "icons": [
+    {
+      "src": "./images/icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./favicon.ico",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    }
+  ]
+}
+

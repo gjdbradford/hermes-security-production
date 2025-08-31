@@ -1,0 +1,7 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f8fafc"/>
+  <rect x="50" y="50" width="300" height="200" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="2"/>
+  <text x="200" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#64748b">Web Security</text>
+  <text x="200" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#94a3b8">Case Study Image</text>
+  <text x="200" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#cbd5e1">400x300</text>
+</svg>
