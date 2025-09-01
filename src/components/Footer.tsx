@@ -10,7 +10,7 @@ const footerLinks = {
     { name: 'AI Red Teaming', href: '#' },
   ],
   company: [
-    { name: 'About Us', href: '#' },
+    { name: 'About Us', href: '/about' },
     { name: 'Methodology', href: '#' },
     { name: 'Careers', href: '#' },
     { name: 'Blog', href: '#' },
@@ -35,10 +35,10 @@ export default function Footer() {
               <span className="text-xl font-bold">Hermes Security</span>
             </div>
             <p className="text-hero-muted mb-6 leading-relaxed max-w-md">
-              AI-driven penetration testing with human oversight. 
-              Helping European enterprises secure their digital assets with speed and ethics.
+              AI-driven penetration testing with expert oversight — helping European enterprises reduce risk, prove compliance, and secure their digital assets with confidence.
             </p>
-            <div className="space-y-2 text-sm">
+            {/* Contact Information - Hidden for now */}
+            {/* <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2 text-hero-muted">
                 <Mail className="w-4 h-4" />
                 contact@hermessecurity.io
@@ -51,7 +51,7 @@ export default function Footer() {
                 <MapPin className="w-4 h-4" />
                 London, UK | Amsterdam, NL
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Services */}

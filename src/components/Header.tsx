@@ -27,9 +27,9 @@ const scrollToSection = (sectionId: string) => {
 };
 
 const navigation = [
-  { name: 'Services', href: '#services' },
-  { name: 'Methodology', href: '#methodology' },
-  { name: 'About', href: '#about' },
+  { name: 'Services', href: '#services', type: 'anchor' },
+  { name: 'Methodology', href: '#methodology', type: 'anchor' },
+  { name: 'About', href: '/about', type: 'route' },
 ];
 
 export default function Header() {
@@ -37,17 +37,24 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleNavigation = (sectionId: string) => {
-    // If we're not on the homepage, navigate there first
-    if (location.pathname !== '/') {
-      navigate('/');
-      // Wait for navigation to complete, then scroll to section
-      setTimeout(() => {
-        scrollToSection(sectionId);
-      }, 100);
+  const handleNavigation = (item: typeof navigation[0]) => {
+    if (item.type === 'route') {
+      // For route navigation, use React Router
+      navigate(item.href);
     } else {
-      // If we're already on the homepage, just scroll to section
-      scrollToSection(sectionId);
+      // For anchor navigation, scroll to section
+      const sectionId = item.href.replace('#', '');
+      // If we're not on the homepage, navigate there first
+      if (location.pathname !== '/') {
+        navigate('/');
+        // Wait for navigation to complete, then scroll to section
+        setTimeout(() => {
+          scrollToSection(sectionId);
+        }, 100);
+      } else {
+        // If we're already on the homepage, just scroll to section
+        scrollToSection(sectionId);
+      }
     }
   };
 
@@ -69,15 +76,22 @@ export default function Header() {
 
           {/* Desktop Navigation - Always visible for testing */}
           <div className="hidden md:flex items-center gap-8">
-            {navigation.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => handleNavigation(item.href.replace('#', ''))}
-                className="text-hero-muted hover:text-hero-foreground transition-colors duration-200 bg-transparent border-none cursor-pointer px-3 py-2 rounded-md hover:bg-hero-foreground/10"
-              >
-                {item.name}
-              </button>
-            ))}
+            {navigation.map((item) => {
+              const isActive = item.type === 'route' && location.pathname === item.href;
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => handleNavigation(item)}
+                  className={`transition-colors duration-200 bg-transparent border-none cursor-pointer px-3 py-2 rounded-md hover:bg-hero-foreground/10 ${
+                    isActive 
+                      ? 'text-hero-foreground bg-hero-foreground/20' 
+                      : 'text-hero-muted hover:text-hero-foreground'
+                  }`}
+                >
+                  {item.name}
+                </button>
+              );
+            })}
           </div>
 
           {/* Desktop CTA */}
@@ -112,18 +126,25 @@ export default function Header() {
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-hero-foreground/10">
             <div className="flex flex-col gap-4 pt-4">
-              {navigation.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => {
-                    handleNavigation(item.href.replace('#', ''));
-                    setMobileMenuOpen(false);
-                  }}
-                  className="text-hero-muted hover:text-hero-foreground transition-colors duration-200 bg-transparent border-none cursor-pointer text-left px-3 py-2 rounded-md hover:bg-hero-foreground/10"
-                >
-                  {item.name}
-                </button>
-              ))}
+              {navigation.map((item) => {
+                const isActive = item.type === 'route' && location.pathname === item.href;
+                return (
+                  <button
+                    key={item.name}
+                    onClick={() => {
+                      handleNavigation(item);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`transition-colors duration-200 bg-transparent border-none cursor-pointer text-left px-3 py-2 rounded-md hover:bg-hero-foreground/10 ${
+                      isActive 
+                        ? 'text-hero-foreground bg-hero-foreground/20' 
+                        : 'text-hero-muted hover:text-hero-foreground'
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                );
+              })}
               <div className="flex flex-col gap-2 pt-4 border-t border-hero-foreground/10">
                 <Button 
                   variant="hero" 

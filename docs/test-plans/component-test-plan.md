@@ -89,11 +89,20 @@ This document outlines the testing approach for each component during the migrat
 - [ ] **Text Readability**: Overlay ensures text visibility
 - [ ] **Animation Performance**: Smooth 60fps background movement
 
+#### Updated Copy Tests (v1.1.4)
+- [ ] **Banner 1**: "Penetration Testing as a Service" displays correctly
+- [ ] **Banner 2**: "The Old Way is Gone" displays correctly
+- [ ] **Banner 3**: "From Alerts to Action" displays correctly
+- [ ] **Banner 4**: "AI Speed. Human Expertise. Real Impact" displays correctly
+- [ ] **Banner 5**: "Close the Gap. Strengthen Your Defenses" displays correctly
+- [ ] **All CTAs**: "Book Your Pen Test Today" buttons launch contact form
+- [ ] **No Secondary CTAs**: Secondary "Learn More" buttons removed
+
 #### Functional Tests
-- [ ] Auto-rotation cycles through all 4 slides
-- [ ] Manual navigation dots work
+- [ ] Auto-rotation cycles through all 5 slides
+- [ ] Manual navigation dots work (5 dots visible)
 - [ ] Pause/resume button functions
-- [ ] CTA buttons are clickable
+- [ ] CTA buttons navigate to contact form (not Crisp chat)
 - [ ] Mouse hover pauses auto-rotation
 
 #### Visual Tests
@@ -260,16 +269,22 @@ This document outlines the testing approach for each component during the migrat
 - [ ] Logo displays correctly
 - [ ] Spacing is consistent
 
-### 8. CTA Section (`src/components/CTASection.tsx`)
+### 8. CTA Section (`src/components/CTASection.tsx`) - UPDATED
 **Priority: Medium**
 **Test Frequency: Every update**
 
+#### Updated Copy Tests (v1.1.4)
+- [ ] **Headline**: "Don't Wait for Your Next Breach or Audit" displays correctly
+- [ ] **Subline**: "Join leading enterprises who trust Hermes Security..." displays correctly
+- [ ] **CTA Options**: Only 2 CTAs (reduced from 3)
+- [ ] **Primary CTA**: "Book a Discovery Call" launches contact form
+- [ ] **Secondary CTA**: "Start a Pen Test Today" launches contact form
+
 #### Functional Tests
 - [ ] All CTA buttons are clickable
-- [ ] Discovery call buttons trigger Crisp chat
-- [ ] Download buttons work
-- [ ] Contact buttons work
-- [ ] Links navigate correctly
+- [ ] All CTA buttons navigate to contact form (not Crisp chat)
+- [ ] Contact form loads correctly when triggered
+- [ ] No Crisp chat opens from CTA buttons
 
 #### Visual Tests
 - [ ] Cards display correctly
@@ -278,15 +293,25 @@ This document outlines the testing approach for each component during the migrat
 - [ ] Hover effects work
 - [ ] Responsive design works
 
-### 9. Value Proposition (`src/components/ValueProposition.tsx`)
+### 9. Value Proposition (`src/components/ValueProposition.tsx`) - UPDATED
 **Priority: Medium**
 **Test Frequency: Every update**
 
+#### Updated Copy Tests (v1.1.4)
+- [ ] **Headline**: "Why Hermes Security" displays correctly
+- [ ] **Subtitle**: "The perfect balance between AI speed and human judgment" displays correctly
+- [ ] **Description**: Long description about AI-driven reconnaissance displays correctly
+- [ ] **Value 1**: "Faster Testing, Trusted Oversight" displays correctly
+- [ ] **Value 2**: "Board-Ready Reporting" displays correctly
+- [ ] **Value 3**: "Compliance You Can Trust" displays correctly
+- [ ] **Value 4**: "Future-Proof Testing" displays correctly
+- [ ] **CTA Button**: "Book Your Pen Test Today" launches contact form
+
 #### Functional Tests
-- [ ] All statistics are displayed
+- [ ] All value propositions are displayed
 - [ ] Icons are visible
 - [ ] Text is readable
-- [ ] Animations work (if any)
+- [ ] CTA button navigates to contact form (not Crisp chat)
 - [ ] Responsive design works
 
 #### Visual Tests
@@ -296,7 +321,80 @@ This document outlines the testing approach for each component during the migrat
 - [ ] Spacing is appropriate
 - [ ] Icons are properly sized
 
-### 10. Asset Management & Image Optimization - NEW
+### 10. Services Section (`src/components/ServicesSection.tsx`) - UPDATED
+**Priority: High**
+**Test Frequency: Every update**
+
+#### Updated Copy Tests (v1.1.4)
+- [ ] **Methodology Headline**: "Our Methodology" displays correctly
+- [ ] **Methodology Description**: "A proven 4-step process..." displays correctly
+- [ ] **Stage 1**: "Initiate - Define scope, rules, and environment" displays correctly
+- [ ] **Stage 2**: "Discover - Automated + manual asset mapping" displays correctly
+- [ ] **Stage 3**: "Attack - AI-assisted exploitation with human oversight" displays correctly
+- [ ] **Stage 4**: "Prioritise - Actionable reporting & re-testing" displays correctly
+- [ ] **Services Headline**: "Services" displays correctly
+- [ ] **Services Description**: "Comprehensive penetration testing tailored..." displays correctly
+- [ ] **Service Count**: 7 services displayed (reduced from 8)
+- [ ] **Network Testing**: Combined "External & Internal" service displays correctly
+- [ ] **What You Get Section**: "What You Get Every Time" section displays correctly
+- [ ] **CTA Button**: "Book Your Security Assessment Today" launches contact form
+
+#### Functional Tests
+- [ ] All methodology stages display correctly
+- [ ] All services display correctly
+- [ ] "What You Get Every Time" section displays correctly
+- [ ] CTA button navigates to contact form (not Crisp chat)
+- [ ] Responsive design works on all devices
+
+### 11. How To Get Services Section (`src/components/HowToGetServicesSection.tsx`) - UPDATED
+**Priority: Medium**
+**Test Frequency: Every update**
+
+#### Updated Copy Tests (v1.1.4)
+- [ ] **Headline**: "From findings to fixes" displays correctly
+- [ ] **Description**: "We go beyond vulnerability lists..." displays correctly
+- [ ] **CTA Button**: "Book Your Pen Test Today" launches contact form
+
+#### Functional Tests
+- [ ] Section displays correctly
+- [ ] CTA button navigates to contact form (not Crisp chat)
+- [ ] Responsive design works
+
+### 12. Compliance Section (`src/components/ComplianceSection.tsx`) - UPDATED
+**Priority: Medium**
+**Test Frequency: Every update**
+
+#### Updated Copy Tests (v1.1.4)
+- [ ] **Headline**: "From testing to tangible results" displays correctly
+- [ ] **Description**: "Hermes delivers proven risk reduction..." displays correctly
+- [ ] **Feature 1**: "Proven Risk Reduction" displays correctly
+- [ ] **Feature 2**: "Compliance Gains" displays correctly
+- [ ] **Feature 3**: "Tangible Outcomes" displays correctly
+- [ ] **Impact Metrics**: 4 metrics display correctly (78%, 95%, 30 Days, 100%)
+
+#### Functional Tests
+- [ ] All features display correctly
+- [ ] Impact metrics display correctly
+- [ ] Responsive design works
+
+### 13. Case Study Section (`src/components/CaseStudySection.tsx`) - UPDATED
+**Priority: High**
+**Test Frequency: Every update**
+
+#### Updated Copy Tests (v1.1.4)
+- [ ] **Headline**: "From pentest to proof" displays correctly
+- [ ] **Description**: "Every engagement with Hermes produces..." displays correctly
+- [ ] **Case Study Count**: 4 case studies (reduced from 5)
+- [ ] **Updated Content**: All case studies have updated descriptions and metrics
+- [ ] **CTA Buttons**: "Read the case" buttons launch contact form
+
+#### Functional Tests
+- [ ] Auto-rotation cycles through all 4 case studies
+- [ ] Manual navigation dots work (4 dots visible)
+- [ ] CTA buttons navigate to contact form (not Crisp chat)
+- [ ] Responsive design works
+
+### 14. Asset Management & Image Optimization - NEW
 **Priority: Critical**
 **Test Frequency: Every update**
 

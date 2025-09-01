@@ -5,8 +5,13 @@ import { getImagePath } from "@/utils/imageUtils";
 // Lazy load components for better performance
 const Header = lazy(() => import("@/components/Header"));
 const HeroSection = lazy(() => import("@/components/HeroSection"));
+const IdentifyAndEliminateSection = lazy(() => import("@/components/IdentifyAndEliminateSection"));
 const ValueProposition = lazy(() => import("@/components/ValueProposition"));
+const MethodologySection = lazy(() => import("@/components/MethodologySection"));
+const FromPentestToProof = lazy(() => import("@/components/FromPentestToProof"));
 const ServicesSection = lazy(() => import("@/components/ServicesSection"));
+const HowToGetServicesSection = lazy(() => import("@/components/HowToGetServicesSection"));
+const ComplianceSection = lazy(() => import("@/components/ComplianceSection"));
 const CaseStudySection = lazy(() => import("@/components/CaseStudySection"));
 const CTASection = lazy(() => import("@/components/CTASection"));
 const Footer = lazy(() => import("@/components/Footer"));
@@ -42,12 +47,35 @@ export default function Index() {
           <HeroSection />
         </Suspense>
 
+        <Suspense fallback={<div className="py-24 bg-white flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <IdentifyAndEliminateSection />
+        </Suspense>
+
+        {/* Divider Line */}
+        <div className="w-full h-px bg-gray-200 mx-auto max-w-6xl"></div>
+
         <Suspense fallback={<div className="py-24 bg-background flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
           <ValueProposition />
         </Suspense>
 
         <Suspense fallback={<div className="py-24 bg-hero flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <MethodologySection />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-24 bg-background flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <FromPentestToProof />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-24 bg-hero flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
           <ServicesSection />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-24 bg-background flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <HowToGetServicesSection />
+        </Suspense>
+
+        <Suspense fallback={<div className="py-24 bg-hero flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>
+          <ComplianceSection />
         </Suspense>
 
         <Suspense fallback={<div className="py-24 bg-background flex items-center justify-center"><div className="animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security"></div></div>}>

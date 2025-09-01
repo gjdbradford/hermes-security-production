@@ -69,6 +69,18 @@ export const CrispTriggers = {
 
 // Predefined trigger handlers
 export const TriggerHandlers = {
+  // Contact form trigger
+  contactForm: () => {
+    try {
+      // Navigate to contact page
+      window.location.href = '/#/contact';
+    } catch (error) {
+      console.error('Error in contact form trigger:', error);
+      // Fallback: navigate to contact page
+      window.location.href = '/#/contact';
+    }
+  },
+
   // Discovery call trigger
   discoveryCall: () => {
     try {

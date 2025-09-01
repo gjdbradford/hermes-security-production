@@ -1,25 +1,38 @@
-import { Brain, FileText, Shield, Globe } from "lucide-react";
+import { Brain, FileText, Shield, Globe, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TriggerHandlers } from "@/utils/crispTriggers";
+
+// Helper function to convert markdown-style bold text to JSX
+const renderBoldText = (text: string) => {
+  const parts = text.split(/\*\*(.*?)\*\*/);
+  return parts.map((part, index) => {
+    if (index % 2 === 1) {
+      return <strong key={index}>{part}</strong>;
+    }
+    return part;
+  });
+};
 
 const values = [
   {
     icon: Brain,
-    title: "AI speed, human judgement",
-    description: "AI accelerates reconnaissance and exploitation paths; ethical researchers supervise, validate, and document every finding."
+    title: "Faster Testing, Trusted Oversight",
+    description: "AI accelerates reconnaissance and exploit chaining, while human researchers validate and control every finding, ensuring speed **without sacrificing accuracy or safety.**"
   },
   {
     icon: FileText,
-    title: "Enterprise-ready reporting",
-    description: "Board and regulator-friendly outputs: risk narratives, proof-of-exploit, fix-verification, and prioritised remediation — not just scanner noise."
+    title: "Board-Ready Reporting",
+    description: "Concise executive narratives, proof-of-exploit, and prioritised remediation steps, giving leadership **clarity for decisions** and engineers **actionable fixes.**"
   },
   {
     icon: Shield,
-    title: "AI/LLM coverage",
-    description: "Go beyond classic apps: AI Red Teaming for LLM apps, agents, and guardrails — addressing a fast-rising risk area."
+    title: "Compliance You Can Trust",
+    description: "SOC 2–aligned processes and GDPR-first design, with data minimisation and audit-ready outputs, **built for regulated industries and assurance frameworks.**"
   },
   {
     icon: Globe,
-    title: "European compliance DNA",
-    description: "GDPR principles by design (data minimisation, DPAs, EU hosting options), SOC 2-aligned processes for third-party assurance."
+    title: "Future-Proof Testing",
+    description: "Specialised red teaming for AI/LLM apps, APIs, and cloud environments, **protecting today's systems and tomorrow's innovations.**"
   }
 ];
 
@@ -31,9 +44,11 @@ export default function ValueProposition() {
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Why <span className="text-accent-security">Hermes Security</span>
           </h2>
-          <p className="text-xl text-muted-foreground leading-relaxed">
-            The perfect balance between automated efficiency and human expertise. 
-            Built for enterprise security teams who demand both speed and reliability.
+          <p className="text-xl text-muted-foreground leading-relaxed font-bold">
+            The perfect balance between AI speed and human judgment.
+          </p>
+          <p className="text-lg text-muted-foreground leading-relaxed mt-4">
+            {renderBoldText("Hermes combines the scale and efficiency of AI-driven reconnaissance with the insight and control of expert ethical hackers. The result: penetration testing that's faster, safer, and more comprehensive, delivering **proof of real impact** and **clear guidance for remediation**, not just scanner noise.")}
           </p>
         </div>
 
@@ -47,9 +62,21 @@ export default function ValueProposition() {
                 <value.icon className="w-6 h-6 text-accent-security" />
               </div>
               <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+              <p className="text-muted-foreground leading-relaxed">{renderBoldText(value.description)}</p>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <Button 
+            variant="hero" 
+            size="lg" 
+            className="group"
+            onClick={() => TriggerHandlers.contactForm()}
+          >
+            Book Your Pen Test Today
+            <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Button>
         </div>
       </div>
     </section>

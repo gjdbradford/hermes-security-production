@@ -4,38 +4,57 @@ import { Shield, Zap, Users, Target, ChevronRight, ArrowRight } from "lucide-rea
 import { TriggerHandlers } from "@/utils/crispTriggers";
 import { getImagePath } from "@/utils/imageUtils";
 
+// Helper function to convert markdown-style bold text to JSX
+const renderBoldText = (text: string) => {
+  const parts = text.split(/\*\*(.*?)\*\*/);
+  return parts.map((part, index) => {
+    if (index % 2 === 1) {
+      return <strong key={index}>{part}</strong>;
+    }
+    return part;
+  });
+};
+
 const heroContent = [
   {
     id: 1,
-    subtitle: "AI speed + Human ethics = Real Impact.",
-    title: "Stay Out of Tomorrow's News.",
-    description: "We influence businesses unlike other security contractors and make a difference by eliminating incorrect development and security processes.",
-    cta: "Book a discovery call",
+    subtitle: "The Core Offer",
+    title: "Penetration Testing as a Service.",
+    description: "Fast, safe, and actionable security testing. Hermes combines **AI speed with human expertise** to uncover exploitable risks and deliver reports in days, not weeks.",
+    cta: "Book Your Pen Test Today",
     icon: Target
   },
   {
     id: 2,
-    subtitle: "Fix the Asymmetry",
-    title: "AI + Human Excellence.",
-    description: "A typical enterprise faces nearly 2,000 cyberattacks every week. Cybersecurity is inherently asymmetric—a nonstop game of cat and mouse. Hermes closes the gap with machine speed plus human judgement.",
-    cta: "Book a discovery call",
+    subtitle: "Old vs New",
+    title: "The Old Way is Gone.",
+    description: "Traditional pentests are slow, expensive, and point-in-time. Hermes delivers **continuous, AI-accelerated testing with expert oversight,** aligned to your security lifecycle: Initiate · Discover · Attack · Prioritise.",
+    cta: "Book Your Pen Test Today",
     icon: Shield
   },
   {
     id: 3,
-    subtitle: "The old way is gone",
-    title: "Ethical Hacking.",
-    description: "Organised as Initiate · Discover · Attack · Prioritise. Transform your security posture with AI-accelerated testing that maintains human ethics and oversight.",
-    cta: "Book a discovery call",
+    subtitle: "Actionable Results",
+    title: "From Alerts to Action.",
+    description: "Cut through the noise. Hermes provides **prioritised, board-ready reports** that help your team focus on the vulnerabilities attackers would exploit first.",
+    cta: "Book Your Pen Test Today",
     icon: Zap
   },
   {
     id: 4,
-    subtitle: "From alerts to action",
-    title: "Prioritise Vulnerabilities.",
-    description: "Focus where it counts and get your teams focused so they can act immediately.",
-    cta: "Book a discovery call",
+    subtitle: "Impact & Trust",
+    title: "AI Speed. Human Expertise. Real Impact.",
+    description: "Our hybrid approach validates real attack paths, confirms fixes, and strengthens your security posture — so you stay **compliant, secure, and breach-free.**",
+    cta: "Book Your Pen Test Today",
     icon: Users
+  },
+  {
+    id: 5,
+    subtitle: "Defense & Stay Ahead",
+    title: "Close the Gap. Strengthen Your Defenses.",
+    description: "Every enterprise faces thousands of attacks each week. Hermes Security helps you stay ahead with **penetration testing as a service** that combines machine efficiency with expert ethical hackers.",
+    cta: "Book Your Pen Test Today",
+    icon: Target
   }
 ];
 
@@ -134,7 +153,7 @@ export default function HeroSection() {
             </h1>
             
             <p className="text-xl md:text-2xl text-hero-muted mb-12 max-w-4xl leading-relaxed animate-fade-in" style={{ animationDelay: '0.6s' }}>
-              {currentHeroData.description}
+              {renderBoldText(currentHeroData.description)}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in" style={{ animationDelay: '0.8s' }}>
@@ -144,8 +163,8 @@ export default function HeroSection() {
                 className="group" 
                 aria-label={`${currentHeroData.cta} - ${currentHeroData.title}`}
                 onClick={() => {
-                  if (currentHeroData.cta.includes("discovery call")) {
-                    TriggerHandlers.discoveryCall();
+                  if (currentHeroData.cta.includes("Pen Test")) {
+                    TriggerHandlers.contactForm();
                   } else if (currentHeroData.cta.includes("methodology")) {
                     TriggerHandlers.downloadGuide();
                   }
@@ -153,10 +172,6 @@ export default function HeroSection() {
               >
                 {currentHeroData.cta}
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-              </Button>
-              <Button variant="outline-hero" size="lg" aria-label="Learn more about Hermes Security">
-                Learn More
-                <ChevronRight className="ml-2 w-4 h-4" aria-hidden="true" />
               </Button>
             </div>
           </div>

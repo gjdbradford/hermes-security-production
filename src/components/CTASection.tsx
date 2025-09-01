@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Download, FileText, Calendar } from "lucide-react";
+import { ArrowRight, Download, Calendar } from "lucide-react";
 import { TriggerHandlers } from "@/utils/crispTriggers";
 
 const ctaOptions = [
@@ -7,23 +7,15 @@ const ctaOptions = [
     icon: Calendar,
     title: "Book a Discovery Call",
     description: "Discuss your security needs with our experts",
-    buttonText: "Schedule Now",
+    buttonText: "Book a Discovery Call",
     variant: "hero" as const,
     primary: true
   },
   {
     icon: Download,
-    title: "Download Methodology",
-    description: "Get our comprehensive one-pager on AI-driven pentesting",
-    buttonText: "Download Guide",
-    variant: "outline-hero" as const,
-    primary: false
-  },
-  {
-    icon: FileText,
-    title: "Sample Executive Report",
-    description: "See how we present findings to leadership teams",
-    buttonText: "Request Sample",
+    title: "Start a Pen Test Today",
+    description: "Begin your security assessment immediately",
+    buttonText: "Start a Pen Test Today",
     variant: "outline-hero" as const,
     primary: false
   }
@@ -40,15 +32,14 @@ export default function CTASection() {
       <div className="relative container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to <span className="text-accent-security">Secure Your Future</span>?
+            Don't Wait for Your Next <span className="text-accent-security">Breach or Audit</span>
           </h2>
           <p className="text-xl text-hero-muted leading-relaxed max-w-3xl mx-auto">
-            Join leading European enterprises who trust Hermes Security for AI-driven penetration testing 
-            with human oversight. Start your journey to better cybersecurity today.
+            Join leading enterprises who trust Hermes Security for penetration testing with AI speed and human expertise.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {ctaOptions.map((cta, index) => (
             <div 
               key={index}
@@ -69,11 +60,9 @@ export default function CTASection() {
                 size="lg"
                 onClick={() => {
                   if (cta.title === "Book a Discovery Call") {
-                    TriggerHandlers.discoveryCall();
-                  } else if (cta.title === "Download Methodology") {
-                    TriggerHandlers.downloadGuide();
-                  } else if (cta.title === "Sample Executive Report") {
-                    TriggerHandlers.requestSample();
+                    TriggerHandlers.contactForm();
+                  } else if (cta.title === "Start a Pen Test Today") {
+                    TriggerHandlers.contactForm();
                   }
                 }}
               >
@@ -84,13 +73,13 @@ export default function CTASection() {
           ))}
         </div>
 
-        {/* Contact Information */}
-        <div className="mt-16 text-center">
+        {/* Contact Information - Hidden */}
+        {/* <div className="mt-16 text-center">
           <div className="max-w-2xl mx-auto p-6 bg-hero-foreground/5 backdrop-blur-sm rounded-xl border border-hero-foreground/10">
             <p className="text-hero-muted mb-2">Questions? Speak directly with our security experts</p>
             <p className="text-accent-security font-semibold">contact@hermessecurity.io | +44 (0) 20 7946 0958</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   );
