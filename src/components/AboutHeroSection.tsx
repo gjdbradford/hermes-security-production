@@ -36,14 +36,14 @@ export default function AboutHeroSection() {
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            Defending the <span className="text-accent-security">Light</span> in a Digital World
-          </h1>
-          
-          {/* Subtitle */}
-          <p className="text-2xl md:text-3xl text-hero-muted mb-8 max-w-4xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.6s' }}>
-            Where AI meets human expertise to protect what matters most
-          </p>
+          <div className="text-center mb-12">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+              About <span className="text-accent-security">Hermes Security</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-hero-muted mb-12 max-w-5xl mx-auto leading-relaxed animate-fade-in font-bold" style={{ animationDelay: '0.8s' }}>
+              Defending the light in a digital world.
+            </p>
+          </div>
           
           {/* Description */}
           <p className="text-xl md:text-2xl text-hero-muted mb-12 max-w-5xl mx-auto leading-relaxed animate-fade-in" style={{ animationDelay: '0.8s' }}>
@@ -52,24 +52,24 @@ export default function AboutHeroSection() {
           </p>
           
           {/* CTA Button */}
-          <div className="animate-fade-in" style={{ animationDelay: '1.0s' }}>
+          <div className="flex justify-center animate-fade-in" style={{ animationDelay: '1.2s' }}>
             <Button 
               variant="hero" 
               size="lg" 
               className="group text-lg px-8 py-4"
-              onClick={() => TriggerHandlers.contactForm()}
+              onClick={() => TriggerHandlers.contactForm("Start Your Security Journey")}
             >
-              Learn Our Story
+              Start Your Security Journey
               <ArrowRight className="ml-3 w-5 h-5 transition-transform group-hover:translate-x-1" />
             </Button>
           </div>
-
-          {/* Scroll Indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          
+          {/* Remove the bouncing arrow section */}
+          {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
             <div className="w-6 h-10 border-2 border-hero-foreground/30 rounded-full flex justify-center">
               <div className="w-1 h-3 bg-hero-foreground/50 rounded-full mt-2 animate-pulse"></div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

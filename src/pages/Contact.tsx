@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { ChevronRight, Home } from "lucide-react";
@@ -13,6 +13,24 @@ import { ContactFormData } from "@/services/contactApi";
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ContactFormData | null>(null);
+  const [ctaSource, setCtaSource] = useState<string>("Book Your Pen Test Today");
+
+  // Get CTA source from sessionStorage
+  useEffect(() => {
+    console.log('🔍 Contact page: Reading CTA source from sessionStorage...');
+    const storedCtaSource = sessionStorage.getItem('cta-source');
+    console.log('🔍 Contact page: Retrieved CTA source:', storedCtaSource);
+    
+    if (storedCtaSource) {
+      console.log('✅ Contact page: Setting CTA source to:', storedCtaSource);
+      setCtaSource(storedCtaSource);
+      // Clear it after reading so ContactForm doesn't try to read it again
+      sessionStorage.removeItem('cta-source');
+      console.log('🧹 Contact page: Cleared CTA source from sessionStorage');
+    } else {
+      console.log('⚠️ Contact page: No CTA source found, using default:', ctaSource);
+    }
+  }, []);
 
   const handleFormSuccess = (data: ContactFormData) => {
     setFormData(data);
@@ -145,20 +163,20 @@ export default function Contact() {
         <div className="py-12">
           <div className="container mx-auto px-4">
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                Get in Touch
+              <h1 className="text-4xl font-bold text-accent-security mb-4">
+                {ctaSource}
               </h1>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Ready to secure your digital assets? Our team of cybersecurity experts is here to help.
+                Tell us your urgency and a little about your security needs and we'll get back to you ASAP!
               </p>
             </div>
             
-            <ContactForm onSuccess={handleFormSuccess} />
+            <ContactForm onSuccess={handleFormSuccess} ctaSource={ctaSource} />
           </div>
         </div>
         
-                  <Footer />
-        </div>
-      </>
-    );
+        <Footer />
+      </div>
+    </>
+  );
 }

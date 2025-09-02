@@ -72,7 +72,7 @@ export default function ValueProposition() {
             variant="hero" 
             size="lg" 
             className="group"
-            onClick={() => TriggerHandlers.contactForm()}
+            onClick={() => TriggerHandlers.contactForm("Book Your Pen Test Today")}
           >
             Book Your Pen Test Today
             <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
