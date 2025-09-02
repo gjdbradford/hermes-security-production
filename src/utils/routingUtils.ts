@@ -27,6 +27,12 @@ export const getBasePath = (): string => {
     return '/hermes-security-production/';
   }
   
+  // Check if we're on Vercel production domain
+  if (hostname === 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app') {
+    console.log('🚀 Detected Vercel production environment');
+    return '/';
+  }
+  
   // Default to root for production
   console.log('🚀 Detected production environment');
   return '/';
@@ -61,6 +67,10 @@ export const getEnvironment = (): 'development' | 'staging' | 'production' => {
   if (pathname.includes('/hermes-security-production/') || 
       (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/'))) {
     return 'staging';
+  }
+  
+  if (hostname === 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app') {
+    return 'production';
   }
   
   return 'production';
