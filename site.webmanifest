@@ -13,13 +13,13 @@
   "categories": ["security", "business", "technology"],
   "icons": [
     {
-      "src": "./images/icons/favicon.svg",
+      "src": "https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "./favicon.ico",
+      "src": "https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com/favicon.ico",
       "sizes": "32x32",
       "type": "image/x-icon"
     }

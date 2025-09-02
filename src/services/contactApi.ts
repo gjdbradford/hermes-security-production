@@ -1,4 +1,6 @@
 // Contact form API service for 8n8 integration ONLY
+import { getEnvironmentConfig, logEnvironmentInfo, getEnvironmentName } from '../utils/environment';
+
 export interface ContactFormData {
   firstName: string;
   lastName: string;
@@ -27,33 +29,8 @@ export interface ContactApiResponse {
   nextSteps: string[];
 }
 
-// Environment-based 8n8 Webhook Configuration
-const getWebhookUrl = (): string => {
-  const hostname = window.location.hostname;
-  const pathname = window.location.pathname;
-  
-  // Production: www.hermessecurity.io, hermessecurity.io, or Vercel production
-  if (hostname === 'www.hermessecurity.io' || 
-      hostname === 'hermessecurity.io' ||
-      hostname === 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app') {
-    return 'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629';
-  }
-  
-  // Staging: gjdbradford.github.io/hermes-security-production/
-  if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
-    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
-  }
-  
-  // Local development: localhost
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
-  }
-  
-  // Default to test webhook for any other environment
-  return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
-};
-
-const N8N_WEBHOOK_URL = getWebhookUrl();
+// Get webhook URL from environment configuration
+const N8N_WEBHOOK_URL = getEnvironmentConfig().webhookUrl;
 
 export const submitContactForm = async (formData: ContactFormData): Promise<ContactApiResponse> => {
   try {
@@ -64,8 +41,8 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       termsConsent: formData.agreeToTerms
     };
 
-    console.log('🚀 Environment detected:', window.location.hostname);
-    console.log('📍 Path detected:', window.location.pathname);
+    // Log environment information
+    logEnvironmentInfo();
     console.log('🌍 Using webhook URL:', N8N_WEBHOOK_URL);
     console.log('📊 Form Data:', requestData);
 
@@ -73,7 +50,9 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Hermes-Source': 'website-contact-form'
+        'X-Hermes-Source': 'website-contact-form',
+        'X-Hermes-Environment': getEnvironmentName(),
+        'X-Hermes-Version': '1.0.0'
       },
       body: JSON.stringify(requestData)
     });
