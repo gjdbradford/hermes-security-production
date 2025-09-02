@@ -13,10 +13,12 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "assets:upload": "npx tsx scripts/upload-assets.ts",
+    "assets:upload-manifest": "npx tsx scripts/upload-manifest-assets.ts",
     "assets:status": "npx tsx scripts/asset-manager.ts status",
     "assets:sync": "npx tsx scripts/asset-manager.ts sync",
     "assets:watch": "npx tsx scripts/asset-manager.ts watch",
-    "test:cdn": "npx tsx scripts/test-cdn-integration.ts"
+    "test:cdn": "npx tsx scripts/test-cdn-integration.ts",
+    "test:fixes": "npx tsx scripts/test-fixes.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
