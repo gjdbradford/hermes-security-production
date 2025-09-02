@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,7 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { CheckCircle, AlertCircle, Loader2, TestTube } from "lucide-react";
 import { submitContactForm, ContactFormData } from "@/services/contactApi";
 
 // Simple European countries list
@@ -75,51 +75,100 @@ interface ContactFormProps {
 export default function ContactForm({ onSuccess }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [isTestMode, setIsTestMode] = useState(true); // Start in test mode
+
+  // Test data that passes all validation
+  const testData = {
+    firstName: 'Test',
+    lastName: 'User',
+    email: 'test@example.com',
+    country: 'GB',
+    mobileNumber: '+447700900000',
+    problemDescription: 'Testing webhook functionality - need security assessment for our web application and API endpoints. Looking for penetration testing services.',
+    companyName: 'Test Company Ltd',
+    companySize: '11-50',
+    serviceUrgency: 'Urgent',
+    agreeToTerms: true
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
+    reset,
+    watch
   } = useForm<ContactFormData>({
-    resolver: zodResolver(contactFormSchema),
-    defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      country: '',
-      mobileNumber: '',
-      problemDescription: '',
-      companyName: '',
-      companySize: '',
-      serviceUrgency: '',
-      agreeToTerms: false
-    }
+    resolver: isTestMode ? undefined : zodResolver(contactFormSchema), // Skip validation in test mode
+    defaultValues: testData
   });
 
+  // Watch for form changes to update UI
+  const watchedValues = watch();
+
+  // Initialize form with test data
+  useEffect(() => {
+    if (isTestMode) {
+      reset(testData);
+      // Set all values manually to ensure they're properly set
+      Object.entries(testData).forEach(([key, value]) => {
+        setValue(key as keyof ContactFormData, value);
+      });
+    }
+  }, [isTestMode, reset, setValue]);
+
+  // Toggle test mode
+  const toggleTestMode = () => {
+    setIsTestMode(!isTestMode);
+    if (!isTestMode) {
+      // Switching to test mode - load test data
+      reset(testData);
+      Object.entries(testData).forEach(([key, value]) => {
+        setValue(key as keyof ContactFormData, value);
+      });
+    } else {
+      // Switching to normal mode - clear form
+      reset({
+        firstName: '',
+        lastName: '',
+        email: '',
+        country: '',
+        mobileNumber: '',
+        problemDescription: '',
+        companyName: '',
+        companySize: '',
+        serviceUrgency: '',
+        agreeToTerms: false
+      });
+    }
+  };
+
   const handleTermsChange = (checked: boolean) => {
-    setAgreeToTerms(checked);
     setValue("agreeToTerms", checked);
   };
 
   const onSubmit = async (data: ContactFormData) => {
+    console.log('🚀 Form submission started with data:', data);
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
       const result = await submitContactForm(data);
+      console.log('📡 Webhook response:', result);
+      
       if (result.success) {
+        console.log('✅ Webhook successful!');
         // Trigger Crisp chat after successful form submission
         if (window.$crisp) {
           window.$crisp.push(["do", "chat:open"]);
         }
         onSuccess(data);
       } else {
+        console.log('❌ Webhook failed:', result);
         setSubmitError("Failed to submit form. Please try again.");
       }
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error('❌ Form submission error:', error);
       setSubmitError("An error occurred while submitting the form. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -129,6 +178,33 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardContent className="p-8">
+        {/* Test Mode Toggle */}
+        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <TestTube className="h-5 w-5 text-blue-600" />
+              <span className="font-medium text-blue-800">
+                {isTestMode ? '🧪 Test Mode Active' : ' Normal Mode Active'}
+              </span>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={toggleTestMode}
+              className="text-blue-600 border-blue-300 hover:bg-blue-50"
+            >
+              {isTestMode ? 'Switch to Normal Mode' : 'Switch to Test Mode'}
+            </Button>
+          </div>
+          <p className="text-sm text-blue-600 mt-2">
+            {isTestMode 
+              ? 'Test mode: Form is pre-filled with valid test data. Validation is disabled for webhook testing.'
+              : 'Normal mode: Form validation is active. All fields must be properly filled.'
+            }
+          </p>
+        </div>
+
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* Personal Information */}
           <div className="space-y-6">
@@ -222,7 +298,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
             </div>
           </div>
 
-          {/* Company Information - Now Mandatory */}
+          {/* Company Information */}
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-accent-security">Company Information</h3>
             
@@ -314,7 +390,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
               <div className="flex items-start space-x-3">
                 <Checkbox
                   id="agreeToTerms"
-                  checked={agreeToTerms}
+                  checked={watchedValues.agreeToTerms || false}
                   onCheckedChange={handleTermsChange}
                   className="mt-1 border-2 border-blue-400 bg-blue-100 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 data-[state=unchecked]:bg-blue-100 data-[state=unchecked]:border-blue-400"
                 />
@@ -341,12 +417,12 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Submitting...
+                {isTestMode ? 'Testing Webhook...' : 'Submitting...'}
               </>
             ) : (
               <>
                 <CheckCircle className="mr-2 h-5 w-5" />
-                Submit Contact Request
+                {isTestMode ? 'Test Webhook' : 'Submit Contact Request'}
               </>
             )}
           </Button>
@@ -358,6 +434,20 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
               <AlertDescription>{submitError}</AlertDescription>
             </Alert>
           )}
+
+          {/* Test Mode Info */}
+          {isTestMode && (
+            <div className="text-xs text-blue-600 bg-blue-50 p-3 rounded border border-blue-200">
+              <strong>🧪 Test Mode:</strong> Form validation is disabled. All fields are pre-filled with valid test data for webhook testing.
+            </div>
+          )}
+
+          {/* Debug Info */}
+          <div className="text-xs text-gray-500 bg-gray-100 p-3 rounded">
+            <strong>Debug Info:</strong> 
+            <br />Test Mode: {isTestMode ? 'ON' : 'OFF'}
+            <br />Form Data: {JSON.stringify(watchedValues, null, 2)}
+          </div>
         </form>
       </CardContent>
     </Card>

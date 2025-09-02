@@ -1,6 +1,4 @@
-// Contact form API service for 8n8 integration and email backup
-import { sendContactFormEmail, ContactFormEmailData } from './emailService';
-
+// Contact form API service for 8n8 integration ONLY
 export interface ContactFormData {
   firstName: string;
   lastName: string;
@@ -29,9 +27,31 @@ export interface ContactApiResponse {
   nextSteps: string[];
 }
 
-// 8n8 Webhook Configuration
-const N8N_WEBHOOK_URL = 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
-const N8N_API_KEY = import.meta.env.VITE_N8N_API_KEY || '';
+// Environment-based 8n8 Webhook Configuration
+const getWebhookUrl = (): string => {
+  const hostname = window.location.hostname;
+  const pathname = window.location.pathname;
+  
+  // Production: www.hermessecurity.io or hermessecurity.io
+  if (hostname === 'www.hermessecurity.io' || hostname === 'hermessecurity.io') {
+    return 'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629';
+  }
+  
+  // Staging: gjdbradford.github.io/hermes-security-production/
+  if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
+    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
+  }
+  
+  // Local development: localhost
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
+  }
+  
+  // Default to test webhook for any other environment
+  return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
+};
+
+const N8N_WEBHOOK_URL = getWebhookUrl();
 
 export const submitContactForm = async (formData: ContactFormData): Promise<ContactApiResponse> => {
   try {
@@ -42,20 +62,26 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       termsConsent: formData.agreeToTerms
     };
 
-    console.log('🚀 Submitting to 8n8:', N8N_WEBHOOK_URL);
+    console.log('🚀 Environment detected:', window.location.hostname);
+    console.log('📍 Path detected:', window.location.pathname);
+    console.log('🌍 Using webhook URL:', N8N_WEBHOOK_URL);
     console.log('📊 Form Data:', requestData);
 
     const response = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${N8N_API_KEY}`,
         'X-Hermes-Source': 'website-contact-form'
       },
       body: JSON.stringify(requestData)
     });
 
+    console.log(' Response status:', response.status);
+    console.log('📋 Response headers:', Object.fromEntries(response.headers.entries()));
+
     if (!response.ok) {
+      const errorText = await response.text();
+      console.log('❌ Error response body:', errorText);
       throw new Error(`8n8 API Error: ${response.status} ${response.statusText}`);
     }
 
@@ -76,57 +102,15 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
   } catch (error) {
     console.error('❌ 8n8 Submission Error:', error);
     
-    // Fallback: Send email directly with proper headers via Vercel
-    const emailSent = await sendFallbackEmail(formData);
-    
     return {
-      success: true,
+      success: false,
       messageId: new Date().toISOString(),
       timestamp: new Date().toISOString(),
       nextSteps: [
-        "We've received your enquiry and will respond within 24 hours",
-        emailSent ? "A confirmation email has been sent" : "Note: Our automated system is temporarily unavailable, but your message has been received"
+        "Webhook submission failed",
+        "Please check your 8n8 workflow configuration",
+        "Error: " + (error instanceof Error ? error.message : 'Unknown error')
       ]
     };
-  }
-};
-
-// Enhanced fallback email service with proper headers via Vercel
-const sendFallbackEmail = async (formData: ContactFormData): Promise<boolean> => {
-  try {
-    const emailData: ContactFormEmailData = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      country: formData.country,
-      mobileNumber: formData.mobileNumber,
-      problemDescription: formData.problemDescription,
-      companyName: formData.companyName,
-      companySize: formData.companySize,
-      serviceUrgency: formData.serviceUrgency,
-      agreeToTerms: formData.agreeToTerms,
-      timestamp: new Date().toISOString(),
-      userAgent: navigator.userAgent,
-      ipAddress: undefined // IP address is not available in the browser context for this fallback
-    };
-
-    const headers = generateEmailHeaders(emailData);
-    const { html, text } = generateEmailBody(emailData);
-    
-    const emailDataForVercel: EmailData = {
-      to: 'gjdbradford@gmail.com', // This should ideally be configurable
-      from: 'noreply@hermessecurity.io',
-      replyTo: formData.email,
-      subject: `🔒 ${formData.firstName} ${formData.lastName} from ${formData.companyName || 'No Company'} - Security Consultation Request [${formData.serviceUrgency}]`,
-      htmlBody: html,
-      textBody: text,
-      headers
-    };
-
-    return await sendEmail(emailDataForVercel);
-
-  } catch (error) {
-    console.error('❌ Fallback email failed:', error);
-    return false;
   }
 };
