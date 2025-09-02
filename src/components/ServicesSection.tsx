@@ -120,7 +120,7 @@ export default function ServicesSection() {
               variant="hero" 
               size="lg" 
               className="group"
-              onClick={() => TriggerHandlers.contactForm()}
+              onClick={() => TriggerHandlers.contactForm("Book Your Security Assessment Today")}
             >
               Book Your Security Assessment Today
               <Target className="ml-2 w-4 h-4 transition-transform group-hover:rotate-12" />

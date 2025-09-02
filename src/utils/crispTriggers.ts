@@ -1,7 +1,9 @@
 // Declare Crisp global variable
 declare global {
   interface Window {
-    $crisp: any[];
+    $crisp: any[] & {
+      is: (property: string) => boolean;
+    };
   }
 }
 
@@ -69,13 +71,28 @@ export const CrispTriggers = {
 
 // Predefined trigger handlers
 export const TriggerHandlers = {
-  // Contact form trigger
-  contactForm: () => {
+  // Contact form trigger with CTA source
+  contactForm: (ctaSource?: string) => {
     try {
+      console.log('🚀 TriggerHandlers.contactForm called with CTA source:', ctaSource);
+      
+      // Store CTA source in sessionStorage for the contact form to access
+      if (ctaSource) {
+        console.log('💾 Setting CTA source in sessionStorage:', ctaSource);
+        sessionStorage.setItem('cta-source', ctaSource);
+        
+        // Verify it was set
+        const verifySource = sessionStorage.getItem('cta-source');
+        console.log('✅ Verified CTA source in sessionStorage:', verifySource);
+      } else {
+        console.log('⚠️ No CTA source provided');
+      }
+      
       // Navigate to contact page
+      console.log('🧭 Navigating to contact page...');
       window.location.href = '/#/contact';
     } catch (error) {
-      console.error('Error in contact form trigger:', error);
+      console.error('❌ Error in contact form trigger:', error);
       // Fallback: navigate to contact page
       window.location.href = '/#/contact';
     }

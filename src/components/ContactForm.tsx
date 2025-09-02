@@ -70,9 +70,10 @@ const contactFormSchema = z.object({
 
 interface ContactFormProps {
   onSuccess: (data: ContactFormData) => void;
+  ctaSource: string;
 }
 
-export default function ContactForm({ onSuccess }: ContactFormProps) {
+export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isTestMode, setIsTestMode] = useState(true); // Start in test mode
@@ -97,25 +98,23 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
     formState: { errors },
     setValue,
     reset,
-    watch
   } = useForm<ContactFormData>({
-    resolver: isTestMode ? undefined : zodResolver(contactFormSchema), // Skip validation in test mode
+    resolver: zodResolver(contactFormSchema),
     defaultValues: testData
   });
 
-  // Watch for form changes to update UI
-  const watchedValues = watch();
-
-  // Initialize form with test data
+  // Initialize form with test data and set CTA source
   useEffect(() => {
     if (isTestMode) {
       reset(testData);
-      // Set all values manually to ensure they're properly set
       Object.entries(testData).forEach(([key, value]) => {
         setValue(key as keyof ContactFormData, value);
       });
     }
-  }, [isTestMode, reset, setValue]);
+    
+    // CTA source is now passed as a prop, no need to read from sessionStorage
+    console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
+  }, [isTestMode, reset, setValue, ctaSource]);
 
   // Toggle test mode
   const toggleTestMode = () => {
@@ -153,7 +152,13 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
     setSubmitError(null);
 
     try {
-      const result = await submitContactForm(data);
+      // Add CTA source to form data
+      const formDataWithSource = {
+        ...data,
+        ctaSource: ctaSource
+      };
+      
+      const result = await submitContactForm(formDataWithSource);
       console.log('📡 Webhook response:', result);
       
       if (result.success) {
@@ -162,7 +167,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
         if (window.$crisp) {
           window.$crisp.push(["do", "chat:open"]);
         }
-        onSuccess(data);
+        onSuccess(formDataWithSource);
       } else {
         console.log('❌ Webhook failed:', result);
         setSubmitError("Failed to submit form. Please try again.");
@@ -390,7 +395,6 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
               <div className="flex items-start space-x-3">
                 <Checkbox
                   id="agreeToTerms"
-                  checked={watchedValues.agreeToTerms || false}
                   onCheckedChange={handleTermsChange}
                   className="mt-1 border-2 border-blue-400 bg-blue-100 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 data-[state=unchecked]:bg-blue-100 data-[state=unchecked]:border-blue-400"
                 />
@@ -446,7 +450,7 @@ export default function ContactForm({ onSuccess }: ContactFormProps) {
           <div className="text-xs text-gray-500 bg-gray-100 p-3 rounded">
             <strong>Debug Info:</strong> 
             <br />Test Mode: {isTestMode ? 'ON' : 'OFF'}
-            <br />Form Data: {JSON.stringify(watchedValues, null, 2)}
+            <br />CTA Source: {ctaSource}
           </div>
         </form>
       </CardContent>

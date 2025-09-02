@@ -60,9 +60,9 @@ export default function CTASection() {
                 size="lg"
                 onClick={() => {
                   if (cta.title === "Book a Discovery Call") {
-                    TriggerHandlers.contactForm();
+                    TriggerHandlers.contactForm(cta.title);
                   } else if (cta.title === "Start a Pen Test Today") {
-                    TriggerHandlers.contactForm();
+                    TriggerHandlers.contactForm(cta.title);
                   }
                 }}
               >

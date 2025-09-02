@@ -27,7 +27,7 @@ export default function AboutCTASection() {
                 variant="hero" 
                 size="lg" 
                 className="group text-lg px-8 py-4"
-                onClick={() => TriggerHandlers.contactForm()}
+                onClick={() => TriggerHandlers.contactForm("Start Your Security Journey")}
               >
                 Start Your Security Journey
                 <ArrowRight className="ml-3 w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -37,6 +37,7 @@ export default function AboutCTASection() {
                 variant="outline" 
                 size="lg" 
                 className="group text-lg px-8 py-4 border-accent-security text-accent-security hover:bg-accent-security hover:text-white"
+                onClick={() => TriggerHandlers.serviceInquiry("General Services Inquiry")}
               >
                 Learn More About Our Services
                 <Target className="ml-3 w-5 h-5 transition-transform group-hover:scale-110" />
