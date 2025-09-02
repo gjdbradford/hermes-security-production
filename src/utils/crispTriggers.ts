@@ -1,3 +1,5 @@
+import { buildUrl, logEnvironmentInfo } from './routingUtils';
+
 // Declare Crisp global variable
 declare global {
   interface Window {
@@ -76,6 +78,9 @@ export const TriggerHandlers = {
     try {
       console.log('🚀 TriggerHandlers.contactForm called with CTA source:', ctaSource);
       
+      // Log environment info for debugging
+      logEnvironmentInfo();
+      
       // Store CTA source in sessionStorage for the contact form to access
       if (ctaSource) {
         console.log('💾 Setting CTA source in sessionStorage:', ctaSource);
@@ -88,13 +93,17 @@ export const TriggerHandlers = {
         console.log('⚠️ No CTA source provided');
       }
       
+      // Build the correct URL for the current environment
+      const contactUrl = buildUrl('contact');
+      console.log('🧭 Navigating to contact page:', contactUrl);
+      
       // Navigate to contact page
-      console.log('🧭 Navigating to contact page...');
-      window.location.href = '/#/contact';
+      window.location.href = contactUrl;
     } catch (error) {
       console.error('❌ Error in contact form trigger:', error);
-      // Fallback: navigate to contact page
-      window.location.href = '/#/contact';
+      // Fallback: navigate to contact page with correct routing
+      const fallbackUrl = buildUrl('contact');
+      window.location.href = fallbackUrl;
     }
   },
 

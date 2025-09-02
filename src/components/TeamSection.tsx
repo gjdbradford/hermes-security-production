@@ -8,7 +8,7 @@ const founders = [
     bio: "20+ years in cybersecurity and digital innovation, with deep expertise in AI security and strategic security planning. Former CISO at Fortune 500 companies, Graham brings unparalleled experience in protecting organizations from emerging threats.",
     expertise: ["AI Security", "Penetration Testing", "Strategic Security", "CISO Leadership"],
     experience: "Former CISO at Fortune 500 companies, led security teams of 100+ professionals",
-    linkedin: "https://linkedin.com/in/graham-bradford",
+    linkedin: "https://linkedin.com/in/graham-bradford", 
     icon: Shield
   },
   {
