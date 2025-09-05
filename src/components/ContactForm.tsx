@@ -55,7 +55,9 @@ const contactFormSchema = z.object({
   lastName: z.string().min(3, "Last name must be at least 3 characters"),
   email: z.string().email("Please enter a valid email address"),
   country: z.string().min(1, "Please select your country"),
-  mobileNumber: z.string().min(1, "Mobile number is required"),
+  mobileNumber: z.string()
+    .min(1, "Mobile number is required")
+    .regex(/^[\+]?[1-9][\d]{0,15}$/, "Please enter a valid mobile number"),
   problemDescription: z.string().min(20, "Please provide a brief description (at least 20 characters)"),
   companyName: z.string().min(1, "Company name is required"),
   companySize: z.string().min(1, "Please select company size"),
@@ -70,24 +72,25 @@ interface ContactFormProps {
   ctaSource: string;
 }
 
-// Test data that passes all validation - moved outside component to avoid dependency issues
-const testData = {
-  firstName: 'Test',
-  lastName: 'User',
-  email: 'test@example.com',
-  country: 'GB',
-  mobileNumber: '+447700900000',
-  problemDescription: 'Testing webhook functionality - need security assessment for our web application and API endpoints. Looking for penetration testing services.',
-  companyName: 'Test Company Ltd',
-  companySize: '11-50',
-  serviceUrgency: 'Urgent',
-  agreeToTerms: true
+// Empty default values for production form
+const defaultFormData = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  country: '',
+  mobileNumber: '',
+  problemDescription: '',
+  companyName: '',
+  companySize: '',
+  serviceUrgency: '',
+  agreeToTerms: false,
+  privacyConsent: false,
+  marketingConsent: false
 };
 
 export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [isTestMode, setIsTestMode] = useState(false); // Production mode
 
   const {
     register,
@@ -97,21 +100,17 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
     reset,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactFormSchema),
-    defaultValues: testData
+    defaultValues: defaultFormData
   });
 
-  // Initialize form with test data and set CTA source
+  // Initialize form with empty values and set CTA source
   useEffect(() => {
-    if (isTestMode) {
-      reset(testData);
-      Object.entries(testData).forEach(([key, value]) => {
-        setValue(key as keyof ContactFormData, value);
-      });
-    }
+    // Reset form to empty state for production
+    reset(defaultFormData);
     
     // CTA source is now passed as a prop, no need to read from sessionStorage
     console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
-  }, [isTestMode, reset, setValue, ctaSource]);
+  }, [reset, ctaSource]);
 
 
   const handleTermsChange = (checked: boolean) => {
@@ -396,12 +395,12 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                {isTestMode ? 'Testing Webhook...' : 'Submitting...'}
+                Submitting...
               </>
             ) : (
               <>
                 <CheckCircle className="mr-2 h-5 w-5" />
-                {isTestMode ? 'Test Webhook' : 'Submit Contact Request'}
+                Submit Contact Request
               </>
             )}
           </Button>
