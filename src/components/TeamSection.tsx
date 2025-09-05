@@ -203,8 +203,8 @@ export default function TeamSection() {
             </div>
           </div>
 
-          {/* Join the Team CTA */}
-          <div className="text-center mt-16">
+          {/* Join the Team CTA - Hidden */}
+          {/* <div className="text-center mt-16">
             <div className="bg-gradient-security/10 border border-accent-security/30 rounded-2xl p-8 max-w-2xl mx-auto">
               <h3 className="text-2xl font-bold mb-4 text-foreground">
                 Join Our Mission
@@ -220,7 +220,7 @@ export default function TeamSection() {
                 Explore Opportunities
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
