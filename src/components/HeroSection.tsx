@@ -19,15 +19,15 @@ const heroContent = [
   {
     id: 1,
     subtitle: "The Core Offer",
-    title: "Penetration Testing as a Service.",
-    description: "Fast, safe, and actionable security testing. Hermes combines **AI speed with human expertise** to uncover exploitable risks and deliver reports in days, not weeks.",
+    title: "Don't Be in Tomorrow's News.",
+    description: "Fast, ethical, and actionable security testing. Hermes combines **AI speed with human expertise** to uncover exploitable risks.",
     cta: "Book Your Pen Test Today",
     icon: Target
   },
   {
     id: 2,
     subtitle: "Old vs New",
-    title: "The Old Way is Gone.",
+    title: "Stuck Doing it the Old Way?",
     description: "Traditional pentests are slow, expensive, and point-in-time. Hermes delivers **continuous, AI-accelerated testing with expert oversight,** aligned to your security lifecycle: Initiate · Discover · Attack · Prioritise.",
     cta: "Book Your Pen Test Today",
     icon: Shield
@@ -43,7 +43,7 @@ const heroContent = [
   {
     id: 4,
     subtitle: "Impact & Trust",
-    title: "AI Speed. Human Expertise. Real Impact.",
+    title: "AI + Human Expertise = Impact.",
     description: "Our hybrid approach validates real attack paths, confirms fixes, and strengthens your security posture — so you stay **compliant, secure, and breach-free.**",
     cta: "Book Your Pen Test Today",
     icon: Users
@@ -51,7 +51,7 @@ const heroContent = [
   {
     id: 5,
     subtitle: "Defense & Stay Ahead",
-    title: "Close the Gap. Strengthen Your Defenses.",
+    title: "Strengthen Your Defenses.",
     description: "Every enterprise faces thousands of attacks each week. Hermes Security helps you stay ahead with **penetration testing as a service** that combines machine efficiency with expert ethical hackers.",
     cta: "Book Your Pen Test Today",
     icon: Target

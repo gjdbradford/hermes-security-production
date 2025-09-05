@@ -42,7 +42,7 @@ const services = [
   },
   {
     icon: Bot,
-    title: "AI Red Teaming",
+    title: "AI/LLM",
     description: "Adversarial testing for LLMs, agents, and guardrails (prompt injection, data leakage, model abuse).",
     benefit: "Make AI features safe to deploy and meet rising stakeholder scrutiny."
   }
