@@ -7,7 +7,7 @@ const footerLinks = {
     { name: 'Mobile App Pentest', href: '#' },
     { name: 'Cloud Pentest', href: '#' },
     { name: 'Network Pentest', href: '#' },
-    { name: 'AI Red Teaming', href: '#' },
+    { name: 'AI/LLM', href: '#' },
   ],
   company: [
     { name: 'About Us', href: '/about' },
@@ -16,8 +16,8 @@ const footerLinks = {
     { name: 'Blog', href: '#' },
   ],
   legal: [
-    { name: 'Privacy Policy', href: '#' },
-    { name: 'Terms of Service', href: '#' },
+    { name: 'Privacy Policy', href: '/#/privacy' },
+    { name: 'Terms of Use', href: '/#/terms' },
   ],
 };
 

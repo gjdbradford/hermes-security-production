@@ -16,7 +16,7 @@ const founders = [
     role: "Co-Founder & CTO",
     photo: "/images/team/artem.jpg",
     bio: "A cybersecurity visionary with extensive experience in offensive security and AI red teaming. Artem has spent years on the front lines of digital warfare, understanding how attackers think and developing countermeasures.",
-    expertise: ["AI Red Teaming", "Offensive Security", "Threat Intelligence", "Security Architecture"],
+    expertise: ["AI/LLM", "Offensive Security", "Threat Intelligence", "Security Architecture"],
     experience: "Led offensive security teams, developed AI security frameworks",
     linkedin: "https://linkedin.com/in/artem",
     icon: Target

@@ -30,7 +30,7 @@ export default function Contact() {
     } else {
       console.log('⚠️ Contact page: No CTA source found, using default:', ctaSource);
     }
-  }, []);
+  }, [ctaSource]);
 
   const handleFormSuccess = (data: ContactFormData) => {
     setFormData(data);

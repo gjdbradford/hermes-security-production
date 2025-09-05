@@ -10,6 +10,8 @@ export interface ContactFormData {
   companySize?: string;
   serviceUrgency: string;
   agreeToTerms: boolean;
+  privacyConsent: boolean;
+  marketingConsent?: boolean;
 }
 
 export interface ContactApiRequest {
@@ -42,8 +44,13 @@ const getWebhookUrl = (): string => {
     return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
   
-  // Local development: localhost
+  // Local development: Use CORS proxy if available, otherwise direct webhook
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    // Check if CORS proxy is available
+    const useProxy = localStorage.getItem('hermes-use-cors-proxy') === 'true';
+    if (useProxy) {
+      return 'http://localhost:3001/proxy';
+    }
     return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
   
@@ -102,15 +109,31 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
   } catch (error) {
     console.error('❌ 8n8 Submission Error:', error);
     
+    // Check if it's a CORS error
+    const isCorsError = error instanceof Error && error.message.includes('CORS');
+    const isNetworkError = error instanceof Error && error.message.includes('Failed to fetch');
+    
+    let errorMessage = "Webhook submission failed";
+    let nextSteps = [
+      "Please check your 8n8 workflow configuration",
+      "Error: " + (error instanceof Error ? error.message : 'Unknown error')
+    ];
+    
+    if (isCorsError || isNetworkError) {
+      errorMessage = "CORS/Network error detected";
+      nextSteps = [
+        "The webhook is not accessible from your current environment",
+        "Try using the CORS proxy server for local development",
+        "Run: npx tsx scripts/cors-proxy-server.ts",
+        "Then enable proxy mode in browser console: localStorage.setItem('hermes-use-cors-proxy', 'true')"
+      ];
+    }
+    
     return {
       success: false,
       messageId: new Date().toISOString(),
       timestamp: new Date().toISOString(),
-      nextSteps: [
-        "Webhook submission failed",
-        "Please check your 8n8 workflow configuration",
-        "Error: " + (error instanceof Error ? error.message : 'Unknown error')
-      ]
+      nextSteps: [errorMessage, ...nextSteps]
     };
   }
 };

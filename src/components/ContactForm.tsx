@@ -3,12 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-// Declare Crisp global variable
-declare global {
-  interface Window {
-    $crisp: any[];
-  }
-}
+// Crisp global variable is declared in crispTriggers.ts
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -16,7 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircle, AlertCircle, Loader2, TestTube } from "lucide-react";
+import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { submitContactForm, ContactFormData } from "@/services/contactApi";
 
 // Simple European countries list
@@ -65,7 +60,9 @@ const contactFormSchema = z.object({
   companyName: z.string().min(1, "Company name is required"),
   companySize: z.string().min(1, "Please select company size"),
   serviceUrgency: z.string().min(1, "Please select service urgency"),
-  agreeToTerms: z.boolean().refine(val => val === true, "You must agree to the terms of use")
+  agreeToTerms: z.boolean().refine(val => val === true, "You must agree to the terms of use"),
+  privacyConsent: z.boolean().refine(val => val === true, "You must consent to data processing"),
+  marketingConsent: z.boolean().optional()
 });
 
 interface ContactFormProps {
@@ -73,24 +70,24 @@ interface ContactFormProps {
   ctaSource: string;
 }
 
+// Test data that passes all validation - moved outside component to avoid dependency issues
+const testData = {
+  firstName: 'Test',
+  lastName: 'User',
+  email: 'test@example.com',
+  country: 'GB',
+  mobileNumber: '+447700900000',
+  problemDescription: 'Testing webhook functionality - need security assessment for our web application and API endpoints. Looking for penetration testing services.',
+  companyName: 'Test Company Ltd',
+  companySize: '11-50',
+  serviceUrgency: 'Urgent',
+  agreeToTerms: true
+};
+
 export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [isTestMode, setIsTestMode] = useState(true); // Start in test mode
-
-  // Test data that passes all validation
-  const testData = {
-    firstName: 'Test',
-    lastName: 'User',
-    email: 'test@example.com',
-    country: 'GB',
-    mobileNumber: '+447700900000',
-    problemDescription: 'Testing webhook functionality - need security assessment for our web application and API endpoints. Looking for penetration testing services.',
-    companyName: 'Test Company Ltd',
-    companySize: '11-50',
-    serviceUrgency: 'Urgent',
-    agreeToTerms: true
-  };
+  const [isTestMode, setIsTestMode] = useState(false); // Production mode
 
   const {
     register,
@@ -116,31 +113,6 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
     console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
   }, [isTestMode, reset, setValue, ctaSource]);
 
-  // Toggle test mode
-  const toggleTestMode = () => {
-    setIsTestMode(!isTestMode);
-    if (!isTestMode) {
-      // Switching to test mode - load test data
-      reset(testData);
-      Object.entries(testData).forEach(([key, value]) => {
-        setValue(key as keyof ContactFormData, value);
-      });
-    } else {
-      // Switching to normal mode - clear form
-      reset({
-        firstName: '',
-        lastName: '',
-        email: '',
-        country: '',
-        mobileNumber: '',
-        problemDescription: '',
-        companyName: '',
-        companySize: '',
-        serviceUrgency: '',
-        agreeToTerms: false
-      });
-    }
-  };
 
   const handleTermsChange = (checked: boolean) => {
     setValue("agreeToTerms", checked);
@@ -183,32 +155,6 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardContent className="p-8">
-        {/* Test Mode Toggle */}
-        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <TestTube className="h-5 w-5 text-blue-600" />
-              <span className="font-medium text-blue-800">
-                {isTestMode ? '🧪 Test Mode Active' : ' Normal Mode Active'}
-              </span>
-            </div>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={toggleTestMode}
-              className="text-blue-600 border-blue-300 hover:bg-blue-50"
-            >
-              {isTestMode ? 'Switch to Normal Mode' : 'Switch to Test Mode'}
-            </Button>
-          </div>
-          <p className="text-sm text-blue-600 mt-2">
-            {isTestMode 
-              ? 'Test mode: Form is pre-filled with valid test data. Validation is disabled for webhook testing.'
-              : 'Normal mode: Form validation is active. All fields must be properly filled.'
-            }
-          </p>
-        </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* Personal Information */}
@@ -387,9 +333,9 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
             </div>
           </div>
 
-          {/* Terms Agreement */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-accent-security">Terms</h3>
+          {/* Terms and Privacy Consent */}
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold text-accent-security">Terms & Privacy</h3>
             
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
@@ -400,7 +346,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                 />
                 <label htmlFor="agreeToTerms" className="text-sm leading-relaxed">
                   I agree to the{" "}
-                  <a href="./terms" className="text-accent-security hover:underline">
+                  <a href="/#/terms" className="text-accent-security hover:underline" target="_blank" rel="noopener noreferrer">
                     Terms of Use
                   </a>{" "}
                   and understand that this form submission initiates our engagement process. *
@@ -409,6 +355,35 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
               {errors.agreeToTerms && (
                 <p className="text-red-500 text-xs ml-6">{errors.agreeToTerms.message}</p>
               )}
+
+              <div className="flex items-start space-x-3">
+                <Checkbox
+                  id="privacyConsent"
+                  onCheckedChange={(checked) => setValue("privacyConsent", checked as boolean)}
+                  className="mt-1 border-2 border-blue-400 bg-blue-100 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 data-[state=unchecked]:bg-blue-100 data-[state=unchecked]:border-blue-400"
+                />
+                <label htmlFor="privacyConsent" className="text-sm leading-relaxed">
+                  I consent to the processing of my personal data as described in the{" "}
+                  <a href="/#/privacy" className="text-accent-security hover:underline" target="_blank" rel="noopener noreferrer">
+                    Privacy Policy
+                  </a>
+                  . I understand that my data will be used for sales and onboarding purposes only. *
+                </label>
+              </div>
+              {errors.privacyConsent && (
+                <p className="text-red-500 text-xs ml-6">{errors.privacyConsent.message}</p>
+              )}
+
+              <div className="flex items-start space-x-3">
+                <Checkbox
+                  id="marketingConsent"
+                  onCheckedChange={(checked) => setValue("marketingConsent", checked as boolean)}
+                  className="mt-1 border-2 border-gray-300 bg-gray-100 data-[state=checked]:bg-gray-600 data-[state=checked]:border-gray-600 data-[state=unchecked]:bg-gray-100 data-[state=unchecked]:border-gray-300"
+                />
+                <label htmlFor="marketingConsent" className="text-sm leading-relaxed text-gray-600">
+                  I would like to receive marketing communications about Hermes Security services and updates. (Optional)
+                </label>
+              </div>
             </div>
           </div>
 
@@ -439,19 +414,6 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
             </Alert>
           )}
 
-          {/* Test Mode Info */}
-          {isTestMode && (
-            <div className="text-xs text-blue-600 bg-blue-50 p-3 rounded border border-blue-200">
-              <strong>🧪 Test Mode:</strong> Form validation is disabled. All fields are pre-filled with valid test data for webhook testing.
-            </div>
-          )}
-
-          {/* Debug Info */}
-          <div className="text-xs text-gray-500 bg-gray-100 p-3 rounded">
-            <strong>Debug Info:</strong> 
-            <br />Test Mode: {isTestMode ? 'ON' : 'OFF'}
-            <br />CTA Source: {ctaSource}
-          </div>
         </form>
       </CardContent>
     </Card>

@@ -23,7 +23,7 @@ export default function Index() {
         <title>Hermes Security - AI-Driven Penetration Testing with Human Ethics</title>
         <meta 
           name="description" 
-          content="Enterprise-grade cybersecurity with AI speed and human oversight. Web app, API, mobile, cloud, and network penetration testing with SOC 2 alignment and GDPR compliance." 
+          content="Enterprise-grade cybersecurity with AI speed and human oversight. Web app, API, mobile, cloud, and network penetration testing with comprehensive compliance support." 
         />
         <meta name="keywords" content="penetration testing, cybersecurity, AI security, ethical hacking, web app security, API security, cloud security, network security" />
         <meta property="og:title" content="Hermes Security - AI-Driven Penetration Testing" />

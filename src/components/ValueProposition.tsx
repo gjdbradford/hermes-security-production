@@ -27,7 +27,7 @@ const values = [
   {
     icon: Shield,
     title: "Compliance You Can Trust",
-    description: "SOC 2–aligned processes and GDPR-first design, with data minimisation and audit-ready outputs, **built for regulated industries and assurance frameworks.**"
+    description: "We perform comprehensive penetration testing to identify and address vulnerabilities in your systems. **Our detailed reports are designed to meet all your specific compliance needs, ensuring a seamless alignment with the standards you are required to uphold.**"
   },
   {
     icon: Globe,
@@ -48,7 +48,7 @@ export default function ValueProposition() {
             The perfect balance between AI speed and human judgment.
           </p>
           <p className="text-lg text-muted-foreground leading-relaxed mt-4">
-            {renderBoldText("Hermes combines the scale and efficiency of AI-driven reconnaissance with the insight and control of expert ethical hackers. The result: penetration testing that's faster, safer, and more comprehensive, delivering **proof of real impact** and **clear guidance for remediation**, not just scanner noise.")}
+            {renderBoldText("Hermes combines the scale and efficiency of AI-driven reconnaissance with the insight and control of expert ethical hackers. The result: penetration testing that's faster and more comprehensive, delivering **proof of real impact** and **clear guidance for remediation**, not just scanner noise.")}
           </p>
         </div>
 
