@@ -18,7 +18,8 @@
     "assets:sync": "npx tsx scripts/asset-manager.ts sync",
     "assets:watch": "npx tsx scripts/asset-manager.ts watch",
     "test:cdn": "npx tsx scripts/test-cdn-integration.ts",
-    "test:fixes": "npx tsx scripts/test-fixes.ts"
+    "test:fixes": "npx tsx scripts/test-fixes.ts",
+    "test:all-envs": "npx tsx scripts/test-all-environments.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
