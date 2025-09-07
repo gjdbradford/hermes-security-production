@@ -345,7 +345,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                 />
                 <label htmlFor="agreeToTerms" className="text-sm leading-relaxed">
                   I agree to the{" "}
-                  <a href="/#/terms" className="text-accent-security hover:underline" target="_blank" rel="noopener noreferrer">
+                  <a href="/terms" className="text-accent-security hover:underline" target="_blank" rel="noopener noreferrer">
                     Terms of Use
                   </a>{" "}
                   and understand that this form submission initiates our engagement process. *
@@ -363,7 +363,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                 />
                 <label htmlFor="privacyConsent" className="text-sm leading-relaxed">
                   I consent to the processing of my personal data as described in the{" "}
-                  <a href="/#/privacy" className="text-accent-security hover:underline" target="_blank" rel="noopener noreferrer">
+                  <a href="/privacy" className="text-accent-security hover:underline" target="_blank" rel="noopener noreferrer">
                     Privacy Policy
                   </a>
                   . I understand that my data will be used for sales and onboarding purposes only. *

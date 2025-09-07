@@ -64,7 +64,13 @@ export default function Header() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center justify-center">
-            <Link to="/">
+            <Link 
+              to="/" 
+              onClick={() => {
+                // Always scroll to top when clicking logo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
               <OptimizedImage 
                 src={IMAGE_PATHS.logo()}
                 alt="Hermes Security Logo" 
