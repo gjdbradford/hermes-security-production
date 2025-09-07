@@ -1,4 +1,4 @@
-import { Shield, Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 const footerLinks = {
   services: [
@@ -14,8 +14,8 @@ const footerLinks = {
     { name: 'Methodology', href: '#' },
   ],
   legal: [
-    { name: 'Privacy Policy', href: '/#/privacy' },
-    { name: 'Terms of Use', href: '/#/terms' },
+    { name: 'Privacy Policy', href: '/privacy' },
+    { name: 'Terms of Use', href: '/terms' },
   ],
 };
 
@@ -27,9 +27,6 @@ export default function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-accent-security rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-accent-security-foreground" />
-              </div>
               <span className="text-xl font-bold">Hermes Security</span>
             </div>
             <p className="text-hero-muted mb-6 leading-relaxed max-w-md">
