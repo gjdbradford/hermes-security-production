@@ -2,20 +2,33 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import IconShowcase from "./pages/IconShowcase";
 import NotFound from "./pages/NotFound";
 import SEOOptimizer from "./components/SEOOptimizer";
 import AnalyticsTracker from "./components/AnalyticsTracker";
 import CookieConsent from "./components/CookieConsent";
 import { getImagePath } from "@/utils/imageUtils";
+import { setNavigateFunction } from "@/utils/crispTriggers";
+import { getBasePath } from "@/utils/routingUtils";
 
 const queryClient = new QueryClient();
+
+// Component to set up navigation function for trigger handlers
+const NavigationSetup = () => {
+  const navigate = useNavigate();
+  
+  // Set the navigate function for trigger handlers
+  setNavigateFunction(navigate);
+  
+  return null;
+};
 
 const App = () => (
   <HelmetProvider>
@@ -37,17 +50,20 @@ const App = () => (
         <AnalyticsTracker />
         <CookieConsent />
         <BrowserRouter
+          basename={getBasePath()}
           future={{
             v7_startTransition: true,
             v7_relativeSplatPath: true
           }}
         >
+          <NavigationSetup />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/icons" element={<IconShowcase />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

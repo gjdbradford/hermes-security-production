@@ -164,7 +164,7 @@ export default function HeroSection() {
                 aria-label={`${currentHeroData.cta} - ${currentHeroData.title}`}
                 onClick={() => {
                   if (currentHeroData.cta.includes("Pen Test")) {
-                    TriggerHandlers.contactForm();
+                    TriggerHandlers.contactForm(currentHeroData.cta);
                   } else if (currentHeroData.cta.includes("methodology")) {
                     TriggerHandlers.downloadGuide();
                   }

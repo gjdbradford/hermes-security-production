@@ -1,4 +1,4 @@
-import { buildUrl, logEnvironmentInfo } from './routingUtils';
+import { logEnvironmentInfo, getBasePath } from './routingUtils';
 
 // Declare Crisp global variable
 declare global {
@@ -71,6 +71,13 @@ export const CrispTriggers = {
   }
 };
 
+// Navigation utility for React Router
+let navigateFunction: ((path: string) => void) | null = null;
+
+export const setNavigateFunction = (navigate: (path: string) => void) => {
+  navigateFunction = navigate;
+};
+
 // Predefined trigger handlers
 export const TriggerHandlers = {
   // Contact form trigger with CTA source
@@ -93,17 +100,28 @@ export const TriggerHandlers = {
         console.log('⚠️ No CTA source provided');
       }
       
-      // Build the correct URL for the current environment
-      const contactUrl = buildUrl('contact');
-      console.log('🧭 Navigating to contact page:', contactUrl);
-      
-      // Navigate to contact page
-      window.location.href = contactUrl;
+      // Use React Router navigation if available, otherwise fallback to window.location
+      if (navigateFunction) {
+        console.log('🧭 Using React Router navigation to /contact');
+        navigateFunction('/contact');
+      } else {
+        // For GitHub Pages, we need to handle the base path correctly
+        const basePath = getBasePath();
+        const contactUrl = basePath === '/' ? '/contact' : `${basePath}contact`;
+        console.log('🧭 Using window.location fallback to:', contactUrl);
+        window.location.href = contactUrl;
+      }
     } catch (error) {
       console.error('❌ Error in contact form trigger:', error);
-      // Fallback: navigate to contact page with correct routing
-      const fallbackUrl = buildUrl('contact');
-      window.location.href = fallbackUrl;
+      // Fallback: navigate to contact page
+      if (navigateFunction) {
+        navigateFunction('/contact');
+      } else {
+        // For GitHub Pages, we need to handle the base path correctly
+        const basePath = getBasePath();
+        const contactUrl = basePath === '/' ? '/contact' : `${basePath}contact`;
+        window.location.href = contactUrl;
+      }
     }
   },
 

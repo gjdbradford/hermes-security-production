@@ -199,7 +199,7 @@ export default function CaseStudySection() {
                       <div className="lg:text-right">
                         {/* Primary CTA Button - Hidden */}
                         {/* <Button 
-                          onClick={TriggerHandlers.contactForm}
+                          onClick={() => TriggerHandlers.contactForm(currentCaseData.primary_cta.label)}
                           className="bg-accent-security hover:bg-accent-security/90 text-accent-security-foreground"
                         >
                           {currentCaseData.primary_cta.label}
