@@ -19,6 +19,22 @@
       "dest": "/api/$1"
     },
     {
+      "src": "/favicon\\.(ico|svg)",
+      "dest": "/favicon.$1"
+    },
+    {
+      "src": "/site\\.webmanifest",
+      "dest": "/site.webmanifest"
+    },
+    {
+      "src": "/robots\\.txt",
+      "dest": "/robots.txt"
+    },
+    {
+      "src": "/sitemap\\.xml",
+      "dest": "/sitemap.xml"
+    },
+    {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
     },

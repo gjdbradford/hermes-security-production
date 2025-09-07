@@ -69,7 +69,7 @@ jobs:
           
           # Check for critical files
           echo "🔍 Checking for critical static assets:"
-          for file in index.html favicon.ico robots.txt sitemap.xml; do
+          for file in index.html favicon.ico favicon.svg robots.txt sitemap.xml site.webmanifest; do
             if [ -f "dist/$file" ]; then
               echo "✅ $file found"
             else
