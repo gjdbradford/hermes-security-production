@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Shield, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { getImagePath } from "@/utils/imageUtils";
 import { TriggerHandlers } from "@/utils/crispTriggers";
 
@@ -28,12 +28,6 @@ export default function AboutHeroSection() {
       {/* Content */}
       <div className="relative container mx-auto px-6">
         <div className="max-w-6xl mx-auto text-center">
-          {/* Hero Icon */}
-          <div className="flex justify-center mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <div className="w-20 h-20 bg-accent-security/20 rounded-2xl flex items-center justify-center">
-              <Shield className="w-10 h-10 text-accent-security" />
-            </div>
-          </div>
 
           {/* Main Headline */}
           <div className="text-center mb-12">
