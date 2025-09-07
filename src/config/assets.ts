@@ -4,7 +4,7 @@
  * This file manages all static assets (images, documents, etc.) for the application.
  * Assets are stored in a CDN and referenced by their full URLs for optimal performance.
  * 
- * Last updated: 2025-08-31T12:36:20.272Z
+ * Last updated: 2025-09-07T18:51:59.276Z
  */
 
 export interface AssetConfig {
@@ -51,16 +51,28 @@ export const ASSET_CONFIG: AssetConfig[] = [
     "cdnUrl": "https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com/hero-bg.jpg"
   },
   {
-    "id": "favicon",
-    "name": "Favicon",
+    "id": "favicon-svg",
+    "name": "Favicon SVG",
     "category": "icon",
-    "localPath": "images/icons/favicon.svg",
+    "localPath": "favicon.svg",
     "alt": "Hermes Security Favicon",
     "width": 32,
     "height": 32,
-    "lastUpdated": "2025-08-31T12:36:20.272Z",
-    "description": "Browser favicon",
+    "lastUpdated": "2025-09-07T18:50:00.000Z",
+    "description": "Browser favicon in SVG format",
     "cdnUrl": "https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com/favicon.svg"
+  },
+  {
+    "id": "favicon-ico",
+    "name": "Favicon ICO",
+    "category": "icon",
+    "localPath": "favicon.ico",
+    "alt": "Hermes Security Favicon",
+    "width": 32,
+    "height": 32,
+    "lastUpdated": "2025-09-07T18:51:59.275Z",
+    "description": "Browser favicon in ICO format",
+    "cdnUrl": "https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com/favicon.ico"
   },
   {
     "id": "placeholder",
