@@ -13,51 +13,10 @@
       }
     }
   ],
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "https://www.hermessecurity.io/",
-      "permanent": true,
-      "has": [
-        {
-          "type": "host",
-          "value": "hermessecurity.io"
-        }
-      ]
-    }
-  ],
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "/api/$1"
-    },
-    {
-      "src": "/assets/(.*)",
-      "dest": "/assets/$1"
-    },
-    {
-      "src": "/images/(.*)",
-      "dest": "/images/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
-    },
-    {
-      "src": "/favicon.svg",
-      "dest": "/favicon.svg"
-    },
-    {
-      "src": "/site.webmanifest",
-      "dest": "/site.webmanifest"
-    },
-    {
-      "src": "/robots.txt",
-      "dest": "/robots.txt"
-    },
-    {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
     },
     {
       "src": "/(.*)",
