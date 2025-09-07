@@ -13,6 +13,19 @@
       }
     }
   ],
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://www.hermessecurity.io/$1",
+      "permanent": true,
+      "has": [
+        {
+          "type": "host",
+          "value": "hermessecurity.io"
+        }
+      ]
+    }
+  ],
   "routes": [
     {
       "src": "/api/(.*)",
