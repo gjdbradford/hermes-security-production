@@ -14,6 +14,7 @@ export interface ContactFormData {
   agreeToTerms: boolean;
   privacyConsent: boolean;
   marketingConsent?: boolean;
+  captchaToken?: string;
 }
 
 export interface ContactApiRequest {
@@ -22,6 +23,7 @@ export interface ContactApiRequest {
   userAgent: string;
   ipAddress?: string;
   termsConsent: boolean;
+  captchaToken?: string;
 }
 
 export interface ContactApiResponse {
@@ -68,7 +70,8 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       formData,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
-      termsConsent: formData.agreeToTerms
+      termsConsent: formData.agreeToTerms,
+      captchaToken: formData.captchaToken
     };
 
     // Log environment information
