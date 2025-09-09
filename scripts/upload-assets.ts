@@ -47,7 +47,8 @@ async function uploadAsset(asset: AssetConfig): Promise<UploadResult> {
     console.log(`📤 Uploading: ${asset.name} (${asset.localPath})`);
     
     const { url } = await put(fileName, fileBuffer, {
-      access: 'public'
+      access: 'public',
+      addRandomSuffix: false
     });
     
     return {

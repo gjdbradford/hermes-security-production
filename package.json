@@ -14,6 +14,7 @@
     "preview": "vite preview",
     "assets:upload": "npx tsx scripts/upload-assets.ts",
     "assets:upload-manifest": "npx tsx scripts/upload-manifest-assets.ts",
+    "update-favicon": "npx tsx scripts/update-favicon.ts",
     "assets:status": "npx tsx scripts/asset-manager.ts status",
     "assets:sync": "npx tsx scripts/asset-manager.ts sync",
     "assets:watch": "npx tsx scripts/asset-manager.ts watch",
