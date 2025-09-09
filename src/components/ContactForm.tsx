@@ -11,8 +11,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import { CheckCircle, AlertCircle, Loader2, Shield } from "lucide-react";
 import { submitContactForm, ContactFormData } from "@/services/contactApi";
+import { useCaptchaVerification } from "@/components/CaptchaVerification";
+import { isCaptchaEnabled, isCaptchaDebugMode } from "@/config/captcha";
 
 // Simple European countries list
 const europeanCountries = [
@@ -91,6 +93,24 @@ const defaultFormData = {
 export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [captchaError, setCaptchaError] = useState<string | null>(null);
+  
+  // CAPTCHA verification hook
+  const { verifyCaptcha, isVerifying: isCaptchaVerifying } = useCaptchaVerification('contact_form_submit');
+  const captchaEnabled = isCaptchaEnabled();
+
+  // Debug logging for CAPTCHA status (only once)
+  useEffect(() => {
+    if (!window.contactFormCaptchaLogged) {
+      console.log('🔐 ContactForm CAPTCHA Status:', {
+        enabled: captchaEnabled,
+        isVerifying: isCaptchaVerifying,
+        environment: window.location.hostname
+      });
+      window.contactFormCaptchaLogged = true;
+    }
+  }, [captchaEnabled, isCaptchaVerifying]);
 
   const {
     register,
@@ -109,8 +129,12 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
     reset(defaultFormData);
     
     // CTA source is now passed as a prop, no need to read from sessionStorage
-    console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
-  }, [reset, ctaSource]);
+    // Only log once to avoid spam
+    if (!window.contactFormCtaLogged) {
+      console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
+      window.contactFormCtaLogged = true;
+    }
+  }, [reset]); // Remove ctaSource from dependencies to prevent loop
 
 
   const handleTermsChange = (checked: boolean) => {
@@ -121,12 +145,34 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
     console.log('🚀 Form submission started with data:', data);
     setIsSubmitting(true);
     setSubmitError(null);
+    setCaptchaError(null);
 
     try {
-      // Add CTA source to form data
+      // Verify CAPTCHA if enabled
+      let captchaTokenToUse = null;
+      if (captchaEnabled) {
+        if (isCaptchaDebugMode()) {
+          console.log('🔐 CAPTCHA verification required');
+        }
+        
+        const captchaResult = await verifyCaptcha();
+        if (!captchaResult.success) {
+          setCaptchaError(captchaResult.error || 'CAPTCHA verification failed');
+          setIsSubmitting(false);
+          return;
+        }
+        
+        captchaTokenToUse = captchaResult.token || null;
+        if (isCaptchaDebugMode()) {
+          console.log('🔐 CAPTCHA verification successful');
+        }
+      }
+
+      // Add CTA source and CAPTCHA token to form data
       const formDataWithSource = {
         ...data,
-        ctaSource: ctaSource
+        ctaSource: ctaSource,
+        captchaToken: captchaTokenToUse
       };
       
       const result = await submitContactForm(formDataWithSource);
@@ -386,26 +432,48 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
             </div>
           </div>
 
+          {/* CAPTCHA Status Indicator */}
+          {captchaEnabled && (
+            <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 mb-4">
+              <Shield className="h-4 w-4" />
+              <span>Protected by reCAPTCHA v3</span>
+            </div>
+          )}
+
           {/* Submit Button */}
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || isCaptchaVerifying}
             className="w-full bg-accent-security hover:bg-accent-security/90 text-accent-security-foreground h-12 text-base"
           >
-            {isSubmitting ? (
+            {isSubmitting || isCaptchaVerifying ? (
               <>
                 <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                Submitting...
+                {isCaptchaVerifying ? 'Verifying security...' : 'Submitting...'}
               </>
             ) : (
               <>
-                <CheckCircle className="mr-2 h-5 w-5" />
+                {captchaEnabled ? (
+                  <Shield className="mr-2 h-5 w-5" />
+                ) : (
+                  <CheckCircle className="mr-2 h-5 w-5" />
+                )}
                 Submit Contact Request
               </>
             )}
           </Button>
 
-          {/* Error Alert */}
+          {/* CAPTCHA Error Alert */}
+          {captchaError && (
+            <Alert variant="destructive">
+              <Shield className="h-4 w-4" />
+              <AlertDescription>
+                Security verification failed: {captchaError}
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* General Error Alert */}
           {submitError && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />

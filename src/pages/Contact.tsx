@@ -15,11 +15,15 @@ export default function Contact() {
   const [formData, setFormData] = useState<ContactFormData | null>(null);
   const [ctaSource, setCtaSource] = useState<string>("Book Your Pen Test Today");
 
-  // Get CTA source from sessionStorage
+  // Get CTA source from sessionStorage (only run once)
   useEffect(() => {
-    console.log('🔍 Contact page: Reading CTA source from sessionStorage...');
+    // Only log once to avoid spam
+    if (!window.contactPageCtaLogged) {
+      console.log('🔍 Contact page: Reading CTA source from sessionStorage...');
+      window.contactPageCtaLogged = true;
+    }
+    
     const storedCtaSource = sessionStorage.getItem('cta-source');
-    console.log('🔍 Contact page: Retrieved CTA source:', storedCtaSource);
     
     if (storedCtaSource) {
       console.log('✅ Contact page: Setting CTA source to:', storedCtaSource);
@@ -28,9 +32,13 @@ export default function Contact() {
       sessionStorage.removeItem('cta-source');
       console.log('🧹 Contact page: Cleared CTA source from sessionStorage');
     } else {
-      console.log('⚠️ Contact page: No CTA source found, using default:', ctaSource);
+      // Only log this once too
+      if (!window.contactPageDefaultLogged) {
+        console.log('⚠️ Contact page: No CTA source found, using default:', ctaSource);
+        window.contactPageDefaultLogged = true;
+      }
     }
-  }, [ctaSource]);
+  }, []); // Remove ctaSource dependency to prevent loop
 
   const handleFormSuccess = (data: ContactFormData) => {
     setFormData(data);
