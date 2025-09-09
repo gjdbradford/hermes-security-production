@@ -6,7 +6,7 @@ export interface ContactFormData {
   lastName: string;
   email: string;
   country: string;
-  mobileNumber: string;
+  mobileNumber?: string;
   problemDescription: string;
   companyName?: string;
   companySize?: string;

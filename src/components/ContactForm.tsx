@@ -58,8 +58,8 @@ const contactFormSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   country: z.string().min(1, "Please select your country"),
   mobileNumber: z.string()
-    .min(1, "Mobile number is required")
-    .regex(/^[\+]?[1-9][\d]{0,15}$/, "Please enter a valid mobile number"),
+    .optional()
+    .refine((val) => !val || /^[\+]?[1-9][\d]{0,15}$/.test(val), "Please enter a valid mobile number"),
   problemDescription: z.string().min(20, "Please provide a brief description (at least 20 characters)"),
   companyName: z.string().min(1, "Company name is required"),
   companySize: z.string().min(1, "Please select company size"),
@@ -279,7 +279,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
 
             <div>
               <label htmlFor="mobileNumber" className="block text-sm font-medium mb-2">
-                Mobile Number *
+                Mobile Number
               </label>
               <Input
                 id="mobileNumber"

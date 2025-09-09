@@ -28,6 +28,19 @@ const testFormData = {
   agreeToTerms: true
 };
 
+const testFormDataWithoutMobile = {
+  firstName: 'Jane',
+  lastName: 'Doe',
+  email: 'jane@example.com',
+  country: 'US',
+  // mobileNumber intentionally omitted
+  problemDescription: 'Testing webhook without mobile number - comprehensive test suite.',
+  companyName: 'MobileCorp Inc',
+  companySize: '11-50',
+  serviceUrgency: 'Urgent',
+  agreeToTerms: true
+};
+
 async function testWebhookStatus() {
   console.log('🔍 Testing Webhook Status');
   console.log('=========================');
@@ -163,6 +176,44 @@ async function testProxySubmission() {
   }
 }
 
+async function testWebhookWithoutMobileNumber() {
+  console.log('\n📱 Testing Webhook Without Mobile Number');
+  console.log('==========================================');
+  
+  const payload = {
+    formData: testFormDataWithoutMobile,
+    timestamp: new Date().toISOString(),
+    userAgent: 'Comprehensive Test Suite',
+    termsConsent: true
+  };
+
+  try {
+    const response = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Hermes-Source': 'comprehensive-test-suite'
+      },
+      body: JSON.stringify(payload)
+    });
+
+    console.log(`   Status: ${response.status} ${response.statusText}`);
+    const result = await response.text();
+    console.log(`   Response: ${result.substring(0, 200)}...`);
+
+    if (response.ok) {
+      console.log('   ✅ Webhook submission without mobile number successful');
+      return { success: true, result };
+    } else {
+      console.log('   ❌ Webhook submission without mobile number failed');
+      return { success: false, error: result };
+    }
+  } catch (error) {
+    console.log('   ❌ Network error:', error instanceof Error ? error.message : 'Unknown error');
+    return { success: false, error };
+  }
+}
+
 async function runComprehensiveTests() {
   console.log('🚀 Comprehensive Webhook Testing Suite');
   console.log('======================================');
@@ -197,6 +248,13 @@ async function runComprehensiveTests() {
     console.log('\n🔄 Skipping proxy submission test (proxy not running)');
   }
 
+  // Test 5: Webhook submission without mobile number
+  if (results.webhookStatus?.status === 'active') {
+    results.webhookWithoutMobile = await testWebhookWithoutMobileNumber();
+  } else {
+    console.log('\n📱 Skipping mobile number test (webhook not active)');
+  }
+
   // Summary
   console.log('\n📊 COMPREHENSIVE TEST RESULTS');
   console.log('==============================');
@@ -204,6 +262,7 @@ async function runComprehensiveTests() {
   console.log(`🔄 CORS Proxy: ${results.corsProxy?.status || 'unknown'}`);
   console.log(`📝 Direct Submission: ${results.directSubmission?.success ? '✅ SUCCESS' : '❌ FAILED'}`);
   console.log(`🔄 Proxy Submission: ${results.proxySubmission?.success ? '✅ SUCCESS' : '❌ FAILED'}`);
+  console.log(`📱 Without Mobile Number: ${results.webhookWithoutMobile?.success ? '✅ SUCCESS' : '❌ FAILED'}`);
 
   // Recommendations
   console.log('\n💡 RECOMMENDATIONS');

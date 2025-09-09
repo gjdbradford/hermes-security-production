@@ -94,21 +94,12 @@ export default function Contact() {
                 
                 <CardContent className="space-y-6">
                   <div className="bg-blue-50 p-4 rounded-lg">
-                    <h3 className="font-semibold text-blue-900 mb-2">What happens next?</h3>
-                    <ul className="space-y-2 text-blue-800">
-                      <li className="flex items-start">
-                        <MessageCircle className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>We have connected you to our AI agent, who will ask you some questions</span>
-                      </li>
-                      <li className="flex items-start">
-                        <Bot className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>The AI agent will gather information before connecting you to a human expert</span>
-                      </li>
-                      <li className="flex items-start">
-                        <Phone className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>We'll arrange a consultation call to discuss your security strategy</span>
-                      </li>
-                    </ul>
+                    <p className="text-blue-800 mb-3">
+                      We are connecting you to our security expert team, who will be in touch as soon as possible.
+                    </p>
+                    <p className="text-blue-800">
+                      Feel free to engage with our AI Bot, ask it anything you can think of.
+                    </p>
                   </div>
                   
                   <div className="bg-gray-50 p-4 rounded-lg">
