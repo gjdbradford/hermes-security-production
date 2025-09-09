@@ -19,7 +19,7 @@ export default function About() {
       <Helmet>
         <title>About Us - Hermes Security | Defending the Light in a Digital World</title>
         <meta name="description" content="Learn about Hermes Security's mission to protect the digital realm. Founded by Graham and Artem, we combine AI speed with human expertise to defend against emerging threats." />
-        <meta name="keywords" content="about us, Hermes Security, cybersecurity, AI security, founders, Graham Bradford, Artem, digital protection, ethical security" />
+        <meta name="keywords" content="about us, Hermes Security, cybersecurity, AI security, founders, Graham John, Artem, digital protection, ethical security" />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://www.hermessecurity.io/about" />
       </Helmet>

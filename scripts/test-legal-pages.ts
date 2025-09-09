@@ -88,7 +88,7 @@ class LegalPagesTester {
       const termsHtml = await termsResponse.text();
       
       const requiredTermsContent = [
-        'Graham Bradford',
+        'Graham John',
         'graham@hermessecurity.io',
         'Terms of Use',
         'European Union',

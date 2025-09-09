@@ -125,7 +125,7 @@ src/
 ### Founder Template
 ```typescript
 {
-  name: "Graham Bradford",
+  name: "Graham John",
   role: "Co-Founder & CEO",
   photo: "/images/team/graham.jpg",
   bio: "20+ years in cybersecurity and digital innovation...",
