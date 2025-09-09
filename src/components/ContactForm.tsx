@@ -134,7 +134,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
       console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
       window.contactFormCtaLogged = true;
     }
-  }, [reset, ctaSource]);
+  }, [reset]); // Remove ctaSource from dependencies to prevent loop
 
 
   const handleTermsChange = (checked: boolean) => {
