@@ -5,7 +5,7 @@ const founders = [
     name: "Graham John",
     role: "Co-Founder & CEO",
     photo: "/images/team/graham.jpg",
-    bio: "Graham John is a cybersecurity and digital innovation leader with 20+ years of experience driving security strategy and enabling business growth. With deep expertise in AI, cyber security, strategy and execution, change management, Graham has built and led high-performing digital teams and guided organisations through the evolving threat landscape. His focus is on aligning security with business objectives, enabling innovation while safeguarding digital assets.",
+    bio: "Graham John is a digital innovation leader with 25+ years of experience driving strategy and enabling business growth. With deep expertise in AI, cyber security, strategy and change management. Graham has built and led high-performing digital teams and guided organisations through the evolving threat landscape. His focus is on aligning security with business objectives, enabling innovation while safeguarding digital assets.",
     expertise: ["AI & Cyber Security", "Change Management", "Strategic Security Planning", "Leadership in Building Teams"],
     experience: "Former Founder of several companies, led large teams of 100+ professionals",
     icon: Shield
