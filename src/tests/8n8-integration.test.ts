@@ -158,4 +158,44 @@ describe('8n8 Integration Tests', () => {
       })
     );
   });
+
+  it('should handle form submission without mobile number', async () => {
+    const mockFormData = {
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane@example.com',
+      country: 'US',
+      // mobileNumber is intentionally omitted
+      problemDescription: 'Need security assessment for mobile app',
+      companyName: 'MobileCorp Inc',
+      companySize: '11-50',
+      serviceUrgency: 'standard',
+      agreeToTerms: true,
+      gdprConsent: true
+    };
+
+    // Mock successful response
+    (fetch as any).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        success: true,
+        messageId: 'test-message-id-2',
+        timestamp: new Date().toISOString()
+      })
+    });
+
+    const result = await submitContactForm(mockFormData);
+
+    expect(result.success).toBe(true);
+    expect(fetch).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: expect.stringContaining('Jane Doe')
+      })
+    );
+  });
 });

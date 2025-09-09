@@ -42,7 +42,7 @@ export interface ContactFormEmailData {
   lastName: string;
   email: string;
   country: string;
-  mobileNumber: string;
+  mobileNumber?: string;
   problemDescription: string;
   companyName?: string;
   companySize?: string;
@@ -131,7 +131,7 @@ export const generateEmailBody = (formData: ContactFormEmailData): { html: strin
             </div>
             <div class="field">
                 <span class="label">Mobile:</span>
-                <span class="value"><a href="tel:${formData.mobileNumber}">${formData.mobileNumber}</a></span>
+                <span class="value">${formData.mobileNumber ? `<a href="tel:${formData.mobileNumber}">${formData.mobileNumber}</a>` : 'Not provided'}</span>
             </div>
         </div>
 
@@ -213,7 +213,7 @@ PERSONAL INFORMATION:
 - Name: ${formData.firstName} ${formData.lastName}
 - Email: ${formData.email}
 - Country: ${formData.country}
-- Mobile: ${formData.mobileNumber}
+- Mobile: ${formData.mobileNumber || 'Not provided'}
 
 COMPANY INFORMATION:
 - Company: ${formData.companyName || 'Not provided'}
