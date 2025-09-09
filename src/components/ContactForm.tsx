@@ -100,6 +100,18 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
   const { verifyCaptcha, isVerifying: isCaptchaVerifying } = useCaptchaVerification('contact_form_submit');
   const captchaEnabled = isCaptchaEnabled();
 
+  // Debug logging for CAPTCHA status (only once)
+  useEffect(() => {
+    if (!window.contactFormCaptchaLogged) {
+      console.log('🔐 ContactForm CAPTCHA Status:', {
+        enabled: captchaEnabled,
+        isVerifying: isCaptchaVerifying,
+        environment: window.location.hostname
+      });
+      window.contactFormCaptchaLogged = true;
+    }
+  }, [captchaEnabled, isCaptchaVerifying]);
+
   const {
     register,
     handleSubmit,
@@ -117,7 +129,11 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
     reset(defaultFormData);
     
     // CTA source is now passed as a prop, no need to read from sessionStorage
-    console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
+    // Only log once to avoid spam
+    if (!window.contactFormCtaLogged) {
+      console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
+      window.contactFormCtaLogged = true;
+    }
   }, [reset, ctaSource]);
 
 
@@ -415,6 +431,14 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
               </div>
             </div>
           </div>
+
+          {/* CAPTCHA Status Indicator */}
+          {captchaEnabled && (
+            <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 mb-4">
+              <Shield className="h-4 w-4" />
+              <span>Protected by reCAPTCHA v3</span>
+            </div>
+          )}
 
           {/* Submit Button */}
           <Button

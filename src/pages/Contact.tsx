@@ -15,7 +15,7 @@ export default function Contact() {
   const [formData, setFormData] = useState<ContactFormData | null>(null);
   const [ctaSource, setCtaSource] = useState<string>("Book Your Pen Test Today");
 
-  // Get CTA source from sessionStorage
+  // Get CTA source from sessionStorage (only run once)
   useEffect(() => {
     console.log('🔍 Contact page: Reading CTA source from sessionStorage...');
     const storedCtaSource = sessionStorage.getItem('cta-source');
@@ -30,7 +30,7 @@ export default function Contact() {
     } else {
       console.log('⚠️ Contact page: No CTA source found, using default:', ctaSource);
     }
-  }, [ctaSource]);
+  }, []); // Remove ctaSource dependency to prevent loop
 
   const handleFormSuccess = (data: ContactFormData) => {
     setFormData(data);

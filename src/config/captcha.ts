@@ -9,6 +9,16 @@
 
 import { getEnvironmentName, isDevelopment, isStaging, isProduction } from '../utils/environment';
 
+// Extend window interface for debug flags
+declare global {
+  interface Window {
+    captchaConfigLogged?: boolean;
+    captchaProviderLogged?: boolean;
+    contactFormCaptchaLogged?: boolean;
+    contactFormCtaLogged?: boolean;
+  }
+}
+
 export interface CaptchaConfig {
   siteKey: string;
   secretKey: string;
@@ -25,25 +35,25 @@ export interface CaptchaConfig {
  */
 const CAPTCHA_CONFIGS: Record<string, CaptchaConfig> = {
   production: {
-    siteKey: process.env.VITE_RECAPTCHA_SITE_KEY_PRODUCTION || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
-    secretKey: process.env.VITE_RECAPTCHA_SECRET_KEY_PRODUCTION || 'YOUR_PRODUCTION_SECRET_KEY',
+    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_PRODUCTION || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
+    secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_PRODUCTION || 'YOUR_PRODUCTION_SECRET_KEY',
     threshold: 0.5, // Higher threshold for production security
     enabled: true,
     debug: false
   },
   staging: {
-    siteKey: process.env.VITE_RECAPTCHA_SITE_KEY_STAGING || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
-    secretKey: process.env.VITE_RECAPTCHA_SECRET_KEY_STAGING || 'YOUR_STAGING_SECRET_KEY',
+    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_STAGING || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
+    secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_STAGING || 'YOUR_STAGING_SECRET_KEY',
     threshold: 0.3, // Lower threshold for testing
     enabled: true,
     debug: true
   },
   development: {
-    siteKey: process.env.VITE_RECAPTCHA_SITE_KEY_DEVELOPMENT || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
-    secretKey: process.env.VITE_RECAPTCHA_SECRET_KEY_DEVELOPMENT || 'YOUR_DEV_SECRET_KEY',
+    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_DEVELOPMENT || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
+    secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_DEVELOPMENT || 'YOUR_DEV_SECRET_KEY',
     threshold: 0.1, // Very low threshold for development
     enabled: true, // Set to false to bypass CAPTCHA in development
-    debug: true
+    debug: false // Set to true for verbose logging
   }
 };
 
@@ -54,8 +64,8 @@ export const getCaptchaConfig = (): CaptchaConfig => {
   const environment = getEnvironmentName();
   const config = CAPTCHA_CONFIGS[environment] || CAPTCHA_CONFIGS.development;
   
-  // Log configuration for debugging
-  if (config.debug) {
+  // Log configuration for debugging (only once)
+  if (config.debug && !window.captchaConfigLogged) {
     console.log('🔐 CAPTCHA Configuration:', {
       environment,
       siteKey: config.siteKey.substring(0, 10) + '...',
@@ -63,6 +73,7 @@ export const getCaptchaConfig = (): CaptchaConfig => {
       enabled: config.enabled,
       debug: config.debug
     });
+    window.captchaConfigLogged = true;
   }
   
   return config;

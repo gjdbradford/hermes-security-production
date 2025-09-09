@@ -37,11 +37,13 @@ export const CaptchaProvider: React.FC<CaptchaProviderProps> = ({ children }) =>
       setConfig(currentConfig);
       setIsLoaded(true);
       
-      if (currentConfig.debug) {
+      // Only log once on initialization
+      if (currentConfig.debug && !window.captchaProviderLogged) {
         console.log('🔐 CAPTCHA Provider initialized:', {
           enabled,
           config: currentConfig
         });
+        window.captchaProviderLogged = true;
       }
     };
 

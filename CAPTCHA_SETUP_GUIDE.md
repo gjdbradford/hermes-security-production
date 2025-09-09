@@ -73,22 +73,22 @@ The CAPTCHA configuration is managed in `src/config/captcha.ts`:
 ```typescript
 const CAPTCHA_CONFIGS = {
   production: {
-    siteKey: process.env.VITE_RECAPTCHA_SITE_KEY_PRODUCTION || 'YOUR_PRODUCTION_SITE_KEY',
-    secretKey: process.env.VITE_RECAPTCHA_SECRET_KEY_PRODUCTION || 'YOUR_PRODUCTION_SECRET_KEY',
+    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_PRODUCTION || 'YOUR_PRODUCTION_SITE_KEY',
+    secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_PRODUCTION || 'YOUR_PRODUCTION_SECRET_KEY',
     threshold: 0.5, // Higher threshold for production security
     enabled: true,
     debug: false
   },
   staging: {
-    siteKey: process.env.VITE_RECAPTCHA_SITE_KEY_STAGING || 'YOUR_STAGING_SITE_KEY',
-    secretKey: process.env.VITE_RECAPTCHA_SECRET_KEY_STAGING || 'YOUR_STAGING_SECRET_KEY',
+    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_STAGING || 'YOUR_STAGING_SITE_KEY',
+    secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_STAGING || 'YOUR_STAGING_SECRET_KEY',
     threshold: 0.3, // Lower threshold for testing
     enabled: true,
     debug: true
   },
   development: {
-    siteKey: process.env.VITE_RECAPTCHA_SITE_KEY_DEVELOPMENT || 'YOUR_DEV_SITE_KEY',
-    secretKey: process.env.VITE_RECAPTCHA_SECRET_KEY_DEVELOPMENT || 'YOUR_DEV_SECRET_KEY',
+    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_DEVELOPMENT || 'YOUR_DEV_SITE_KEY',
+    secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_DEVELOPMENT || 'YOUR_DEV_SECRET_KEY',
     threshold: 0.1, // Very low threshold for development
     enabled: true, // Set to false to bypass CAPTCHA in development
     debug: true
@@ -113,7 +113,7 @@ const CAPTCHA_CONFIGS = {
    ```
 
 3. **Test CAPTCHA:**
-   - Open browser to `http://localhost:5173`
+   - Open browser to `http://localhost:8080`
    - Navigate to contact form
    - Submit form to test CAPTCHA integration
 
