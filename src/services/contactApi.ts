@@ -79,6 +79,24 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
     console.log('🌍 Using webhook URL:', N8N_WEBHOOK_URL);
     console.log('📊 Form Data:', requestData);
 
+    // Check if we're in development mode and should bypass webhook
+    const isDev = getEnvironmentName() === 'development';
+    const bypassWebhook = isDev && localStorage.getItem('hermes-bypass-webhook') === 'true';
+    
+    if (bypassWebhook) {
+      console.log('🚧 Development mode: Bypassing webhook submission');
+      return {
+        success: true,
+        messageId: new Date().toISOString(),
+        timestamp: new Date().toISOString(),
+        nextSteps: [
+          "Development mode: Form submitted successfully (webhook bypassed)",
+          "To test with real webhook, run: localStorage.removeItem('hermes-bypass-webhook')",
+          "Then refresh the page and try again"
+        ]
+      };
+    }
+
     const response = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: {
@@ -99,7 +117,32 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       throw new Error(`8n8 API Error: ${response.status} ${response.statusText}`);
     }
 
-    const result = await response.json();
+    // Handle empty response
+    const responseText = await response.text();
+    console.log('📄 Raw response:', responseText);
+    
+    let result;
+    if (responseText.trim() === '') {
+      // If response is empty, create a success response
+      console.log('⚠️ Empty response from webhook, treating as success');
+      result = {
+        success: true,
+        messageId: new Date().toISOString(),
+        timestamp: new Date().toISOString()
+      };
+    } else {
+      try {
+        result = JSON.parse(responseText);
+      } catch (parseError) {
+        console.log('⚠️ Failed to parse JSON response, treating as success');
+        result = {
+          success: true,
+          messageId: new Date().toISOString(),
+          timestamp: new Date().toISOString()
+        };
+      }
+    }
+    
     console.log('✅ 8n8 Response:', result);
 
     return {
@@ -119,6 +162,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
     // Check if it's a CORS error
     const isCorsError = error instanceof Error && error.message.includes('CORS');
     const isNetworkError = error instanceof Error && error.message.includes('Failed to fetch');
+    const isJsonError = error instanceof Error && error.message.includes('JSON');
     
     let errorMessage = "Webhook submission failed";
     let nextSteps = [
@@ -133,6 +177,13 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
         "Try using the CORS proxy server for local development",
         "Run: npx tsx scripts/cors-proxy-server.ts",
         "Then enable proxy mode in browser console: localStorage.setItem('hermes-use-cors-proxy', 'true')"
+      ];
+    } else if (isJsonError) {
+      errorMessage = "Response parsing error";
+      nextSteps = [
+        "The webhook returned an invalid response",
+        "This might be a temporary issue with the 8n8 workflow",
+        "Please try again in a few moments"
       ];
     }
     

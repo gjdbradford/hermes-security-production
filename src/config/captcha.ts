@@ -16,6 +16,8 @@ declare global {
     captchaProviderLogged?: boolean;
     contactFormCaptchaLogged?: boolean;
     contactFormCtaLogged?: boolean;
+    contactPageCtaLogged?: boolean;
+    contactPageDefaultLogged?: boolean;
   }
 }
 
