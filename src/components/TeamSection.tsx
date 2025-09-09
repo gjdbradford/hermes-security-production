@@ -5,9 +5,9 @@ const founders = [
     name: "Graham John",
     role: "Co-Founder & CEO",
     photo: "/images/team/graham.jpg",
-    bio: "20+ years in cybersecurity and digital innovation, with deep expertise in AI security and strategic security planning. Former CISO at Fortune 500 companies, Graham brings unparalleled experience in protecting organizations from emerging threats.",
-    expertise: ["AI Security", "Penetration Testing", "Strategic Security", "CISO Leadership"],
-    experience: "Former CISO at Fortune 500 companies, led security teams of 100+ professionals",
+    bio: "Graham John is a cybersecurity and digital innovation leader with 20+ years of experience driving security strategy and enabling business growth. With deep expertise in AI, cyber security, strategy and execution, change management, Graham has built and led high-performing digital teams and guided organisations through the evolving threat landscape. His focus is on aligning security with business objectives, enabling innovation while safeguarding digital assets.",
+    expertise: ["AI & Cyber Security", "Change Management", "Strategic Security Planning", "Leadership in Building Teams"],
+    experience: "Former Founder of several companies, led large teams of 100+ professionals",
     icon: Shield
   },
   {
@@ -115,8 +115,8 @@ export default function TeamSection() {
             </div>
           </div>
 
-          {/* Security Experts Section */}
-          <div>
+          {/* Security Experts Section - Hidden for now */}
+          {/* <div>
             <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
               Our <span className="text-accent-security">Security Experts</span>
             </h3>
@@ -127,21 +127,17 @@ export default function TeamSection() {
                   key={index}
                   className="group p-6 bg-gradient-card rounded-xl border border-border/50 hover:shadow-card-custom transition-all duration-300 hover:-translate-y-2"
                 >
-                  {/* Photo Placeholder */}
                   <div className="w-24 h-24 bg-accent-security/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                     <expert.icon className="w-12 h-12 text-accent-security" />
                   </div>
                   
-                  {/* Name & Role */}
                   <div className="text-center mb-4">
                     <h4 className="text-xl font-bold text-foreground mb-1">{expert.name}</h4>
                     <p className="text-accent-security font-semibold">{expert.role}</p>
                   </div>
                   
-                  {/* Bio */}
                   <p className="text-muted-foreground text-sm leading-relaxed mb-4">{expert.bio}</p>
                   
-                  {/* Expertise */}
                   <div className="mb-4">
                     <h5 className="font-semibold text-foreground mb-2 text-sm">Expertise:</h5>
                     <div className="flex flex-wrap gap-1">
@@ -156,7 +152,6 @@ export default function TeamSection() {
                     </div>
                   </div>
                   
-                  {/* Certifications */}
                   {expert.certifications && (
                     <div className="mb-4">
                       <h5 className="font-semibold text-foreground mb-2 text-sm">Certifications:</h5>
@@ -176,7 +171,7 @@ export default function TeamSection() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Join the Team CTA - Hidden */}
           {/* <div className="text-center mt-16">
