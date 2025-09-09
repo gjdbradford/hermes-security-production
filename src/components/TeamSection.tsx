@@ -1,14 +1,13 @@
-import { Linkedin, Shield, Target, Zap, Globe, Network, Bot } from "lucide-react";
+import { Shield, Target, Zap, Globe, Network, Bot } from "lucide-react";
 
 const founders = [
   {
-    name: "Graham Bradford",
+    name: "Graham John",
     role: "Co-Founder & CEO",
     photo: "/images/team/graham.jpg",
-    bio: "20+ years in cybersecurity and digital innovation, with deep expertise in AI security and strategic security planning. Former CISO at Fortune 500 companies, Graham brings unparalleled experience in protecting organizations from emerging threats.",
-    expertise: ["AI Security", "Penetration Testing", "Strategic Security", "CISO Leadership"],
-    experience: "Former CISO at Fortune 500 companies, led security teams of 100+ professionals",
-    linkedin: "https://linkedin.com/in/graham-bradford", 
+    bio: "Graham John is a digital innovation leader with 25+ years of experience driving strategy and enabling business growth. With deep expertise in AI, cyber security, strategy and change management. Graham has built and led high-performing digital teams and guided organisations through the evolving threat landscape. His focus is on aligning security with business objectives, enabling innovation while safeguarding digital assets.",
+    expertise: ["AI & Cyber Security", "Change Management", "Strategic Security Planning", "Leadership in Building Teams"],
+    experience: "Former Founder of several companies, led large teams of 100+ professionals",
     icon: Shield
   },
   {
@@ -18,7 +17,6 @@ const founders = [
     bio: "A cybersecurity visionary with extensive experience in offensive security and AI red teaming. Artem has spent years on the front lines of digital warfare, understanding how attackers think and developing countermeasures.",
     expertise: ["AI/LLM", "Offensive Security", "Threat Intelligence", "Security Architecture"],
     experience: "Led offensive security teams, developed AI security frameworks",
-    linkedin: "https://linkedin.com/in/artem",
     icon: Target
   }
 ];
@@ -31,7 +29,6 @@ const securityExperts = [
     bio: "Specialized in web application security and API testing with 8+ years of experience. Sarah has uncovered critical vulnerabilities in major platforms and developed innovative testing methodologies.",
     expertise: ["Web Security", "API Security", "OWASP Top 10", "Security Testing"],
     certifications: ["OSCP", "CISSP", "CEH"],
-    linkedin: "https://linkedin.com/in/sarah-chen",
     icon: Globe
   },
   {
@@ -41,7 +38,6 @@ const securityExperts = [
     bio: "Cloud security specialist with deep knowledge of AWS, Azure, and GCP security. Marcus has helped organizations secure their cloud infrastructure and prevent data breaches.",
     expertise: ["Cloud Security", "AWS/Azure/GCP", "DevSecOps", "Infrastructure Security"],
     certifications: ["AWS Security", "Azure Security", "CCSP"],
-    linkedin: "https://linkedin.com/in/marcus-rodriguez",
     icon: Network
   },
   {
@@ -51,7 +47,6 @@ const securityExperts = [
     bio: "Leading researcher in AI security and adversarial machine learning. Elena's work focuses on making AI systems robust against attacks while maintaining their effectiveness.",
     expertise: ["AI Security", "Adversarial ML", "Model Security", "Research"],
     certifications: ["PhD Computer Science", "AI Security Certifications"],
-    linkedin: "https://linkedin.com/in/elena-petrova",
     icon: Bot
   }
 ];
@@ -115,23 +110,13 @@ export default function TeamSection() {
                   {/* Experience */}
                   <p className="text-muted-foreground text-sm mb-4 italic">"{founder.experience}"</p>
                   
-                  {/* LinkedIn */}
-                  <a 
-                    href={founder.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-accent-security hover:text-accent-security/80 transition-colors"
-                  >
-                    <Linkedin className="w-5 h-5" />
-                    <span className="text-sm">Connect on LinkedIn</span>
-                  </a>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Security Experts Section */}
-          <div>
+          {/* Security Experts Section - Hidden for now */}
+          {/* <div>
             <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
               Our <span className="text-accent-security">Security Experts</span>
             </h3>
@@ -142,21 +127,17 @@ export default function TeamSection() {
                   key={index}
                   className="group p-6 bg-gradient-card rounded-xl border border-border/50 hover:shadow-card-custom transition-all duration-300 hover:-translate-y-2"
                 >
-                  {/* Photo Placeholder */}
                   <div className="w-24 h-24 bg-accent-security/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                     <expert.icon className="w-12 h-12 text-accent-security" />
                   </div>
                   
-                  {/* Name & Role */}
                   <div className="text-center mb-4">
                     <h4 className="text-xl font-bold text-foreground mb-1">{expert.name}</h4>
                     <p className="text-accent-security font-semibold">{expert.role}</p>
                   </div>
                   
-                  {/* Bio */}
                   <p className="text-muted-foreground text-sm leading-relaxed mb-4">{expert.bio}</p>
                   
-                  {/* Expertise */}
                   <div className="mb-4">
                     <h5 className="font-semibold text-foreground mb-2 text-sm">Expertise:</h5>
                     <div className="flex flex-wrap gap-1">
@@ -171,7 +152,6 @@ export default function TeamSection() {
                     </div>
                   </div>
                   
-                  {/* Certifications */}
                   {expert.certifications && (
                     <div className="mb-4">
                       <h5 className="font-semibold text-foreground mb-2 text-sm">Certifications:</h5>
@@ -188,20 +168,10 @@ export default function TeamSection() {
                     </div>
                   )}
                   
-                  {/* LinkedIn */}
-                  <a 
-                    href={expert.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-accent-security hover:text-accent-security/80 transition-colors text-sm"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                    <span>Connect</span>
-                  </a>
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Join the Team CTA - Hidden */}
           {/* <div className="text-center mt-16">

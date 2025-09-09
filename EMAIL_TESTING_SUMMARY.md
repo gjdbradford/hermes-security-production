@@ -172,7 +172,7 @@ VITE_N8N_API_KEY=your-8n8-bearer-token
 
 ## 📞 Contact Information
 
-**Technical Lead**: Graham Bradford  
+**Technical Lead**: Graham John  
 **Email**: gjdbradford@gmail.com  
 **Project**: Hermes Security Contact Form  
 **Repository**: hermes-security-production  

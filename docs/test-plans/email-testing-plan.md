@@ -275,7 +275,7 @@ curl -X POST https://hermes-security-production.vercel.app/api/send-email \
 ## Contact Information
 
 For issues or questions regarding email testing:
-- **Technical Lead**: Graham Bradford
+- **Technical Lead**: Graham John
 - **Email**: gjdbradford@gmail.com
 - **Project**: Hermes Security Contact Form
 - **Repository**: hermes-security-production

@@ -73,7 +73,7 @@ export default function Privacy() {
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <h3 className="font-semibold text-blue-900 mb-2">Contact Information</h3>
                       <p className="text-blue-800"><strong>Company:</strong> Hermes Security</p>
-                      <p className="text-blue-800"><strong>Data Steward:</strong> Graham Bradford</p>
+                      <p className="text-blue-800"><strong>Data Steward:</strong> Graham John</p>
                       <p className="text-blue-800"><strong>Email:</strong> graham@hermessecurity.io</p>
                       <p className="text-blue-800"><strong>Jurisdiction:</strong> European Union</p>
                     </div>
@@ -290,7 +290,7 @@ export default function Privacy() {
                     </div>
                     <div className="flex items-center space-x-2 text-gray-700 mb-4">
                       <UserCheck className="w-5 h-5" />
-                      <span>Graham Bradford, Data Steward</span>
+                      <span>Graham John, Data Steward</span>
                     </div>
                     <p className="text-sm text-gray-600">
                       We will respond to all privacy-related inquiries within 30 days.

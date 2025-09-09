@@ -56,7 +56,7 @@ This document outlines the comprehensive test plan for the Terms of Use page, en
 
 #### 2.1 Content Accuracy
 - [ ] **Test**: All company information is correct
-- [ ] **Expected**: Graham Bradford, graham@hermessecurity.io
+- [ ] **Expected**: Graham John, graham@hermessecurity.io
 - [ ] **Priority**: High
 - [ ] **Reviewer**: Business stakeholder
 

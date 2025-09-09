@@ -72,7 +72,7 @@ export default function Terms() {
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">2. Company Information</h2>
                     <div className="bg-gray-50 p-4 rounded-lg">
                       <p className="text-gray-700"><strong>Company:</strong> Hermes Security</p>
-                      <p className="text-gray-700"><strong>Data Steward:</strong> Graham Bradford</p>
+                      <p className="text-gray-700"><strong>Data Steward:</strong> Graham John</p>
                       <p className="text-gray-700"><strong>Contact Email:</strong> graham@hermessecurity.io</p>
                       <p className="text-gray-700"><strong>Jurisdiction:</strong> European Union</p>
                     </div>
