@@ -4,7 +4,7 @@
  * This file manages all static assets (images, documents, etc.) for the application.
  * Assets are stored in a CDN and referenced by their full URLs for optimal performance.
  * 
- * Last updated: 2025-09-07T18:51:59.276Z
+ * Last updated: 2025-09-09T09:44:33.444Z
  */
 
 export interface AssetConfig {
