@@ -100,6 +100,18 @@ export const TriggerHandlers = {
         console.log('⚠️ No CTA source provided');
       }
       
+      // Check if we're already on the contact page
+      const currentPath = window.location.pathname;
+      const currentHash = window.location.hash;
+      const isOnContactPage = currentPath.includes('/contact') || currentHash.includes('/contact');
+      
+      if (isOnContactPage) {
+        console.log('🔄 Already on contact page, reloading form');
+        // If already on contact page, reload the page to trigger form reset
+        window.location.reload();
+        return;
+      }
+      
       // Use React Router navigation if available, otherwise fallback to window.location
       if (navigateFunction) {
         console.log('🧭 Using React Router navigation to /contact');
