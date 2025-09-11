@@ -28,9 +28,17 @@
 
 ### **5. Header "Get In Touch" Button**
 - **MUST** check if already on contact page
-- **MUST** reload page if already on contact (resets form)
+- **MUST** do nothing if already on contact page (NO page reload - breaks staging)
 - **MUST** navigate normally if not on contact page
 - **MUST** work on both desktop and mobile
+- **MUST NEVER** use `window.location.reload()` (breaks GitHub Pages routing)
+
+### **6. GitHub Pages Deployment Rules**
+- **MUST** never have a `docs/` folder in the repository root (conflicts with GitHub Pages)
+- **MUST** use GitHub Actions deployment instead of docs folder
+- **MUST** ensure `.nojekyll` file is created in dist/ folder
+- **MUST** verify staging serves React app, not documentation
+- **MUST** test staging deployment after any folder structure changes
 
 ## 🔧 **Required Components**
 
@@ -66,11 +74,14 @@ if (ctaFromStorage) {
 
 ### **Never Use These**
 - ❌ `window.location.href = contactUrl` (breaks staging)
+- ❌ `window.location.reload()` (breaks GitHub Pages routing)
 - ❌ Manual path construction with `getBasePath()` for navigation
 - ❌ Direct navigation without base path awareness
 - ❌ CTA buttons without source tracking
 - ❌ Contact page without CTA source reading
 - ❌ Hardcoded paths without environment detection
+- ❌ `docs/` folder in repository root (conflicts with GitHub Pages)
+- ❌ GitHub Pages serving documentation instead of React app
 
 ## ✅ **Required CTA Components**
 
@@ -108,6 +119,9 @@ Every build MUST:
 3. **Verify CTA source tracking** is implemented
 4. **Test staging environment** pathing
 5. **Ensure no forbidden patterns** are used
+6. **Verify no `docs/` folder** in repository root
+7. **Confirm GitHub Pages serves React app** not documentation
+8. **Test staging deployment** after any folder structure changes
 
 ---
 
