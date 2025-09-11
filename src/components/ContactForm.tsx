@@ -15,41 +15,10 @@ import { CheckCircle, AlertCircle, Loader2, Shield } from "lucide-react";
 import { submitContactForm, ContactFormData } from "@/services/contactApi";
 import { useCaptchaVerification } from "@/components/CaptchaVerification";
 import { isCaptchaEnabled, isCaptchaDebugMode } from "@/config/captcha";
+import { allCountries } from "@/data/countries";
 
-// Simple European countries list
-const europeanCountries = [
-  { code: 'GB', name: 'United Kingdom' },
-  { code: 'DE', name: 'Germany' },
-  { code: 'FR', name: 'France' },
-  { code: 'IT', name: 'Italy' },
-  { code: 'ES', name: 'Spain' },
-  { code: 'NL', name: 'Netherlands' },
-  { code: 'BE', name: 'Belgium' },
-  { code: 'AT', name: 'Austria' },
-  { code: 'CH', name: 'Switzerland' },
-  { code: 'SE', name: 'Sweden' },
-  { code: 'NO', name: 'Norway' },
-  { code: 'DK', name: 'Denmark' },
-  { code: 'FI', name: 'Finland' },
-  { code: 'PL', name: 'Poland' },
-  { code: 'CZ', name: 'Czech Republic' },
-  { code: 'HU', name: 'Hungary' },
-  { code: 'RO', name: 'Romania' },
-  { code: 'BG', name: 'Bulgaria' },
-  { code: 'HR', name: 'Croatia' },
-  { code: 'SI', name: 'Slovenia' },
-  { code: 'SK', name: 'Slovakia' },
-  { code: 'LT', name: 'Lithuania' },
-  { code: 'LV', name: 'Latvia' },
-  { code: 'EE', name: 'Estonia' },
-  { code: 'IE', name: 'Ireland' },
-  { code: 'PT', name: 'Portugal' },
-  { code: 'GR', name: 'Greece' },
-  { code: 'CY', name: 'Cyprus' },
-  { code: 'MT', name: 'Malta' },
-  { code: 'LU', name: 'Luxembourg' },
-  { code: 'IS', name: 'Iceland' }
-];
+// Sort countries alphabetically by name for better UX
+const sortedCountries = [...allCountries].sort((a, b) => a.name.localeCompare(b.name));
 
 // Form validation schema
 const contactFormSchema = z.object({
@@ -263,12 +232,20 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                   <SelectTrigger className={`h-12 ${errors.country ? "border-red-500" : ""}`}>
                     <SelectValue placeholder="Select your country" />
                   </SelectTrigger>
-                  <SelectContent>
-                    {europeanCountries.map(country => (
-                      <SelectItem key={country.code} value={country.code}>
+                  <SelectContent className="max-h-[300px] overflow-y-auto" position="popper">
+                    {sortedCountries.map(country => (
+                      <SelectItem 
+                        key={country.code} 
+                        value={country.code}
+                        className="cursor-pointer focus:bg-accent focus:text-accent-foreground"
+                      >
+                        {country.flag && <span className="mr-2">{country.flag}</span>}
                         {country.name}
                       </SelectItem>
                     ))}
+                    <SelectItem value="NOT_IN_LIST" className="text-gray-500 italic border-t pt-2 mt-2">
+                      Not in list
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 {errors.country && (
