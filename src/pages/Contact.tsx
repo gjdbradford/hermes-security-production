@@ -18,13 +18,12 @@ export default function Contact() {
 
   // Get CTA source from sessionStorage (only run once)
   useEffect(() => {
-    // Only log once to avoid spam
-    if (!window.contactPageCtaLogged) {
-      console.log('🔍 Contact page: Reading CTA source from sessionStorage...');
-      window.contactPageCtaLogged = true;
-    }
+    console.log('🔍 Contact page: Reading CTA source from sessionStorage...');
+    console.log('🔍 All sessionStorage keys:', Object.keys(sessionStorage));
+    console.log('🔍 All sessionStorage values:', Object.keys(sessionStorage).map(key => ({ key, value: sessionStorage.getItem(key) })));
     
     const storedCtaSource = sessionStorage.getItem('cta-source');
+    console.log('🔍 Retrieved cta-source from sessionStorage:', storedCtaSource);
     
     if (storedCtaSource) {
       console.log('✅ Contact page: Setting CTA source to:', storedCtaSource);
@@ -33,11 +32,7 @@ export default function Contact() {
       sessionStorage.removeItem('cta-source');
       console.log('🧹 Contact page: Cleared CTA source from sessionStorage');
     } else {
-      // Only log this once too
-      if (!window.contactPageDefaultLogged) {
-        console.log('⚠️ Contact page: No CTA source found, using default: Get In Touch');
-        window.contactPageDefaultLogged = true;
-      }
+      console.log('⚠️ Contact page: No CTA source found, using default: Get In Touch');
     }
     
     // Reset form key to force form reset
