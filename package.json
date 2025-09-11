@@ -31,7 +31,7 @@
     "quality:fix": "npm run lint:fix && npm run format",
     "pre-commit": "npm run quality:check && npm run build:staging && npm run build:production",
     "pre-push": "npm run quality:check && npm run test:routing && npm run test:all-envs",
-    "security:audit": "npm audit --audit-level=moderate",
+    "security:audit": "npm audit --audit-level=high",
     "security:secrets": "echo 'Secret detection requires Python detect-secrets tool'",
     "validate:build": "npm run build:staging && npm run build:production",
     "validate:all": "npm run quality:check && npm run validate:build && npm run test:routing && npm run test:all-envs",
