@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 import OptimizedImage from "@/components/ui/optimized-image";
 import { IMAGE_PATHS } from "@/utils/imageUtils";
 
@@ -106,7 +105,11 @@ export default function Header() {
               variant="hero" 
               size="sm"
               onClick={() => {
-                TriggerHandlers.contactForm('Get In Touch');
+                console.log('🔘 Header Get In Touch clicked');
+                sessionStorage.setItem('cta-source', 'Get In Touch');
+                const contactUrl = window.location.origin + '/contact';
+                console.log('🧭 Navigating to:', contactUrl);
+                window.location.href = contactUrl;
               }}
             >
               Get In Touch
@@ -159,7 +162,11 @@ export default function Header() {
                   size="sm"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    TriggerHandlers.contactForm('Get In Touch');
+                    console.log('🔘 Mobile Header Get In Touch clicked');
+                    sessionStorage.setItem('cta-source', 'Get In Touch');
+                    const contactUrl = window.location.origin + '/contact';
+                    console.log('🧭 Navigating to:', contactUrl);
+                    window.location.href = contactUrl;
                   }}
                 >
                   Get In Touch

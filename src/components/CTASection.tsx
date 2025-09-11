@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Download, Calendar } from "lucide-react";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 
 const ctaOptions = [
   {
@@ -22,6 +21,17 @@ const ctaOptions = [
 ];
 
 export default function CTASection() {
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 CTA Button clicked:', ctaSource);
+    // Store CTA source in sessionStorage
+    sessionStorage.setItem('cta-source', ctaSource);
+    console.log('💾 Stored CTA source:', ctaSource);
+    // Navigate to contact page using proper URL
+    const contactUrl = window.location.origin + '/contact';
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
+  };
+
   return (
     <section className="py-24 bg-gradient-hero text-hero-foreground relative overflow-hidden">
       {/* Background Effects */}
@@ -58,18 +68,7 @@ export default function CTASection() {
                 variant={cta.variant} 
                 className="w-full group"
                 size="lg"
-                onClick={() => {
-                  console.log('🔘 CTA Button clicked:', cta.title);
-                  if (cta.title === "Schedule a Discovery Call") {
-                    console.log('📞 Calling TriggerHandlers.contactForm with:', cta.title);
-                    TriggerHandlers.contactForm(cta.title);
-                  } else if (cta.title === "Start a Pen Test Today") {
-                    console.log('📞 Calling TriggerHandlers.contactForm with:', cta.title);
-                    TriggerHandlers.contactForm(cta.title);
-                  } else {
-                    console.log('⚠️ Unknown CTA title:', cta.title);
-                  }
-                }}
+                onClick={() => handleCTAClick(cta.title)}
               >
                 {cta.buttonText}
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />

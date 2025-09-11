@@ -1,6 +1,5 @@
 import { Brain, FileText, Shield, Globe, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 
 // Helper function to convert markdown-style bold text to JSX
 const renderBoldText = (text: string) => {
@@ -37,6 +36,14 @@ const values = [
 ];
 
 export default function ValueProposition() {
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 ValueProposition CTA clicked:', ctaSource);
+    sessionStorage.setItem('cta-source', ctaSource);
+    const contactUrl = window.location.origin + '/contact';
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
+  };
+
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-6">
@@ -72,7 +79,7 @@ export default function ValueProposition() {
             variant="hero" 
             size="lg" 
             className="group"
-            onClick={() => TriggerHandlers.contactForm("Book Your Pen Test Today")}
+            onClick={() => handleCTAClick("Book Your Pen Test Today")}
           >
             Book Your Pen Test Today
             <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
