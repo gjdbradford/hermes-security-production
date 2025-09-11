@@ -59,10 +59,15 @@ export default function CTASection() {
                 className="w-full group"
                 size="lg"
                 onClick={() => {
+                  console.log('🔘 CTA Button clicked:', cta.title);
                   if (cta.title === "Schedule a Discovery Call") {
+                    console.log('📞 Calling TriggerHandlers.contactForm with:', cta.title);
                     TriggerHandlers.contactForm(cta.title);
                   } else if (cta.title === "Start a Pen Test Today") {
+                    console.log('📞 Calling TriggerHandlers.contactForm with:', cta.title);
                     TriggerHandlers.contactForm(cta.title);
+                  } else {
+                    console.log('⚠️ Unknown CTA title:', cta.title);
                   }
                 }}
               >
