@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Shield, Zap, Users, Target, ChevronRight, ArrowRight } from "lucide-react";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 import { getImagePath } from "@/utils/imageUtils";
 
 // Helper function to convert markdown-style bold text to JSX
@@ -63,6 +62,17 @@ export default function HeroSection() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
   const [pauseTimer, setPauseTimer] = useState(false);
+
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 Hero CTA clicked:', ctaSource);
+    
+    // Use URL parameters instead of sessionStorage - much more reliable
+    const encodedCtaSource = encodeURIComponent(ctaSource);
+    const contactUrl = `${window.location.origin}/contact?cta=${encodedCtaSource}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    
+    window.location.href = contactUrl;
+  };
 
   // Performance optimization: Memoize hero content to prevent unnecessary re-renders
   const currentHeroData = useMemo(() => heroContent[currentHero], [currentHero]);
@@ -164,9 +174,10 @@ export default function HeroSection() {
                 aria-label={`${currentHeroData.cta} - ${currentHeroData.title}`}
                 onClick={() => {
                   if (currentHeroData.cta.includes("Pen Test")) {
-                    TriggerHandlers.contactForm(currentHeroData.cta);
+                    handleCTAClick(currentHeroData.cta);
                   } else if (currentHeroData.cta.includes("methodology")) {
-                    TriggerHandlers.downloadGuide();
+                    // Keep download guide functionality as is for now
+                    console.log('📥 Download guide clicked');
                   }
                 }}
               >

@@ -1,8 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Shield, ArrowRight, Target, Zap } from "lucide-react";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 
 export default function AboutCTASection() {
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 AboutCTA CTA clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
+  };
+
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-6">
@@ -27,7 +34,7 @@ export default function AboutCTASection() {
                 variant="hero" 
                 size="lg" 
                 className="group text-lg px-8 py-4"
-                onClick={() => TriggerHandlers.contactForm("Start Your Security Journey")}
+                onClick={() => handleCTAClick("Start Your Security Journey")}
               >
                 Start Your Security Journey
                 <ArrowRight className="ml-3 w-5 h-5 transition-transform group-hover:translate-x-1" />

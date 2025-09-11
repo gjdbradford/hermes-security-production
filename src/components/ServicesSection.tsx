@@ -1,6 +1,5 @@
 import { Smartphone, Cloud, Network, Globe, Bot, Shield, Wifi, FileText, CheckCircle, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 import { renderBoldText } from "@/utils/textUtils";
 
 const services = [
@@ -49,6 +48,14 @@ const services = [
 ];
 
 export default function ServicesSection() {
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 Services CTA Button clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
+  };
+
   return (
     <section className="py-24 bg-hero text-hero-foreground">
       <div className="container mx-auto px-6">
@@ -120,7 +127,7 @@ export default function ServicesSection() {
               variant="hero" 
               size="lg" 
               className="group"
-              onClick={() => TriggerHandlers.contactForm("Book Your Security Assessment Today")}
+              onClick={() => handleCTAClick("Book Your Security Assessment Today")}
             >
               Book Your Security Assessment Today
               <Target className="ml-2 w-4 h-4 transition-transform group-hover:rotate-12" />

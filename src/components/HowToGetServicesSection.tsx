@@ -1,7 +1,6 @@
 import { Search, Calendar, FileText, Shield, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 
 const serviceSteps = [
   {
@@ -32,6 +31,14 @@ const serviceSteps = [
 ];
 
 export default function HowToGetServicesSection() {
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 HowToGetServices CTA clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
+  };
+
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-6">
@@ -83,7 +90,7 @@ export default function HowToGetServicesSection() {
                 variant="hero" 
                 size="lg" 
                 className="group"
-                onClick={() => TriggerHandlers.contactForm("Book Your Pen Test Today")}
+                onClick={() => handleCTAClick("Book Your Pen Test Today")}
               >
                 Book Your Pen Test Today
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />

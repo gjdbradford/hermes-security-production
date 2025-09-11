@@ -14,30 +14,27 @@ export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ContactFormData | null>(null);
   const [ctaSource, setCtaSource] = useState<string>("Get In Touch");
+
+  // Debug: Track ctaSource changes
+  useEffect(() => {
+    console.log('🔄 Contact page: ctaSource state changed to:', ctaSource);
+  }, [ctaSource]);
   const [formKey, setFormKey] = useState<number>(0);
 
-  // Get CTA source from sessionStorage (only run once)
+  // Get CTA source from URL parameters (much more reliable than sessionStorage)
   useEffect(() => {
-    // Only log once to avoid spam
-    if (!window.contactPageCtaLogged) {
-      console.log('🔍 Contact page: Reading CTA source from sessionStorage...');
-      window.contactPageCtaLogged = true;
-    }
+    console.log('🔍 Contact page: Reading CTA source from URL parameters...');
+    console.log('🔍 Current URL:', window.location.href);
     
-    const storedCtaSource = sessionStorage.getItem('cta-source');
+    const urlParams = new URLSearchParams(window.location.search);
+    const ctaFromUrl = urlParams.get('cta');
+    console.log('🔍 Retrieved cta from URL:', ctaFromUrl);
     
-    if (storedCtaSource) {
-      console.log('✅ Contact page: Setting CTA source to:', storedCtaSource);
-      setCtaSource(storedCtaSource);
-      // Clear it after reading so ContactForm doesn't try to read it again
-      sessionStorage.removeItem('cta-source');
-      console.log('🧹 Contact page: Cleared CTA source from sessionStorage');
+    if (ctaFromUrl) {
+      console.log('✅ Contact page: Setting CTA source to:', ctaFromUrl);
+      setCtaSource(ctaFromUrl);
     } else {
-      // Only log this once too
-      if (!window.contactPageDefaultLogged) {
-        console.log('⚠️ Contact page: No CTA source found, using default: Get In Touch');
-        window.contactPageDefaultLogged = true;
-      }
+      console.log('⚠️ Contact page: No CTA parameter found, using default: Get In Touch');
     }
     
     // Reset form key to force form reset
@@ -172,6 +169,10 @@ export default function Contact() {
               <h1 className="text-4xl font-bold text-accent-security mb-4">
                 {ctaSource}
               </h1>
+              {/* Debug info - remove after testing */}
+              <div style={{fontSize: '12px', color: 'red', marginTop: '10px'}}>
+                DEBUG: ctaSource = "{ctaSource}" | Type: {typeof ctaSource}
+              </div>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 Tell us your urgency and a little about your security needs and we'll get back to you ASAP!
               </p>

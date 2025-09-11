@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Download, Calendar } from "lucide-react";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 
 const ctaOptions = [
   {
@@ -22,6 +21,14 @@ const ctaOptions = [
 ];
 
 export default function CTASection() {
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 CTA Button clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
+  };
+
   return (
     <section className="py-24 bg-gradient-hero text-hero-foreground relative overflow-hidden">
       {/* Background Effects */}
@@ -58,13 +65,7 @@ export default function CTASection() {
                 variant={cta.variant} 
                 className="w-full group"
                 size="lg"
-                onClick={() => {
-                  if (cta.title === "Schedule a Discovery Call") {
-                    TriggerHandlers.contactForm(cta.title);
-                  } else if (cta.title === "Start a Pen Test Today") {
-                    TriggerHandlers.contactForm(cta.title);
-                  }
-                }}
+                onClick={() => handleCTAClick(cta.title)}
               >
                 {cta.buttonText}
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />

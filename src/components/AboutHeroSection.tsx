@@ -1,9 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { getImagePath } from "@/utils/imageUtils";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 
 export default function AboutHeroSection() {
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 About Hero CTA clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
+  };
+
   return (
     <section className="relative min-h-screen text-hero-foreground overflow-hidden flex items-center" role="banner">
       {/* Custom Background Image with Subtle Movement */}
@@ -51,7 +58,7 @@ export default function AboutHeroSection() {
               variant="hero" 
               size="lg" 
               className="group text-lg px-8 py-4"
-              onClick={() => TriggerHandlers.contactForm("Start Your Security Journey")}
+              onClick={() => handleCTAClick("Start Your Security Journey")}
             >
               Start Your Security Journey
               <ArrowRight className="ml-3 w-5 h-5 transition-transform group-hover:translate-x-1" />

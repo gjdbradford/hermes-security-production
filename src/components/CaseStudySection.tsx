@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Building2, Shield, Globe, Heart, Monitor, Users, ArrowUpRight } from "lucide-react";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 import OptimizedImage from "@/components/ui/optimized-image";
 import { IMAGE_PATHS } from "@/utils/imageUtils";
 
@@ -110,6 +109,14 @@ export default function CaseStudySection() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
 
+  const handleCTAClick = (ctaSource: string) => {
+    console.log('🔘 Case Study CTA clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
+  };
+
   // Performance optimization: Memoize current case data
   const currentCaseData = useMemo(() => caseStudies[currentCase], [currentCase]);
 
@@ -199,7 +206,7 @@ export default function CaseStudySection() {
                       <div className="lg:text-right">
                         {/* Primary CTA Button - Hidden */}
                         {/* <Button 
-                          onClick={() => TriggerHandlers.contactForm(currentCaseData.primary_cta.label)}
+                          onClick={() => handleCTAClick(currentCaseData.primary_cta.label)}
                           className="bg-accent-security hover:bg-accent-security/90 text-accent-security-foreground"
                         >
                           {currentCaseData.primary_cta.label}

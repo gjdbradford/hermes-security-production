@@ -2,10 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { TriggerHandlers } from "@/utils/crispTriggers";
 import OptimizedImage from "@/components/ui/optimized-image";
 import { IMAGE_PATHS } from "@/utils/imageUtils";
-import { buildUrl } from "@/utils/routingUtils";
 
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId);
@@ -40,17 +38,14 @@ export default function Header() {
 
   const handleNavigation = (item: typeof navigation[0]) => {
     if (item.type === 'route') {
-      // For route navigation, use proper environment-aware routing
-      const routePath = item.href.replace('/', ''); // Remove leading slash
-      const routeUrl = buildUrl(routePath);
-      window.location.href = routeUrl;
+      // For route navigation, use React Router navigate
+      navigate(item.href);
     } else {
       // For anchor navigation, scroll to section
       const sectionId = item.href.replace('#', '');
       // If we're not on the homepage, navigate there first
       if (location.pathname !== '/') {
-        const homeUrl = buildUrl('');
-        window.location.href = homeUrl;
+        navigate('/');
         // Wait for navigation to complete, then scroll to section
         setTimeout(() => {
           scrollToSection(sectionId);
@@ -110,7 +105,10 @@ export default function Header() {
               variant="hero" 
               size="sm"
               onClick={() => {
-                TriggerHandlers.contactForm('Get In Touch');
+                console.log('🔘 Header Get In Touch clicked');
+                const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent('Get In Touch')}`;
+                console.log('🧭 Navigating to:', contactUrl);
+                window.location.href = contactUrl;
               }}
             >
               Get In Touch
@@ -163,7 +161,10 @@ export default function Header() {
                   size="sm"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    TriggerHandlers.contactForm('Get In Touch');
+                    console.log('🔘 Mobile Header Get In Touch clicked');
+                    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent('Get In Touch')}`;
+                    console.log('🧭 Navigating to:', contactUrl);
+                    window.location.href = contactUrl;
                   }}
                 >
                   Get In Touch
