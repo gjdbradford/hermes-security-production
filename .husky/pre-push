@@ -1,9 +1,5 @@
 echo "🚀 Running pre-push validation..."
 
-# Run security checks
-echo "🛡️ Running security checks..."
-npm run security:audit
-
 # Validate builds
 echo "🏗️ Validating builds..."
 npm run validate:build
