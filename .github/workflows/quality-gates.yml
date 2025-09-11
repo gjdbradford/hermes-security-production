@@ -2,9 +2,9 @@ name: Quality Gates & Deployment
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 # Environment variables
 env:
@@ -20,34 +20,38 @@ jobs:
     name: 🔍 Code Quality & Linting
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: 📦 Install Dependencies
         run: npm ci
-        
+
       - name: 🔍 ESLint Check
         run: npm run lint
         continue-on-error: false
-        
+
       - name: 🎨 Prettier Check
         run: npx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}"
         continue-on-error: false
-        
+
       - name: 📝 TypeScript Type Check
         run: npx tsc --noEmit
         continue-on-error: false
-        
+
+      - name: 🎯 CTA Master Rules Validation
+        run: npm run validate:cta
+        continue-on-error: false
+
       - name: 🔒 Security Audit
         run: npm audit --audit-level=moderate
         continue-on-error: false
@@ -60,24 +64,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: code-quality
-    
+
     strategy:
       matrix:
         environment: [staging, production]
-        
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
-        
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: 📦 Install Dependencies
         run: npm ci
-        
+
       - name: 🏗️ Build for ${{ matrix.environment }}
         run: |
           if [ "${{ matrix.environment }}" = "staging" ]; then
@@ -86,14 +90,14 @@ jobs:
             npm run build:production
           fi
         continue-on-error: false
-        
+
       - name: 📊 Build Size Check
         run: |
           echo "📊 Build size analysis:"
           du -sh dist/
           echo "📁 Directory structure:"
           find dist/ -type f -name "*.js" -o -name "*.css" | head -10
-          
+
       - name: 🔍 Asset Validation
         run: |
           # Check critical files exist
@@ -105,7 +109,7 @@ jobs:
               exit 1
             fi
           done
-          
+
           # Check assets directory
           if [ -d "dist/assets" ]; then
             echo "✅ Assets directory found"
@@ -124,32 +128,32 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: code-quality
-    
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
-        
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: 📦 Install Dependencies
         run: npm ci
-        
+
       - name: 🧪 Run Routing Tests
         run: npm run test:routing
         continue-on-error: false
-        
+
       - name: 🌐 Environment Tests
         run: npm run test:all-envs
         continue-on-error: false
-        
+
       - name: 🔧 CDN Integration Tests
         run: npm run test:cdn
         continue-on-error: false
-        
+
       - name: 🛡️ Security Tests
         run: npm run test:captcha
         continue-on-error: false
@@ -162,24 +166,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: code-quality
-    
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: 🔍 Detect Secrets
         uses: Yelp/detect-secrets-action@master
         with:
           baseline: .secrets.baseline
           fail-on-any: true
-          
+
       - name: 🔒 Dependency Security Scan
         run: |
           npm audit --audit-level=high
         continue-on-error: false
-        
+
       - name: 📋 Security Report
         run: |
           echo "🛡️ Security check completed"
@@ -194,23 +198,23 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build-validation, testing-validation]
-    
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
-        
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: 📦 Install Dependencies
         run: npm ci
-        
+
       - name: 🏗️ Build for Performance Check
         run: npm run build:production
-        
+
       - name: 📊 Bundle Size Analysis
         run: |
           echo "📊 Bundle size analysis:"
@@ -218,7 +222,7 @@ jobs:
           echo ""
           echo "📈 Largest files:"
           find dist/assets -name "*.js" -exec ls -lh {} + | sort -k5 -hr | head -5
-          
+
       - name: ⚡ Performance Budget Check
         run: |
           # Check if main bundle is under 500KB
@@ -239,32 +243,32 @@ jobs:
     timeout-minutes: 20
     needs: [code-quality, build-validation, testing-validation, security-check, performance-check]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
+
     environment:
       name: staging
       url: https://gjdbradford.github.io/hermes-security-production/
-    
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
-        
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: 📦 Install Dependencies
         run: npm ci
-        
+
       - name: 🏗️ Build for Staging
         run: npm run build:staging
-        
+
       - name: 🚫 Disable Jekyll
         run: |
           echo "# Static site - no Jekyll processing" > dist/.nojekyll
           echo "✅ Jekyll disabled for GitHub Pages"
-          
+
       - name: 📋 Staging Deployment Summary
         run: |
           echo "🚀 Staging Deployment Summary:"
@@ -272,7 +276,7 @@ jobs:
           echo "📊 Build size: $(du -sh dist/ | cut -f1)"
           echo "📁 Files: $(find dist/ -type f | wc -l)"
           echo "✅ Ready for deployment"
-        
+
       - name: 🚀 Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
@@ -287,27 +291,27 @@ jobs:
     timeout-minutes: 20
     needs: [deploy-staging]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
+
     environment:
       name: production
       url: https://hermes-security-production.vercel.app/
-    
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
-        
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: 📦 Install Dependencies
         run: npm ci
-        
+
       - name: 🏗️ Build for Production
         run: npm run build:production
-        
+
       - name: 📋 Production Deployment Summary
         run: |
           echo "🌟 Production Deployment Summary:"
@@ -315,7 +319,7 @@ jobs:
           echo "📊 Build size: $(du -sh dist/ | cut -f1)"
           echo "📁 Files: $(find dist/ -type f | wc -l)"
           echo "✅ Ready for production deployment"
-          
+
       - name: 🚀 Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
@@ -334,26 +338,26 @@ jobs:
     timeout-minutes: 15
     needs: [deploy-staging, deploy-production]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
+
     steps:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
-        
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          
+
       - name: 📦 Install Dependencies
         run: npm ci
-        
+
       - name: 🌐 Validate Staging Deployment
         run: |
           echo "🔍 Validating staging deployment..."
           npm run test:all-envs
           echo "✅ Staging validation complete"
-          
+
       - name: 📊 Deployment Report
         run: |
           echo "🎉 Deployment Complete!"
