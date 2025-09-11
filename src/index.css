@@ -228,7 +228,7 @@ html {
 
   /* Ensure emoji flags render properly across all browsers */
   .flag-emoji {
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", sans-serif;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", sans-serif !important;
     font-variant-emoji: emoji;
     font-feature-settings: "liga" 1, "kern" 1;
     -webkit-font-feature-settings: "liga" 1, "kern" 1;
@@ -238,30 +238,35 @@ html {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    display: inline-block;
+    display: inline-block !important;
     width: 1.2em;
     height: 1.2em;
     line-height: 1;
     vertical-align: middle;
-    font-size: 1.1em;
+    font-size: 1.1em !important;
+    text-align: center;
+    /* Force emoji rendering */
+    unicode-bidi: bidi-override;
+    direction: ltr;
   }
 
-  /* Fallback for systems that don't support emoji flags */
+  /* Force emoji rendering in all browsers */
   .flag-emoji::before {
-    content: attr(data-fallback);
+    content: "";
     display: none;
   }
 
-  /* Show fallback text if emoji doesn't render */
-  @supports not (font-variant-emoji: emoji) {
+  /* Additional fallback for problematic browsers */
+  @media screen and (-webkit-min-device-pixel-ratio: 0) {
     .flag-emoji {
-      font-family: sans-serif;
-      background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
-      border-radius: 2px;
-      text-align: center;
-      font-size: 0.8em;
-      color: #666;
+      -webkit-text-stroke: 0.01em transparent;
     }
+  }
+
+  /* Ensure flags show in production builds */
+  .flag-emoji {
+    font-display: block;
+    font-synthesis: none;
   }
 }
 
