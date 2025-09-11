@@ -1,18 +1,21 @@
 # 🏗️ Build Plans
 
-This directory contains all build and deployment documentation for the Hermes Security project.
+This directory contains all build and deployment documentation for the Hermes
+Security project.
 
 ## 🚨 **MANDATORY CDN INTEGRATION RULE**
 
 **ALL enhancements, builds, and deployments MUST follow this rule:**
 
 ### 🔒 **CDN Asset Management**
+
 - ❌ **NEVER** use local asset paths in production
 - ✅ **ALWAYS** upload assets to Vercel Blob Storage
 - ✅ **ALWAYS** use full CDN URLs with `getImagePath()` utility
 - ✅ **ALWAYS** update asset configuration in `src/config/assets.ts`
 
 ### 📋 **CDN Integration Process**
+
 ```bash
 # 1. Add assets to public/images/ directory
 # 2. Update src/config/assets.ts with asset metadata
@@ -26,31 +29,42 @@ npm run assets:status
 npm run test:cdn
 ```
 
-**📖 Full CDN Rule Documentation**: [CDN Integration Rule](./cdn-integration-rule.md)
+**📖 Full CDN Rule Documentation**:
+[CDN Integration Rule](./cdn-integration-rule.md)
 
 ---
 
 ## 📋 Available Build Plans
 
 ### Deployment Documentation
+
 - **[deployment.md](./deployment.md)** - Main deployment procedures
 - **[deployment-status.md](./deployment-status.md)** - Current deployment status
 - **[deployment-fixes.md](./deployment-fixes.md)** - Deployment issue fixes
 
 ### Migration & Setup
-- **[migration-checklist.md](./migration-checklist.md)** - Complete migration checklist
-- **[github-pages-image-fix.md](./github-pages-image-fix.md)** - GitHub Pages image optimization
-- **[github-pages-jekyll-fix.md](./github-pages-jekyll-fix.md)** - Jekyll configuration fixes
-- **[image-migration-test-plan.md](./image-migration-test-plan.md)** - Image migration procedures
+
+- **[migration-checklist.md](./migration-checklist.md)** - Complete migration
+  checklist
+- **[github-pages-image-fix.md](./github-pages-image-fix.md)** - GitHub Pages
+  image optimization
+- **[github-pages-jekyll-fix.md](./github-pages-jekyll-fix.md)** - Jekyll
+  configuration fixes
+- **[image-migration-test-plan.md](./image-migration-test-plan.md)** - Image
+  migration procedures
 - **[jekyll-fix-summary.md](./jekyll-fix-summary.md)** - Jekyll fix summary
 
 ### Recent Updates
-- **[homepage-how-to-get-services-update.md](./homepage-how-to-get-services-update.md)** - New homepage section with CDN integration
-- **[cdn-migration-build-plan.md](./cdn-migration-build-plan.md)** - CDN migration procedures
+
+- **[homepage-how-to-get-services-update.md](./homepage-how-to-get-services-update.md)** -
+  New homepage section with CDN integration
+- **[cdn-migration-build-plan.md](./cdn-migration-build-plan.md)** - CDN
+  migration procedures
 
 ## 🚀 Build Process
 
 The build process follows these stages:
+
 1. **Development** - Local development with hot reload
 2. **Staging** - Staging environment testing with CDN verification
 3. **Production** - Production build and deployment with CDN validation
