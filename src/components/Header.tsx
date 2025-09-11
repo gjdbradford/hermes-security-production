@@ -108,9 +108,9 @@ export default function Header() {
               onClick={() => {
                 // Check if we're already on the contact page
                 if (location.pathname.endsWith('/contact')) {
-                  // If already on contact page, reload it to reset the form
-                  // console.log('🔄 Already on contact page, reloading...');
-                  window.location.reload();
+                  // If already on contact page, do nothing (avoid page reload)
+                  // console.log('🔄 Already on contact page, no action needed');
+                  return;
                 } else {
                   // Navigate to contact page normally
                   navigateToContact(navigate, 'Get In Touch');
@@ -165,9 +165,9 @@ export default function Header() {
                     setMobileMenuOpen(false);
                     // Check if we're already on the contact page
                     if (location.pathname.endsWith('/contact')) {
-                      // If already on contact page, reload it to reset the form
-                      // console.log('🔄 Already on contact page, reloading...');
-                      window.location.reload();
+                      // If already on contact page, do nothing (avoid page reload)
+                      // console.log('🔄 Already on contact page, no action needed');
+                      return;
                     } else {
                       // Navigate to contact page normally
                       navigateToContact(navigate, 'Get In Touch');
