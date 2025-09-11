@@ -60,6 +60,8 @@ const defaultFormData = {
 };
 
 export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) {
+  // Debug: Log the ctaSource prop received
+  console.log('📝 ContactForm: Received ctaSource prop:', ctaSource, 'Type:', typeof ctaSource);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);

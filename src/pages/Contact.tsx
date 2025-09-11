@@ -14,6 +14,11 @@ export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ContactFormData | null>(null);
   const [ctaSource, setCtaSource] = useState<string>("Get In Touch");
+
+  // Debug: Track ctaSource changes
+  useEffect(() => {
+    console.log('🔄 Contact page: ctaSource state changed to:', ctaSource);
+  }, [ctaSource]);
   const [formKey, setFormKey] = useState<number>(0);
 
   // Get CTA source from sessionStorage (only run once)
@@ -167,6 +172,10 @@ export default function Contact() {
               <h1 className="text-4xl font-bold text-accent-security mb-4">
                 {ctaSource}
               </h1>
+              {/* Debug info - remove after testing */}
+              <div style={{fontSize: '12px', color: 'red', marginTop: '10px'}}>
+                DEBUG: ctaSource = "{ctaSource}" | Type: {typeof ctaSource}
+              </div>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 Tell us your urgency and a little about your security needs and we'll get back to you ASAP!
               </p>
