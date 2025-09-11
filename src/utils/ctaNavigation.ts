@@ -2,8 +2,8 @@
  * CTA Navigation utilities for consistent routing across all environments
  * Preserves CTA source tracking while maintaining proper base path context
  */
-import { NavigateFunction } from "react-router-dom";
-import { getBasePath } from "./routingUtils";
+import { NavigateFunction } from 'react-router-dom';
+import { getBasePath } from './routingUtils';
 
 /**
  * Navigate to contact page with CTA source tracking
@@ -11,16 +11,16 @@ import { getBasePath } from "./routingUtils";
  * @param ctaSource - Source of the CTA (e.g., "Get In Touch", "Book Your Pen Test Today")
  */
 export const navigateToContact = (navigate: NavigateFunction, ctaSource: string): void => {
-  console.log('🔘 CTA Button clicked:', ctaSource);
-  
+  // console.log('🔘 CTA Button clicked:', ctaSource);
+
   // Store CTA source in sessionStorage for the contact page
   sessionStorage.setItem('cta-source', ctaSource);
-  
-  // Navigate using React Router to maintain base path context
-  const basePath = getBasePath();
-  const contactPath = basePath === '/' ? '/contact' : `${basePath}contact`;
-  
-  console.log('🧭 Navigating to:', contactPath);
+
+  // Navigate using React Router - it handles base path automatically
+  // Always use relative path, React Router will add the base path
+  const contactPath = '/contact';
+
+  // console.log('🧭 Navigating to:', contactPath);
   navigate(contactPath);
 };
 
@@ -29,13 +29,13 @@ export const navigateToContact = (navigate: NavigateFunction, ctaSource: string)
  * @param ctaSource - Source of the CTA
  */
 export const navigateToContactWithParams = (ctaSource: string): void => {
-  console.log('🔘 CTA Button clicked:', ctaSource);
-  
+  // console.log('🔘 CTA Button clicked:', ctaSource);
+
   // Use URL parameters as backup method
   const basePath = getBasePath();
   const contactUrl = `${window.location.origin}${basePath}contact?cta=${encodeURIComponent(ctaSource)}`;
-  
-  console.log('🧭 Navigating to:', contactUrl);
+
+  // console.log('🧭 Navigating to:', contactUrl);
   window.location.href = contactUrl;
 };
 
@@ -44,6 +44,6 @@ export const navigateToContactWithParams = (ctaSource: string): void => {
  * @returns The contact path with proper base path
  */
 export const getContactPath = (): string => {
-  const basePath = getBasePath();
-  return basePath === '/' ? '/contact' : `${basePath}contact`;
+  // Always return relative path - React Router handles base path
+  return '/contact';
 };

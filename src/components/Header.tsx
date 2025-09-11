@@ -5,7 +5,6 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import OptimizedImage from '@/components/ui/optimized-image';
 import { IMAGE_PATHS } from '@/utils/imageUtils';
 import { navigateToContact } from '@/utils/ctaNavigation';
-import { getBasePath } from '@/utils/routingUtils';
 
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId);
@@ -108,8 +107,7 @@ export default function Header() {
               size='sm'
               onClick={() => {
                 // Check if we're already on the contact page
-                const contactPath = `${getBasePath()}contact`;
-                if (location.pathname === contactPath || location.pathname.endsWith('/contact')) {
+                if (location.pathname.endsWith('/contact')) {
                   // If already on contact page, reload it to reset the form
                   // console.log('🔄 Already on contact page, reloading...');
                   window.location.reload();
@@ -166,11 +164,7 @@ export default function Header() {
                   onClick={() => {
                     setMobileMenuOpen(false);
                     // Check if we're already on the contact page
-                    const contactPath = `${getBasePath()}contact`;
-                    if (
-                      location.pathname === contactPath ||
-                      location.pathname.endsWith('/contact')
-                    ) {
+                    if (location.pathname.endsWith('/contact')) {
                       // If already on contact page, reload it to reset the form
                       // console.log('🔄 Already on contact page, reloading...');
                       window.location.reload();

@@ -9,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, ArrowLeft } from 'lucide-react';
 import { ContactFormData } from '@/services/contactApi';
-import { getBasePath } from '@/utils/routingUtils';
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -90,10 +89,7 @@ export default function Contact() {
                   Home
                 </Link>
                 <ChevronRight className='w-4 h-4' />
-                <Link
-                  to={`${getBasePath()}contact`}
-                  className='hover:text-primary transition-colors'
-                >
+                <Link to='/contact' className='hover:text-primary transition-colors'>
                   Contact
                 </Link>
                 <ChevronRight className='w-4 h-4' />

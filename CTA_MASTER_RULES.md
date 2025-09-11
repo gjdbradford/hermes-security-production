@@ -16,7 +16,8 @@
 ### **3. Navigation Requirements**
 - **MUST** use React Router `navigate()` for proper base path context
 - **MUST** use `navigateToContact(navigate, ctaSource)` utility function
-- **MUST** handle staging environment base path correctly
+- **MUST** always use relative paths (e.g., `/contact`) - React Router handles base path automatically
+- **MUST** never manually construct paths with `getBasePath()` for navigation
 - **MUST** never use `window.location.href` directly (breaks staging)
 
 ### **4. Contact Page Behavior**
@@ -37,9 +38,8 @@
 ```typescript
 export const navigateToContact = (navigate: NavigateFunction, ctaSource: string): void => {
   sessionStorage.setItem('cta-source', ctaSource);
-  const basePath = getBasePath();
-  const contactPath = basePath === '/' ? '/contact' : `${basePath}contact`;
-  navigate(contactPath);
+  // Always use relative path - React Router handles base path automatically
+  navigate('/contact');
 };
 ```
 
@@ -66,6 +66,7 @@ if (ctaFromStorage) {
 
 ### **Never Use These**
 - ❌ `window.location.href = contactUrl` (breaks staging)
+- ❌ Manual path construction with `getBasePath()` for navigation
 - ❌ Direct navigation without base path awareness
 - ❌ CTA buttons without source tracking
 - ❌ Contact page without CTA source reading
