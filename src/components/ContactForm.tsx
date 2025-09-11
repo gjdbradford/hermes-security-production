@@ -239,7 +239,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                         value={country.code}
                         className="cursor-pointer focus:bg-accent focus:text-accent-foreground"
                       >
-                        {country.flag && <span className="mr-2">{country.flag}</span>}
+                        {country.flag && <span className="mr-2 flag-emoji">{country.flag}</span>}
                         {country.name}
                       </SelectItem>
                     ))}
