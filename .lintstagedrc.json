@@ -1,0 +1,32 @@
+{
+  "*.{ts,tsx,js,jsx}": [
+    "eslint --fix",
+    "prettier --write",
+    "git add"
+  ],
+  "*.json": [
+    "prettier --write",
+    "git add"
+  ],
+  "*.{css,scss,sass}": [
+    "prettier --write",
+    "git add"
+  ],
+  "*.md": [
+    "prettier --write",
+    "git add"
+  ],
+  "*.{yml,yaml}": [
+    "prettier --write",
+    "git add"
+  ],
+  "*.config.{js,ts}": [
+    "eslint --fix",
+    "prettier --write",
+    "git add"
+  ],
+  "package.json": [
+    "prettier --write",
+    "git add"
+  ]
+}
