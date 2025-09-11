@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [main, develop]
 
+# GitHub Pages permissions
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 # Environment variables
 env:
   NODE_VERSION: '18'
@@ -276,6 +282,11 @@ jobs:
           echo "📊 Build size: $(du -sh dist/ | cut -f1)"
           echo "📁 Files: $(find dist/ -type f | wc -l)"
           echo "✅ Ready for deployment"
+
+      - name: 📦 Upload Staging Build Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
 
       - name: 🚀 Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
