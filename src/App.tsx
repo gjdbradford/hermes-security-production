@@ -9,7 +9,6 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
-import IconShowcase from "./pages/IconShowcase";
 import NotFound from "./pages/NotFound";
 import SEOOptimizer from "./components/SEOOptimizer";
 import AnalyticsTracker from "./components/AnalyticsTracker";
@@ -65,7 +64,6 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/privacy" element={<Privacy />} />
-              <Route path="/icons" element={<IconShowcase />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

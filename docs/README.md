@@ -2,51 +2,58 @@
 
 This directory contains all project documentation organized by category.
 
-## 📁 Directory Structure
+## 📁 **Directory Structure**
 
-### 🧪 [test-plans/](./test-plans/)
-Contains all testing documentation and test plans:
-- Component testing plans
-- Production testing procedures
-- Debug testing guides
-- Contact form testing
-- Discovery call testing
+### **📋 Test Plans** (`test-plans/`)
+Comprehensive testing documentation for all features and components.
 
-### 🏗️ [build-plans/](./build-plans/)
-Contains build and deployment documentation:
-- Deployment procedures
-- Migration checklists
-- GitHub Pages configuration
-- Build optimization guides
+### **🏗️ Build Plans** (`build-plans/`)
+Build and deployment documentation, including environment-specific configurations.
 
-### 📊 [reports/](./reports/)
-Contains analysis and audit reports:
-- Accessibility audit reports
-- Cross-browser testing results
-- SEO analytics reports
-- Migration validation reports
+### **📖 Guides** (`guides/`)
+Technical guides for development, deployment, and maintenance.
 
-### 📖 [guides/](./guides/)
-Contains setup and configuration guides:
-- CRISP AI agent setup
-- Asset management guides
-- Configuration procedures
+### **📊 Reports** (`reports/`)
+Audit reports, testing results, and performance analytics.
 
-## 🔍 Quick Navigation
+## 🎯 **Quick Reference**
 
-- **Testing**: See [test-plans/](./test-plans/) for all testing documentation
-- **Deployment**: See [build-plans/](./build-plans/) for deployment guides
-- **Reports**: See [reports/](./reports/) for analysis and audit results
-- **Setup**: See [guides/](./guides/) for configuration guides
+### **Development**
+- [Quality Gates Guide](guides/QUALITY_GATES.md) - Comprehensive quality gate documentation
+- [Routing Rules](guides/ROUTING_RULES.md) - Environment-specific routing configuration
+- [Asset Management](guides/asset-management.md) - Static asset management
 
-## 📝 Documentation Standards
+### **Deployment**
+- [Email Deployment Guide](guides/email-deployment-guide.md) - Email service configuration
+- [Vercel Email Setup](guides/vercel-email-setup.md) - Vercel-specific email setup
+- [8n8 Multi-Environment Setup](guides/8n8-multi-environment-setup.md) - Workflow automation
 
-- All files use kebab-case naming
-- Each directory has a clear purpose
-- Files are organized by functionality, not chronology
-- Cross-references are maintained between related documents
+### **Testing**
+- [Component Test Plan](test-plans/component-test-plan.md) - UI component testing
+- [Contact Form Test Plan](test-plans/contact-form-test-plan.md) - Form functionality testing
+- [Production Test Plan](test-plans/production-test-plan.md) - Production environment testing
+
+### **Build & Deploy**
+- [Deployment Status](build-plans/deployment-status.md) - Current deployment status
+- [CDN Integration](build-plans/cdn-integration-rule.md) - CDN configuration
+- [Migration Checklist](build-plans/migration-checklist.md) - Deployment migration steps
+
+## 🔍 **Documentation Standards**
+
+- **Format**: Markdown (.md) files
+- **Structure**: Clear headings and sections
+- **Links**: Use relative paths for internal links
+- **Updates**: Keep documentation current with code changes
+
+## 📝 **Contributing**
+
+When adding new documentation:
+1. Place files in the appropriate category directory
+2. Update this README with new entries
+3. Follow the established naming conventions
+4. Include clear descriptions and examples
 
 ---
 
-**Last Updated**: August 30, 2025  
-**Maintained by**: Hermes Security Development Team
+**Last Updated**: September 2024  
+**Maintainer**: Development Team
