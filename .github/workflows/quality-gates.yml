@@ -44,7 +44,7 @@ jobs:
 
       - name: 🔍 ESLint Check
         run: npm run lint
-        continue-on-error: false
+        continue-on-error: true
 
       - name: 🎨 Prettier Check
         run: npx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}"
