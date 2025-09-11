@@ -37,7 +37,7 @@ async function uploadAsset(asset: AssetConfig): Promise<UploadResult> {
         id: asset.id,
         url: '',
         success: false,
-        error: `File not found: ${filePath}`
+        error: `File not found: ${filePath}`,
       };
     }
 
@@ -48,22 +48,21 @@ async function uploadAsset(asset: AssetConfig): Promise<UploadResult> {
 
     const { url } = await put(fileName, fileBuffer, {
       access: 'public',
-      addRandomSuffix: false
+      addRandomSuffix: false,
     });
 
     return {
       id: asset.id,
       url: url,
       success: true,
-      size: fileBuffer.length
+      size: fileBuffer.length,
     };
-
   } catch (error) {
     return {
       id: asset.id,
       url: '',
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -71,20 +70,20 @@ async function uploadAsset(asset: AssetConfig): Promise<UploadResult> {
 /**
  * Get content type based on file extension
  */
-function getContentType(filePath: string): string {
+function _getContentType(filePath: string): string {
   const extension = filePath.split('.').pop()?.toLowerCase();
 
   const contentTypes: Record<string, string> = {
-    'svg': 'image/svg+xml',
-    'jpg': 'image/jpeg',
-    'jpeg': 'image/jpeg',
-    'png': 'image/png',
-    'gif': 'image/gif',
-    'webp': 'image/webp',
-    'ico': 'image/x-icon',
-    'pdf': 'application/pdf',
-    'doc': 'application/msword',
-    'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    svg: 'image/svg+xml',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    webp: 'image/webp',
+    ico: 'image/x-icon',
+    pdf: 'application/pdf',
+    doc: 'application/msword',
+    docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   };
 
   return contentTypes[extension || ''] || 'application/octet-stream';
@@ -138,7 +137,7 @@ export async function updateAssetConfigWithCDN(uploadResults: UploadResult[]): P
       return {
         ...asset,
         cdnUrl: result.url,
-        lastUpdated: new Date().toISOString()
+        lastUpdated: new Date().toISOString(),
       };
     }
 
@@ -270,7 +269,6 @@ async function main() {
     console.log('   1. Test your application to ensure images load correctly');
     console.log('   2. Deploy to production');
     console.log('   3. Verify CDN URLs work in production environment');
-
   } catch (error) {
     console.error('❌ Upload failed:', error);
     process.exit(1);

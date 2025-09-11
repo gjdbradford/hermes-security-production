@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getImagePath, handleImageError, ImageConfig } from '@/utils/imageUtils';
+import { getImagePath, ImageConfig } from '@/utils/imageUtils';
 
 interface OptimizedImageProps extends ImageConfig {
   width?: number | string;
@@ -24,16 +24,14 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
 }) => {
   const [imageState, setImageState] = useState<'loading' | 'loaded' | 'error'>('loading');
   // Check if src is already a complete URL (CDN) or needs processing
-  const [currentSrc, setCurrentSrc] = useState(
-    src.startsWith('http') ? src : getImagePath(src)
-  );
+  const [currentSrc, setCurrentSrc] = useState(src.startsWith('http') ? src : getImagePath(src));
 
   const handleLoad = () => {
     setImageState('loaded');
     onLoad?.();
   };
 
-  const handleError = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const handleError = (_event: React.SyntheticEvent<HTMLImageElement, Event>) => {
     setImageState('error');
     // Only set fallback if we haven't already tried it
     if (currentSrc !== fallback) {
@@ -44,12 +42,9 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   return (
-    <div
-      className={`relative ${className}`}
-      style={{ width, height, ...style }}
-    >
+    <div className={`relative ${className}`} style={{ width, height, ...style }}>
       {imageState === 'loading' && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse rounded" />
+        <div className='absolute inset-0 bg-gray-200 animate-pulse rounded' />
       )}
 
       <img
@@ -66,7 +61,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
       />
 
       {imageState === 'error' && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-500 text-sm">
+        <div className='absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-500 text-sm'>
           <span>Image not available</span>
         </div>
       )}

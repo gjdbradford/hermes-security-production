@@ -1,4 +1,4 @@
-import { Shield, Target, Zap, Globe, Network, Bot } from 'lucide-react';
+import { Shield, Target, Globe, Network, Bot } from 'lucide-react';
 
 const founders = [
   {
@@ -6,9 +6,14 @@ const founders = [
     role: 'Co-Founder & CEO',
     photo: '/images/team/graham.jpg',
     bio: 'Graham John is a digital innovation leader with 25+ years of experience driving strategy and enabling business growth. With deep expertise in AI, cyber security, strategy and change management. Graham has built and led high-performing digital teams and guided organisations through the evolving threat landscape. His focus is on aligning security with business objectives, enabling innovation while safeguarding digital assets.',
-    expertise: ['AI & Cyber Security', 'Change Management', 'Strategic Security Planning', 'Leadership in Building Teams'],
+    expertise: [
+      'AI & Cyber Security',
+      'Change Management',
+      'Strategic Security Planning',
+      'Leadership in Building Teams',
+    ],
     experience: 'Former Founder of several companies, led large teams of 100+ professionals',
-    icon: Shield
+    icon: Shield,
   },
   {
     name: 'Artem',
@@ -17,11 +22,11 @@ const founders = [
     bio: 'A cybersecurity visionary with extensive experience in offensive security and AI red teaming. Artem has spent years on the front lines of digital warfare, understanding how attackers think and developing countermeasures.',
     expertise: ['AI/LLM', 'Offensive Security', 'Threat Intelligence', 'Security Architecture'],
     experience: 'Led offensive security teams, developed AI security frameworks',
-    icon: Target
-  }
+    icon: Target,
+  },
 ];
 
-const securityExperts = [
+const _securityExperts = [
   {
     name: 'Sarah Chen',
     role: 'Senior Security Specialist',
@@ -29,7 +34,7 @@ const securityExperts = [
     bio: 'Specialized in web application security and API testing with 8+ years of experience. Sarah has uncovered critical vulnerabilities in major platforms and developed innovative testing methodologies.',
     expertise: ['Web Security', 'API Security', 'OWASP Top 10', 'Security Testing'],
     certifications: ['OSCP', 'CISSP', 'CEH'],
-    icon: Globe
+    icon: Globe,
   },
   {
     name: 'Marcus Rodriguez',
@@ -38,7 +43,7 @@ const securityExperts = [
     bio: 'Cloud security specialist with deep knowledge of AWS, Azure, and GCP security. Marcus has helped organizations secure their cloud infrastructure and prevent data breaches.',
     expertise: ['Cloud Security', 'AWS/Azure/GCP', 'DevSecOps', 'Infrastructure Security'],
     certifications: ['AWS Security', 'Azure Security', 'CCSP'],
-    icon: Network
+    icon: Network,
   },
   {
     name: 'Dr. Elena Petrova',
@@ -47,59 +52,62 @@ const securityExperts = [
     bio: "Leading researcher in AI security and adversarial machine learning. Elena's work focuses on making AI systems robust against attacks while maintaining their effectiveness.",
     expertise: ['AI Security', 'Adversarial ML', 'Model Security', 'Research'],
     certifications: ['PhD Computer Science', 'AI Security Certifications'],
-    icon: Bot
-  }
+    icon: Bot,
+  },
 ];
 
 export default function TeamSection() {
   return (
-    <section className="py-24 bg-background">
-      <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
+    <section className='py-24 bg-background'>
+      <div className='container mx-auto px-6'>
+        <div className='max-w-6xl mx-auto'>
           {/* Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Meet the <span className="text-accent-security">Team</span>
+          <div className='text-center mb-16'>
+            <h2 className='text-4xl md:text-5xl font-bold mb-6'>
+              Meet the <span className='text-accent-security'>Team</span>
             </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              The brilliant minds and skilled professionals who make Hermes Security the force for good that it is today.
+            <p className='text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto'>
+              The brilliant minds and skilled professionals who make Hermes Security the force for
+              good that it is today.
             </p>
           </div>
 
           {/* Founders Section */}
-          <div className="mb-20">
-            <h3 className="text-3xl font-bold text-center mb-12 text-foreground">
-              Our <span className="text-accent-security">Founders</span>
+          <div className='mb-20'>
+            <h3 className='text-3xl font-bold text-center mb-12 text-foreground'>
+              Our <span className='text-accent-security'>Founders</span>
             </h3>
 
-            <div className="grid md:grid-cols-2 gap-12">
+            <div className='grid md:grid-cols-2 gap-12'>
               {founders.map((founder, index) => (
                 <div
                   key={index}
-                  className="group p-8 bg-gradient-card rounded-2xl border border-border/50 hover:shadow-card-custom transition-all duration-300 hover:-translate-y-2"
+                  className='group p-8 bg-gradient-card rounded-2xl border border-border/50 hover:shadow-card-custom transition-all duration-300 hover:-translate-y-2'
                 >
                   {/* Photo Placeholder */}
-                  <div className="w-32 h-32 bg-accent-security/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <founder.icon className="w-16 h-16 text-accent-security" />
+                  <div className='w-32 h-32 bg-accent-security/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300'>
+                    <founder.icon className='w-16 h-16 text-accent-security' />
                   </div>
 
                   {/* Name & Role */}
-                  <div className="text-center mb-6">
-                    <h4 className="text-2xl font-bold text-foreground mb-2">{founder.name}</h4>
-                    <p className="text-accent-security font-semibold text-lg">{founder.role}</p>
+                  <div className='text-center mb-6'>
+                    <h4 className='text-2xl font-bold text-foreground mb-2'>{founder.name}</h4>
+                    <p className='text-accent-security font-semibold text-lg'>{founder.role}</p>
                   </div>
 
                   {/* Bio */}
-                  <p className="text-muted-foreground text-lg leading-relaxed mb-6">{founder.bio}</p>
+                  <p className='text-muted-foreground text-lg leading-relaxed mb-6'>
+                    {founder.bio}
+                  </p>
 
                   {/* Expertise */}
-                  <div className="mb-6">
-                    <h5 className="font-semibold text-foreground mb-3">Areas of Expertise:</h5>
-                    <div className="flex flex-wrap gap-2">
+                  <div className='mb-6'>
+                    <h5 className='font-semibold text-foreground mb-3'>Areas of Expertise:</h5>
+                    <div className='flex flex-wrap gap-2'>
                       {founder.expertise.map((skill, skillIndex) => (
                         <span
                           key={skillIndex}
-                          className="bg-accent-security/10 text-accent-security px-3 py-1 rounded-lg text-sm"
+                          className='bg-accent-security/10 text-accent-security px-3 py-1 rounded-lg text-sm'
                         >
                           {skill}
                         </span>
@@ -108,8 +116,9 @@ export default function TeamSection() {
                   </div>
 
                   {/* Experience */}
-                  <p className="text-muted-foreground text-sm mb-4 italic">"{founder.experience}"</p>
-
+                  <p className='text-muted-foreground text-sm mb-4 italic'>
+                    "{founder.experience}"
+                  </p>
                 </div>
               ))}
             </div>
@@ -122,7 +131,7 @@ export default function TeamSection() {
             </h3>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {securityExperts.map((expert, index) => (
+              {_securityExperts.map((expert, index) => (
                 <div
                   key={index}
                   className="group p-6 bg-gradient-card rounded-xl border border-border/50 hover:shadow-card-custom transition-all duration-300 hover:-translate-y-2"

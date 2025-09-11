@@ -76,13 +76,16 @@ export const IMAGE_PATHS = {
     mobileSecurity: () => getAssetUrl('case-study-mobile'),
     webSecurity: () => getAssetUrl('case-study-web'),
     networkSecurity: () => getAssetUrl('case-study-network'),
-  }
+  },
 } as const;
 
 /**
  * Handle image loading errors with fallback
  */
-export const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>, fallback?: string) => {
+export const handleImageError = (
+  event: React.SyntheticEvent<HTMLImageElement, Event>,
+  fallback?: string
+) => {
   const img = event.currentTarget;
 
   if (fallback && img.src !== fallback) {
@@ -108,9 +111,12 @@ export const preloadImages = (imagePaths: string[]): void => {
 /**
  * Get optimized image path for different screen sizes
  */
-export const getResponsiveImagePath = (basePath: string, size: 'sm' | 'md' | 'lg' = 'md'): string => {
+export const getResponsiveImagePath = (
+  basePath: string,
+  _size: 'sm' | 'md' | 'lg' = 'md'
+): string => {
   const extension = basePath.split('.').pop();
-  const baseName = basePath.replace(`.${extension}`, '');
+  const _baseName = basePath.replace(`.${extension}`, '');
 
   // For now, return the original path
   // In the future, this could return different sized images
@@ -123,7 +129,7 @@ export const getResponsiveImagePath = (basePath: string, size: 'sm' | 'md' | 'lg
 export const ImageLoadingState = {
   LOADING: 'loading',
   LOADED: 'loaded',
-  ERROR: 'error'
+  ERROR: 'error',
 } as const;
 
-export type ImageLoadingStateType = typeof ImageLoadingState[keyof typeof ImageLoadingState];
+export type ImageLoadingStateType = (typeof ImageLoadingState)[keyof typeof ImageLoadingState];

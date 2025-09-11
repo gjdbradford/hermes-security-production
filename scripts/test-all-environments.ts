@@ -5,9 +5,9 @@
  * Tests all environments: local, staging (GitHub Pages), and production (Vercel)
  */
 
-import { execSync } from 'child_process';
-import { existsSync } from 'fs';
-import { join } from 'path';
+// import { execSync } from 'child_process';
+// import { existsSync } from 'fs';
+// import { join } from 'path';
 
 interface TestResult {
   environment: string;
@@ -32,22 +32,26 @@ const environments: EnvironmentConfig[] = [
     url: 'http://localhost:8081',
     description: 'Local Development Server',
     testPaths: ['/', '/about', '/contact', '/terms', '/privacy'],
-    expectedAssets: ['/assets/index-', '/assets/vendor-', '/assets/ui-']
+    expectedAssets: ['/assets/index-', '/assets/vendor-', '/assets/ui-'],
   },
   {
     name: 'staging',
     url: 'https://gjdbradford.github.io/hermes-security-production',
     description: 'GitHub Pages Staging',
     testPaths: ['/', '/about', '/contact', '/terms', '/privacy'],
-    expectedAssets: ['/hermes-security-production/assets/index-', '/hermes-security-production/assets/vendor-', '/hermes-security-production/assets/ui-']
+    expectedAssets: [
+      '/hermes-security-production/assets/index-',
+      '/hermes-security-production/assets/vendor-',
+      '/hermes-security-production/assets/ui-',
+    ],
   },
   {
     name: 'production',
     url: 'https://hermessecurity.io',
     description: 'Vercel Production',
     testPaths: ['/', '/about', '/contact', '/terms', '/privacy'],
-    expectedAssets: ['/assets/index-', '/assets/vendor-', '/assets/ui-']
-  }
+    expectedAssets: ['/assets/index-', '/assets/vendor-', '/assets/ui-'],
+  },
 ];
 
 class EnvironmentTester {
@@ -55,7 +59,7 @@ class EnvironmentTester {
 
   async testEnvironment(env: EnvironmentConfig): Promise<TestResult[]> {
     console.log(`\n🧪 Testing ${env.description} (${env.url})`);
-    console.log('=' .repeat(60));
+    console.log('='.repeat(60));
 
     const envResults: TestResult[] = [];
 
@@ -96,7 +100,7 @@ class EnvironmentTester {
       const startTime = Date.now();
       const response = await fetch(env.url, {
         method: 'HEAD',
-        signal: AbortSignal.timeout(10000) // 10 second timeout
+        signal: AbortSignal.timeout(10000), // 10 second timeout
       });
       const responseTime = Date.now() - startTime;
 
@@ -106,7 +110,7 @@ class EnvironmentTester {
           url: env.url,
           status: 'pass',
           details: `Connected successfully (${response.status})`,
-          responseTime
+          responseTime,
         };
       } else {
         return {
@@ -114,7 +118,7 @@ class EnvironmentTester {
           url: env.url,
           status: 'fail',
           details: `HTTP ${response.status}: ${response.statusText}`,
-          responseTime
+          responseTime,
         };
       }
     } catch (error) {
@@ -123,7 +127,7 @@ class EnvironmentTester {
         url: env.url,
         status: 'fail',
         details: `Connection failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        errors: [error instanceof Error ? error.message : 'Unknown error']
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
       };
     }
   }
@@ -133,7 +137,7 @@ class EnvironmentTester {
       const url = `${env.url}${path}`;
       const startTime = Date.now();
       const response = await fetch(url, {
-        signal: AbortSignal.timeout(15000) // 15 second timeout
+        signal: AbortSignal.timeout(15000), // 15 second timeout
       });
       const responseTime = Date.now() - startTime;
 
@@ -162,7 +166,7 @@ class EnvironmentTester {
             status: 'fail',
             details: `Page loaded but has issues: ${errors.join(', ')}`,
             responseTime,
-            errors
+            errors,
           };
         }
 
@@ -171,7 +175,7 @@ class EnvironmentTester {
           url,
           status: 'pass',
           details: `Page loaded successfully (${content.length} chars)`,
-          responseTime
+          responseTime,
         };
       } else {
         return {
@@ -179,7 +183,7 @@ class EnvironmentTester {
           url,
           status: 'fail',
           details: `HTTP ${response.status}: ${response.statusText}`,
-          responseTime
+          responseTime,
         };
       }
     } catch (error) {
@@ -188,7 +192,7 @@ class EnvironmentTester {
         url: `${env.url}${path}`,
         status: 'fail',
         details: `Failed to load: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        errors: [error instanceof Error ? error.message : 'Unknown error']
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
       };
     }
   }
@@ -201,10 +205,7 @@ class EnvironmentTester {
 
       for (const assetPattern of env.expectedAssets) {
         // Try to find actual asset files by testing common patterns
-        const testAssets = [
-          `${assetPattern}*.js`,
-          `${assetPattern}*.css`
-        ];
+        const testAssets = [`${assetPattern}*.js`, `${assetPattern}*.css`];
 
         for (const testAsset of testAssets) {
           totalCount++;
@@ -212,7 +213,7 @@ class EnvironmentTester {
             const assetUrl = `${env.url}${testAsset}`;
             const response = await fetch(assetUrl, {
               method: 'HEAD',
-              signal: AbortSignal.timeout(5000)
+              signal: AbortSignal.timeout(5000),
             });
 
             if (response.ok) {
@@ -221,7 +222,9 @@ class EnvironmentTester {
               errors.push(`Asset ${testAsset}: HTTP ${response.status}`);
             }
           } catch (error) {
-            errors.push(`Asset ${testAsset}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+            errors.push(
+              `Asset ${testAsset}: ${error instanceof Error ? error.message : 'Unknown error'}`
+            );
           }
         }
       }
@@ -232,7 +235,7 @@ class EnvironmentTester {
           url: env.url,
           status: 'fail',
           details: 'No assets could be loaded',
-          errors
+          errors,
         };
       } else if (successCount < totalCount) {
         return {
@@ -240,14 +243,14 @@ class EnvironmentTester {
           url: env.url,
           status: 'fail',
           details: `Only ${successCount}/${totalCount} assets loaded`,
-          errors
+          errors,
         };
       } else {
         return {
           environment: env.name,
           url: env.url,
           status: 'pass',
-          details: `All ${successCount} assets loaded successfully`
+          details: `All ${successCount} assets loaded successfully`,
         };
       }
     } catch (error) {
@@ -256,7 +259,7 @@ class EnvironmentTester {
         url: env.url,
         status: 'fail',
         details: `Asset test failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        errors: [error instanceof Error ? error.message : 'Unknown error']
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
       };
     }
   }
@@ -266,7 +269,7 @@ class EnvironmentTester {
       // Test if contact page loads (which indicates CTA navigation works)
       const contactUrl = `${env.url}/contact`;
       const response = await fetch(contactUrl, {
-        signal: AbortSignal.timeout(10000)
+        signal: AbortSignal.timeout(10000),
       });
 
       if (response.ok) {
@@ -278,14 +281,14 @@ class EnvironmentTester {
             environment: env.name,
             url: contactUrl,
             status: 'pass',
-            details: 'Contact page accessible (CTA navigation working)'
+            details: 'Contact page accessible (CTA navigation working)',
           };
         } else {
           return {
             environment: env.name,
             url: contactUrl,
             status: 'fail',
-            details: 'Contact page not properly loaded'
+            details: 'Contact page not properly loaded',
           };
         }
       } else {
@@ -293,7 +296,7 @@ class EnvironmentTester {
           environment: env.name,
           url: contactUrl,
           status: 'fail',
-          details: `Contact page HTTP ${response.status}: ${response.statusText}`
+          details: `Contact page HTTP ${response.status}: ${response.statusText}`,
         };
       }
     } catch (error) {
@@ -302,23 +305,23 @@ class EnvironmentTester {
         url: `${env.url}/contact`,
         status: 'fail',
         details: `CTA test failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-        errors: [error instanceof Error ? error.message : 'Unknown error']
+        errors: [error instanceof Error ? error.message : 'Unknown error'],
       };
     }
   }
 
   async runAllTests(): Promise<void> {
     console.log('🚀 Starting Comprehensive Environment Testing');
-    console.log('=' .repeat(60));
+    console.log('='.repeat(60));
 
     // Check if local server is running
     if (environments[0].name === 'local') {
       try {
         await fetch(environments[0].url, {
           method: 'HEAD',
-          signal: AbortSignal.timeout(2000)
+          signal: AbortSignal.timeout(2000),
         });
-      } catch (error) {
+      } catch (_error) {
         console.log('⚠️  Local development server not running. Start it with: npm run dev');
         environments[0] = { ...environments[0], url: 'SKIP' };
       }
@@ -338,9 +341,9 @@ class EnvironmentTester {
   }
 
   private printSummary(): void {
-    console.log('\n' + '=' .repeat(60));
+    console.log('\n' + '='.repeat(60));
     console.log('📊 TEST SUMMARY');
-    console.log('=' .repeat(60));
+    console.log('='.repeat(60));
 
     const environmentSummary = new Map<string, { pass: number; fail: number; skip: number }>();
 

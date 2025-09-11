@@ -9,7 +9,7 @@
 
 import React, { useCallback, useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { validateCaptchaScore, isCaptchaDebugMode } from '../config/captcha';
+import { isCaptchaDebugMode } from '../config/captcha';
 
 export interface CaptchaVerificationResult {
   success: boolean;
@@ -27,7 +27,7 @@ interface CaptchaVerificationProps {
 export const CaptchaVerification: React.FC<CaptchaVerificationProps> = ({
   onVerificationComplete,
   action = 'contact_form_submit',
-  children
+  children,
 }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isVerifying, setIsVerifying] = useState(false);
@@ -65,7 +65,6 @@ export const CaptchaVerification: React.FC<CaptchaVerificationProps> = ({
       // Note: Score validation happens on the server side
       // For now, we'll return the token and let the server validate
       return { success: true, token };
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown CAPTCHA error';
       if (isCaptchaDebugMode()) {
@@ -77,17 +76,17 @@ export const CaptchaVerification: React.FC<CaptchaVerificationProps> = ({
     }
   }, [executeRecaptcha, action]);
 
-  const handleVerification = useCallback(async () => {
+  const _handleVerification = useCallback(async () => {
     const result = await executeCaptcha();
     onVerificationComplete(result);
   }, [executeCaptcha, onVerificationComplete]);
 
   return (
-    <div className="captcha-verification">
+    <div className='captcha-verification'>
       {children}
       {isVerifying && (
-        <div className="captcha-loading">
-          <span className="text-sm text-gray-500">Verifying security...</span>
+        <div className='captcha-loading'>
+          <span className='text-sm text-gray-500'>Verifying security...</span>
         </div>
       )}
     </div>
@@ -133,7 +132,6 @@ export const useCaptchaVerification = (action: string = 'contact_form_submit') =
       }
 
       return { success: true, token };
-
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown CAPTCHA error';
       if (isCaptchaDebugMode()) {
@@ -147,7 +145,7 @@ export const useCaptchaVerification = (action: string = 'contact_form_submit') =
 
   return {
     verifyCaptcha,
-    isVerifying
+    isVerifying,
   };
 };
 

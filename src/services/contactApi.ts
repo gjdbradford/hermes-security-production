@@ -1,5 +1,5 @@
 // Contact form API service for 8n8 integration ONLY
-import { getEnvironmentConfig, logEnvironmentInfo, getEnvironmentName } from '../utils/environment';
+import { logEnvironmentInfo, getEnvironmentName } from '../utils/environment';
 
 export interface ContactFormData {
   firstName: string;
@@ -71,7 +71,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
       termsConsent: formData.agreeToTerms,
-      captchaToken: formData.captchaToken
+      captchaToken: formData.captchaToken,
     };
 
     // Log environment information
@@ -92,8 +92,8 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
         nextSteps: [
           'Development mode: Form submitted successfully (webhook bypassed)',
           "To test with real webhook, run: localStorage.removeItem('hermes-bypass-webhook')",
-          'Then refresh the page and try again'
-        ]
+          'Then refresh the page and try again',
+        ],
       };
     }
 
@@ -103,9 +103,9 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
         'Content-Type': 'application/json',
         'X-Hermes-Source': 'website-contact-form',
         'X-Hermes-Environment': getEnvironmentName(),
-        'X-Hermes-Version': '1.0.0'
+        'X-Hermes-Version': '1.0.0',
       },
-      body: JSON.stringify(requestData)
+      body: JSON.stringify(requestData),
     });
 
     console.log(' Response status:', response.status);
@@ -128,17 +128,17 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       result = {
         success: true,
         messageId: new Date().toISOString(),
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
     } else {
       try {
         result = JSON.parse(responseText);
-      } catch (parseError) {
+      } catch (_parseError) {
         console.log('⚠️ Failed to parse JSON response, treating as success');
         result = {
           success: true,
           messageId: new Date().toISOString(),
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         };
       }
     }
@@ -152,10 +152,9 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       nextSteps: result.nextSteps || [
         "We've received your enquiry and will respond within 24 hours",
         'Check your email for a confirmation',
-        'Our AI agent is processing your request'
-      ]
+        'Our AI agent is processing your request',
+      ],
     };
-
   } catch (error) {
     console.error('❌ 8n8 Submission Error:', error);
 
@@ -167,7 +166,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
     let errorMessage = 'Webhook submission failed';
     let nextSteps = [
       'Please check your 8n8 workflow configuration',
-      'Error: ' + (error instanceof Error ? error.message : 'Unknown error')
+      'Error: ' + (error instanceof Error ? error.message : 'Unknown error'),
     ];
 
     if (isCorsError || isNetworkError) {
@@ -176,14 +175,14 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
         'The webhook is not accessible from your current environment',
         'Try using the CORS proxy server for local development',
         'Run: npx tsx scripts/cors-proxy-server.ts',
-        "Then enable proxy mode in browser console: localStorage.setItem('hermes-use-cors-proxy', 'true')"
+        "Then enable proxy mode in browser console: localStorage.setItem('hermes-use-cors-proxy', 'true')",
       ];
     } else if (isJsonError) {
       errorMessage = 'Response parsing error';
       nextSteps = [
         'The webhook returned an invalid response',
         'This might be a temporary issue with the 8n8 workflow',
-        'Please try again in a few moments'
+        'Please try again in a few moments',
       ];
     }
 
@@ -191,7 +190,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       success: false,
       messageId: new Date().toISOString(),
       timestamp: new Date().toISOString(),
-      nextSteps: [errorMessage, ...nextSteps]
+      nextSteps: [errorMessage, ...nextSteps],
     };
   }
 };

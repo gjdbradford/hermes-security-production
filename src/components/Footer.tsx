@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin } from 'lucide-react';
+import {} from 'lucide-react';
 
 const footerLinks = {
   services: [
@@ -21,16 +21,17 @@ const footerLinks = {
 
 export default function Footer() {
   return (
-    <footer className="bg-hero text-hero-foreground">
-      <div className="container mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8">
+    <footer className='bg-hero text-hero-foreground'>
+      <div className='container mx-auto px-6 py-16'>
+        <div className='grid md:grid-cols-2 lg:grid-cols-5 gap-8'>
           {/* Company Info */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-xl font-bold">Hermes Security</span>
+          <div className='lg:col-span-2'>
+            <div className='flex items-center gap-2 mb-4'>
+              <span className='text-xl font-bold'>Hermes Security</span>
             </div>
-            <p className="text-hero-muted mb-6 leading-relaxed max-w-md">
-              AI-driven penetration testing with expert oversight — helping European enterprises reduce risk, prove compliance, and secure their digital assets with confidence.
+            <p className='text-hero-muted mb-6 leading-relaxed max-w-md'>
+              AI-driven penetration testing with expert oversight — helping European enterprises
+              reduce risk, prove compliance, and secure their digital assets with confidence.
             </p>
             {/* Contact Information - Hidden for now */}
             {/* <div className="space-y-2 text-sm">
@@ -51,11 +52,14 @@ export default function Footer() {
 
           {/* Services */}
           <div>
-            <h3 className="font-semibold mb-4">Services</h3>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.services.map((link) => (
+            <h3 className='font-semibold mb-4'>Services</h3>
+            <ul className='space-y-2 text-sm'>
+              {footerLinks.services.map(link => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-hero-muted hover:text-hero-foreground transition-colors">
+                  <a
+                    href={link.href}
+                    className='text-hero-muted hover:text-hero-foreground transition-colors'
+                  >
                     {link.name}
                   </a>
                 </li>
@@ -65,11 +69,14 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.company.map((link) => (
+            <h3 className='font-semibold mb-4'>Company</h3>
+            <ul className='space-y-2 text-sm'>
+              {footerLinks.company.map(link => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-hero-muted hover:text-hero-foreground transition-colors">
+                  <a
+                    href={link.href}
+                    className='text-hero-muted hover:text-hero-foreground transition-colors'
+                  >
                     {link.name}
                   </a>
                 </li>
@@ -79,11 +86,14 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h3 className="font-semibold mb-4">Legal</h3>
-            <ul className="space-y-2 text-sm">
-              {footerLinks.legal.map((link) => (
+            <h3 className='font-semibold mb-4'>Legal</h3>
+            <ul className='space-y-2 text-sm'>
+              {footerLinks.legal.map(link => (
                 <li key={link.name}>
-                  <a href={link.href} className="text-hero-muted hover:text-hero-foreground transition-colors">
+                  <a
+                    href={link.href}
+                    className='text-hero-muted hover:text-hero-foreground transition-colors'
+                  >
                     {link.name}
                   </a>
                 </li>
@@ -93,12 +103,10 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-hero-foreground/10 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-hero-muted">
-              © 2024 Hermes Security. All rights reserved.
-            </p>
-            <div className="flex items-center gap-4 text-sm text-hero-muted">
+        <div className='border-t border-hero-foreground/10 mt-12 pt-8'>
+          <div className='flex flex-col md:flex-row justify-between items-center gap-4'>
+            <p className='text-sm text-hero-muted'>© 2024 Hermes Security. All rights reserved.</p>
+            <div className='flex items-center gap-4 text-sm text-hero-muted'>
               <span>🇪🇺 EU-based security experts</span>
               <span>•</span>
               <span>AI + Human excellence</span>
