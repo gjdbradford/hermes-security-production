@@ -1,7 +1,10 @@
-import { northAmericanCountries } from './northAmerica';
 import { asianCountries } from './asia';
 import { africanCountries } from './africa';
 import { otherCountries } from './otherCountries';
+import { northAmericanCountriesComplete } from './northAmericaComplete';
+import { southAmericanCountries } from './southAmerica';
+import { europeanCountriesComplete } from './europeComplete';
+import { oceaniaCountries } from './oceania';
 
 export interface CountryData {
   code: string;
@@ -14,9 +17,12 @@ export interface CountryData {
 
 // Combine all countries
 export const allCountries: CountryData[] = [
-  ...northAmericanCountries,
+  ...northAmericanCountriesComplete,
+  ...southAmericanCountries,
+  ...europeanCountriesComplete,
   ...asianCountries,
   ...africanCountries,
+  ...oceaniaCountries,
   ...otherCountries
 ];
 
@@ -53,4 +59,12 @@ export const formatPhoneNumber = (phone: string, countryCode: string): string =>
 };
 
 // Export regional lists for specific use cases
-export { northAmericanCountries, asianCountries, africanCountries, otherCountries };
+export { 
+  northAmericanCountriesComplete,
+  southAmericanCountries,
+  europeanCountriesComplete,
+  asianCountries, 
+  africanCountries, 
+  oceaniaCountries,
+  otherCountries 
+};
