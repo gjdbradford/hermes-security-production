@@ -239,37 +239,35 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                         value={country.code}
                         className="cursor-pointer focus:bg-accent focus:text-accent-foreground"
                       >
-                        {country.flag && (
-                          <span 
-                            className="mr-2 flag-emoji" 
-                            style={{
-                              fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", sans-serif',
-                              fontSize: '1.1em',
-                              display: 'inline-block',
-                              width: '1.2em',
-                              textAlign: 'center',
-                              // Additional inline styles for production compatibility
-                              fontVariantEmoji: 'emoji',
-                              fontFeatureSettings: '"liga" 1, "kern" 1',
-                              WebkitFontFeatureSettings: '"liga" 1, "kern" 1',
-                              MozFontFeatureSettings: '"liga" 1, "kern" 1',
-                              textRendering: 'optimizeLegibility',
-                              WebkitFontSmoothing: 'antialiased',
-                              MozOsxFontSmoothing: 'grayscale',
-                              unicodeBidi: 'bidi-override',
-                              direction: 'ltr',
-                              fontDisplay: 'block',
-                              fontSynthesis: 'none',
-                              WebkitTextStroke: '0.01em transparent',
-                              fontWeight: 'normal',
-                              fontStyle: 'normal'
-                            }}
-                            title={`${country.name} flag`}
-                            aria-label={`${country.name} flag`}
-                          >
-                            {country.flag}
-                          </span>
-                        )}
+                        <span 
+                          className="mr-2 flag-emoji" 
+                          style={{
+                            fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", sans-serif',
+                            fontSize: '1.1em',
+                            display: 'inline-block',
+                            width: '1.2em',
+                            textAlign: 'center',
+                            // Additional inline styles for production compatibility
+                            fontVariantEmoji: 'emoji',
+                            fontFeatureSettings: '"liga" 1, "kern" 1',
+                            WebkitFontFeatureSettings: '"liga" 1, "kern" 1',
+                            MozFontFeatureSettings: '"liga" 1, "kern" 1',
+                            textRendering: 'optimizeLegibility',
+                            WebkitFontSmoothing: 'antialiased',
+                            MozOsxFontSmoothing: 'grayscale',
+                            unicodeBidi: 'bidi-override',
+                            direction: 'ltr',
+                            fontDisplay: 'block',
+                            fontSynthesis: 'none',
+                            WebkitTextStroke: '0.01em transparent',
+                            fontWeight: 'normal',
+                            fontStyle: 'normal'
+                          }}
+                          title={`${country.name} flag`}
+                          aria-label={`${country.name} flag`}
+                        >
+                          {country.flag || '🏳️'}
+                        </span>
                         {country.name}
                       </SelectItem>
                     ))}
