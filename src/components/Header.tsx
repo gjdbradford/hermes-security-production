@@ -106,7 +106,15 @@ export default function Header() {
               variant="hero" 
               size="sm"
               onClick={() => {
-                navigateToContact(navigate, 'Get In Touch');
+                // Check if we're already on the contact page
+                if (location.pathname === '/contact' || location.pathname.endsWith('/contact')) {
+                  // If already on contact page, reload it to reset the form
+                  console.log('🔄 Already on contact page, reloading...');
+                  window.location.reload();
+                } else {
+                  // Navigate to contact page normally
+                  navigateToContact(navigate, 'Get In Touch');
+                }
               }}
             >
               Get In Touch
@@ -159,7 +167,15 @@ export default function Header() {
                   size="sm"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    navigateToContact(navigate, 'Get In Touch');
+                    // Check if we're already on the contact page
+                    if (location.pathname === '/contact' || location.pathname.endsWith('/contact')) {
+                      // If already on contact page, reload it to reset the form
+                      console.log('🔄 Already on contact page, reloading...');
+                      window.location.reload();
+                    } else {
+                      // Navigate to contact page normally
+                      navigateToContact(navigate, 'Get In Touch');
+                    }
                   }}
                 >
                   Get In Touch
