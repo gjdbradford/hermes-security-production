@@ -225,6 +225,44 @@ html {
     height: auto;
     display: block;
   }
+
+  /* Ensure emoji flags render properly across all browsers */
+  .flag-emoji {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", sans-serif;
+    font-variant-emoji: emoji;
+    font-feature-settings: "liga" 1, "kern" 1;
+    -webkit-font-feature-settings: "liga" 1, "kern" 1;
+    -moz-font-feature-settings: "liga" 1, "kern" 1;
+    -ms-font-feature-settings: "liga" 1, "kern" 1;
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1;
+    vertical-align: middle;
+    font-size: 1.1em;
+  }
+
+  /* Fallback for systems that don't support emoji flags */
+  .flag-emoji::before {
+    content: attr(data-fallback);
+    display: none;
+  }
+
+  /* Show fallback text if emoji doesn't render */
+  @supports not (font-variant-emoji: emoji) {
+    .flag-emoji {
+      font-family: sans-serif;
+      background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+      border-radius: 2px;
+      text-align: center;
+      font-size: 0.8em;
+      color: #666;
+    }
+  }
 }
 
 /* Browser-specific compatibility fixes */
