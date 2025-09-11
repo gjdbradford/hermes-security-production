@@ -1,4 +1,4 @@
-import { logEnvironmentInfo, getBasePath } from './routingUtils';
+import { logEnvironmentInfo, getBasePath, buildUrl } from './routingUtils';
 
 // Declare Crisp global variable
 declare global {
@@ -112,28 +112,15 @@ export const TriggerHandlers = {
         return;
       }
       
-      // Use React Router navigation if available, otherwise fallback to window.location
-      if (navigateFunction) {
-        console.log('🧭 Using React Router navigation to /contact');
-        navigateFunction('/contact');
-      } else {
-        // For GitHub Pages, we need to handle the base path correctly
-        const basePath = getBasePath();
-        const contactUrl = basePath === '/' ? '/contact' : `${basePath}contact`;
-        console.log('🧭 Using window.location fallback to:', contactUrl);
-        window.location.href = contactUrl;
-      }
+      // Use proper environment-aware routing with hash support
+      const contactUrl = buildUrl('contact');
+      console.log('🧭 Using buildUrl for contact navigation:', contactUrl);
+      window.location.href = contactUrl;
     } catch (error) {
       console.error('❌ Error in contact form trigger:', error);
-      // Fallback: navigate to contact page
-      if (navigateFunction) {
-        navigateFunction('/contact');
-      } else {
-        // For GitHub Pages, we need to handle the base path correctly
-        const basePath = getBasePath();
-        const contactUrl = basePath === '/' ? '/contact' : `${basePath}contact`;
-        window.location.href = contactUrl;
-      }
+      // Fallback: use buildUrl for proper routing
+      const contactUrl = buildUrl('contact');
+      window.location.href = contactUrl;
     }
   },
 
