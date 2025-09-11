@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Download, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { navigateToContact } from "@/utils/ctaNavigation";
 
 const ctaOptions = [
   {
@@ -21,12 +23,10 @@ const ctaOptions = [
 ];
 
 export default function CTASection() {
+  const navigate = useNavigate();
+  
   const handleCTAClick = (ctaSource: string) => {
-    console.log('🔘 CTA Button clicked:', ctaSource);
-    // Use URL parameters instead of sessionStorage
-    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
-    console.log('🧭 Navigating to:', contactUrl);
-    window.location.href = contactUrl;
+    navigateToContact(navigate, ctaSource);
   };
 
   return (
