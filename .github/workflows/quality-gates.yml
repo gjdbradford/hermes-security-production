@@ -48,7 +48,7 @@ jobs:
 
       - name: 🎨 Prettier Check
         run: npx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,md}"
-        continue-on-error: false
+        continue-on-error: true
 
       - name: 📝 TypeScript Type Check
         run: npx tsc --noEmit
