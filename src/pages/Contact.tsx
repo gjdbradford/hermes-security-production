@@ -21,20 +21,32 @@ export default function Contact() {
   }, [ctaSource]);
   const [formKey, setFormKey] = useState<number>(0);
 
-  // Get CTA source from URL parameters (much more reliable than sessionStorage)
+  // Get CTA source from URL parameters or sessionStorage
   useEffect(() => {
-    console.log('🔍 Contact page: Reading CTA source from URL parameters...');
+    console.log('🔍 Contact page: Reading CTA source...');
     console.log('🔍 Current URL:', window.location.href);
     
+    // First try URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const ctaFromUrl = urlParams.get('cta');
     console.log('🔍 Retrieved cta from URL:', ctaFromUrl);
     
     if (ctaFromUrl) {
-      console.log('✅ Contact page: Setting CTA source to:', ctaFromUrl);
+      console.log('✅ Contact page: Setting CTA source from URL to:', ctaFromUrl);
       setCtaSource(ctaFromUrl);
     } else {
-      console.log('⚠️ Contact page: No CTA parameter found, using default: Get In Touch');
+      // Fallback to sessionStorage
+      const ctaFromStorage = sessionStorage.getItem('cta-source');
+      console.log('🔍 Retrieved cta from sessionStorage:', ctaFromStorage);
+      
+      if (ctaFromStorage) {
+        console.log('✅ Contact page: Setting CTA source from sessionStorage to:', ctaFromStorage);
+        setCtaSource(ctaFromStorage);
+        // Clear it after reading to prevent stale data
+        sessionStorage.removeItem('cta-source');
+      } else {
+        console.log('⚠️ Contact page: No CTA source found, using default: Get In Touch');
+      }
     }
     
     // Reset form key to force form reset

@@ -1,5 +1,7 @@
 import { Brain, FileText, Shield, Globe, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { navigateToContact } from "@/utils/ctaNavigation";
 
 // Helper function to convert markdown-style bold text to JSX
 const renderBoldText = (text: string) => {
@@ -36,12 +38,10 @@ const values = [
 ];
 
 export default function ValueProposition() {
+  const navigate = useNavigate();
+  
   const handleCTAClick = (ctaSource: string) => {
-    console.log('🔘 ValueProposition CTA clicked:', ctaSource);
-    // Use URL parameters instead of sessionStorage
-    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
-    console.log('🧭 Navigating to:', contactUrl);
-    window.location.href = contactUrl;
+    navigateToContact(navigate, ctaSource);
   };
 
   return (
