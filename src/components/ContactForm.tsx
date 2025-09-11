@@ -247,9 +247,25 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                               fontSize: '1.1em',
                               display: 'inline-block',
                               width: '1.2em',
-                              textAlign: 'center'
+                              textAlign: 'center',
+                              // Additional inline styles for production compatibility
+                              fontVariantEmoji: 'emoji',
+                              fontFeatureSettings: '"liga" 1, "kern" 1',
+                              WebkitFontFeatureSettings: '"liga" 1, "kern" 1',
+                              MozFontFeatureSettings: '"liga" 1, "kern" 1',
+                              textRendering: 'optimizeLegibility',
+                              WebkitFontSmoothing: 'antialiased',
+                              MozOsxFontSmoothing: 'grayscale',
+                              unicodeBidi: 'bidi-override',
+                              direction: 'ltr',
+                              fontDisplay: 'block',
+                              fontSynthesis: 'none',
+                              WebkitTextStroke: '0.01em transparent',
+                              fontWeight: 'normal',
+                              fontStyle: 'normal'
                             }}
                             title={`${country.name} flag`}
+                            aria-label={`${country.name} flag`}
                           >
                             {country.flag}
                           </span>

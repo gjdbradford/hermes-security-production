@@ -248,6 +248,14 @@ html {
     /* Force emoji rendering */
     unicode-bidi: bidi-override;
     direction: ltr;
+    /* Additional production-specific fixes */
+    font-display: block;
+    font-synthesis: none;
+    /* Ensure flags render in production builds */
+    -webkit-text-stroke: 0.01em transparent;
+    /* Prevent font fallback issues */
+    font-weight: normal;
+    font-style: normal;
   }
 
   /* Force emoji rendering in all browsers */

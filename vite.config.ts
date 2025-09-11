@@ -40,6 +40,13 @@ export default defineConfig(({ mode }) => {
         compress: {
           drop_console: mode === 'production',
           drop_debugger: mode === 'production',
+          // Preserve Unicode characters (including emojis) during minification
+          keep_fargs: false,
+          passes: 1,
+        },
+        format: {
+          // Don't escape Unicode characters - this is the key setting
+          ascii_only: false,
         },
       },
       rollupOptions: {
