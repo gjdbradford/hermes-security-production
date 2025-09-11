@@ -17,6 +17,7 @@
     "update-favicon": "npx tsx scripts/update-favicon.ts",
     "assets:status": "npx tsx scripts/asset-manager.ts status",
     "assets:sync": "npx tsx scripts/asset-manager.ts sync",
+    "test:routing": "npx tsx scripts/test-routing.ts",
     "assets:watch": "npx tsx scripts/asset-manager.ts watch",
     "test:cdn": "npx tsx scripts/test-cdn-integration.ts",
     "test:fixes": "npx tsx scripts/test-fixes.ts",
