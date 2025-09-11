@@ -1,8 +1,6 @@
 import { Smartphone, Cloud, Network, Globe, Bot, Shield, Wifi, FileText, CheckCircle, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { renderBoldText } from "@/utils/textUtils";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
 
 const services = [
   {
@@ -50,10 +48,12 @@ const services = [
 ];
 
 export default function ServicesSection() {
-  const navigate = useNavigate();
-  
   const handleCTAClick = (ctaSource: string) => {
-    navigateToContact(navigate, ctaSource);
+    console.log('🔘 Services CTA Button clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
   };
 
   return (

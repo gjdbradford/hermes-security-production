@@ -4,8 +4,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Building2, Shield, Globe, Heart, Monitor, Users, ArrowUpRight } from "lucide-react";
 import OptimizedImage from "@/components/ui/optimized-image";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
 import { IMAGE_PATHS } from "@/utils/imageUtils";
 
 // Case study data
@@ -107,13 +105,16 @@ const sectorIcons = {
 };
 
 export default function CaseStudySection() {
-  const navigate = useNavigate();
   const [currentCase, setCurrentCase] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
 
   const handleCTAClick = (ctaSource: string) => {
-    navigateToContact(navigate, ctaSource);
+    console.log('🔘 Case Study CTA clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
   };
 
   // Performance optimization: Memoize current case data

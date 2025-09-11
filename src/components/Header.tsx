@@ -4,7 +4,6 @@ import { Menu, X } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import OptimizedImage from "@/components/ui/optimized-image";
 import { IMAGE_PATHS } from "@/utils/imageUtils";
-import { navigateToContact } from "@/utils/ctaNavigation";
 
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId);
@@ -106,7 +105,10 @@ export default function Header() {
               variant="hero" 
               size="sm"
               onClick={() => {
-                navigateToContact(navigate, 'Get In Touch');
+                console.log('🔘 Header Get In Touch clicked');
+                const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent('Get In Touch')}`;
+                console.log('🧭 Navigating to:', contactUrl);
+                window.location.href = contactUrl;
               }}
             >
               Get In Touch
@@ -159,7 +161,10 @@ export default function Header() {
                   size="sm"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    navigateToContact(navigate, 'Get In Touch');
+                    console.log('🔘 Mobile Header Get In Touch clicked');
+                    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent('Get In Touch')}`;
+                    console.log('🧭 Navigating to:', contactUrl);
+                    window.location.href = contactUrl;
                   }}
                 >
                   Get In Touch

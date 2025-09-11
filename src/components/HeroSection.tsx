@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Shield, Zap, Users, Target, ChevronRight, ArrowRight } from "lucide-react";
 import { getImagePath } from "@/utils/imageUtils";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
 
 // Helper function to convert markdown-style bold text to JSX
 const renderBoldText = (text: string) => {
@@ -60,14 +58,20 @@ const heroContent = [
 ];
 
 export default function HeroSection() {
-  const navigate = useNavigate();
   const [currentHero, setCurrentHero] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
   const [pauseTimer, setPauseTimer] = useState(false);
 
   const handleCTAClick = (ctaSource: string) => {
-    navigateToContact(navigate, ctaSource);
+    console.log('🔘 Hero CTA clicked:', ctaSource);
+    
+    // Use URL parameters instead of sessionStorage - much more reliable
+    const encodedCtaSource = encodeURIComponent(ctaSource);
+    const contactUrl = `${window.location.origin}/contact?cta=${encodedCtaSource}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    
+    window.location.href = contactUrl;
   };
 
   // Performance optimization: Memoize hero content to prevent unnecessary re-renders

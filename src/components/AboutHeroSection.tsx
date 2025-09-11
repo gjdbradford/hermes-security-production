@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
 import { getImagePath } from "@/utils/imageUtils";
 
 export default function AboutHeroSection() {
-  const navigate = useNavigate();
-  
   const handleCTAClick = (ctaSource: string) => {
-    navigateToContact(navigate, ctaSource);
+    console.log('🔘 About Hero CTA clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
   };
 
   return (

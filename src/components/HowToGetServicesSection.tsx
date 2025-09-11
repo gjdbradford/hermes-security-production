@@ -1,7 +1,6 @@
 import { Search, Calendar, FileText, Shield, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
+import { Link } from "react-router-dom";
 
 const serviceSteps = [
   {
@@ -32,10 +31,12 @@ const serviceSteps = [
 ];
 
 export default function HowToGetServicesSection() {
-  const navigate = useNavigate();
-  
   const handleCTAClick = (ctaSource: string) => {
-    navigateToContact(navigate, ctaSource);
+    console.log('🔘 HowToGetServices CTA clicked:', ctaSource);
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
+    console.log('🧭 Navigating to:', contactUrl);
+    window.location.href = contactUrl;
   };
 
   return (
