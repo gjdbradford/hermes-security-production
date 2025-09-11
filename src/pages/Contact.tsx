@@ -42,6 +42,9 @@ export default function Contact() {
     
     // Reset form key to force form reset
     setFormKey(prev => prev + 1);
+    
+    // Scroll to top of page when contact page loads
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []); // Remove ctaSource dependency to prevent loop
 
   const handleFormSuccess = (data: ContactFormData) => {

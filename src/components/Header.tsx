@@ -5,7 +5,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { TriggerHandlers } from "@/utils/crispTriggers";
 import OptimizedImage from "@/components/ui/optimized-image";
 import { IMAGE_PATHS } from "@/utils/imageUtils";
-import { getBasePath } from "@/utils/routingUtils";
 
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId);
@@ -107,12 +106,7 @@ export default function Header() {
               variant="hero" 
               size="sm"
               onClick={() => {
-                // Set CTA source to 'Get In Touch'
-                sessionStorage.setItem('cta-source', 'Get In Touch');
-                // Use proper routing for different environments
-                const basePath = getBasePath();
-                const contactUrl = basePath === '/' ? '/contact' : `${basePath}contact`;
-                window.location.href = contactUrl;
+                TriggerHandlers.contactForm('Get In Touch');
               }}
             >
               Get In Touch
@@ -165,12 +159,7 @@ export default function Header() {
                   size="sm"
                   onClick={() => {
                     setMobileMenuOpen(false);
-                    // Set CTA source to 'Get In Touch'
-                    sessionStorage.setItem('cta-source', 'Get In Touch');
-                    // Use proper routing for different environments
-                    const basePath = getBasePath();
-                    const contactUrl = basePath === '/' ? '/contact' : `${basePath}contact`;
-                    window.location.href = contactUrl;
+                    TriggerHandlers.contactForm('Get In Touch');
                   }}
                 >
                   Get In Touch
