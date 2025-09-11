@@ -94,7 +94,7 @@ class EnvironmentTester {
   private async testConnectivity(env: EnvironmentConfig): Promise<TestResult> {
     try {
       const startTime = Date.now();
-      const response = await fetch(env.url, { 
+      const response = await fetch(env.url, {
         method: 'HEAD',
         signal: AbortSignal.timeout(10000) // 10 second timeout
       });
@@ -132,25 +132,25 @@ class EnvironmentTester {
     try {
       const url = `${env.url}${path}`;
       const startTime = Date.now();
-      const response = await fetch(url, { 
+      const response = await fetch(url, {
         signal: AbortSignal.timeout(15000) // 15 second timeout
       });
       const responseTime = Date.now() - startTime;
 
       if (response.ok) {
         const content = await response.text();
-        
+
         // Check for common issues
         const errors: string[] = [];
-        
+
         if (content.includes('Failed to load module script')) {
           errors.push('MIME type errors detected');
         }
-        
+
         if (content.includes('404') && !content.includes('404 page')) {
           errors.push('404 error in content');
         }
-        
+
         if (content.length < 1000) {
           errors.push('Page content seems too short');
         }
@@ -210,11 +210,11 @@ class EnvironmentTester {
           totalCount++;
           try {
             const assetUrl = `${env.url}${testAsset}`;
-            const response = await fetch(assetUrl, { 
+            const response = await fetch(assetUrl, {
               method: 'HEAD',
               signal: AbortSignal.timeout(5000)
             });
-            
+
             if (response.ok) {
               successCount++;
             } else {
@@ -265,13 +265,13 @@ class EnvironmentTester {
     try {
       // Test if contact page loads (which indicates CTA navigation works)
       const contactUrl = `${env.url}/contact`;
-      const response = await fetch(contactUrl, { 
+      const response = await fetch(contactUrl, {
         signal: AbortSignal.timeout(10000)
       });
 
       if (response.ok) {
         const content = await response.text();
-        
+
         // Check if it's the contact page (not a redirect or error)
         if (content.includes('Contact Us') || content.includes('contact')) {
           return {
@@ -314,7 +314,7 @@ class EnvironmentTester {
     // Check if local server is running
     if (environments[0].name === 'local') {
       try {
-        await fetch(environments[0].url, { 
+        await fetch(environments[0].url, {
           method: 'HEAD',
           signal: AbortSignal.timeout(2000)
         });
@@ -355,7 +355,7 @@ class EnvironmentTester {
     for (const [env, summary] of environmentSummary) {
       const total = summary.pass + summary.fail + summary.skip;
       const passRate = total > 0 ? ((summary.pass / total) * 100).toFixed(1) : '0';
-      
+
       console.log(`\n${env.toUpperCase()}:`);
       console.log(`  ✅ Pass: ${summary.pass}`);
       console.log(`  ❌ Fail: ${summary.fail}`);
@@ -384,7 +384,7 @@ class EnvironmentTester {
     const overallPassRate = totalTests > 0 ? ((totalPass / totalTests) * 100).toFixed(1) : '0';
 
     console.log(`\n🎯 OVERALL: ${totalPass}/${totalTests} tests passed (${overallPassRate}%)`);
-    
+
     if (overallPassRate === '100.0') {
       console.log('🎉 All environments are working perfectly!');
     } else if (parseFloat(overallPassRate) >= 80) {

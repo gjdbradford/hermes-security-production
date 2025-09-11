@@ -1,9 +1,9 @@
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { ChevronRight, Home, Mail, Shield, FileText, Clock } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { ChevronRight, Home, Mail, Shield, FileText, Clock } from 'lucide-react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Terms() {
   return (
@@ -13,10 +13,10 @@ export default function Terms() {
         <meta name="description" content="Terms of Use for Hermes Security - AI-driven penetration testing services with human oversight." />
         <meta name="robots" content="index, follow" />
       </Helmet>
-      
+
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
         <Header />
-        
+
         {/* Breadcrumbs */}
         <div className="pt-20 pb-4">
           <div className="container mx-auto px-4">
@@ -30,7 +30,7 @@ export default function Terms() {
             </nav>
           </div>
         </div>
-        
+
         {/* Main Content */}
         <div className="py-12">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -43,26 +43,26 @@ export default function Terms() {
                   Terms of Use
                 </CardTitle>
                 <p className="text-gray-600 mt-2">
-                  Last updated: {new Date().toLocaleDateString('en-GB', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  Last updated: {new Date().toLocaleDateString('en-GB', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}
                 </p>
               </CardHeader>
-              
+
               <CardContent className="prose prose-lg max-w-none">
                 <div className="space-y-8">
-                  
+
                   {/* Introduction */}
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">1. Introduction</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      Welcome to Hermes Security. These Terms of Use ("Terms") govern your use of our website 
+                      Welcome to Hermes Security. These Terms of Use ("Terms") govern your use of our website
                       and services. By accessing or using our services, you agree to be bound by these Terms.
                     </p>
                     <p className="text-gray-700 leading-relaxed mt-4">
-                      Hermes Security provides AI-driven penetration testing services with human oversight, 
+                      Hermes Security provides AI-driven penetration testing services with human oversight,
                       specializing in cybersecurity assessments for European enterprises.
                     </p>
                   </section>
@@ -144,8 +144,8 @@ export default function Terms() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">7. Intellectual Property</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      All content, methodologies, and intellectual property developed by Hermes Security 
-                      remain our exclusive property. Clients receive usage rights for delivered reports 
+                      All content, methodologies, and intellectual property developed by Hermes Security
+                      remain our exclusive property. Clients receive usage rights for delivered reports
                       and recommendations as specified in service agreements.
                     </p>
                   </section>
@@ -154,8 +154,8 @@ export default function Terms() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">8. Limitation of Liability</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      Hermes Security's liability is limited to the value of services provided. We are not 
-                      liable for indirect, consequential, or punitive damages. Our services are provided 
+                      Hermes Security's liability is limited to the value of services provided. We are not
+                      liable for indirect, consequential, or punitive damages. Our services are provided
                       "as is" and we make no warranties beyond those explicitly stated in service agreements.
                     </p>
                   </section>
@@ -164,8 +164,8 @@ export default function Terms() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">9. Termination</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      Either party may terminate services with 30 days written notice. Immediate termination 
-                      may occur for breach of these Terms or non-payment. Upon termination, all outstanding 
+                      Either party may terminate services with 30 days written notice. Immediate termination
+                      may occur for breach of these Terms or non-payment. Upon termination, all outstanding
                       obligations remain in effect.
                     </p>
                   </section>
@@ -174,8 +174,8 @@ export default function Terms() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">10. Governing Law</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      These Terms are governed by the laws of the European Union. Any disputes will be 
-                      resolved through binding arbitration or in the courts of competent jurisdiction 
+                      These Terms are governed by the laws of the European Union. Any disputes will be
+                      resolved through binding arbitration or in the courts of competent jurisdiction
                       within the EU.
                     </p>
                   </section>
@@ -184,8 +184,8 @@ export default function Terms() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">11. Changes to Terms</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      We reserve the right to modify these Terms at any time. Changes will be posted on 
-                      this page with an updated revision date. Continued use of our services constitutes 
+                      We reserve the right to modify these Terms at any time. Changes will be posted on
+                      this page with an updated revision date. Continued use of our services constitutes
                       acceptance of modified Terms.
                     </p>
                   </section>
@@ -210,7 +210,7 @@ export default function Terms() {
             </Card>
           </div>
         </div>
-        
+
         <Footer />
       </div>
     </>

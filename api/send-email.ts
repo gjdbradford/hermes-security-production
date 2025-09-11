@@ -23,8 +23,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Validate required fields
     if (!emailData.to || !emailData.subject || !emailData.htmlBody) {
-      return res.status(400).json({ 
-        error: 'Missing required fields: to, subject, htmlBody' 
+      return res.status(400).json({
+        error: 'Missing required fields: to, subject, htmlBody'
       });
     }
 
@@ -63,7 +63,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   } catch (error) {
     console.error('❌ Email sending failed:', error);
-    
+
     return res.status(500).json({
       success: false,
       error: 'Failed to send email',

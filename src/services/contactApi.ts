@@ -37,17 +37,17 @@ export interface ContactApiResponse {
 const getWebhookUrl = (): string => {
   const hostname = window.location.hostname;
   const pathname = window.location.pathname;
-  
+
   // Production: www.hermessecurity.io or hermessecurity.io
   if (hostname === 'www.hermessecurity.io' || hostname === 'hermessecurity.io') {
     return 'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
-  
+
   // Staging: gjdbradford.github.io/hermes-security-production/
   if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
     return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
-  
+
   // Local development: Use CORS proxy if available, otherwise direct webhook
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     // Check if CORS proxy is available
@@ -57,7 +57,7 @@ const getWebhookUrl = (): string => {
     }
     return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
-  
+
   // Default to test webhook for any other environment
   return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
 };
@@ -82,7 +82,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
     // Check if we're in development mode and should bypass webhook
     const isDev = getEnvironmentName() === 'development';
     const bypassWebhook = isDev && localStorage.getItem('hermes-bypass-webhook') === 'true';
-    
+
     if (bypassWebhook) {
       console.log('🚧 Development mode: Bypassing webhook submission');
       return {
@@ -90,9 +90,9 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
         messageId: new Date().toISOString(),
         timestamp: new Date().toISOString(),
         nextSteps: [
-          "Development mode: Form submitted successfully (webhook bypassed)",
+          'Development mode: Form submitted successfully (webhook bypassed)',
           "To test with real webhook, run: localStorage.removeItem('hermes-bypass-webhook')",
-          "Then refresh the page and try again"
+          'Then refresh the page and try again'
         ]
       };
     }
@@ -120,7 +120,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
     // Handle empty response
     const responseText = await response.text();
     console.log('📄 Raw response:', responseText);
-    
+
     let result;
     if (responseText.trim() === '') {
       // If response is empty, create a success response
@@ -142,7 +142,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
         };
       }
     }
-    
+
     console.log('✅ 8n8 Response:', result);
 
     return {
@@ -151,42 +151,42 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       timestamp: result.timestamp || new Date().toISOString(),
       nextSteps: result.nextSteps || [
         "We've received your enquiry and will respond within 24 hours",
-        "Check your email for a confirmation",
-        "Our AI agent is processing your request"
+        'Check your email for a confirmation',
+        'Our AI agent is processing your request'
       ]
     };
 
   } catch (error) {
     console.error('❌ 8n8 Submission Error:', error);
-    
+
     // Check if it's a CORS error
     const isCorsError = error instanceof Error && error.message.includes('CORS');
     const isNetworkError = error instanceof Error && error.message.includes('Failed to fetch');
     const isJsonError = error instanceof Error && error.message.includes('JSON');
-    
-    let errorMessage = "Webhook submission failed";
+
+    let errorMessage = 'Webhook submission failed';
     let nextSteps = [
-      "Please check your 8n8 workflow configuration",
-      "Error: " + (error instanceof Error ? error.message : 'Unknown error')
+      'Please check your 8n8 workflow configuration',
+      'Error: ' + (error instanceof Error ? error.message : 'Unknown error')
     ];
-    
+
     if (isCorsError || isNetworkError) {
-      errorMessage = "CORS/Network error detected";
+      errorMessage = 'CORS/Network error detected';
       nextSteps = [
-        "The webhook is not accessible from your current environment",
-        "Try using the CORS proxy server for local development",
-        "Run: npx tsx scripts/cors-proxy-server.ts",
+        'The webhook is not accessible from your current environment',
+        'Try using the CORS proxy server for local development',
+        'Run: npx tsx scripts/cors-proxy-server.ts',
         "Then enable proxy mode in browser console: localStorage.setItem('hermes-use-cors-proxy', 'true')"
       ];
     } else if (isJsonError) {
-      errorMessage = "Response parsing error";
+      errorMessage = 'Response parsing error';
       nextSteps = [
-        "The webhook returned an invalid response",
-        "This might be a temporary issue with the 8n8 workflow",
-        "Please try again in a few moments"
+        'The webhook returned an invalid response',
+        'This might be a temporary issue with the 8n8 workflow',
+        'Please try again in a few moments'
       ];
     }
-    
+
     return {
       success: false,
       messageId: new Date().toISOString(),

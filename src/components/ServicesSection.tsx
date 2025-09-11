@@ -1,57 +1,57 @@
-import { Smartphone, Cloud, Network, Globe, Bot, Shield, Wifi, FileText, CheckCircle, Target } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { renderBoldText } from "@/utils/textUtils";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
+import { Smartphone, Cloud, Network, Globe, Bot, Shield, Wifi, FileText, CheckCircle, Target } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { renderBoldText } from '@/utils/textUtils';
+import { useNavigate } from 'react-router-dom';
+import { navigateToContact } from '@/utils/ctaNavigation';
 
 const services = [
   {
     icon: Globe,
-    title: "Web Application Pentest",
-    description: "OWASP-aligned, exploit-led testing of custom and off-the-shelf apps.",
-    benefit: "Prevent account takeover, data leaks, and business logic abuse."
+    title: 'Web Application Pentest',
+    description: 'OWASP-aligned, exploit-led testing of custom and off-the-shelf apps.',
+    benefit: 'Prevent account takeover, data leaks, and business logic abuse.'
   },
   {
     icon: Network,
-    title: "API Pentest",
-    description: "Assess authentication, shadow APIs, injection flaws, and broken object-level access.",
-    benefit: "Protect the backbone of modern apps and stop data-level exposures."
+    title: 'API Pentest',
+    description: 'Assess authentication, shadow APIs, injection flaws, and broken object-level access.',
+    benefit: 'Protect the backbone of modern apps and stop data-level exposures.'
   },
   {
     icon: Smartphone,
-    title: "Mobile App Pentest",
-    description: "iOS/Android security including API calls, storage, jailbreak/root detection.",
-    benefit: "Safeguard customer data and brand reputation on mobile."
+    title: 'Mobile App Pentest',
+    description: 'iOS/Android security including API calls, storage, jailbreak/root detection.',
+    benefit: 'Safeguard customer data and brand reputation on mobile.'
   },
   {
     icon: Cloud,
-    title: "Cloud Pentest",
-    description: "AWS, Azure, GCP misconfigurations, identity/permission abuse, exposed services.",
-    benefit: "Reduce blast radius and lateral movement paths in the cloud."
+    title: 'Cloud Pentest',
+    description: 'AWS, Azure, GCP misconfigurations, identity/permission abuse, exposed services.',
+    benefit: 'Reduce blast radius and lateral movement paths in the cloud.'
   },
   {
     icon: Wifi,
-    title: "Network Testing (External & Internal)",
-    description: "Internet perimeter + lateral movement from inside.",
-    benefit: "Understand what attackers see externally and validate internal segmentation controls."
+    title: 'Network Testing (External & Internal)',
+    description: 'Internet perimeter + lateral movement from inside.',
+    benefit: 'Understand what attackers see externally and validate internal segmentation controls.'
   },
   {
     icon: Shield,
-    title: "Vulnerability Scanning",
-    description: "Continuous AI-powered asset discovery and vulnerability assessment.",
-    benefit: "Maintain always-on visibility and catch issues before they escalate."
+    title: 'Vulnerability Scanning',
+    description: 'Continuous AI-powered asset discovery and vulnerability assessment.',
+    benefit: 'Maintain always-on visibility and catch issues before they escalate.'
   },
   {
     icon: Bot,
-    title: "AI/LLM",
-    description: "Adversarial testing for LLMs, agents, and guardrails (prompt injection, data leakage, model abuse).",
-    benefit: "Make AI features safe to deploy and meet rising stakeholder scrutiny."
+    title: 'AI/LLM',
+    description: 'Adversarial testing for LLMs, agents, and guardrails (prompt injection, data leakage, model abuse).',
+    benefit: 'Make AI features safe to deploy and meet rising stakeholder scrutiny.'
   }
 ];
 
 export default function ServicesSection() {
   const navigate = useNavigate();
-  
+
   const handleCTAClick = (ctaSource: string) => {
     navigateToContact(navigate, ctaSource);
   };
@@ -75,7 +75,7 @@ export default function ServicesSection() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {services.map((service, index) => (
-              <div 
+              <div
                 key={index}
                 className="p-6 bg-hero-foreground/5 backdrop-blur-sm rounded-xl border border-hero-foreground/10 hover:bg-hero-foreground/10 transition-all duration-300 group"
               >
@@ -123,11 +123,11 @@ export default function ServicesSection() {
           </div>
 
           <div className="text-center mt-12">
-            <Button 
-              variant="hero" 
-              size="lg" 
+            <Button
+              variant="hero"
+              size="lg"
               className="group"
-              onClick={() => handleCTAClick("Book Your Security Assessment Today")}
+              onClick={() => handleCTAClick('Book Your Security Assessment Today')}
             >
               Book Your Security Assessment Today
               <Target className="ml-2 w-4 h-4 transition-transform group-hover:rotate-12" />

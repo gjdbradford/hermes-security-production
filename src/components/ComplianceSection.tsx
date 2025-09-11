@@ -1,51 +1,51 @@
-import { Shield, CheckCircle, Globe, FileText, TrendingUp, Target, Award, Users } from "lucide-react";
-import { getImagePath } from "@/utils/imageUtils";
+import { Shield, CheckCircle, Globe, FileText, TrendingUp, Target, Award, Users } from 'lucide-react';
+import { getImagePath } from '@/utils/imageUtils';
 
 const resultFeatures = [
   {
     icon: TrendingUp,
-    title: "Proven Risk Reduction",
+    title: 'Proven Risk Reduction',
     items: [
-      "Measurable decrease in attack surface",
-      "Validated vulnerability remediation",
-      "Quantified security posture improvements",
-      "Board-ready impact metrics"
+      'Measurable decrease in attack surface',
+      'Validated vulnerability remediation',
+      'Quantified security posture improvements',
+      'Board-ready impact metrics'
     ]
   },
   {
     icon: Target,
-    title: "Compliance Gains",
+    title: 'Compliance Gains',
     items: [
-      "SOC 2 Type II evidence collection",
-      "GDPR compliance validation",
-      "Regulatory audit readiness",
-      "Stakeholder confidence building"
+      'SOC 2 Type II evidence collection',
+      'GDPR compliance validation',
+      'Regulatory audit readiness',
+      'Stakeholder confidence building'
     ]
   },
   {
     icon: Award,
-    title: "Tangible Outcomes",
+    title: 'Tangible Outcomes',
     items: [
-      "Actionable remediation roadmaps",
-      "Validated security improvements",
-      "Clear ROI measurement",
-      "Ongoing security guidance"
+      'Actionable remediation roadmaps',
+      'Validated security improvements',
+      'Clear ROI measurement',
+      'Ongoing security guidance'
     ]
   }
 ];
 
 const impactMetrics = [
-  { metric: "78%", label: "Average Risk Reduction" },
-  { metric: "95%", label: "Vulnerability Fix Rate" },
-  { metric: "30 Days", label: "Average Time to Zero Criticals" },
-  { metric: "100%", label: "Compliance Readiness" }
+  { metric: '78%', label: 'Average Risk Reduction' },
+  { metric: '95%', label: 'Vulnerability Fix Rate' },
+  { metric: '30 Days', label: 'Average Time to Zero Criticals' },
+  { metric: '100%', label: 'Compliance Readiness' }
 ];
 
 export default function ComplianceSection() {
   return (
     <section className="relative py-24 bg-hero text-hero-foreground overflow-hidden">
       {/* Custom Background Image with Subtle Movement */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-subtle-float"
         style={{
           backgroundImage: `url(${getImagePath('images/backgrounds/hero-bg.jpg')})`,
@@ -54,15 +54,15 @@ export default function ComplianceSection() {
         }}
         aria-hidden="true"
       />
-      
+
       {/* Overlay for text readability */}
       <div className="absolute inset-0 bg-hero/80 backdrop-blur-sm" aria-hidden="true" />
-      
+
       {/* Enhanced Background Effects */}
       <div className="absolute inset-0 bg-gradient-security opacity-30" aria-hidden="true" />
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-security/10 rounded-full blur-3xl animate-pulse-security" aria-hidden="true" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent-security/5 rounded-full blur-3xl" aria-hidden="true" />
-      
+
       <div className="relative container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -77,7 +77,7 @@ export default function ComplianceSection() {
           {/* Result Features */}
           <div className="grid md:grid-cols-2 gap-8 mb-16 max-w-4xl mx-auto">
             {resultFeatures.filter((feature, index) => index !== 1).map((feature, index) => (
-              <div 
+              <div
                 key={index}
                 className="group p-6 bg-hero-foreground/5 backdrop-blur-sm rounded-xl border border-hero-foreground/10 hover:bg-hero-foreground/10 transition-all duration-300"
               >
@@ -105,7 +105,7 @@ export default function ComplianceSection() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {impactMetrics.map((metric, index) => (
-                <div 
+                <div
                   key={index}
                   className="text-center p-4 bg-background/80 backdrop-blur-sm rounded-lg border border-border/30"
                 >

@@ -58,9 +58,9 @@ export interface ContactFormEmailData {
  */
 export const generateEmailHeaders = (formData: ContactFormEmailData): EmailHeaders => {
   const messageId = `<hermes-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@hermessecurity.io>`;
-  const priority = formData.serviceUrgency === 'Super urgent' ? '1' : 
-                  formData.serviceUrgency === 'Urgent' ? '2' : '3';
-  
+  const priority = formData.serviceUrgency === 'Super urgent' ? '1' :
+    formData.serviceUrgency === 'Urgent' ? '2' : '3';
+
   return {
     'X-Mailer': 'Hermes Security Contact Form v1.0',
     'X-Priority': priority,
@@ -83,9 +83,9 @@ export const generateEmailHeaders = (formData: ContactFormEmailData): EmailHeade
  * Generate HTML email body for contact form submissions
  */
 export const generateEmailBody = (formData: ContactFormEmailData): { html: string; text: string } => {
-  const urgencyColor = formData.serviceUrgency === 'Super urgent' ? '#dc2626' : 
-                      formData.serviceUrgency === 'Urgent' ? '#ea580c' : '#059669';
-  
+  const urgencyColor = formData.serviceUrgency === 'Super urgent' ? '#dc2626' :
+    formData.serviceUrgency === 'Urgent' ? '#ea580c' : '#059669';
+
   const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -247,10 +247,10 @@ Message ID: ${generateEmailHeaders(formData)['Message-ID']}
 export const sendEmail = async (emailData: EmailData): Promise<boolean> => {
   try {
     // Use Vercel API route
-    const apiUrl = import.meta.env.PROD 
+    const apiUrl = import.meta.env.PROD
       ? '/api/send-email'  // Production: use Vercel API route
       : 'http://localhost:3000/api/send-email'; // Development: local API
-    
+
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
@@ -275,12 +275,12 @@ export const sendEmail = async (emailData: EmailData): Promise<boolean> => {
 
   } catch (error) {
     console.error('❌ Email sending failed:', error);
-    
+
     // Fallback: Try EmailJS if configured
     if (typeof window !== 'undefined' && (window as any).emailjs) {
       return await sendEmailViaEmailJS(emailData);
     }
-    
+
     return false;
   }
 };
@@ -291,7 +291,7 @@ export const sendEmail = async (emailData: EmailData): Promise<boolean> => {
 const sendEmailViaEmailJS = async (emailData: EmailData): Promise<boolean> => {
   try {
     const emailjs = (window as any).emailjs;
-    
+
     const templateParams = {
       to_email: emailData.to,
       from_name: 'Hermes Security Contact Form',
@@ -324,7 +324,7 @@ const sendEmailViaEmailJS = async (emailData: EmailData): Promise<boolean> => {
 export const sendContactFormEmail = async (formData: ContactFormEmailData): Promise<boolean> => {
   const headers = generateEmailHeaders(formData);
   const { html, text } = generateEmailBody(formData);
-  
+
   const emailData: EmailData = {
     to: 'gjdbradford@gmail.com',
     from: 'noreply@hermessecurity.io',

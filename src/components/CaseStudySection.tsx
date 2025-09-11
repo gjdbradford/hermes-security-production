@@ -1,97 +1,97 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Building2, Shield, Globe, Heart, Monitor, Users, ArrowUpRight } from "lucide-react";
-import OptimizedImage from "@/components/ui/optimized-image";
-import { IMAGE_PATHS } from "@/utils/imageUtils";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
+import { useState, useEffect, useCallback, useMemo } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { ArrowRight, Building2, Shield, Globe, Heart, Monitor, Users, ArrowUpRight } from 'lucide-react';
+import OptimizedImage from '@/components/ui/optimized-image';
+import { IMAGE_PATHS } from '@/utils/imageUtils';
+import { useNavigate } from 'react-router-dom';
+import { navigateToContact } from '@/utils/ctaNavigation';
 
 // Case study data
 const caseStudies = [
   {
-    slug: "tier1-uk-bank-api-hardening",
-    label: "Tier-1 UK Bank",
-    sector_badge: "Banking",
-    region_badge: "EU/UK",
-    headline_metric: "12 criticals fixed in 14 days",
-    subhead: "Shadow APIs and weak authentication were exposing sensitive PII. Hermes mapped and safely exploited these flaws, guiding the bank to rapid hardening.",
+    slug: 'tier1-uk-bank-api-hardening',
+    label: 'Tier-1 UK Bank',
+    sector_badge: 'Banking',
+    region_badge: 'EU/UK',
+    headline_metric: '12 criticals fixed in 14 days',
+    subhead: 'Shadow APIs and weak authentication were exposing sensitive PII. Hermes mapped and safely exploited these flaws, guiding the bank to rapid hardening.',
     bullets: [
-      "Impact: MTTR cut from 41 days → 16 days",
-      "Key Fixes: BOLA and token scope flaws chained to data access; exploit-led proof with safe re-test validation",
-      "Services Used: API & Web App Pentest",
-      "Compliance: GDPR, SOC 2"
+      'Impact: MTTR cut from 41 days → 16 days',
+      'Key Fixes: BOLA and token scope flaws chained to data access; exploit-led proof with safe re-test validation',
+      'Services Used: API & Web App Pentest',
+      'Compliance: GDPR, SOC 2'
     ],
-    services_used: ["API Pentest", "Web App Pentest"],
-    compliance_flags: ["GDPR", "SOC 2"],
+    services_used: ['API Pentest', 'Web App Pentest'],
+    compliance_flags: ['GDPR', 'SOC 2'],
     logo_url: null,
     hero_image_url: IMAGE_PATHS.caseStudies.apiAttackPath(),
-    alt_text: "API attack path snapshot",
-    primary_cta: { label: "Read the case", url: "#" },
+    alt_text: 'API attack path snapshot',
+    primary_cta: { label: 'Read the case', url: '#' },
     source_urls: []
   },
   {
-    slug: "eu-insurer-cloud-segmentation",
-    label: "EU Insurer",
-    sector_badge: "Insurance",
-    region_badge: "EU",
-    headline_metric: "Blast radius reduced by 78%",
-    subhead: "AWS misconfigurations enabled lateral movement across cloud assets. Hermes exposed the attack paths and redesigned IAM policies with least-privilege principles.",
+    slug: 'eu-insurer-cloud-segmentation',
+    label: 'EU Insurer',
+    sector_badge: 'Insurance',
+    region_badge: 'EU',
+    headline_metric: 'Blast radius reduced by 78%',
+    subhead: 'AWS misconfigurations enabled lateral movement across cloud assets. Hermes exposed the attack paths and redesigned IAM policies with least-privilege principles.',
     bullets: [
-      "Impact: Lateral movement risk ↓78%",
-      "Key Fixes: IAM escalation closed, egress & segmentation validated, DORA audit runbooks updated",
-      "Services Used: Cloud & Network Pentest",
-      "Compliance: DORA, SOC 2"
+      'Impact: Lateral movement risk ↓78%',
+      'Key Fixes: IAM escalation closed, egress & segmentation validated, DORA audit runbooks updated',
+      'Services Used: Cloud & Network Pentest',
+      'Compliance: DORA, SOC 2'
     ],
-    services_used: ["Cloud Pentest", "Network Pentest"],
-    compliance_flags: ["DORA", "SOC 2"],
+    services_used: ['Cloud Pentest', 'Network Pentest'],
+    compliance_flags: ['DORA', 'SOC 2'],
     logo_url: null,
     hero_image_url: IMAGE_PATHS.caseStudies.cloudLateralMovement(),
-    alt_text: "Cloud lateral movement diagram",
-    primary_cta: { label: "Read the case", url: "#" },
+    alt_text: 'Cloud lateral movement diagram',
+    primary_cta: { label: 'Read the case', url: '#' },
     source_urls: []
   },
   {
-    slug: "healthcare-mobile-app-security",
-    label: "Healthcare Provider",
-    sector_badge: "Healthcare",
-    region_badge: "EU",
-    headline_metric: "Patient data exposure ↓95%",
-    subhead: "A mobile app was leaking data through insecure storage and weak APIs, risking HIPAA violations. Hermes secured client-side controls and hardened API endpoints.",
+    slug: 'healthcare-mobile-app-security',
+    label: 'Healthcare Provider',
+    sector_badge: 'Healthcare',
+    region_badge: 'EU',
+    headline_metric: 'Patient data exposure ↓95%',
+    subhead: 'A mobile app was leaking data through insecure storage and weak APIs, risking HIPAA violations. Hermes secured client-side controls and hardened API endpoints.',
     bullets: [
-      "Impact: Exposure risk reduced by 95%",
-      "Key Fixes: Client-side vulnerabilities fixed, encryption enforced, authentication hardened",
-      "Services Used: Mobile App & API Pentest",
-      "Compliance: HIPAA, GDPR"
+      'Impact: Exposure risk reduced by 95%',
+      'Key Fixes: Client-side vulnerabilities fixed, encryption enforced, authentication hardened',
+      'Services Used: Mobile App & API Pentest',
+      'Compliance: HIPAA, GDPR'
     ],
-    services_used: ["Mobile App Pentest", "API Pentest"],
-    compliance_flags: ["HIPAA", "GDPR"],
+    services_used: ['Mobile App Pentest', 'API Pentest'],
+    compliance_flags: ['HIPAA', 'GDPR'],
     logo_url: null,
     hero_image_url: IMAGE_PATHS.caseStudies.mobileSecurity(),
-    alt_text: "Mobile security assessment",
-    primary_cta: { label: "Read the case", url: "#" },
+    alt_text: 'Mobile security assessment',
+    primary_cta: { label: 'Read the case', url: '#' },
     source_urls: []
   },
   {
-    slug: "saas-platform-web-security",
-    label: "SaaS Platform",
-    sector_badge: "SaaS",
-    region_badge: "Global",
-    headline_metric: "Zero criticals in 30 days",
-    subhead: "Critical vulnerabilities in a core web app threatened customer data. Hermes identified and guided remediation of all issues within one month.",
+    slug: 'saas-platform-web-security',
+    label: 'SaaS Platform',
+    sector_badge: 'SaaS',
+    region_badge: 'Global',
+    headline_metric: 'Zero criticals in 30 days',
+    subhead: 'Critical vulnerabilities in a core web app threatened customer data. Hermes identified and guided remediation of all issues within one month.',
     bullets: [
-      "Impact: Zero critical vulnerabilities in production within 30 days",
-      "Key Fixes: SQL injection & XSS eliminated, authentication bypass closed",
-      "Services Used: Web App & API Pentest",
-      "Compliance: SOC 2, GDPR"
+      'Impact: Zero critical vulnerabilities in production within 30 days',
+      'Key Fixes: SQL injection & XSS eliminated, authentication bypass closed',
+      'Services Used: Web App & API Pentest',
+      'Compliance: SOC 2, GDPR'
     ],
-    services_used: ["Web App Pentest", "API Pentest"],
-    compliance_flags: ["SOC 2", "GDPR"],
+    services_used: ['Web App Pentest', 'API Pentest'],
+    compliance_flags: ['SOC 2', 'GDPR'],
     logo_url: null,
     hero_image_url: IMAGE_PATHS.caseStudies.webSecurity(),
-    alt_text: "Web application security",
-    primary_cta: { label: "Read the case", url: "#" },
+    alt_text: 'Web application security',
+    primary_cta: { label: 'Read the case', url: '#' },
     source_urls: []
   }
 ];
@@ -102,7 +102,7 @@ const sectorIcons = {
   Insurance: Shield,
   Healthcare: Heart,
   SaaS: Monitor,
-  "Public Sector": Users,
+  'Public Sector': Users,
   default: Globe
 };
 
@@ -121,9 +121,9 @@ export default function CaseStudySection() {
 
   const handleCaseChange = useCallback((newIndex: number) => {
     if (isTransitioning || newIndex === currentCase) return;
-    
+
     setIsTransitioning(true);
-    
+
     // Fade out current content
     setTimeout(() => {
       setCurrentCase(newIndex);
@@ -134,7 +134,7 @@ export default function CaseStudySection() {
   // Auto-rotation effect
   useEffect(() => {
     if (!isAutoRotating) return;
-    
+
     const interval = setInterval(() => {
       handleCaseChange((currentCase + 1) % caseStudies.length);
     }, 8000);
@@ -145,7 +145,7 @@ export default function CaseStudySection() {
   const handleManualChange = (index: number) => {
     setIsAutoRotating(false);
     handleCaseChange(index);
-    
+
     // Resume auto-rotation after 10 seconds
     setTimeout(() => setIsAutoRotating(true), 10000);
   };
@@ -170,7 +170,7 @@ export default function CaseStudySection() {
           <div className="relative">
             <Card className="overflow-hidden border-0 shadow-lg">
               <CardContent className="p-0">
-                <div 
+                <div
                   className={`transition-all duration-300 ${
                     isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
                   }`}
@@ -192,7 +192,7 @@ export default function CaseStudySection() {
                             {currentCaseData.region_badge}
                           </Badge>
                         </div>
-                        
+
                         <h3 className="text-2xl font-bold mb-2">{currentCaseData.label}</h3>
                         <div className="text-3xl font-bold text-accent-security mb-3">
                           {currentCaseData.headline_metric}
@@ -201,10 +201,10 @@ export default function CaseStudySection() {
                           {currentCaseData.subhead}
                         </p>
                       </div>
-                      
+
                       <div className="lg:text-right">
                         {/* Primary CTA Button - Hidden */}
-                        {/* <Button 
+                        {/* <Button
                           onClick={() => handleCTAClick(currentCaseData.primary_cta.label)}
                           className="bg-accent-security hover:bg-accent-security/90 text-accent-security-foreground"
                         >
@@ -279,14 +279,14 @@ export default function CaseStudySection() {
                     key={index}
                     onClick={() => handleManualChange(index)}
                     className={`relative w-3 h-3 rounded-full transition-all duration-300 hover:scale-125 ${
-                      index === currentCase 
-                        ? 'bg-accent-security scale-125' 
+                      index === currentCase
+                        ? 'bg-accent-security scale-125'
                         : 'bg-muted hover:bg-muted-foreground/50'
                     }`}
                     aria-label={`Go to case study ${index + 1} of ${caseStudies.length}`}
                   >
                     {index === currentCase && (
-                      <div 
+                      <div
                         className="absolute inset-0 rounded-full bg-accent-security/30 animate-pulse"
                         style={{ animation: isAutoRotating ? 'pulse 8s linear infinite' : 'none' }}
                         aria-hidden="true"

@@ -50,31 +50,31 @@ const SEOOptimizer = ({ data, pageType = 'home' }: SEOOptimizerProps) => {
 
   const generateStructuredData = () => {
     const baseStructuredData = {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": data.title,
-      "description": data.description,
-      "url": data.canonical,
-      "mainEntity": {
-        "@type": "Organization",
-        "name": "Hermes Security",
-        "url": "https://www.hermessecurity.io",
-        "logo": getImagePath("images/logos/logo.svg"),
-        "description": "AI-accelerated penetration testing with ethical human oversight for European enterprises",
-        "foundingDate": "2024",
-        "address": {
-          "@type": "PostalAddress",
-          "addressRegion": "Europe",
-          "addressCountry": "EU"
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      'name': data.title,
+      'description': data.description,
+      'url': data.canonical,
+      'mainEntity': {
+        '@type': 'Organization',
+        'name': 'Hermes Security',
+        'url': 'https://www.hermessecurity.io',
+        'logo': getImagePath('images/logos/logo.svg'),
+        'description': 'AI-accelerated penetration testing with ethical human oversight for European enterprises',
+        'foundingDate': '2024',
+        'address': {
+          '@type': 'PostalAddress',
+          'addressRegion': 'Europe',
+          'addressCountry': 'EU'
         },
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "contactType": "customer service",
-          "email": "contact@hermessecurity.io"
+        'contactPoint': {
+          '@type': 'ContactPoint',
+          'contactType': 'customer service',
+          'email': 'contact@hermessecurity.io'
         },
-        "sameAs": [
-          "https://linkedin.com/company/hermes-security",
-          "https://twitter.com/hermessecurity"
+        'sameAs': [
+          'https://linkedin.com/company/hermes-security',
+          'https://twitter.com/hermessecurity'
         ]
       }
     };
@@ -89,10 +89,10 @@ const SEOOptimizer = ({ data, pageType = 'home' }: SEOOptimizerProps) => {
       <meta name="title" content={data.title} />
       <meta name="description" content={data.description} />
       <meta name="keywords" content={data.keywords} />
-      
+
       {/* Canonical URL */}
       <link rel="canonical" href={data.canonical} />
-      
+
       {/* Open Graph Meta Tags */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content={data.canonical} />
@@ -104,7 +104,7 @@ const SEOOptimizer = ({ data, pageType = 'home' }: SEOOptimizerProps) => {
       <meta property="og:image:alt" content={data.title} />
       <meta property="og:site_name" content="Hermes Security" />
       <meta property="og:locale" content="en_GB" />
-      
+
       {/* Twitter Card Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@hermessecurity" />
@@ -113,16 +113,16 @@ const SEOOptimizer = ({ data, pageType = 'home' }: SEOOptimizerProps) => {
       <meta name="twitter:description" content={data.description} />
       <meta name="twitter:image" content={data.twitterImage} />
       <meta name="twitter:image:alt" content={data.title} />
-      
+
       {/* Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify(generateStructuredData())}
       </script>
-      
+
       {/* Additional SEO Meta Tags */}
       <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       <meta name="googlebot" content="index, follow" />
-      
+
       {/* Language and Region */}
       <meta name="language" content="English" />
       <meta name="geo.region" content="EU" />

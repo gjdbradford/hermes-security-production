@@ -1,9 +1,9 @@
-import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { ChevronRight, Home, Mail, Shield, Eye, Database, Lock, UserCheck } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { ChevronRight, Home, Mail, Shield, Eye, Database, Lock, UserCheck } from 'lucide-react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Privacy() {
   return (
@@ -13,10 +13,10 @@ export default function Privacy() {
         <meta name="description" content="Privacy Policy for Hermes Security - Data processing and protection policies." />
         <meta name="robots" content="index, follow" />
       </Helmet>
-      
+
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
         <Header />
-        
+
         {/* Breadcrumbs */}
         <div className="pt-20 pb-4">
           <div className="container mx-auto px-4">
@@ -30,7 +30,7 @@ export default function Privacy() {
             </nav>
           </div>
         </div>
-        
+
         {/* Main Content */}
         <div className="py-12">
           <div className="container mx-auto px-4 max-w-4xl">
@@ -43,26 +43,26 @@ export default function Privacy() {
                   Privacy Policy
                 </CardTitle>
                 <p className="text-gray-600 mt-2">
-                  Last updated: {new Date().toLocaleDateString('en-GB', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
+                  Last updated: {new Date().toLocaleDateString('en-GB', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                   })}
                 </p>
               </CardHeader>
-              
+
               <CardContent className="prose prose-lg max-w-none">
                 <div className="space-y-8">
-                  
+
                   {/* Introduction */}
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">1. Introduction</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      Hermes Security is committed to protecting your privacy and personal data in accordance 
+                      Hermes Security is committed to protecting your privacy and personal data in accordance
                       with applicable data protection laws and best practices.
                     </p>
                     <p className="text-gray-700 leading-relaxed mt-4">
-                      This Privacy Policy explains how we collect, use, store, and protect your personal 
+                      This Privacy Policy explains how we collect, use, store, and protect your personal
                       information when you use our services or visit our website.
                     </p>
                   </section>
@@ -82,7 +82,7 @@ export default function Privacy() {
                   {/* Data We Collect */}
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">3. Personal Data We Collect</h2>
-                    
+
                     <div className="space-y-4">
                       <div className="bg-gray-50 p-4 rounded-lg">
                         <h3 className="font-semibold text-gray-900 mb-2">Contact Form Data</h3>
@@ -136,7 +136,7 @@ export default function Privacy() {
                       </ul>
                     </div>
                     <p className="text-gray-700 leading-relaxed mt-4">
-                      <strong>Important:</strong> We use your data for sales and onboarding purposes only. 
+                      <strong>Important:</strong> We use your data for sales and onboarding purposes only.
                       We do not use your personal data for any other purposes without your explicit consent.
                     </p>
                   </section>
@@ -154,8 +154,8 @@ export default function Privacy() {
                     </ul>
                     <div className="bg-yellow-50 p-4 rounded-lg mt-4">
                       <p className="text-yellow-800">
-                        <strong>Data Transfers:</strong> Any international transfers are protected by 
-                        appropriate safeguards including Standard Contractual Clauses (SCCs) and 
+                        <strong>Data Transfers:</strong> Any international transfers are protected by
+                        appropriate safeguards including Standard Contractual Clauses (SCCs) and
                         adequacy decisions.
                       </p>
                     </div>
@@ -174,7 +174,7 @@ export default function Privacy() {
                       </ul>
                     </div>
                     <p className="text-gray-700 leading-relaxed mt-4">
-                      Data is automatically deleted after the retention period unless legal obligations 
+                      Data is automatically deleted after the retention period unless legal obligations
                       require longer storage.
                     </p>
                   </section>
@@ -211,7 +211,7 @@ export default function Privacy() {
                     <div className="bg-green-50 p-4 rounded-lg mt-4">
                       <h3 className="font-semibold text-green-900 mb-2">How to Exercise Your Rights</h3>
                       <p className="text-green-800">
-                        Contact us at <strong>graham@hermessecurity.io</strong> with your request. 
+                        Contact us at <strong>graham@hermessecurity.io</strong> with your request.
                         We will respond within 30 days and may require identity verification.
                       </p>
                     </div>
@@ -237,7 +237,7 @@ export default function Privacy() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">10. Cookies and Tracking</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      We use cookies and similar technologies to improve your experience. You can control 
+                      We use cookies and similar technologies to improve your experience. You can control
                       cookie settings through your browser preferences.
                     </p>
                     <div className="bg-gray-50 p-4 rounded-lg mt-4">
@@ -254,7 +254,7 @@ export default function Privacy() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">11. Data Breach Notification</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      In the unlikely event of a data breach that poses a risk to your rights and freedoms, 
+                      In the unlikely event of a data breach that poses a risk to your rights and freedoms,
                       we will notify you and the relevant authorities as required by applicable laws.
                     </p>
                   </section>
@@ -263,7 +263,7 @@ export default function Privacy() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">12. Supervisory Authority</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      You have the right to lodge a complaint with your local data protection supervisory 
+                      You have the right to lodge a complaint with your local data protection supervisory
                       authority if you believe we have not handled your personal data in accordance with applicable laws.
                     </p>
                   </section>
@@ -272,8 +272,8 @@ export default function Privacy() {
                   <section>
                     <h2 className="text-2xl font-semibold text-accent-security mb-4">13. Changes to This Policy</h2>
                     <p className="text-gray-700 leading-relaxed">
-                      We may update this Privacy Policy from time to time. Changes will be posted on this 
-                      page with an updated revision date. We will notify you of significant changes via email 
+                      We may update this Privacy Policy from time to time. Changes will be posted on this
+                      page with an updated revision date. We will notify you of significant changes via email
                       or website notice.
                     </p>
                   </section>
@@ -302,7 +302,7 @@ export default function Privacy() {
             </Card>
           </div>
         </div>
-        
+
         <Footer />
       </div>
     </>

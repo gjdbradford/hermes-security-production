@@ -1,9 +1,9 @@
 /**
  * CAPTCHA Verification Component
- * 
+ *
  * This component handles CAPTCHA token generation and validation for forms.
  * It provides a hook for easy integration with form submissions.
- * 
+ *
  * Last updated: 2025-09-08T08:51:00.000Z
  */
 
@@ -43,13 +43,13 @@ export const CaptchaVerification: React.FC<CaptchaVerificationProps> = ({
 
     try {
       setIsVerifying(true);
-      
+
       if (isCaptchaDebugMode()) {
         console.log('🔐 Executing CAPTCHA verification for action:', action);
       }
 
       const token = await executeRecaptcha(action);
-      
+
       if (!token) {
         const error = 'Failed to generate CAPTCHA token';
         if (isCaptchaDebugMode()) {
@@ -113,13 +113,13 @@ export const useCaptchaVerification = (action: string = 'contact_form_submit') =
 
     try {
       setIsVerifying(true);
-      
+
       if (isCaptchaDebugMode()) {
         console.log('🔐 Executing CAPTCHA verification for action:', action);
       }
 
       const token = await executeRecaptcha(action);
-      
+
       if (!token) {
         const error = 'Failed to generate CAPTCHA token';
         if (isCaptchaDebugMode()) {

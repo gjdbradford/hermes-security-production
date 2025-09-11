@@ -1,17 +1,17 @@
-import { Suspense, lazy } from "react";
-import { Helmet } from "react-helmet-async";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { Suspense, lazy } from 'react';
+import { Helmet } from 'react-helmet-async';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 // Lazy load components for better performance
-const AboutHeroSection = lazy(() => import("@/components/AboutHeroSection"));
-const CompanyStorySection = lazy(() => import("@/components/CompanyStorySection"));
-const VisionMissionSection = lazy(() => import("@/components/VisionMissionSection"));
-const ValuesSection = lazy(() => import("@/components/ValuesSection"));
-const ManifestoSection = lazy(() => import("@/components/ManifestoSection"));
-const TeamSection = lazy(() => import("@/components/TeamSection"));
-const WhyChooseSection = lazy(() => import("@/components/WhyChooseSection"));
-const AboutCTASection = lazy(() => import("@/components/AboutCTASection"));
+const AboutHeroSection = lazy(() => import('@/components/AboutHeroSection'));
+const CompanyStorySection = lazy(() => import('@/components/CompanyStorySection'));
+const VisionMissionSection = lazy(() => import('@/components/VisionMissionSection'));
+const ValuesSection = lazy(() => import('@/components/ValuesSection'));
+const ManifestoSection = lazy(() => import('@/components/ManifestoSection'));
+const TeamSection = lazy(() => import('@/components/TeamSection'));
+const WhyChooseSection = lazy(() => import('@/components/WhyChooseSection'));
+const AboutCTASection = lazy(() => import('@/components/AboutCTASection'));
 
 export default function About() {
   return (
@@ -23,10 +23,10 @@ export default function About() {
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://www.hermessecurity.io/about" />
       </Helmet>
-      
+
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
         <Header />
-        
+
         {/* Main Content */}
         <main>
           {/* Hero Section */}

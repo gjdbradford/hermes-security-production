@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
-import { Shield, ArrowRight, Target, Zap } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
+import { Button } from '@/components/ui/button';
+import { Shield, ArrowRight, Target, Zap } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { navigateToContact } from '@/utils/ctaNavigation';
 
 export default function AboutCTASection() {
   const navigate = useNavigate();
-  
+
   const handleCTAClick = (ctaSource: string) => {
     navigateToContact(navigate, ctaSource);
   };
@@ -19,32 +19,32 @@ export default function AboutCTASection() {
             <div className="w-20 h-20 bg-accent-security/20 rounded-full flex items-center justify-center mx-auto mb-8">
               <Shield className="w-10 h-10 text-accent-security" />
             </div>
-            
+
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
               Join the Fight for <span className="text-accent-security">Digital Good</span>
             </h2>
-            
+
             <p className="text-xl text-muted-foreground leading-relaxed mb-8 max-w-2xl mx-auto">
-              Partner with us to protect your digital assets and contribute to a safer online world. 
+              Partner with us to protect your digital assets and contribute to a safer online world.
               Together, we can ensure technology remains a force for good.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                variant="hero" 
-                size="lg" 
+              <Button
+                variant="hero"
+                size="lg"
                 className="group text-lg px-8 py-4"
-                onClick={() => handleCTAClick("Start Your Security Journey")}
+                onClick={() => handleCTAClick('Start Your Security Journey')}
               >
                 Start Your Security Journey
                 <ArrowRight className="ml-3 w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Button>
-              
-              <Button 
-                variant="outline" 
-                size="lg" 
+
+              <Button
+                variant="outline"
+                size="lg"
                 className="group text-lg px-8 py-4 border-accent-security text-accent-security hover:bg-accent-security hover:text-white"
-                onClick={() => TriggerHandlers.serviceInquiry("General Services Inquiry")}
+                onClick={() => TriggerHandlers.serviceInquiry('General Services Inquiry')}
               >
                 Learn More About Our Services
                 <Target className="ml-3 w-5 h-5 transition-transform group-hover:scale-110" />
@@ -63,7 +63,7 @@ export default function AboutCTASection() {
                 Our AI-powered security solutions have protected organizations worldwide from emerging threats.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-accent-security/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Target className="w-8 h-8 text-accent-security" />
@@ -73,7 +73,7 @@ export default function AboutCTASection() {
                 We believe in doing what's right, not just what's profitable. Your security is our mission.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="w-16 h-16 bg-accent-security/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Zap className="w-8 h-8 text-accent-security" />
@@ -92,11 +92,11 @@ export default function AboutCTASection() {
                 Ready to Make a Difference?
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                Every organization we protect makes the digital world a little safer. Every threat we neutralize 
-                strengthens the collective security of our online ecosystem. Join us in building a future where 
+                Every organization we protect makes the digital world a little safer. Every threat we neutralize
+                strengthens the collective security of our online ecosystem. Join us in building a future where
                 technology serves humanity, not threatens it.
               </p>
-              
+
               <div className="inline-flex items-center gap-2 bg-accent-security/10 text-accent-security font-semibold px-4 py-2 rounded-lg">
                 <Shield className="w-4 h-4" />
                 <span>Together, we protect the future</span>

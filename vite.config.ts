@@ -1,13 +1,13 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
-import path from "path";
-import { componentTagger } from "lovable-tagger";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import path from 'path';
+import { componentTagger } from 'lovable-tagger';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // Determine base path based on environment
   let base = '/';
-  
+
   if (mode === 'production') {
     // Check if we're deploying to staging or production
     const isStaging = process.env.VITE_DEPLOY_ENV === 'staging';
@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
     publicDir: 'public',
     assetsInclude: ['**/*.svg', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'],
     server: {
-      host: "::",
+      host: '::',
       port: 8080,
     },
     plugins: [
@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
     ].filter(Boolean),
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
+        '@': path.resolve(__dirname, './src'),
       },
     },
     build: {

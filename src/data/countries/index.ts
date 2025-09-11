@@ -38,10 +38,10 @@ export const getCountryByName = (name: string): CountryData | undefined => {
 export const formatPhoneNumber = (phone: string, countryCode: string): string => {
   const country = getCountryByCode(countryCode);
   if (!country) return phone;
-  
+
   // Remove all non-digit characters
   const digits = phone.replace(/\D/g, '');
-  
+
   // Apply country-specific formatting
   switch (countryCode) {
     case 'US':
@@ -59,12 +59,12 @@ export const formatPhoneNumber = (phone: string, countryCode: string): string =>
 };
 
 // Export regional lists for specific use cases
-export { 
+export {
   northAmericanCountriesComplete,
   southAmericanCountries,
   europeanCountriesComplete,
-  asianCountries, 
-  africanCountries, 
+  asianCountries,
+  africanCountries,
   oceaniaCountries,
-  otherCountries 
+  otherCountries
 };

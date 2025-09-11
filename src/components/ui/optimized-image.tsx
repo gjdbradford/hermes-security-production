@@ -44,14 +44,14 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   };
 
   return (
-    <div 
+    <div
       className={`relative ${className}`}
       style={{ width, height, ...style }}
     >
       {imageState === 'loading' && (
         <div className="absolute inset-0 bg-gray-200 animate-pulse rounded" />
       )}
-      
+
       <img
         src={currentSrc}
         alt={alt}
@@ -64,7 +64,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         } ${onClick ? 'cursor-pointer' : ''}`}
         {...props}
       />
-      
+
       {imageState === 'error' && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-500 text-sm">
           <span>Image not available</span>

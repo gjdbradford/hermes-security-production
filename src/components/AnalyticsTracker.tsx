@@ -102,7 +102,7 @@ const AnalyticsTracker = () => {
 
     // Track time on page when user leaves
     window.addEventListener('beforeunload', trackTimeOnPage);
-    
+
     // Track time on page every 30 seconds
     const interval = setInterval(() => {
       const timeOnPage = Math.round((Date.now() - startTime) / 1000);
@@ -132,7 +132,7 @@ const AnalyticsTracker = () => {
 
     document.addEventListener('submit', trackFormInteraction);
     document.addEventListener('focus', trackFormInteraction);
-    
+
     return () => {
       document.removeEventListener('submit', trackFormInteraction);
       document.removeEventListener('focus', trackFormInteraction);
@@ -165,7 +165,7 @@ const AnalyticsTracker = () => {
         const link = target.tagName === 'A' ? target : target.closest('a') as HTMLAnchorElement;
         const linkText = link.textContent?.trim() || 'unknown_link';
         const linkHref = link.href || 'unknown_url';
-        
+
         trackEvent({
           action: 'link_click',
           category: 'engagement',

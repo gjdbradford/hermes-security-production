@@ -1,40 +1,40 @@
-import { Suspense, lazy } from "react";
-import { Helmet } from "react-helmet-async";
-import { getImagePath } from "@/utils/imageUtils";
+import { Suspense, lazy } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { getImagePath } from '@/utils/imageUtils';
 
 // Lazy load components for better performance
-const Header = lazy(() => import("@/components/Header"));
-const HeroSection = lazy(() => import("@/components/HeroSection"));
-const IdentifyAndEliminateSection = lazy(() => import("@/components/IdentifyAndEliminateSection"));
-const ValueProposition = lazy(() => import("@/components/ValueProposition"));
-const MethodologySection = lazy(() => import("@/components/MethodologySection"));
-const FromPentestToProof = lazy(() => import("@/components/FromPentestToProof"));
-const ServicesSection = lazy(() => import("@/components/ServicesSection"));
-const HowToGetServicesSection = lazy(() => import("@/components/HowToGetServicesSection"));
-const ComplianceSection = lazy(() => import("@/components/ComplianceSection"));
-const CaseStudySection = lazy(() => import("@/components/CaseStudySection"));
-const CTASection = lazy(() => import("@/components/CTASection"));
-const Footer = lazy(() => import("@/components/Footer"));
+const Header = lazy(() => import('@/components/Header'));
+const HeroSection = lazy(() => import('@/components/HeroSection'));
+const IdentifyAndEliminateSection = lazy(() => import('@/components/IdentifyAndEliminateSection'));
+const ValueProposition = lazy(() => import('@/components/ValueProposition'));
+const MethodologySection = lazy(() => import('@/components/MethodologySection'));
+const FromPentestToProof = lazy(() => import('@/components/FromPentestToProof'));
+const ServicesSection = lazy(() => import('@/components/ServicesSection'));
+const HowToGetServicesSection = lazy(() => import('@/components/HowToGetServicesSection'));
+const ComplianceSection = lazy(() => import('@/components/ComplianceSection'));
+const CaseStudySection = lazy(() => import('@/components/CaseStudySection'));
+const CTASection = lazy(() => import('@/components/CTASection'));
+const Footer = lazy(() => import('@/components/Footer'));
 
 export default function Index() {
   return (
     <>
       <Helmet>
         <title>Hermes Security - AI-Driven Penetration Testing with Human Ethics</title>
-        <meta 
-          name="description" 
-          content="Enterprise-grade cybersecurity with AI speed and human oversight. Web app, API, mobile, cloud, and network penetration testing with comprehensive compliance support." 
+        <meta
+          name="description"
+          content="Enterprise-grade cybersecurity with AI speed and human oversight. Web app, API, mobile, cloud, and network penetration testing with comprehensive compliance support."
         />
         <meta name="keywords" content="penetration testing, cybersecurity, AI security, ethical hacking, web app security, API security, cloud security, network security" />
         <meta property="og:title" content="Hermes Security - AI-Driven Penetration Testing" />
         <meta property="og:description" content="Enterprise-grade cybersecurity with AI speed and human oversight." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://hermes-security.com" />
-        <meta property="og:image" content={getImagePath("images/social/og-image.svg")} />
+        <meta property="og:image" content={getImagePath('images/social/og-image.svg')} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Hermes Security - AI-Driven Penetration Testing" />
         <meta name="twitter:description" content="Enterprise-grade cybersecurity with AI speed and human oversight." />
-        <meta name="twitter:image" content={getImagePath("images/social/twitter-image.svg")} />
+        <meta name="twitter:image" content={getImagePath('images/social/twitter-image.svg')} />
         <link rel="canonical" href="https://hermes-security.com" />
       </Helmet>
 

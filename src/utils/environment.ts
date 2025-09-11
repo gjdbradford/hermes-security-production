@@ -1,6 +1,6 @@
 /**
  * Environment Detection Utilities
- * 
+ *
  * This file provides utility functions for detecting the current deployment environment
  * and can be used across the application for environment-specific behavior.
  */
@@ -13,30 +13,30 @@ export const getEnvironmentName = (): string => {
   if (typeof window === 'undefined') {
     return 'development'; // Server-side rendering fallback
   }
-  
+
   const hostname = window.location.hostname;
   const pathname = window.location.pathname;
-  
+
   // Production environments
   if (hostname === 'www.hermessecurity.io' || hostname === 'hermessecurity.io') {
     return 'production';
   }
-  
+
   // Vercel production deployments
   if (hostname.includes('hermes-security-production') && hostname.includes('vercel.app')) {
     return 'production';
   }
-  
+
   // GitHub Pages staging
   if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
     return 'staging';
   }
-  
+
   // Local development
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     return 'development';
   }
-  
+
   // Default fallback
   return 'staging';
 };
@@ -61,7 +61,7 @@ export const isDevelopment = (): boolean => getEnvironmentName() === 'developmen
  */
 export const getEnvironmentConfig = () => {
   const env = getEnvironmentName();
-  
+
   switch (env) {
     case 'production':
       return {
@@ -70,7 +70,7 @@ export const getEnvironmentConfig = () => {
         apiBaseUrl: 'https://api.hermessecurity.io',
         logLevel: 'error'
       };
-      
+
     case 'staging':
       return {
         webhookUrl: 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
@@ -78,7 +78,7 @@ export const getEnvironmentConfig = () => {
         apiBaseUrl: 'https://staging-api.hermessecurity.io',
         logLevel: 'warn'
       };
-      
+
     case 'development':
     default:
       return {
@@ -95,10 +95,10 @@ export const getEnvironmentConfig = () => {
  */
 export const logEnvironmentInfo = (): void => {
   if (typeof console === 'undefined') return;
-  
+
   const env = getEnvironmentName();
   const config = getEnvironmentConfig();
-  
+
   console.log('🌍 Environment Information:');
   console.log('   Name:', env);
   console.log('   Webhook URL:', config.webhookUrl);

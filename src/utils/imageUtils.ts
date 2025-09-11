@@ -1,6 +1,6 @@
 /**
  * Image utility functions for handling loading, errors, and optimization
- * 
+ *
  * Updated to use CDN-based asset management system
  */
 
@@ -27,21 +27,21 @@ export function getImagePath(imagePath: string): string {
       return cdnUrl;
     }
   }
-  
+
   // Fallback to original logic for non-configured assets or when CDN is not available
   const cleanPath = imagePath.startsWith('/') ? imagePath.slice(1) : imagePath;
-  
+
   // Check if we're in a browser environment (runtime)
   if (typeof window !== 'undefined') {
     // Use Vite's BASE_URL which is set by the vite.config.ts base option
     const basePath = import.meta.env.BASE_URL || '/';
     return `${basePath}${cleanPath}`;
   }
-  
+
   // Build-time environment - check environment variables
   const isStaging = process.env.VITE_DEPLOY_ENV === 'staging';
   const basePath = isStaging ? '/hermes-security-production/' : '/';
-  
+
   return `${basePath}${cleanPath}`;
 }
 
@@ -53,7 +53,7 @@ export function getBasePath(): string {
   if (typeof window !== 'undefined') {
     return import.meta.env.BASE_URL || '/';
   }
-  
+
   // Build-time environment
   const isStaging = process.env.VITE_DEPLOY_ENV === 'staging';
   return isStaging ? '/hermes-security-production/' : '/';
@@ -84,14 +84,14 @@ export const IMAGE_PATHS = {
  */
 export const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>, fallback?: string) => {
   const img = event.currentTarget;
-  
+
   if (fallback && img.src !== fallback) {
     img.src = fallback;
   } else {
     // Use a default placeholder if no fallback is provided
     img.src = '/images/icons/placeholder.svg';
   }
-  
+
   console.warn(`Image failed to load: ${img.src}`);
 };
 
@@ -111,7 +111,7 @@ export const preloadImages = (imagePaths: string[]): void => {
 export const getResponsiveImagePath = (basePath: string, size: 'sm' | 'md' | 'lg' = 'md'): string => {
   const extension = basePath.split('.').pop();
   const baseName = basePath.replace(`.${extension}`, '');
-  
+
   // For now, return the original path
   // In the future, this could return different sized images
   return getImagePath(basePath);

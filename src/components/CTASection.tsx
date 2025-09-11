@@ -1,30 +1,30 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Download, Calendar } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
+import { Button } from '@/components/ui/button';
+import { ArrowRight, Download, Calendar } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { navigateToContact } from '@/utils/ctaNavigation';
 
 const ctaOptions = [
   {
     icon: Calendar,
-    title: "Schedule a Discovery Call",
-    description: "Discuss your security needs with our experts",
-    buttonText: "Schedule a Discovery Call",
-    variant: "hero" as const,
+    title: 'Schedule a Discovery Call',
+    description: 'Discuss your security needs with our experts',
+    buttonText: 'Schedule a Discovery Call',
+    variant: 'hero' as const,
     primary: true
   },
   {
     icon: Download,
-    title: "Start a Pen Test Today",
-    description: "Begin your security assessment immediately",
-    buttonText: "Start a Pen Test Today",
-    variant: "outline-hero" as const,
+    title: 'Start a Pen Test Today',
+    description: 'Begin your security assessment immediately',
+    buttonText: 'Start a Pen Test Today',
+    variant: 'outline-hero' as const,
     primary: false
   }
 ];
 
 export default function CTASection() {
   const navigate = useNavigate();
-  
+
   const handleCTAClick = (ctaSource: string) => {
     navigateToContact(navigate, ctaSource);
   };
@@ -35,7 +35,7 @@ export default function CTASection() {
       <div className="absolute inset-0 bg-gradient-security opacity-30" />
       <div className="absolute top-0 left-1/3 w-96 h-96 bg-accent-security/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-accent-security/5 rounded-full blur-3xl" />
-      
+
       <div className="relative container mx-auto px-6">
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
@@ -48,11 +48,11 @@ export default function CTASection() {
 
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {ctaOptions.map((cta, index) => (
-            <div 
+            <div
               key={index}
               className={`group p-6 rounded-xl border transition-all duration-300 hover:-translate-y-1 ${
-                cta.primary 
-                  ? 'bg-accent-security/10 border-accent-security/30 hover:bg-accent-security/20' 
+                cta.primary
+                  ? 'bg-accent-security/10 border-accent-security/30 hover:bg-accent-security/20'
                   : 'bg-hero-foreground/5 border-hero-foreground/10 hover:bg-hero-foreground/10'
               }`}
             >
@@ -61,8 +61,8 @@ export default function CTASection() {
               </div>
               <h3 className="text-xl font-semibold mb-3">{cta.title}</h3>
               <p className="text-hero-muted mb-6 leading-relaxed">{cta.description}</p>
-              <Button 
-                variant={cta.variant} 
+              <Button
+                variant={cta.variant}
                 className="w-full group"
                 size="lg"
                 onClick={() => handleCTAClick(cta.title)}

@@ -1,6 +1,6 @@
 /**
  * Environment Configuration
- * 
+ *
  * This file manages environment-specific configurations for different deployment targets.
  * It automatically detects the current environment and provides appropriate settings.
  */
@@ -21,7 +21,7 @@ export interface EnvironmentConfig {
 const detectEnvironment = (): EnvironmentConfig => {
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
-  
+
   // Production environments
   if (hostname === 'www.hermessecurity.io' || hostname === 'hermessecurity.io') {
     return {
@@ -34,7 +34,7 @@ const detectEnvironment = (): EnvironmentConfig => {
       isDevelopment: false
     };
   }
-  
+
   // Vercel production deployments
   if (hostname.includes('hermes-security-production') && hostname.includes('vercel.app')) {
     return {
@@ -47,7 +47,7 @@ const detectEnvironment = (): EnvironmentConfig => {
       isDevelopment: false
     };
   }
-  
+
   // GitHub Pages staging
   if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
     return {
@@ -60,7 +60,7 @@ const detectEnvironment = (): EnvironmentConfig => {
       isDevelopment: false
     };
   }
-  
+
   // Local development
   if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
     return {
@@ -73,7 +73,7 @@ const detectEnvironment = (): EnvironmentConfig => {
       isDevelopment: true
     };
   }
-  
+
   // Default fallback (test environment)
   return {
     name: 'unknown',

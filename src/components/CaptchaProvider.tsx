@@ -1,9 +1,9 @@
 /**
  * CAPTCHA Provider Component
- * 
+ *
  * This component provides Google reCAPTCHA v3 context to the application.
  * It automatically detects the environment and configures CAPTCHA accordingly.
- * 
+ *
  * Last updated: 2025-09-08T08:51:00.000Z
  */
 
@@ -32,11 +32,11 @@ export const CaptchaProvider: React.FC<CaptchaProviderProps> = ({ children }) =>
     const checkCaptchaStatus = () => {
       const enabled = isCaptchaEnabled();
       const currentConfig = getCaptchaConfigSummary();
-      
+
       setIsEnabled(enabled);
       setConfig(currentConfig);
       setIsLoaded(true);
-      
+
       // Only log once on initialization
       if (currentConfig.debug && !window.captchaProviderLogged) {
         console.log('🔐 CAPTCHA Provider initialized:', {

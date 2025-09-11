@@ -2,10 +2,10 @@
 
 /**
  * CAPTCHA Integration Testing Script
- * 
+ *
  * This script tests CAPTCHA functionality across all environments
  * and provides comprehensive validation of the integration.
- * 
+ *
  * Last updated: 2025-09-08T08:51:00.000Z
  */
 
@@ -63,7 +63,7 @@ class CaptchaTester {
 
     const statusIcon = status === 'PASS' ? '✅' : status === 'FAIL' ? '❌' : '⏭️';
     console.log(`${statusIcon} ${test} (${environment}): ${message}`);
-    
+
     if (details && status === 'FAIL') {
       console.log(`   Details: ${JSON.stringify(details, null, 2)}`);
     }
@@ -74,9 +74,9 @@ class CaptchaTester {
 
     this.results.push(this.currentSuite);
     const { total, passed, failed, skipped } = this.currentSuite.summary;
-    
+
     console.log(`\n📊 Summary: ${passed}/${total} passed, ${failed} failed, ${skipped} skipped`);
-    
+
     if (failed > 0) {
       console.log('❌ Some tests failed - check the details above');
     } else {
@@ -92,7 +92,7 @@ class CaptchaTester {
       // Check if react-google-recaptcha-v3 is installed
       const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
       const hasRecaptcha = packageJson.dependencies['react-google-recaptcha-v3'];
-      
+
       if (hasRecaptcha) {
         this.addResult('reCAPTCHA Library', 'all', 'PASS', 'react-google-recaptcha-v3 is installed');
       } else {
@@ -141,7 +141,7 @@ class CaptchaTester {
     this.startSuite('Environment Configuration');
 
     const environments = ['production', 'staging', 'development'];
-    
+
     environments.forEach(env => {
       try {
         // Check if environment variables are documented
@@ -181,7 +181,7 @@ class CaptchaTester {
     try {
       // Check if ContactForm imports CAPTCHA components
       const contactForm = readFileSync('src/components/ContactForm.tsx', 'utf8');
-      
+
       if (contactForm.includes('useCaptchaVerification')) {
         this.addResult('ContactForm Integration', 'all', 'PASS', 'ContactForm imports CAPTCHA hook');
       } else {
@@ -226,7 +226,7 @@ class CaptchaTester {
     try {
       // Check if contactApi includes CAPTCHA token
       const contactApi = readFileSync('src/services/contactApi.ts', 'utf8');
-      
+
       if (contactApi.includes('captchaToken?: string')) {
         this.addResult('API Interface', 'all', 'PASS', 'ContactFormData includes captchaToken');
       } else {
@@ -302,7 +302,7 @@ class CaptchaTester {
     this.results.forEach(suite => {
       console.log(`\n📋 ${suite.name}`);
       console.log('─'.repeat(40));
-      
+
       suite.results.forEach(result => {
         const icon = result.status === 'PASS' ? '✅' : result.status === 'FAIL' ? '❌' : '⏭️';
         console.log(`${icon} ${result.test} (${result.environment}): ${result.message}`);

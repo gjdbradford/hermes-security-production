@@ -1,37 +1,37 @@
-import { Play, Search, Target, ListOrdered } from "lucide-react";
+import { Play, Search, Target, ListOrdered } from 'lucide-react';
 
 const stages = [
   {
     icon: Play,
-    title: "Initiate",
-    subtitle: "Define scope, rules, and environment",
-    description: "We align with your business objectives, set clear rules of engagement, and prepare safe test environments.",
-    details: ["Faster starts, safe testing, clean audit trail"],
-    benefit: "Faster starts, reduced operational risk, and a clean audit trail for compliance."
+    title: 'Initiate',
+    subtitle: 'Define scope, rules, and environment',
+    description: 'We align with your business objectives, set clear rules of engagement, and prepare safe test environments.',
+    details: ['Faster starts, safe testing, clean audit trail'],
+    benefit: 'Faster starts, reduced operational risk, and a clean audit trail for compliance.'
   },
   {
     icon: Search,
-    title: "Discover",
-    subtitle: "Automated + manual asset mapping",
-    description: "Automated asset discovery combined with targeted manual reconnaissance reveals hidden exposures.",
-    details: ["Complete visibility of your attack surface"],
-    benefit: "Complete visibility of your digital footprint with no blind spots left behind."
+    title: 'Discover',
+    subtitle: 'Automated + manual asset mapping',
+    description: 'Automated asset discovery combined with targeted manual reconnaissance reveals hidden exposures.',
+    details: ['Complete visibility of your attack surface'],
+    benefit: 'Complete visibility of your digital footprint with no blind spots left behind.'
   },
   {
     icon: Target,
-    title: "Attack",
-    subtitle: "AI-assisted exploitation with human oversight",
-    description: "AI-assisted exploitation safely chains misconfigurations and flaws, while human experts control depth and safety.",
-    details: ["Proof of real-world impact, not just theoretical flaws"],
-    benefit: "Proof of real-world impact, not just theoretical scanner findings."
+    title: 'Attack',
+    subtitle: 'AI-assisted exploitation with human oversight',
+    description: 'AI-assisted exploitation safely chains misconfigurations and flaws, while human experts control depth and safety.',
+    details: ['Proof of real-world impact, not just theoretical flaws'],
+    benefit: 'Proof of real-world impact, not just theoretical scanner findings.'
   },
   {
     icon: ListOrdered,
-    title: "Prioritise",
-    subtitle: "Actionable reporting & re-testing",
-    description: "We score vulnerabilities by exploitability × business impact and deliver clear executive + engineering reports, followed by fix validation.",
-    details: ["Fix what matters most first, validate improvements"],
-    benefit: "Maximum ROI on remediation, validated improvements you can trust."
+    title: 'Prioritise',
+    subtitle: 'Actionable reporting & re-testing',
+    description: 'We score vulnerabilities by exploitability × business impact and deliver clear executive + engineering reports, followed by fix validation.',
+    details: ['Fix what matters most first, validate improvements'],
+    benefit: 'Maximum ROI on remediation, validated improvements you can trust.'
   }
 ];
 
@@ -52,7 +52,7 @@ export default function MethodologySection() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {stages.map((stage, index) => (
-              <div 
+              <div
                 key={index}
                 className="group p-6 bg-hero-foreground/5 backdrop-blur-sm rounded-xl border border-hero-foreground/10 hover:bg-hero-foreground/10 transition-all duration-300"
               >

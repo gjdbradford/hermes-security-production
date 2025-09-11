@@ -1,39 +1,39 @@
-import { Search, Calendar, FileText, Shield, CheckCircle, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
+import { Search, Calendar, FileText, Shield, CheckCircle, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Link, useNavigate } from 'react-router-dom';
+import { navigateToContact } from '@/utils/ctaNavigation';
 
 const serviceSteps = [
   {
     icon: Search,
-    title: "Choose Your Service Needs",
-    description: "Select the specific penetration testing services that align with your business goals and security concerns, such as web app, API, or network testing."
+    title: 'Choose Your Service Needs',
+    description: 'Select the specific penetration testing services that align with your business goals and security concerns, such as web app, API, or network testing.'
   },
   {
     icon: Calendar,
-    title: "Schedule a Consultation",
-    description: "Book a consultation with our cybersecurity experts to assess your needs and outline a tailored testing plan."
+    title: 'Schedule a Consultation',
+    description: 'Book a consultation with our cybersecurity experts to assess your needs and outline a tailored testing plan.'
   },
   {
     icon: FileText,
-    title: "Receive a Customized Proposal",
-    description: "We provide a detailed proposal based on your chosen services, including timelines, costs, and a plan of action to address vulnerabilities."
+    title: 'Receive a Customized Proposal',
+    description: 'We provide a detailed proposal based on your chosen services, including timelines, costs, and a plan of action to address vulnerabilities.'
   },
   {
     icon: Shield,
-    title: "Testing & Vulnerability Assessment",
-    description: "Our expert team conducts comprehensive penetration testing, simulating real-world attacks to identify security gaps across your digital infrastructure."
+    title: 'Testing & Vulnerability Assessment',
+    description: 'Our expert team conducts comprehensive penetration testing, simulating real-world attacks to identify security gaps across your digital infrastructure.'
   },
   {
     icon: CheckCircle,
-    title: "Service Implementation & Reporting",
-    description: "After testing, we deliver a detailed report with findings and recommendations, followed by support in implementing the necessary security fixes."
+    title: 'Service Implementation & Reporting',
+    description: 'After testing, we deliver a detailed report with findings and recommendations, followed by support in implementing the necessary security fixes.'
   }
 ];
 
 export default function HowToGetServicesSection() {
   const navigate = useNavigate();
-  
+
   const handleCTAClick = (ctaSource: string) => {
     navigateToContact(navigate, ctaSource);
   };
@@ -55,7 +55,7 @@ export default function HowToGetServicesSection() {
           {/* Service Steps */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {serviceSteps.map((step, index) => (
-              <div 
+              <div
                 key={index}
                 className="relative group"
               >
@@ -85,9 +85,9 @@ export default function HowToGetServicesSection() {
               <p className="text-muted-foreground mb-6 leading-relaxed">
                 Book your penetration test today and take the first step towards comprehensive cybersecurity protection.
               </p>
-              <Button 
-                variant="hero" 
-                size="lg" 
+              <Button
+                variant="hero"
+                size="lg"
                 className="group"
                 onClick={() => handleCTAClick("Book Your Pen Test Today")}
               >

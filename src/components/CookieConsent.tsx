@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { X, Cookie, Settings, Check } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { useState, useEffect } from 'react';
+import { X, Cookie, Settings, Check } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface CookieConsentProps {
   onAccept?: (preferences: CookiePreferences) => void;
@@ -102,25 +102,25 @@ const CookieConsent = ({ onAccept, onDecline }: CookieConsentProps) => {
               // Simple view
               <div className="space-y-4">
                 <p className="text-sm text-gray-700">
-                  We use essential cookies to make our site work. We'd also like to set analytics cookies 
+                  We use essential cookies to make our site work. We'd also like to set analytics cookies
                   to help us improve it. We won't set optional cookies unless you enable them.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button 
+                  <Button
                     onClick={handleAcceptAll}
                     className="bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     <Check className="w-4 h-4 mr-2" />
                     Accept All Cookies
                   </Button>
-                  <Button 
+                  <Button
                     onClick={handleDecline}
                     variant="outline"
                     className="border-gray-300 text-gray-700 hover:bg-gray-50"
                   >
                     Essential Only
                   </Button>
-                  <Button 
+                  <Button
                     onClick={() => setShowDetails(true)}
                     variant="ghost"
                     className="text-blue-600 hover:text-blue-700"
@@ -187,32 +187,32 @@ const CookieConsent = ({ onAccept, onDecline }: CookieConsentProps) => {
 
                 <div className="border-t pt-4">
                   <p className="text-xs text-gray-500 mb-4">
-                    For more information about how we use cookies, please read our{" "}
+                    For more information about how we use cookies, please read our{' '}
                     <a href="/#/privacy" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
                       Privacy Policy
-                    </a>{" "}
-                    and{" "}
+                    </a>{' '}
+                    and{' '}
                     <a href="/#/terms" className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
                       Terms of Use
                     </a>.
                   </p>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <Button 
+                    <Button
                       onClick={handleAcceptSelected}
                       className="bg-blue-600 hover:bg-blue-700 text-white"
                     >
                       <Check className="w-4 h-4 mr-2" />
                       Save Preferences
                     </Button>
-                    <Button 
+                    <Button
                       onClick={handleAcceptAll}
                       variant="outline"
                       className="border-blue-300 text-blue-600 hover:bg-blue-50"
                     >
                       Accept All
                     </Button>
-                    <Button 
+                    <Button
                       onClick={handleDecline}
                       variant="ghost"
                       className="text-gray-600 hover:text-gray-700"

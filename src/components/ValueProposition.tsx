@@ -1,7 +1,7 @@
-import { Brain, FileText, Shield, Globe, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-import { navigateToContact } from "@/utils/ctaNavigation";
+import { Brain, FileText, Shield, Globe, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { navigateToContact } from '@/utils/ctaNavigation';
 
 // Helper function to convert markdown-style bold text to JSX
 const renderBoldText = (text: string) => {
@@ -17,29 +17,29 @@ const renderBoldText = (text: string) => {
 const values = [
   {
     icon: Brain,
-    title: "Faster Testing, Trusted Oversight",
-    description: "AI accelerates reconnaissance and exploit chaining, while human researchers validate and control every finding, ensuring speed **without sacrificing accuracy or safety.**"
+    title: 'Faster Testing, Trusted Oversight',
+    description: 'AI accelerates reconnaissance and exploit chaining, while human researchers validate and control every finding, ensuring speed **without sacrificing accuracy or safety.**'
   },
   {
     icon: FileText,
-    title: "Board-Ready Reporting",
-    description: "Concise executive narratives, proof-of-exploit, and prioritised remediation steps, giving leadership **clarity for decisions** and engineers **actionable fixes.**"
+    title: 'Board-Ready Reporting',
+    description: 'Concise executive narratives, proof-of-exploit, and prioritised remediation steps, giving leadership **clarity for decisions** and engineers **actionable fixes.**'
   },
   {
     icon: Shield,
-    title: "Compliance You Can Trust",
-    description: "We perform comprehensive penetration testing to identify and address vulnerabilities in your systems. **Our detailed reports are designed to meet all your specific compliance needs, ensuring a seamless alignment with the standards you are required to uphold.**"
+    title: 'Compliance You Can Trust',
+    description: 'We perform comprehensive penetration testing to identify and address vulnerabilities in your systems. **Our detailed reports are designed to meet all your specific compliance needs, ensuring a seamless alignment with the standards you are required to uphold.**'
   },
   {
     icon: Globe,
-    title: "Future-Proof Testing",
+    title: 'Future-Proof Testing',
     description: "Specialised red teaming for AI/LLM apps, APIs, and cloud environments, **protecting today's systems and tomorrow's innovations.**"
   }
 ];
 
 export default function ValueProposition() {
   const navigate = useNavigate();
-  
+
   const handleCTAClick = (ctaSource: string) => {
     navigateToContact(navigate, ctaSource);
   };
@@ -61,7 +61,7 @@ export default function ValueProposition() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {values.map((value, index) => (
-            <div 
+            <div
               key={index}
               className="group p-6 bg-gradient-card rounded-xl border border-border/50 hover:shadow-card-custom transition-all duration-300 hover:-translate-y-1"
             >
@@ -75,11 +75,11 @@ export default function ValueProposition() {
         </div>
 
         <div className="text-center mt-12">
-          <Button 
-            variant="hero" 
-            size="lg" 
+          <Button
+            variant="hero"
+            size="lg"
             className="group"
-            onClick={() => handleCTAClick("Book Your Pen Test Today")}
+            onClick={() => handleCTAClick('Book Your Pen Test Today')}
           >
             Book Your Pen Test Today
             <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />

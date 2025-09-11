@@ -14,17 +14,17 @@ export const CrispTriggers = {
   openChat: (context: string, data?: Record<string, any>) => {
     if (window.$crisp) {
       // First, open the chat
-      window.$crisp.push(["do", "chat:open"]);
-      
+      window.$crisp.push(['do', 'chat:open']);
+
       // Then set session data in a single call with proper format
       if (data) {
         const sessionData = [
-          ["context", context],
+          ['context', context],
           ...Object.entries(data).map(([key, value]) => [key, String(value)])
         ];
-        window.$crisp.push(["set", "session:data", sessionData]);
+        window.$crisp.push(['set', 'session:data', sessionData]);
       } else {
-        window.$crisp.push(["set", "session:data", [["context", context]]]);
+        window.$crisp.push(['set', 'session:data', [['context', context]]]);
       }
     }
   },
@@ -33,25 +33,25 @@ export const CrispTriggers = {
   setPreferences: (preferences: Record<string, any>) => {
     if (window.$crisp) {
       const sessionData = Object.entries(preferences).map(([key, value]) => [key, String(value)]);
-      window.$crisp.push(["set", "session:data", sessionData]);
+      window.$crisp.push(['set', 'session:data', sessionData]);
     }
   },
 
   // Track events
   trackEvent: (event: string, data?: Record<string, any>) => {
     if (window.$crisp) {
-      const sessionData = [["event", event]];
+      const sessionData = [['event', event]];
       if (data) {
         sessionData.push(...Object.entries(data).map(([key, value]) => [key, String(value)]));
       }
-      window.$crisp.push(["set", "session:data", sessionData]);
+      window.$crisp.push(['set', 'session:data', sessionData]);
     }
   },
 
   // Check if chat is visible
   isVisible: (): boolean => {
     if (window.$crisp) {
-      return window.$crisp.is("visible");
+      return window.$crisp.is('visible');
     }
     return false;
   },
@@ -59,14 +59,14 @@ export const CrispTriggers = {
   // Set custom data for AI agent context
   setContext: (context: string, value: any) => {
     if (window.$crisp) {
-      window.$crisp.push(["set", "session:data", [[context, String(value)]]]);
+      window.$crisp.push(['set', 'session:data', [[context, String(value)]]]);
     }
   },
 
   // Send message to chat
   sendMessage: (message: string) => {
     if (window.$crisp) {
-      window.$crisp.push(["do", "message:send", [message]]);
+      window.$crisp.push(['do', 'message:send', [message]]);
     }
   }
 };
@@ -84,34 +84,34 @@ export const TriggerHandlers = {
   contactForm: (ctaSource?: string) => {
     try {
       console.log('🚀 TriggerHandlers.contactForm called with CTA source:', ctaSource);
-      
+
       // Log environment info for debugging
       logEnvironmentInfo();
-      
+
       // Store CTA source in sessionStorage for the contact form to access
       if (ctaSource) {
         console.log('💾 Setting CTA source in sessionStorage:', ctaSource);
         sessionStorage.setItem('cta-source', ctaSource);
-        
+
         // Verify it was set
         const verifySource = sessionStorage.getItem('cta-source');
         console.log('✅ Verified CTA source in sessionStorage:', verifySource);
       } else {
         console.log('⚠️ No CTA source provided');
       }
-      
+
       // Check if we're already on the contact page
       const currentPath = window.location.pathname;
       const currentHash = window.location.hash;
       const isOnContactPage = currentPath.includes('/contact') || currentHash.includes('/contact');
-      
+
       if (isOnContactPage) {
         console.log('🔄 Already on contact page, reloading form');
         // If already on contact page, reload the page to trigger form reset
         window.location.reload();
         return;
       }
-      
+
       // Use proper environment-aware routing with hash support
       const contactUrl = buildUrl('contact');
       console.log('🧭 Using buildUrl for contact navigation:', contactUrl);
@@ -132,16 +132,16 @@ export const TriggerHandlers = {
         source: 'discovery_call_button',
         timestamp: new Date().toISOString()
       });
-      
+
       // Send initial message asking for phone number
       setTimeout(() => {
         CrispTriggers.sendMessage(
           "Hi! I see you're interested in scheduling a discovery call. I can help you schedule this right away.\n\n" +
-          "Would you prefer to:\n" +
-          "1. 📞 Have a phone call with our security expert\n" +
-          "2. 💬 Chat with us on WhatsApp\n" +
-          "3. 📧 Schedule a video call\n" +
-          "4. 🗓️ Book a time slot in our calendar\n\n" +
+          'Would you prefer to:\n' +
+          '1. 📞 Have a phone call with our security expert\n' +
+          '2. 💬 Chat with us on WhatsApp\n' +
+          '3. 📧 Schedule a video call\n' +
+          '4. 🗓️ Book a time slot in our calendar\n\n' +
           "What's your preferred contact method?"
         );
       }, 1000); // Wait 1 second for chat to open
@@ -149,7 +149,7 @@ export const TriggerHandlers = {
       console.error('Error in discovery call trigger:', error);
       // Fallback: just open chat without data
       if (window.$crisp) {
-        window.$crisp.push(["do", "chat:open"]);
+        window.$crisp.push(['do', 'chat:open']);
       }
     }
   },
@@ -165,7 +165,7 @@ export const TriggerHandlers = {
     } catch (error) {
       console.error('Error in get started trigger:', error);
       if (window.$crisp) {
-        window.$crisp.push(["do", "chat:open"]);
+        window.$crisp.push(['do', 'chat:open']);
       }
     }
   },
@@ -181,7 +181,7 @@ export const TriggerHandlers = {
     } catch (error) {
       console.error('Error in download guide trigger:', error);
       if (window.$crisp) {
-        window.$crisp.push(["do", "chat:open"]);
+        window.$crisp.push(['do', 'chat:open']);
       }
     }
   },
@@ -197,7 +197,7 @@ export const TriggerHandlers = {
     } catch (error) {
       console.error('Error in request sample trigger:', error);
       if (window.$crisp) {
-        window.$crisp.push(["do", "chat:open"]);
+        window.$crisp.push(['do', 'chat:open']);
       }
     }
   },
@@ -229,14 +229,14 @@ export const TriggerHandlers = {
       source: 'phone_call_button',
       timestamp: new Date().toISOString()
     });
-    
+
     setTimeout(() => {
       CrispTriggers.sendMessage(
-        "Perfect! I can arrange a call with our security expert right away.\n\n" +
-        "Could you please provide:\n" +
-        "📱 Your phone number\n" +
+        'Perfect! I can arrange a call with our security expert right away.\n\n' +
+        'Could you please provide:\n' +
+        '📱 Your phone number\n' +
         "⏰ Your preferred time (we're available 9 AM - 6 PM GMT)\n" +
-        "🌍 Your timezone\n\n" +
+        '🌍 Your timezone\n\n' +
         "I'll have our expert call you within 30 minutes, or we can schedule for a specific time that works for you."
       );
     }, 1000);
@@ -249,16 +249,16 @@ export const TriggerHandlers = {
       source: 'whatsapp_button',
       timestamp: new Date().toISOString()
     });
-    
+
     setTimeout(() => {
       CrispTriggers.sendMessage(
-        "Great choice! WhatsApp is perfect for ongoing support.\n\n" +
+        'Great choice! WhatsApp is perfect for ongoing support.\n\n' +
         "Here's our WhatsApp number: +44 (0) 20 7946 0958\n\n" +
         "I'll send you a WhatsApp message right now with:\n" +
-        "📋 A quick security assessment questionnaire\n" +
-        "📅 Available appointment slots\n" +
-        "💬 Direct access to our security experts\n\n" +
-        "Would you like me to initiate the WhatsApp conversation now?"
+        '📋 A quick security assessment questionnaire\n' +
+        '📅 Available appointment slots\n' +
+        '💬 Direct access to our security experts\n\n' +
+        'Would you like me to initiate the WhatsApp conversation now?'
       );
     }, 1000);
   },
@@ -270,14 +270,14 @@ export const TriggerHandlers = {
       source: 'video_call_button',
       timestamp: new Date().toISOString()
     });
-    
+
     setTimeout(() => {
       CrispTriggers.sendMessage(
-        "Excellent! Video calls are great for detailed security discussions.\n\n" +
-        "I can schedule a video call with our senior security consultant. Available slots:\n\n" +
-        "📅 Today: 2 PM, 4 PM GMT\n" +
-        "📅 Tomorrow: 10 AM, 2 PM, 4 PM GMT\n" +
-        "📅 This week: Multiple slots available\n\n" +
+        'Excellent! Video calls are great for detailed security discussions.\n\n' +
+        'I can schedule a video call with our senior security consultant. Available slots:\n\n' +
+        '📅 Today: 2 PM, 4 PM GMT\n' +
+        '📅 Tomorrow: 10 AM, 2 PM, 4 PM GMT\n' +
+        '📅 This week: Multiple slots available\n\n' +
         "What time works best for you? I'll send you a calendar invite with the video call link."
       );
     }, 1000);
@@ -333,7 +333,7 @@ export const IntentTriggers = {
   // Scroll-based trigger
   handleScroll: () => {
     const scrollPercentage = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    
+
     if (scrollPercentage > 80 && !CrispTriggers.isVisible()) {
       CrispTriggers.openChat('scroll_bottom', {
         trigger: 'scroll_percentage',
@@ -388,16 +388,16 @@ export const DiscoveryCallTriggers = {
       source: 'discovery_call_button',
       timestamp: new Date().toISOString()
     });
-    
-    const defaultMessage = 
+
+    const defaultMessage =
       "Hi! I see you're interested in scheduling a discovery call. I can help you schedule this right away.\n\n" +
-      "Would you prefer to:\n" +
-      "1. 📞 Have a phone call with our security expert\n" +
-      "2. 💬 Chat with us on WhatsApp\n" +
-      "3. 📧 Schedule a video call\n" +
-      "4. 🗓️ Book a time slot in our calendar\n\n" +
+      'Would you prefer to:\n' +
+      '1. 📞 Have a phone call with our security expert\n' +
+      '2. 💬 Chat with us on WhatsApp\n' +
+      '3. 📧 Schedule a video call\n' +
+      '4. 🗓️ Book a time slot in our calendar\n\n' +
       "What's your preferred contact method?";
-    
+
     setTimeout(() => {
       CrispTriggers.sendMessage(customMessage || defaultMessage);
     }, 1000);
@@ -425,15 +425,15 @@ export const DiscoveryCallTriggers = {
       source: 'urgent_call_button',
       timestamp: new Date().toISOString()
     });
-    
+
     setTimeout(() => {
       CrispTriggers.sendMessage(
-        "🚨 URGENT: I understand you have an immediate security concern.\n\n" +
+        '🚨 URGENT: I understand you have an immediate security concern.\n\n' +
         "I'm connecting you with our senior security expert right now.\n\n" +
-        "For immediate assistance:\n" +
-        "📞 Call: +44 (0) 20 7946 0958\n" +
-        "💬 WhatsApp: +44 (0) 20 7946 0958\n\n" +
-        "Our expert will respond within 5 minutes. What type of security issue are you experiencing?"
+        'For immediate assistance:\n' +
+        '📞 Call: +44 (0) 20 7946 0958\n' +
+        '💬 WhatsApp: +44 (0) 20 7946 0958\n\n' +
+        'Our expert will respond within 5 minutes. What type of security issue are you experiencing?'
       );
     }, 1000);
   }

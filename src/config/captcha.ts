@@ -1,9 +1,9 @@
 /**
  * CAPTCHA Configuration System
- * 
+ *
  * This file manages Google reCAPTCHA v3 configuration across different environments.
  * It provides environment-specific site keys, thresholds, and settings.
- * 
+ *
  * Last updated: 2025-09-08T08:51:00.000Z
  */
 
@@ -31,7 +31,7 @@ export interface CaptchaConfig {
 
 /**
  * Environment-specific CAPTCHA configuration
- * 
+ *
  * IMPORTANT: Replace the placeholder keys with your actual Google reCAPTCHA keys
  * You can obtain these from: https://www.google.com/recaptcha/admin/create
  */
@@ -65,7 +65,7 @@ const CAPTCHA_CONFIGS: Record<string, CaptchaConfig> = {
 export const getCaptchaConfig = (): CaptchaConfig => {
   const environment = getEnvironmentName();
   const config = CAPTCHA_CONFIGS[environment] || CAPTCHA_CONFIGS.development;
-  
+
   // Log configuration for debugging (only once)
   if (config.debug && !window.captchaConfigLogged) {
     console.log('🔐 CAPTCHA Configuration:', {
@@ -77,7 +77,7 @@ export const getCaptchaConfig = (): CaptchaConfig => {
     });
     window.captchaConfigLogged = true;
   }
-  
+
   return config;
 };
 
@@ -86,8 +86,8 @@ export const getCaptchaConfig = (): CaptchaConfig => {
  */
 export const isCaptchaEnabled = (): boolean => {
   const config = getCaptchaConfig();
-  return config.enabled && config.siteKey !== 'YOUR_PRODUCTION_SITE_KEY' && 
-         config.siteKey !== 'YOUR_STAGING_SITE_KEY' && 
+  return config.enabled && config.siteKey !== 'YOUR_PRODUCTION_SITE_KEY' &&
+         config.siteKey !== 'YOUR_STAGING_SITE_KEY' &&
          config.siteKey !== 'YOUR_DEV_SITE_KEY';
 };
 
@@ -121,11 +121,11 @@ export const isCaptchaDebugMode = (): boolean => {
 export const validateCaptchaScore = (score: number): boolean => {
   const threshold = getCaptchaThreshold();
   const isValid = score >= threshold;
-  
+
   if (isCaptchaDebugMode()) {
     console.log(`🔐 CAPTCHA Score Validation: ${score} >= ${threshold} = ${isValid ? '✅ PASS' : '❌ FAIL'}`);
   }
-  
+
   return isValid;
 };
 
@@ -135,12 +135,12 @@ export const validateCaptchaScore = (score: number): boolean => {
 export const getCaptchaConfigSummary = () => {
   const environment = getEnvironmentName();
   const config = getCaptchaConfig();
-  
+
   return {
     environment,
     enabled: isCaptchaEnabled(),
-    siteKeyConfigured: config.siteKey !== 'YOUR_PRODUCTION_SITE_KEY' && 
-                      config.siteKey !== 'YOUR_STAGING_SITE_KEY' && 
+    siteKeyConfigured: config.siteKey !== 'YOUR_PRODUCTION_SITE_KEY' &&
+                      config.siteKey !== 'YOUR_STAGING_SITE_KEY' &&
                       config.siteKey !== 'YOUR_DEV_SITE_KEY',
     threshold: config.threshold,
     debug: config.debug,
@@ -155,7 +155,7 @@ export const getCaptchaConfigSummary = () => {
  */
 export const getCaptchaSetupInstructions = () => {
   const environment = getEnvironmentName();
-  
+
   const instructions = {
     production: {
       title: 'Production CAPTCHA Setup',
@@ -187,6 +187,6 @@ export const getCaptchaSetupInstructions = () => {
       ]
     }
   };
-  
+
   return instructions[environment] || instructions.development;
 };
