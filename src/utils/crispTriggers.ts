@@ -137,7 +137,7 @@ export const TriggerHandlers = {
       // Send initial message asking for phone number
       setTimeout(() => {
         CrispTriggers.sendMessage(
-          "Hi! I see you're interested in booking a discovery call. I can help you schedule this right away.\n\n" +
+          "Hi! I see you're interested in scheduling a discovery call. I can help you schedule this right away.\n\n" +
           "Would you prefer to:\n" +
           "1. 📞 Have a phone call with our security expert\n" +
           "2. 💬 Chat with us on WhatsApp\n" +
@@ -391,7 +391,7 @@ export const DiscoveryCallTriggers = {
     });
     
     const defaultMessage = 
-      "Hi! I see you're interested in booking a discovery call. I can help you schedule this right away.\n\n" +
+      "Hi! I see you're interested in scheduling a discovery call. I can help you schedule this right away.\n\n" +
       "Would you prefer to:\n" +
       "1. 📞 Have a phone call with our security expert\n" +
       "2. 💬 Chat with us on WhatsApp\n" +

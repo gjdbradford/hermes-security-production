@@ -105,9 +105,14 @@ export default function Header() {
             <Button 
               variant="hero" 
               size="sm"
-              asChild
+              onClick={() => {
+                // Set CTA source to 'Get In Touch'
+                sessionStorage.setItem('cta-source', 'Get In Touch');
+                // Reload the page to /contact
+                window.location.href = '/contact';
+              }}
             >
-              <Link to="/contact">Get In Touch</Link>
+              Get In Touch
             </Button>
           </div>
 
@@ -155,11 +160,15 @@ export default function Header() {
                 <Button 
                   variant="hero" 
                   size="sm"
-                  asChild
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      // Set CTA source to 'Get In Touch'
+                      sessionStorage.setItem('cta-source', 'Get In Touch');
+                      // Reload the page to /contact
+                      window.location.href = '/contact';
+                    }}
                 >
-                  <Link to="/contact" onClick={() => setMobileMenuOpen(false)}>
-                    Get In Touch
-                  </Link>
+                  Get In Touch
                 </Button>
               </div>
             </div>

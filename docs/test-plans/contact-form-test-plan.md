@@ -87,7 +87,7 @@ This document outlines the testing approach for the Hermes Security contact form
 **Priority: High**
 
 #### **Test Cases**
-- [ ] **"Book a Discovery Call"** button navigates to contact form
+- [ ] **"Schedule a Discovery Call"** button navigates to contact form
 - [ ] **"Start a Pen Test Today"** button navigates to contact form
 - [ ] **No Crisp Chat**: Crisp chat does not open
 

@@ -277,7 +277,7 @@ This document outlines the testing approach for each component during the migrat
 - [ ] **Headline**: "Don't Wait for Your Next Breach or Audit" displays correctly
 - [ ] **Subline**: "Join leading enterprises who trust Hermes Security..." displays correctly
 - [ ] **CTA Options**: Only 2 CTAs (reduced from 3)
-- [ ] **Primary CTA**: "Book a Discovery Call" launches contact form
+- [ ] **Primary CTA**: "Schedule a Discovery Call" launches contact form
 - [ ] **Secondary CTA**: "Start a Pen Test Today" launches contact form
 
 #### Functional Tests

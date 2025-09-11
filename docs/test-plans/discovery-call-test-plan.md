@@ -54,14 +54,14 @@ const testUsers = {
 
 **Test Steps**:
 1. Navigate to homepage
-2. Click "Book a Discovery Call" button in Hero Section
+2. Click "Schedule a Discovery Call" button in Hero Section
 3. Verify Crisp chat window opens
 4. Verify trigger message is sent
 5. Verify session data is set correctly
 
 **Expected Results**:
 - ✅ Chat window opens within 2 seconds
-- ✅ Message appears: "Hi! I see you're interested in booking a discovery call..."
+- ✅ Message appears: "Hi! I see you're interested in scheduling a discovery call..."
 - ✅ Session data includes: `context: discovery_call`, `intent: high_value`
 - ✅ No JavaScript errors in console
 
@@ -70,7 +70,7 @@ const testUsers = {
 // Test different discovery call buttons
 test("Hero Section Discovery Call Button - Slide 1", () => {
   navigateToHeroSlide(0); // Root causes slide
-  clickButton("Book a discovery call");
+  clickButton("Schedule a discovery call");
   expect(chatWindow).toBeVisible();
   expect(triggerMessage).toContain("discovery call");
   expect(sessionData.context).toBe("discovery_call");
@@ -78,7 +78,7 @@ test("Hero Section Discovery Call Button - Slide 1", () => {
 
 test("Hero Section Discovery Call Button - Slide 2", () => {
   navigateToHeroSlide(1); // Fix asymmetry slide
-  clickButton("Book a discovery call");
+  clickButton("Schedule a discovery call");
   expect(chatWindow).toBeVisible();
   expect(triggerMessage).toContain("discovery call");
   expect(sessionData.context).toBe("discovery_call");
@@ -109,8 +109,8 @@ test("CTA Section Discovery Call Button", () => {
 **Objective**: Test all discovery call buttons across the site
 
 **Test Locations**:
-- [ ] Hero Section - "Book a discovery call" (Slide 1: Root causes)
-- [ ] Hero Section - "Book a discovery call" (Slide 2: Fix asymmetry)
+- [ ] Hero Section - "Schedule a discovery call" (Slide 1: Root causes)
+- [ ] Hero Section - "Schedule a discovery call" (Slide 2: Fix asymmetry)
 - [ ] Hero Section - "See how we run an engagement" (Slide 3: Old way)
 - [ ] Hero Section - "Download our methodology one-pager" (Slide 4: Alerts to action)
 - [ ] CTA Section - "Schedule Now"
@@ -288,7 +288,7 @@ test("Keyboard Services Navigation", () => {
 
 **Expected Message**:
 ```
-Hi! I see you're interested in booking a discovery call. I can help you schedule this right away.
+Hi! I see you're interested in scheduling a discovery call. I can help you schedule this right away.
 
 Would you prefer to:
 1. 📞 Have a phone call with our security expert
