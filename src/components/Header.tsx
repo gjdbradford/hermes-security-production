@@ -5,7 +5,6 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { TriggerHandlers } from "@/utils/crispTriggers";
 import OptimizedImage from "@/components/ui/optimized-image";
 import { IMAGE_PATHS } from "@/utils/imageUtils";
-import { buildUrl } from "@/utils/routingUtils";
 
 const scrollToSection = (sectionId: string) => {
   const element = document.getElementById(sectionId);
@@ -40,17 +39,14 @@ export default function Header() {
 
   const handleNavigation = (item: typeof navigation[0]) => {
     if (item.type === 'route') {
-      // For route navigation, use proper environment-aware routing
-      const routePath = item.href.replace('/', ''); // Remove leading slash
-      const routeUrl = buildUrl(routePath);
-      window.location.href = routeUrl;
+      // For route navigation, use React Router navigate
+      navigate(item.href);
     } else {
       // For anchor navigation, scroll to section
       const sectionId = item.href.replace('#', '');
       // If we're not on the homepage, navigate there first
       if (location.pathname !== '/') {
-        const homeUrl = buildUrl('');
-        window.location.href = homeUrl;
+        navigate('/');
         // Wait for navigation to complete, then scroll to section
         setTimeout(() => {
           scrollToSection(sectionId);
