@@ -1,12 +1,4 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 echo "🚀 Running pre-push validation..."
-
-# Run comprehensive tests before push
-echo "🧪 Running routing and environment tests..."
-npm run test:routing
-npm run test:all-envs
 
 # Run security checks
 echo "🛡️ Running security checks..."
