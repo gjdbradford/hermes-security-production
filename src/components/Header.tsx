@@ -106,8 +106,7 @@ export default function Header() {
               size="sm"
               onClick={() => {
                 console.log('🔘 Header Get In Touch clicked');
-                sessionStorage.setItem('cta-source', 'Get In Touch');
-                const contactUrl = window.location.origin + '/contact';
+                const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent('Get In Touch')}`;
                 console.log('🧭 Navigating to:', contactUrl);
                 window.location.href = contactUrl;
               }}
@@ -163,8 +162,7 @@ export default function Header() {
                   onClick={() => {
                     setMobileMenuOpen(false);
                     console.log('🔘 Mobile Header Get In Touch clicked');
-                    sessionStorage.setItem('cta-source', 'Get In Touch');
-                    const contactUrl = window.location.origin + '/contact';
+                    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent('Get In Touch')}`;
                     console.log('🧭 Navigating to:', contactUrl);
                     window.location.href = contactUrl;
                   }}

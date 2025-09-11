@@ -21,28 +21,20 @@ export default function Contact() {
   }, [ctaSource]);
   const [formKey, setFormKey] = useState<number>(0);
 
-  // Get CTA source from sessionStorage (only run once)
+  // Get CTA source from URL parameters (much more reliable than sessionStorage)
   useEffect(() => {
-    console.log('🔍 Contact page: Reading CTA source from sessionStorage...');
-    console.log('🔍 All sessionStorage keys:', Object.keys(sessionStorage));
-    console.log('🔍 All sessionStorage values:', Object.keys(sessionStorage).map(key => ({ key, value: sessionStorage.getItem(key) })));
+    console.log('🔍 Contact page: Reading CTA source from URL parameters...');
+    console.log('🔍 Current URL:', window.location.href);
     
-    const storedCtaSource = sessionStorage.getItem('cta-source');
-    console.log('🔍 Retrieved cta-source from sessionStorage:', storedCtaSource);
-    console.log('🔍 Current ctaSource state:', ctaSource);
+    const urlParams = new URLSearchParams(window.location.search);
+    const ctaFromUrl = urlParams.get('cta');
+    console.log('🔍 Retrieved cta from URL:', ctaFromUrl);
     
-    if (storedCtaSource) {
-      console.log('✅ Contact page: Setting CTA source to:', storedCtaSource);
-      setCtaSource(storedCtaSource);
-      // Clear it after reading so ContactForm doesn't try to read it again
-      sessionStorage.removeItem('cta-source');
-      console.log('🧹 Contact page: Cleared CTA source from sessionStorage');
+    if (ctaFromUrl) {
+      console.log('✅ Contact page: Setting CTA source to:', ctaFromUrl);
+      setCtaSource(ctaFromUrl);
     } else {
-      console.log('⚠️ Contact page: No CTA source found, using default: Get In Touch');
-      console.log('⚠️ This means either:');
-      console.log('   - sessionStorage was never set');
-      console.log('   - sessionStorage was cleared before this page loaded');
-      console.log('   - sessionStorage key name is wrong');
+      console.log('⚠️ Contact page: No CTA parameter found, using default: Get In Touch');
     }
     
     // Reset form key to force form reset

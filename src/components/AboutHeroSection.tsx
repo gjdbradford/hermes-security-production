@@ -5,8 +5,8 @@ import { getImagePath } from "@/utils/imageUtils";
 export default function AboutHeroSection() {
   const handleCTAClick = (ctaSource: string) => {
     console.log('🔘 About Hero CTA clicked:', ctaSource);
-    sessionStorage.setItem('cta-source', ctaSource);
-    const contactUrl = window.location.origin + '/contact';
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
     console.log('🧭 Navigating to:', contactUrl);
     window.location.href = contactUrl;
   };

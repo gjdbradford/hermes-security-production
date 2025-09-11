@@ -65,20 +65,13 @@ export default function HeroSection() {
 
   const handleCTAClick = (ctaSource: string) => {
     console.log('🔘 Hero CTA clicked:', ctaSource);
-    console.log('🔍 Before setting - sessionStorage keys:', Object.keys(sessionStorage));
     
-    sessionStorage.setItem('cta-source', ctaSource);
-    console.log('💾 After setting - sessionStorage keys:', Object.keys(sessionStorage));
-    console.log('💾 Stored in sessionStorage:', sessionStorage.getItem('cta-source'));
-    console.log('💾 All sessionStorage values:', Object.keys(sessionStorage).map(key => ({ key, value: sessionStorage.getItem(key) })));
-    
-    const contactUrl = window.location.origin + '/contact';
+    // Use URL parameters instead of sessionStorage - much more reliable
+    const encodedCtaSource = encodeURIComponent(ctaSource);
+    const contactUrl = `${window.location.origin}/contact?cta=${encodedCtaSource}`;
     console.log('🧭 Navigating to:', contactUrl);
-    // Add a small delay to ensure sessionStorage is set
-    setTimeout(() => {
-      console.log('⏰ About to navigate - final sessionStorage check:', sessionStorage.getItem('cta-source'));
-      window.location.href = contactUrl;
-    }, 100);
+    
+    window.location.href = contactUrl;
   };
 
   // Performance optimization: Memoize hero content to prevent unnecessary re-renders

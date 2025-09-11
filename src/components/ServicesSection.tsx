@@ -50,11 +50,8 @@ const services = [
 export default function ServicesSection() {
   const handleCTAClick = (ctaSource: string) => {
     console.log('🔘 Services CTA Button clicked:', ctaSource);
-    // Store CTA source in sessionStorage
-    sessionStorage.setItem('cta-source', ctaSource);
-    console.log('💾 Stored CTA source:', ctaSource);
-    // Navigate to contact page using proper URL
-    const contactUrl = window.location.origin + '/contact';
+    // Use URL parameters instead of sessionStorage
+    const contactUrl = `${window.location.origin}/contact?cta=${encodeURIComponent(ctaSource)}`;
     console.log('🧭 Navigating to:', contactUrl);
     window.location.href = contactUrl;
   };
