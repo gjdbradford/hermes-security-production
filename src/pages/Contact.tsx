@@ -29,6 +29,7 @@ export default function Contact() {
     
     const storedCtaSource = sessionStorage.getItem('cta-source');
     console.log('🔍 Retrieved cta-source from sessionStorage:', storedCtaSource);
+    console.log('🔍 Current ctaSource state:', ctaSource);
     
     if (storedCtaSource) {
       console.log('✅ Contact page: Setting CTA source to:', storedCtaSource);
@@ -38,6 +39,10 @@ export default function Contact() {
       console.log('🧹 Contact page: Cleared CTA source from sessionStorage');
     } else {
       console.log('⚠️ Contact page: No CTA source found, using default: Get In Touch');
+      console.log('⚠️ This means either:');
+      console.log('   - sessionStorage was never set');
+      console.log('   - sessionStorage was cleared before this page loaded');
+      console.log('   - sessionStorage key name is wrong');
     }
     
     // Reset form key to force form reset
