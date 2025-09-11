@@ -44,10 +44,10 @@ intent: super_urgent
 ## **💬 Step 3: Create AI Agent Responses**
 
 ### **3.1 Discovery Call Initial Response**
-**Trigger**: When user clicks "Book Discovery Call" button
+**Trigger**: When user clicks "Schedule Discovery Call" button
 **Response**:
 ```
-Hi! I see you're interested in booking a discovery call. I can help you schedule this right away.
+Hi! I see you're interested in scheduling a discovery call. I can help you schedule this right away.
 
 Would you prefer to:
 1. 📞 Have a phone call with our security expert
@@ -222,7 +222,7 @@ If you serve multiple countries, set up language detection:
 
 **English Response**:
 ```
-Hi! I can help you book a discovery call...
+Hi! I can help you schedule a discovery call...
 ```
 
 **German Response**:

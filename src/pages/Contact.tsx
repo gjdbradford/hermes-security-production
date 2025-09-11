@@ -13,7 +13,8 @@ import { ContactFormData } from "@/services/contactApi";
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<ContactFormData | null>(null);
-  const [ctaSource, setCtaSource] = useState<string>("Book Your Pen Test Today");
+  const [ctaSource, setCtaSource] = useState<string>("Get In Touch");
+  const [formKey, setFormKey] = useState<number>(0);
 
   // Get CTA source from sessionStorage (only run once)
   useEffect(() => {
@@ -34,10 +35,13 @@ export default function Contact() {
     } else {
       // Only log this once too
       if (!window.contactPageDefaultLogged) {
-        console.log('⚠️ Contact page: No CTA source found, using default:', ctaSource);
+        console.log('⚠️ Contact page: No CTA source found, using default: Get In Touch');
         window.contactPageDefaultLogged = true;
       }
     }
+    
+    // Reset form key to force form reset
+    setFormKey(prev => prev + 1);
   }, []); // Remove ctaSource dependency to prevent loop
 
   const handleFormSuccess = (data: ContactFormData) => {
@@ -170,7 +174,11 @@ export default function Contact() {
               </p>
             </div>
             
-            <ContactForm onSuccess={handleFormSuccess} ctaSource={ctaSource} />
+            <ContactForm 
+              key={`contact-form-${formKey}`} 
+              onSuccess={handleFormSuccess} 
+              ctaSource={ctaSource} 
+            />
           </div>
         </div>
         

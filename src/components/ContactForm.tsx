@@ -97,13 +97,18 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
     // Reset form to empty state for production
     reset(defaultFormData);
     
+    // Clear any error states
+    setSubmitError(null);
+    setCaptchaError(null);
+    setCaptchaToken(null);
+    
     // CTA source is now passed as a prop, no need to read from sessionStorage
     // Only log once to avoid spam
     if (!window.contactFormCtaLogged) {
       console.log('✅ ContactForm: Received CTA source from parent:', ctaSource);
       window.contactFormCtaLogged = true;
     }
-  }, [reset]); // Remove ctaSource from dependencies to prevent loop
+  }, [reset, ctaSource]); // Include ctaSource to reset when it changes
 
 
   const handleTermsChange = (checked: boolean) => {

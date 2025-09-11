@@ -9,10 +9,10 @@ This plan outlines multiple strategic entry points to trigger the Crisp AI Agent
 
 ### **1.1 Discovery Call Buttons**
 **Location**: Hero Section, CTA Section
-**Trigger**: "Book a discovery call" / "Schedule Now"
+**Trigger**: "Schedule a discovery call" / "Schedule Now"
 **AI Agent Prompt**: 
 ```
-"Hi! I see you're interested in booking a discovery call. I can help you schedule this right away. 
+"Hi! I see you're interested in scheduling a discovery call. I can help you schedule this right away. 
 
 Would you prefer to:
 1. 📞 Have a phone call with our security expert

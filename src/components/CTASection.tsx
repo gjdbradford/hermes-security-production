@@ -5,9 +5,9 @@ import { TriggerHandlers } from "@/utils/crispTriggers";
 const ctaOptions = [
   {
     icon: Calendar,
-    title: "Book a Discovery Call",
+    title: "Schedule a Discovery Call",
     description: "Discuss your security needs with our experts",
-    buttonText: "Book a Discovery Call",
+    buttonText: "Schedule a Discovery Call",
     variant: "hero" as const,
     primary: true
   },
@@ -59,7 +59,7 @@ export default function CTASection() {
                 className="w-full group"
                 size="lg"
                 onClick={() => {
-                  if (cta.title === "Book a Discovery Call") {
+                  if (cta.title === "Schedule a Discovery Call") {
                     TriggerHandlers.contactForm(cta.title);
                   } else if (cta.title === "Start a Pen Test Today") {
                     TriggerHandlers.contactForm(cta.title);
