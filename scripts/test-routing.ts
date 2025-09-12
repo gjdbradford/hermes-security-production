@@ -9,7 +9,12 @@
  * Run with: npx tsx scripts/test-routing.ts
  */
 
-import { getBasePath, buildUrl, getEnvironment } from '../src/utils/routingUtils';
+import {
+  getBasePath,
+  buildUrl,
+  getEnvironment,
+  clearRoutingCache,
+} from '../src/utils/routingUtils';
 
 // Mock window.location for testing (Node.js environment)
 const mockWindowLocation = (hostname: string, pathname: string) => {
@@ -71,7 +76,8 @@ function testRouting() {
     console.log(`   Hostname: ${testCase.hostname}`);
     console.log(`   Pathname: ${testCase.pathname}`);
 
-    // Mock the environment
+    // Clear cache and mock the environment
+    clearRoutingCache();
     mockWindowLocation(testCase.hostname, testCase.pathname);
 
     // Test getBasePath()
@@ -184,6 +190,7 @@ function testSpecificUrls() {
   const total = testUrls.length;
 
   for (const test of testUrls) {
+    clearRoutingCache();
     mockWindowLocation(test.hostname, test.pathname);
     const url = buildUrl(test.route);
 

@@ -217,9 +217,9 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Hero Navigation */}
+          {/* Hero Navigation - Hidden on mobile */}
           <div
-            className='absolute bottom-12 left-1/2 transform -translate-x-1/2'
+            className='absolute bottom-12 left-1/2 transform -translate-x-1/2 hidden md:block'
             role='navigation'
             aria-label='Hero carousel navigation'
           >

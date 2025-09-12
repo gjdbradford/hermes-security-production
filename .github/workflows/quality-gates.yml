@@ -310,7 +310,7 @@ jobs:
     needs: [code-quality, build-validation, testing-validation, security-check, performance-check]
     if: |
       github.ref == 'refs/heads/main' && 
-      github.event_name == 'push' &&
+      (github.event_name == 'push' || github.event_name == 'pull_request') &&
       needs.code-quality.result == 'success' &&
       needs.build-validation.result == 'success' &&
       needs.testing-validation.result == 'success' &&
@@ -348,6 +348,11 @@ jobs:
           echo "📍 URL: https://gjdbradford.github.io/hermes-security-production/"
           echo "📊 Build size: $(du -sh dist/ | cut -f1)"
           echo "📁 Files: $(find dist/ -type f | wc -l)"
+          echo "🔍 Debug Info:"
+          echo "  - Event: ${{ github.event_name }}"
+          echo "  - Ref: ${{ github.ref }}"
+          echo "  - Branch: ${{ github.ref_name }}"
+          echo "  - Actor: ${{ github.actor }}"
           echo "✅ Ready for deployment"
 
       - name: 📦 Upload Staging Build Artifact
@@ -379,7 +384,7 @@ jobs:
     needs: [deploy-staging]
     if: |
       github.ref == 'refs/heads/main' && 
-      github.event_name == 'push' &&
+      (github.event_name == 'push' || github.event_name == 'pull_request') &&
       needs.deploy-staging.result == 'success'
 
     steps:
@@ -437,7 +442,7 @@ jobs:
       ]
     if: |
       github.ref == 'refs/heads/main' && 
-      github.event_name == 'push' &&
+      (github.event_name == 'push' || github.event_name == 'pull_request') &&
       (needs.code-quality.result == 'failure' ||
        needs.build-validation.result == 'failure' ||
        needs.testing-validation.result == 'failure' ||

@@ -13,16 +13,16 @@
     <!-- Immediate redirect to main React app -->
     <script>
         // Immediate redirect to the main React application
-        window.location.replace('/');
+        window.location.replace('./');
     </script>
     
     <!-- Fallback for users with JavaScript disabled -->
     <noscript>
-        <meta http-equiv="refresh" content="0; url=/">
+        <meta http-equiv="refresh" content="0; url=./">
     </noscript>
     
     <!-- Preload the main React app -->
-    <link rel="preload" href="/" as="document">
+    <link rel="preload" href="./" as="document">
     
     <style>
         body {
@@ -76,7 +76,7 @@
         <div class="logo">🛡️ Hermes Security</div>
         <div class="spinner"></div>
         <div class="message">Redirecting to main application...</div>
-        <div class="sub-message">If you're not redirected automatically, <a href="/" style="color: #60a5fa; text-decoration: underline;">click here</a></div>
+        <div class="sub-message">If you're not redirected automatically, <a href="./" style="color: #60a5fa; text-decoration: underline;">click here</a></div>
     </div>
 </body>
 </html>
