@@ -26,15 +26,64 @@ env:
 
 jobs:
   # ========================================
+  # QUALITY GATES CHECK (REQUIRED FIRST)
+  # ========================================
+  quality-gates-check:
+    name: 🔍 Quality Gates Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🔍 Quick Quality Gates Check
+        run: |
+          echo "🔍 Running essential quality gates for production deployment..."
+
+          # TypeScript check
+          echo "📝 TypeScript type check..."
+          npx tsc --noEmit
+
+          # Lint check
+          echo "🔍 ESLint check..."
+          npm run lint
+
+          # Build check
+          echo "🏗️ Production build check..."
+          npm run build:production
+
+          # Basic validation
+          echo "✅ Basic validation..."
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ Production build failed - index.html missing"
+            exit 1
+          fi
+
+          echo "✅ All essential quality gates passed"
+
+  # ========================================
   # MANUAL PRODUCTION DEPLOYMENT
   # ========================================
   manual-production-deploy:
     name: 🚀 Manual Production Deployment
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    needs: quality-gates-check
 
-    # Only run if user confirms with "DEPLOY"
-    if: github.event.inputs.confirm_deployment == 'DEPLOY'
+    # Only run if user confirms with "DEPLOY" AND quality gates pass
+    if: |
+      github.event.inputs.confirm_deployment == 'DEPLOY' &&
+      needs.quality-gates-check.result == 'success'
 
     environment:
       name: production
@@ -110,3 +159,41 @@ jobs:
           echo ""
           echo "✅ Manual production deployment successful"
           echo "📝 Vercel will complete the deployment process"
+
+  # ========================================
+  # DEPLOYMENT FAILURE NOTIFICATION
+  # ========================================
+  deployment-failure:
+    name: ❌ Manual Deployment Failed
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [quality-gates-check, manual-production-deploy]
+    if: |
+      always() &&
+      (needs.quality-gates-check.result == 'failure' ||
+       (needs.manual-production-deploy.result == 'failure' && needs.quality-gates-check.result == 'success'))
+
+    steps:
+      - name: 📋 Manual Deployment Failure Report
+        run: |
+          echo "❌ MANUAL PRODUCTION DEPLOYMENT FAILED"
+          echo ""
+          echo "📋 Deployment Results:"
+          echo "🔍 Quality Gates Check: ${{ needs.quality-gates-check.result }}"
+          echo "🚀 Manual Production Deploy: ${{ needs.manual-production-deploy.result }}"
+          echo ""
+          if [ "${{ needs.quality-gates-check.result }}" = "failure" ]; then
+            echo "⚠️  QUALITY GATES FAILED:"
+            echo "1. Fix the failing quality gates locally"
+            echo "2. Test your changes thoroughly"
+            echo "3. Try the manual deployment again"
+            echo ""
+            echo "🚫 Production deployment blocked due to quality gate failures"
+          else
+            echo "⚠️  DEPLOYMENT PROCESS FAILED:"
+            echo "1. Check the deployment logs above"
+            echo "2. Verify Vercel configuration"
+            echo "3. Try the manual deployment again"
+          fi
+          echo ""
+          echo "🔒 Production deployment remains secure and controlled"

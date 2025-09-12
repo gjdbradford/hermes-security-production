@@ -308,7 +308,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: [code-quality, build-validation, testing-validation, security-check, performance-check]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: |
+      github.ref == 'refs/heads/main' && 
+      github.event_name == 'push' &&
+      needs.code-quality.result == 'success' &&
+      needs.build-validation.result == 'success' &&
+      needs.testing-validation.result == 'success' &&
+      needs.security-check.result == 'success' &&
+      needs.performance-check.result == 'success'
 
     environment:
       name: staging
@@ -370,7 +377,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [deploy-staging]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: |
+      github.ref == 'refs/heads/main' && 
+      github.event_name == 'push' &&
+      needs.deploy-staging.result == 'success'
 
     steps:
       - name: 📥 Checkout Code
@@ -408,3 +418,50 @@ jobs:
           echo "📝 IMPORTANT: Production deployment to Vercel is DISABLED"
           echo "📝 Production deployments must be triggered manually from Vercel dashboard"
           echo "📝 This prevents automatic production releases during development"
+
+  # ========================================
+  # FAILURE NOTIFICATION
+  # ========================================
+  deployment-failure:
+    name: ❌ Deployment Failed
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      [
+        code-quality,
+        build-validation,
+        testing-validation,
+        security-check,
+        performance-check,
+        deploy-staging,
+      ]
+    if: |
+      github.ref == 'refs/heads/main' && 
+      github.event_name == 'push' &&
+      (needs.code-quality.result == 'failure' ||
+       needs.build-validation.result == 'failure' ||
+       needs.testing-validation.result == 'failure' ||
+       needs.security-check.result == 'failure' ||
+       needs.performance-check.result == 'failure' ||
+       needs.deploy-staging.result == 'failure')
+
+    steps:
+      - name: 📋 Deployment Failure Report
+        run: |
+          echo "❌ DEPLOYMENT FAILED - Quality Gates Not Met"
+          echo ""
+          echo "📋 Quality Gate Results:"
+          echo "🔍 Code Quality: ${{ needs.code-quality.result }}"
+          echo "🏗️ Build Validation: ${{ needs.build-validation.result }}"
+          echo "🧪 Testing Validation: ${{ needs.testing-validation.result }}"
+          echo "🛡️ Security Check: ${{ needs.security-check.result }}"
+          echo "⚡ Performance Check: ${{ needs.performance-check.result }}"
+          echo "🚀 Staging Deployment: ${{ needs.deploy-staging.result }}"
+          echo ""
+          echo "⚠️  ACTION REQUIRED:"
+          echo "1. Fix the failing quality gates locally"
+          echo "2. Test your changes thoroughly"
+          echo "3. Push again only after all issues are resolved"
+          echo ""
+          echo "🚫 No deployment will occur until all quality gates pass"
+          echo "🔒 Production deployment remains disabled for safety"
