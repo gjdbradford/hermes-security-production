@@ -11,9 +11,20 @@
 
 import { getBasePath, buildUrl, getEnvironment } from '../src/utils/routingUtils';
 
-// Mock window.location for testing
+// Mock window.location for testing (Node.js environment)
 const mockWindowLocation = (hostname: string, pathname: string) => {
-  Object.defineProperty(window, 'location', {
+  // Create a mock window object if it doesn't exist (Node.js environment)
+  if (typeof window === 'undefined') {
+    (global as any).window = {
+      location: {
+        hostname: 'localhost',
+        pathname: '/',
+        href: 'http://localhost/',
+      },
+    };
+  }
+
+  Object.defineProperty((global as any).window, 'location', {
     value: {
       hostname,
       pathname,
@@ -80,7 +91,9 @@ function testRouting() {
       console.log(`   ✅ getEnvironment(): ${environment}`);
       passedTests++;
     } else {
-      console.log(`   ❌ getEnvironment(): Expected ${testCase.expectedEnvironment}, got ${environment}`);
+      console.log(
+        `   ❌ getEnvironment(): Expected ${testCase.expectedEnvironment}, got ${environment}`
+      );
     }
 
     // Test buildUrl() for different routes
@@ -88,9 +101,10 @@ function testRouting() {
     for (const route of routes) {
       totalTests++;
       const url = buildUrl(route);
-      const expectedUrl = testCase.expectedBasePath === '/'
-        ? `/#/${route}`
-        : `${testCase.expectedBasePath}#/${route}`;
+      const expectedUrl =
+        testCase.expectedBasePath === '/'
+          ? `/#/${route}`
+          : `${testCase.expectedBasePath}#/${route}`;
 
       if (url === expectedUrl) {
         console.log(`   ✅ buildUrl('${route}'): ${url}`);
@@ -122,12 +136,48 @@ function testSpecificUrls() {
   console.log('\n🔗 Testing Specific URL Generation\n');
 
   const testUrls = [
-    { environment: 'Local', hostname: 'localhost', pathname: '/', route: 'about', expected: '/#/about' },
-    { environment: 'Staging', hostname: 'gjdbradford.github.io', pathname: '/hermes-security-production/', route: 'about', expected: '/hermes-security-production/#/about' },
-    { environment: 'Production', hostname: 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app', pathname: '/', route: 'about', expected: '/#/about' },
-    { environment: 'Local', hostname: 'localhost', pathname: '/', route: 'contact', expected: '/#/contact' },
-    { environment: 'Staging', hostname: 'gjdbradford.github.io', pathname: '/hermes-security-production/', route: 'contact', expected: '/hermes-security-production/#/contact' },
-    { environment: 'Production', hostname: 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app', pathname: '/', route: 'contact', expected: '/#/contact' },
+    {
+      environment: 'Local',
+      hostname: 'localhost',
+      pathname: '/',
+      route: 'about',
+      expected: '/#/about',
+    },
+    {
+      environment: 'Staging',
+      hostname: 'gjdbradford.github.io',
+      pathname: '/hermes-security-production/',
+      route: 'about',
+      expected: '/hermes-security-production/#/about',
+    },
+    {
+      environment: 'Production',
+      hostname: 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app',
+      pathname: '/',
+      route: 'about',
+      expected: '/#/about',
+    },
+    {
+      environment: 'Local',
+      hostname: 'localhost',
+      pathname: '/',
+      route: 'contact',
+      expected: '/#/contact',
+    },
+    {
+      environment: 'Staging',
+      hostname: 'gjdbradford.github.io',
+      pathname: '/hermes-security-production/',
+      route: 'contact',
+      expected: '/hermes-security-production/#/contact',
+    },
+    {
+      environment: 'Production',
+      hostname: 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app',
+      pathname: '/',
+      route: 'contact',
+      expected: '/#/contact',
+    },
   ];
 
   let passed = 0;
