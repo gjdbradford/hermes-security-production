@@ -117,17 +117,45 @@ jobs:
           ls -la dist/
           echo ""
 
-          # Check critical files exist
-          for file in index.html favicon.ico robots.txt sitemap.xml; do
-            if [ -f "dist/$file" ]; then
-              echo "✅ $file found"
-            else
-              echo "❌ $file missing"
-              echo "🔍 Looking for similar files:"
-              find dist/ -name "*favicon*" -o -name "*$file*" 2>/dev/null || echo "No similar files found"
-              exit 1
-            fi
-          done
+          # Check critical files exist (handle Vite asset hashing)
+          echo "🔍 Checking critical files..."
+
+          # Check index.html (should be in root)
+          if [ -f "dist/index.html" ]; then
+            echo "✅ index.html found"
+          else
+            echo "❌ index.html missing"
+            exit 1
+          fi
+
+          # Check favicon (may be hashed in assets folder)
+          if [ -f "dist/favicon.ico" ]; then
+            echo "✅ favicon.ico found in root"
+          elif find dist/assets/ -name "favicon-*.ico" 2>/dev/null | grep -q .; then
+            echo "✅ favicon.ico found in assets/ (hashed)"
+            find dist/assets/ -name "favicon-*.ico" | head -1
+          else
+            echo "❌ favicon.ico missing"
+            echo "🔍 Looking for favicon files:"
+            find dist/ -name "*favicon*" 2>/dev/null || echo "No favicon files found"
+            exit 1
+          fi
+
+          # Check robots.txt
+          if [ -f "dist/robots.txt" ]; then
+            echo "✅ robots.txt found"
+          else
+            echo "❌ robots.txt missing"
+            exit 1
+          fi
+
+          # Check sitemap.xml
+          if [ -f "dist/sitemap.xml" ]; then
+            echo "✅ sitemap.xml found"
+          else
+            echo "❌ sitemap.xml missing"
+            exit 1
+          fi
 
           # Check assets directory
           if [ -d "dist/assets" ]; then
