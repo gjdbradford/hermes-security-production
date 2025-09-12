@@ -26,14 +26,32 @@
 - **MUST** reset form when "Get In Touch" clicked from contact page
 - **MUST** scroll to top when reloading contact page
 
-### **5. Header "Get In Touch" Button**
+### **5. Scroll-to-Top Navigation Requirements**
+- **MUST** implement ScrollToTop component in App.tsx for all route navigation
+- **MUST** ensure ScrollToTop component is placed inside BrowserRouter
+- **MUST** use smooth scrolling behavior for better UX
+- **MUST** work with all navigation methods (links, buttons, programmatic)
+- **MUST** NOT interfere with CTA logic or sessionStorage operations
+- **MUST** be tested on all environments (dev, staging, production)
+
+### **6. ChatBot Integration Rules**
+- **ONLY 2 CTAs** can activate ChatBot:
+  1. **"Learn More About Our Services"** button in AboutCTASection.tsx
+  2. **Contact Form Submission** (after successful form submission)
+- **ALL OTHER CTAs** must use standard `navigateToContact()` function
+- **MUST** use ChatBotUtils for approved ChatBot activations
+- **MUST NOT** modify any other CTA buttons to launch ChatBot
+- **MUST** follow CHATBOT_MASTER_RULES.md for ChatBot implementations
+
+### **7. Header "Get In Touch" Button**
 - **MUST** check if already on contact page
 - **MUST** do nothing if already on contact page (NO page reload - breaks staging)
 - **MUST** navigate normally if not on contact page
 - **MUST** work on both desktop and mobile
 - **MUST NEVER** use `window.location.reload()` (breaks GitHub Pages routing)
+- **MUST NOT** launch ChatBot (protected CTA)
 
-### **6. GitHub Pages Deployment Rules**
+### **8. GitHub Pages Deployment Rules**
 - **MUST** never have a `docs/` folder in the repository root (conflicts with GitHub Pages)
 - **MUST** use GitHub Actions deployment instead of docs folder
 - **MUST** ensure `.nojekyll` file is created in dist/ folder
@@ -49,6 +67,28 @@ export const navigateToContact = (navigate: NavigateFunction, ctaSource: string)
   // Always use relative path - React Router handles base path automatically
   navigate('/contact');
 };
+```
+
+### **ScrollToTop Component** (`src/components/ScrollToTop.tsx`)
+```typescript
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, [pathname]);
+
+  return null;
+};
+
+export default ScrollToTop;
 ```
 
 ### **Routing Utilities** (`src/utils/routingUtils.ts`)
@@ -110,6 +150,13 @@ All these components MUST use `navigateToContact(navigate, ctaSource)`:
 - ✅ Base paths work on all environments
 - ✅ Form resets when "Get In Touch" clicked from contact page
 - ✅ No broken navigation on staging
+- ✅ ScrollToTop component scrolls to top on all route changes
+- ✅ ScrollToTop works with all navigation methods (links, buttons, programmatic)
+- ✅ ScrollToTop does not interfere with CTA logic or sessionStorage
+- ✅ ChatBot launches only from approved CTAs (Learn More About Our Services + Contact Form)
+- ✅ All other CTAs still navigate to contact page normally (NO ChatBot)
+- ✅ ChatBot context data is set correctly
+- ✅ Crisp chat widget opens properly
 
 ## 🔄 **Build Validation**
 
@@ -117,11 +164,14 @@ Every build MUST:
 1. **Validate CTA components** use correct navigation
 2. **Check base path configuration** for all environments
 3. **Verify CTA source tracking** is implemented
-4. **Test staging environment** pathing
-5. **Ensure no forbidden patterns** are used
-6. **Verify no `docs/` folder** in repository root
-7. **Confirm GitHub Pages serves React app** not documentation
-8. **Test staging deployment** after any folder structure changes
+4. **Verify ScrollToTop component** is properly integrated in App.tsx
+5. **Verify ChatBot integration** works only for approved CTAs
+6. **Validate ChatBot master rules** are followed
+7. **Test staging environment** pathing
+8. **Ensure no forbidden patterns** are used
+9. **Verify no `docs/` folder** in repository root
+10. **Confirm GitHub Pages serves React app** not documentation
+11. **Test staging deployment** after any folder structure changes
 
 ---
 

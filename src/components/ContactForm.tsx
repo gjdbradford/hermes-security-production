@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 // Crisp global variable is declared in crispTriggers.ts
 import { Button } from '@/components/ui/button';
+import { ChatBotUtils } from '@/utils/chatbotUtils';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -166,10 +167,8 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
 
       if (result.success) {
         // console.log('✅ Webhook successful!');
-        // Trigger Crisp chat after successful form submission
-        if (window.$crisp) {
-          window.$crisp.push(['do', 'chat:open']);
-        }
+        // Launch ChatBot with comprehensive context data
+        ChatBotUtils.launchContactFormChat(formDataWithSource, ctaSource);
         onSuccess(formDataWithSource);
       } else {
         // console.log('❌ Webhook failed:', result);
