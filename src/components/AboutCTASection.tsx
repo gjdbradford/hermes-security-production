@@ -34,21 +34,21 @@ export default function AboutCTASection() {
               <Button
                 variant='hero'
                 size='lg'
-                className='group text-lg px-8 py-4'
+                className='group'
                 onClick={() => handleCTAClick('Start Your Security Journey')}
               >
                 Start Your Security Journey
-                <ArrowRight className='ml-3 w-5 h-5 transition-transform group-hover:translate-x-1' />
+                <ArrowRight className='ml-2 w-4 h-4 transition-transform group-hover:translate-x-1' />
               </Button>
 
               <Button
                 variant='outline'
                 size='lg'
-                className='group text-lg px-8 py-4 border-accent-security text-accent-security hover:bg-accent-security hover:text-white'
+                className='group border-accent-security text-accent-security hover:bg-accent-security hover:text-white'
                 onClick={() => ChatBotUtils.launchServiceInquiry('Learn More About Our Services')}
               >
                 Learn More About Our Services
-                <Target className='ml-3 w-5 h-5 transition-transform group-hover:scale-110' />
+                <Target className='ml-2 w-4 h-4 transition-transform group-hover:scale-110' />
               </Button>
             </div>
           </div>
