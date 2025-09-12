@@ -70,11 +70,25 @@ export default function Header() {
                 // Always scroll to top when clicking logo
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
+              className='flex items-center gap-2'
             >
+              {/* Mobile: Use favicon with text */}
+              <div className='flex items-center gap-2 md:hidden'>
+                <OptimizedImage
+                  src={IMAGE_PATHS.favicon()}
+                  alt='Hermes Security'
+                  className='h-8 w-8 mt-1'
+                  loading='eager'
+                />
+                <span className='text-xl font-bold text-hero-foreground mt-0.5'>
+                  HERMES SECURITY
+                </span>
+              </div>
+              {/* Desktop: Use full logo */}
               <OptimizedImage
                 src={IMAGE_PATHS.logo()}
                 alt='Hermes Security Logo'
-                className='h-8 w-auto'
+                className='h-8 w-auto hidden md:block'
                 loading='eager'
               />
             </Link>

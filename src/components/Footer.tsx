@@ -1,5 +1,8 @@
 import {} from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { navigateToContact } from '@/utils/ctaNavigation';
+import OptimizedImage from '@/components/ui/optimized-image';
+import { IMAGE_PATHS } from '@/utils/imageUtils';
 
 const footerLinks = {
   services: [
@@ -12,7 +15,9 @@ const footerLinks = {
   ],
   company: [
     { name: 'About Us', href: '/about' },
-    { name: 'Methodology', href: '#' },
+    { name: 'Services', href: '#services', type: 'anchor' },
+    { name: 'Methodology', href: '#methodology', type: 'anchor' },
+    { name: 'Get In Touch', href: '/contact', type: 'contact' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },
@@ -20,7 +25,54 @@ const footerLinks = {
   ],
 };
 
+const scrollToSection = (sectionId: string) => {
+  const element = document.getElementById(sectionId);
+  if (element) {
+    const headerHeight = 80; // Approximate header height in pixels
+
+    // Different offset values for different sections
+    let offset = 110; // Default offset
+    if (sectionId === 'methodology') {
+      offset = 60; // Methodology section gets closer positioning
+    }
+
+    const elementPosition = element.offsetTop - headerHeight - offset;
+
+    window.scrollTo({
+      top: elementPosition,
+      behavior: 'smooth',
+    });
+  }
+};
+
 export default function Footer() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavigation = (link: any) => {
+    if (link.type === 'contact') {
+      // Handle contact navigation using the CTA navigation utility
+      navigateToContact(navigate, 'Get In Touch');
+    } else if (link.type === 'anchor') {
+      // Handle anchor navigation (Services, Methodology)
+      const sectionId = link.href.replace('#', '');
+      // If we're not on the homepage, navigate there first
+      if (location.pathname !== '/') {
+        navigate('/');
+        // Wait for navigation to complete, then scroll to section
+        setTimeout(() => {
+          scrollToSection(sectionId);
+        }, 100);
+      } else {
+        // If we're already on the homepage, just scroll to section
+        scrollToSection(sectionId);
+      }
+    } else {
+      // Handle regular route navigation (About Us, Privacy, Terms)
+      navigate(link.href);
+    }
+  };
+
   return (
     <footer className='bg-hero text-hero-foreground'>
       <div className='container mx-auto px-6 py-16'>
@@ -28,7 +80,13 @@ export default function Footer() {
           {/* Company Info */}
           <div className='lg:col-span-2'>
             <div className='flex items-center gap-2 mb-4'>
-              <span className='text-xl font-bold'>Hermes Security</span>
+              <OptimizedImage
+                src={IMAGE_PATHS.favicon()}
+                alt='Hermes Security'
+                className='h-8 w-8 mt-1'
+                loading='eager'
+              />
+              <span className='text-xl font-bold text-hero-foreground mt-0.5'>HERMES SECURITY</span>
             </div>
             <p className='text-hero-muted mb-6 leading-relaxed max-w-md'>
               AI-driven penetration testing with expert oversight — helping European enterprises
@@ -74,12 +132,12 @@ export default function Footer() {
             <ul className='space-y-2 text-sm'>
               {footerLinks.company.map(link => (
                 <li key={link.name}>
-                  <Link
-                    to={link.href}
-                    className='text-hero-muted hover:text-hero-foreground transition-colors'
+                  <button
+                    onClick={() => handleNavigation(link)}
+                    className='text-hero-muted hover:text-hero-foreground transition-colors text-left bg-transparent border-none cursor-pointer p-0'
                   >
                     {link.name}
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>

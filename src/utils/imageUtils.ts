@@ -66,7 +66,7 @@ export function getBasePath(): string {
 export const IMAGE_PATHS = {
   logo: () => getAssetUrl('logo-main'),
   heroBackground: () => getAssetUrl('hero-background'),
-  favicon: () => getAssetUrl('favicon'),
+  favicon: () => getAssetUrl('favicon-ico'),
   placeholder: () => getAssetUrl('placeholder'),
   ogImage: () => getAssetUrl('og-image'),
   twitterImage: () => getAssetUrl('twitter-image'),

@@ -25,7 +25,7 @@ html {
     /* Primary: Deep security blue */
     --primary: 212 85% 15%;
     --primary-foreground: 0 0% 98%;
-    
+
     /* Security accent - Electric blue */
     --accent-security: 203 100% 50%;
     --accent-security-foreground: 0 0% 98%;
@@ -56,7 +56,11 @@ html {
 
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(212 95% 8%) 0%, hsl(212 85% 12%) 100%);
-    --gradient-security: linear-gradient(135deg, hsl(203 100% 50% / 0.1) 0%, hsl(212 85% 15% / 0.1) 100%);
+    --gradient-security: linear-gradient(
+      135deg,
+      hsl(203 100% 50% / 0.1) 0%,
+      hsl(212 85% 15% / 0.1) 100%
+    );
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100%) 0%, hsl(210 25% 98%) 100%);
 
     /* Shadows */
@@ -154,7 +158,7 @@ html {
       transition-duration: 0.01ms !important;
     }
   }
-  
+
   /* Optimize for high contrast mode */
   @media (prefers-contrast: high) {
     :root {
@@ -228,12 +232,22 @@ html {
 
   /* Ensure emoji flags render properly across all browsers */
   .flag-emoji {
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", sans-serif !important;
+    font-family:
+      'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Android Emoji', 'EmojiSymbols',
+      'EmojiOne Mozilla', 'Twemoji Mozilla', 'Segoe UI Symbol', sans-serif !important;
     font-variant-emoji: emoji;
-    font-feature-settings: "liga" 1, "kern" 1;
-    -webkit-font-feature-settings: "liga" 1, "kern" 1;
-    -moz-font-feature-settings: "liga" 1, "kern" 1;
-    -ms-font-feature-settings: "liga" 1, "kern" 1;
+    font-feature-settings:
+      'liga' 1,
+      'kern' 1;
+    -webkit-font-feature-settings:
+      'liga' 1,
+      'kern' 1;
+    -moz-font-feature-settings:
+      'liga' 1,
+      'kern' 1;
+    -ms-font-feature-settings:
+      'liga' 1,
+      'kern' 1;
     font-kerning: normal;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -260,7 +274,7 @@ html {
 
   /* Force emoji rendering in all browsers */
   .flag-emoji::before {
-    content: "";
+    content: '';
     display: none;
   }
 
@@ -284,19 +298,19 @@ html {
   .flex {
     display: -ms-flexbox !important;
   }
-  
+
   .flex-col {
     -ms-flex-direction: column !important;
   }
-  
+
   .justify-center {
     -ms-flex-pack: center !important;
   }
-  
+
   .items-center {
     -ms-flex-align: center !important;
   }
-  
+
   .backdrop-blur-md {
     background-color: rgba(0, 0, 0, 0.5) !important;
   }
@@ -307,7 +321,7 @@ html {
   .backdrop-blur-md {
     -webkit-backdrop-filter: blur(12px) !important;
   }
-  
+
   .sticky {
     position: -webkit-sticky !important;
   }
@@ -325,7 +339,7 @@ html {
   .min-h-screen {
     min-height: -webkit-fill-available !important;
   }
-  
+
   input,
   textarea,
   select {
@@ -360,4 +374,12 @@ select:focus {
     min-height: 44px;
     min-width: 44px;
   }
+}
+
+/* Third-party widget positioning adjustments */
+/* Move Google reCAPTCHA badge to bottom left to avoid clash with chatbot */
+.grecaptcha-badge {
+  bottom: 0px !important;
+  left: 0px !important;
+  right: auto !important;
 }
