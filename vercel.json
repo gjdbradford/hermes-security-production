@@ -1,5 +1,11 @@
 {
   "version": 2,
+  "git": {
+    "deploymentEnabled": {
+      "main": false,
+      "develop": false
+    }
+  },
   "builds": [
     {
       "src": "api/send-email.js",

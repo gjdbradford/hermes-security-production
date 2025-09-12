@@ -1,0 +1,60 @@
+# Vercel Ignore File
+# This file controls what gets deployed to Vercel
+
+# Development files
+.env.local
+.env.development
+.env.test
+
+# Documentation
+documentation/
+docs/
+
+# Test files
+src/tests/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Build artifacts (Vercel will build these)
+dist/
+build/
+
+# Development tools
+.vscode/
+.idea/
+*.log
+*.tmp
+
+# Git
+.git/
+.gitignore
+
+# Node modules (Vercel will install these)
+node_modules/
+
+# Scripts (not needed in production)
+scripts/
+
+# GitHub workflows (not needed in production)
+.github/
+
+# Quality gates and deployment files
+*.yml
+*.yaml
+!vercel.json
+
+# README and documentation
+README.md
+*.md
+!package.json
+
+# Lock files (Vercel will use package.json)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# IDE files
+.DS_Store
+Thumbs.db
