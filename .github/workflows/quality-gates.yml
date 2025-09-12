@@ -1,5 +1,8 @@
 name: Quality Gates & Deployment
 
+# This is the PRIMARY deployment workflow that ensures all quality gates pass before deployment
+# The separate deploy.yml workflow is disabled to prevent unsafe deployments
+
 on:
   push:
     branches: [main, develop]
@@ -352,51 +355,11 @@ jobs:
           artifact_name: staging-build
 
   # ========================================
-  # DEPLOYMENT: Production (Vercel)
+  # PRODUCTION DEPLOYMENT NOTE
   # ========================================
-  deploy-production:
-    name: 🌟 Deploy to Production
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    needs: [deploy-staging]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-
-    environment:
-      name: production
-      url: https://hermes-security-production.vercel.app/
-
-    steps:
-      - name: 📥 Checkout Code
-        uses: actions/checkout@v4
-
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: 📦 Install Dependencies
-        run: npm ci
-
-      - name: 🏗️ Build for Production
-        run: npm run build:production
-
-      - name: 📋 Production Deployment Summary
-        run: |
-          echo "🌟 Production Deployment Summary:"
-          echo "📍 URL: https://hermes-security-production.vercel.app/"
-          echo "📊 Build size: $(du -sh dist/ | cut -f1)"
-          echo "📁 Files: $(find dist/ -type f | wc -l)"
-          echo "✅ Ready for production deployment"
-
-      - name: 🚀 Deploy to Vercel
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: ./
-          scope: ${{ secrets.VERCEL_ORG_ID }}
+  # Production deployment to Vercel is handled by Vercel's own platform
+  # and is triggered automatically when code is pushed to the main branch.
+  # This ensures Vercel handles its own deployment process and monitoring.
 
   # ========================================
   # POST-DEPLOYMENT VALIDATION
@@ -405,7 +368,7 @@ jobs:
     name: ✅ Post-Deployment Validation
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    needs: [deploy-staging, deploy-production]
+    needs: [deploy-staging]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
 
     steps:
@@ -429,14 +392,16 @@ jobs:
 
       - name: 📊 Deployment Report
         run: |
-          echo "🎉 Deployment Complete!"
+          echo "🎉 Staging Deployment Complete!"
           echo ""
           echo "📋 Deployment Summary:"
           echo "🟢 Staging: https://gjdbradford.github.io/hermes-security-production/"
-          echo "🌟 Production: https://hermes-security-production.vercel.app/"
+          echo "🌟 Production: Handled by Vercel platform automatically"
           echo ""
           echo "✅ All quality gates passed"
           echo "✅ All tests passed"
           echo "✅ Security checks passed"
           echo "✅ Performance checks passed"
-          echo "✅ Deployments successful"
+          echo "✅ Staging deployment successful"
+          echo ""
+          echo "📝 Note: Production deployment to Vercel is handled by Vercel's platform"

@@ -1,10 +1,12 @@
 name: Deploy to GitHub Pages
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+# DISABLED: This workflow is disabled because deployment is now handled by quality-gates.yml
+# which ensures all quality gates pass before deployment
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
