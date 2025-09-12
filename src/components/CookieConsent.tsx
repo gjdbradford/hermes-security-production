@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Cookie, Settings, Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -193,23 +194,13 @@ const CookieConsent = ({ onAccept, onDecline }: CookieConsentProps) => {
                 <div className='border-t pt-4'>
                   <p className='text-xs text-gray-500 mb-4'>
                     For more information about how we use cookies, please read our{' '}
-                    <a
-                      href='/#/privacy'
-                      className='text-blue-600 hover:underline'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
+                    <Link to='/privacy' className='text-blue-600 hover:underline'>
                       Privacy Policy
-                    </a>{' '}
+                    </Link>{' '}
                     and{' '}
-                    <a
-                      href='/#/terms'
-                      className='text-blue-600 hover:underline'
-                      target='_blank'
-                      rel='noopener noreferrer'
-                    >
+                    <Link to='/terms' className='text-blue-600 hover:underline'>
                       Terms of Use
-                    </a>
+                    </Link>
                     .
                   </p>
 

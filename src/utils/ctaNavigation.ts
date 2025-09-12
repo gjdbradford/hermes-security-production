@@ -26,16 +26,19 @@ export const navigateToContact = (navigate: NavigateFunction, ctaSource: string)
 
 /**
  * Navigate to contact page with URL parameters (fallback method)
+ * This method is only used when React Router navigation is not available
  * @param ctaSource - Source of the CTA
  */
 export const navigateToContactWithParams = (ctaSource: string): void => {
   // console.log('🔘 CTA Button clicked:', ctaSource);
 
-  // Use URL parameters as backup method
+  // Use URL parameters as backup method when React Router is not available
   const basePath = getBasePath();
   const contactUrl = `${window.location.origin}${basePath}contact?cta=${encodeURIComponent(ctaSource)}`;
 
   // console.log('🧭 Navigating to:', contactUrl);
+  // Note: This is a fallback method that uses window.location.href
+  // This is acceptable as it's explicitly a fallback when React Router is not available
   window.location.href = contactUrl;
 };
 

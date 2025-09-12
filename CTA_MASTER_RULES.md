@@ -59,6 +59,30 @@
 - **MUST** maintain docs folder structure for Jekyll bypass
 - **MUST** test staging deployment after any folder structure changes
 
+### **9. React Router DOM Navigation Rules**
+- **MUST** use React Router `Link` components for ALL internal navigation links
+- **MUST NOT** use hardcoded `href` attributes for internal routes
+- **MUST** import `Link` from `react-router-dom` in navigation components
+- **MUST** use `to` prop instead of `href` for React Router navigation
+- **MUST** ensure all navigation respects staging environment path (`/hermes-security-production/`)
+- **MUST** test navigation works correctly in all environments (dev, staging, production)
+- **MUST** maintain consistent routing behavior across all navigation components
+- **MUST** validate navigation during pre-commit and pre-push hooks
+
+#### **Navigation Validation Requirements:**
+- **Header Navigation**: Must use React Router `Link` or `navigate()` function
+- **Footer Navigation**: Must use React Router `Link` components
+- **CTA Buttons**: Must use `navigateToContact()` utility function
+- **Breadcrumbs**: Must use React Router `Link` components
+- **Mobile Navigation**: Must use React Router navigation
+- **Sidebar Navigation**: Must use React Router `Link` components
+
+#### **Forbidden Navigation Patterns:**
+- ❌ `<a href="/about">` (use `<Link to="/about">`)
+- ❌ `window.location.href = '/contact'` (use `navigate('/contact')`)
+- ❌ `location.href = '/privacy'` (use React Router navigation)
+- ❌ Hardcoded staging paths in navigation links
+
 ## 🔧 **Required Components**
 
 ### **CTA Navigation Utility** (`src/utils/ctaNavigation.ts`)

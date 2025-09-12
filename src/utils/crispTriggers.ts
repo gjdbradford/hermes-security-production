@@ -112,10 +112,16 @@ export const TriggerHandlers = {
         return;
       }
 
-      // Use proper environment-aware routing with hash support
-      const contactUrl = buildUrl('contact');
-      console.log('🧭 Using buildUrl for contact navigation:', contactUrl);
-      window.location.href = contactUrl;
+      // Use React Router navigation if available, otherwise fallback to buildUrl
+      if (_navigateFunction) {
+        console.log('🧭 Using React Router navigation to /contact');
+        _navigateFunction('/contact');
+      } else {
+        // Fallback: use buildUrl for proper routing
+        const contactUrl = buildUrl('contact');
+        console.log('🧭 Using buildUrl for contact navigation:', contactUrl);
+        window.location.href = contactUrl;
+      }
     } catch (error) {
       console.error('❌ Error in contact form trigger:', error);
       // Fallback: use buildUrl for proper routing
