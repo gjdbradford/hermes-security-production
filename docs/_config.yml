@@ -1,0 +1,28 @@
+# Jekyll configuration - DISABLED for docs folder
+# This is a React application redirect - no Jekyll processing required
+
+# Disable Jekyll completely
+plugins: []
+markdown: kramdown
+highlighter: rouge
+
+# Disable Jekyll processing
+exclude: ['*']
+
+# Only include the redirect HTML
+include:
+  - index.html
+  - .nojekyll
+
+# Disable Jekyll features
+collections: {}
+defaults: []
+
+# This is a redirect to React app, not a Jekyll site
+baseurl: ''
+url: ''
+
+# Disable Jekyll processing
+permalink: none
+timezone: UTC
+encoding: utf-8

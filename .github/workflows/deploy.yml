@@ -2,9 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -15,7 +15,7 @@ permissions:
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
@@ -25,48 +25,88 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
       - name: Build for Staging
         run: npm run build:staging
-        
+
       - name: Disable Jekyll and prepare static assets
         run: |
           # Create .nojekyll file to completely disable Jekyll processing
           echo "# This file tells GitHub Pages not to process the site with Jekyll" > dist/.nojekyll
           echo "# Static site - no Jekyll processing required" >> dist/.nojekyll
-          
+
           # Also create .nojekyll in root for extra safety
           echo "# This file tells GitHub Pages not to process the site with Jekyll" > .nojekyll
           echo "# Static site - no Jekyll processing required" >> .nojekyll
-          
+
           # Copy .nojekyll to dist if it exists in root
           if [ -f .nojekyll ]; then
             cp .nojekyll dist/
             echo "✅ .nojekyll file copied to dist/"
           fi
-          
-          # Verify .nojekyll is present
+
+          # Create docs folder structure to bypass Jekyll completely
+          echo "📁 Creating docs folder structure to bypass Jekyll..."
+          mkdir -p docs
+
+          # Copy the React app to docs folder as backup
+          cp -r dist/* docs/
+          echo "✅ React app copied to docs folder"
+
+          # Ensure .nojekyll exists in docs folder
+          echo "# This file tells GitHub Pages not to process the docs folder with Jekyll" > docs/.nojekyll
+          echo "# This is a React application - no Jekyll processing required" >> docs/.nojekyll
+
+          # Create a proper index.html in docs that redirects to the main app
+          cat > docs/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Hermes Security - Redirecting...</title>
+              <meta name="robots" content="noindex, nofollow">
+              <script>window.location.replace('/');</script>
+              <noscript><meta http-equiv="refresh" content="0; url=/"></noscript>
+          </head>
+          <body>
+              <div style="font-family: system-ui; text-align: center; padding: 2rem;">
+                  <h1>🛡️ Hermes Security</h1>
+                  <p>Redirecting to main application...</p>
+                  <p><a href="/">Click here if not redirected automatically</a></p>
+              </div>
+          </body>
+          </html>
+          EOF
+
+          # Verify .nojekyll is present in both locations
           if [ -f dist/.nojekyll ]; then
             echo "✅ .nojekyll file confirmed in dist/"
-            cat dist/.nojekyll
           else
             echo "❌ .nojekyll file not found in dist/"
             exit 1
           fi
-          
+
+          if [ -f docs/.nojekyll ]; then
+            echo "✅ .nojekyll file confirmed in docs/"
+          else
+            echo "❌ .nojekyll file not found in docs/"
+            exit 1
+          fi
+
           # Verify all static assets are present
           echo "📁 Checking dist folder contents:"
           ls -la dist/
-          
+
           # Check for critical files
           echo "🔍 Checking for critical static assets:"
           for file in index.html favicon.ico favicon.svg robots.txt sitemap.xml site.webmanifest; do
@@ -76,7 +116,7 @@ jobs:
               echo "⚠️  $file not found"
             fi
           done
-          
+
           # Check for assets directory
           if [ -d "dist/assets" ]; then
             echo "✅ assets directory found"
@@ -85,16 +125,16 @@ jobs:
             echo "❌ assets directory not found"
             exit 1
           fi
-          
+
           # Ensure proper permissions for all files
           echo "🔐 Setting proper permissions..."
           find dist/ -type f -exec chmod 644 {} \;
           find dist/ -type d -exec chmod 755 {} \;
           echo "✅ Permissions set"
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

@@ -1,0 +1,45 @@
+# Jekyll configuration - DISABLED
+# This file exists only to prevent Jekyll from running
+# We use a React application, not Jekyll
+
+# Disable Jekyll completely
+plugins: []
+markdown: kramdown
+highlighter: rouge
+
+# Disable Jekyll processing
+exclude:
+  - node_modules
+  - src
+  - package.json
+  - package-lock.json
+  - vite.config.ts
+  - tailwind.config.ts
+  - tsconfig.json
+  - eslint.config.js
+  - .git
+  - .github
+  - README.md
+  - CHATBOT_MASTER_RULES.md
+  - CTA_MASTER_RULES.md
+  - SCROLL_TO_TOP_GUIDELINES.md
+  - QUALITY_GATES_DEPLOYED.md
+
+# Only include the built React app
+include:
+  - dist/
+  - docs/
+  - .nojekyll
+
+# Disable Jekyll features
+collections: {}
+defaults: []
+
+# This is a React app, not a Jekyll site
+baseurl: ''
+url: ''
+
+# Disable Jekyll processing
+permalink: none
+timezone: UTC
+encoding: utf-8
