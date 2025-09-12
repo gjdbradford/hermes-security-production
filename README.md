@@ -128,13 +128,42 @@ The project uses a custom design system built with Tailwind CSS:
 - **Performance Monitoring**: Real-time metrics
 - **Error Tracking**: Automated error reporting
 
+## 📋 Master Rules & Guidelines
+
+This project follows strict master rules to ensure consistency, performance, and
+reliability:
+
+### **Critical Master Rules**
+
+- **[CTA_MASTER_RULES.md](./CTA_MASTER_RULES.md)** - CTA navigation and routing
+  rules
+- **[CHATBOT_MASTER_RULES.md](./CHATBOT_MASTER_RULES.md)** - ChatBot integration
+  rules
+- **[PERFORMANCE_MASTER_RULES.md](./PERFORMANCE_MASTER_RULES.md)** - Performance
+  optimization rules
+- **[documentation/guides/ROUTING_RULES.md](./documentation/guides/ROUTING_RULES.md)** -
+  Detailed routing guidelines
+
+### **Key Rules Summary**
+
+- ✅ **No console spam** - All debug logging must be cached and session-based
+- ✅ **Performance optimized** - Expensive functions must be cached
+- ✅ **Environment-aware routing** - All navigation must work across
+  dev/staging/production
+- ✅ **CTA source tracking** - All CTAs must track their source properly
+- ✅ **ChatBot protection** - Only 2 specific CTAs can launch ChatBot
+
+**⚠️ CRITICAL**: These rules are NON-NEGOTIABLE. Any changes that break these
+patterns will cause deployment failures and performance issues.
+
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+3. **Review master rules** before making changes
+4. Commit your changes (`git commit -m 'Add amazing feature'`)
+5. Push to the branch (`git push origin feature/amazing-feature`)
+6. Open a Pull Request
 
 ## 📄 License
 
