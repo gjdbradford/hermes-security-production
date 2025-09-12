@@ -355,11 +355,12 @@ jobs:
           artifact_name: staging-build
 
   # ========================================
-  # PRODUCTION DEPLOYMENT NOTE
+  # PRODUCTION DEPLOYMENT CONTROL
   # ========================================
-  # Production deployment to Vercel is handled by Vercel's own platform
-  # and is triggered automatically when code is pushed to the main branch.
-  # This ensures Vercel handles its own deployment process and monitoring.
+  # Production deployment to Vercel is DISABLED in this workflow.
+  # Vercel auto-deployment is disabled to prevent automatic production releases.
+  # Production deployments must be triggered manually from Vercel dashboard
+  # or through manual workflow dispatch only.
 
   # ========================================
   # POST-DEPLOYMENT VALIDATION
@@ -396,7 +397,7 @@ jobs:
           echo ""
           echo "📋 Deployment Summary:"
           echo "🟢 Staging: https://gjdbradford.github.io/hermes-security-production/"
-          echo "🌟 Production: Handled by Vercel platform automatically"
+          echo "🔒 Production: MANUAL DEPLOYMENT ONLY (Vercel auto-deploy disabled)"
           echo ""
           echo "✅ All quality gates passed"
           echo "✅ All tests passed"
@@ -404,4 +405,6 @@ jobs:
           echo "✅ Performance checks passed"
           echo "✅ Staging deployment successful"
           echo ""
-          echo "📝 Note: Production deployment to Vercel is handled by Vercel's platform"
+          echo "📝 IMPORTANT: Production deployment to Vercel is DISABLED"
+          echo "📝 Production deployments must be triggered manually from Vercel dashboard"
+          echo "📝 This prevents automatic production releases during development"
