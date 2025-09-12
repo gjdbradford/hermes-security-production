@@ -1,5 +1,8 @@
 name: Quality Gates & Deployment
 
+# This is the PRIMARY deployment workflow that ensures all quality gates pass before deployment
+# The separate deploy.yml workflow is disabled to prevent unsafe deployments
+
 on:
   push:
     branches: [main, develop]
