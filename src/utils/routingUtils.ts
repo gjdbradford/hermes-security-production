@@ -6,6 +6,16 @@
 let cachedBasePath: string | null = null;
 let hasLoggedEnvironment = false;
 
+// Function to clear cache (for testing purposes)
+export const clearRoutingCache = (): void => {
+  cachedBasePath = null;
+  hasLoggedEnvironment = false;
+  if (typeof window !== 'undefined') {
+    (window as any).urlBuildLogged = false;
+    (window as any).environmentInfoLogged = false;
+  }
+};
+
 // Get the base path for the current environment
 export const getBasePath = (): string => {
   // Return cached value if available
@@ -41,7 +51,7 @@ export const getBasePath = (): string => {
   }
 
   // Check if we're on GitHub Pages staging domain
-  if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
+  if (hostname === 'gjdbradford.github.io') {
     if (!hasLoggedEnvironment) {
       console.log('🏗️ Detected GitHub Pages staging environment');
     }
