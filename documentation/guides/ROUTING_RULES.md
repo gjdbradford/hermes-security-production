@@ -74,6 +74,21 @@ const url = buildUrl('about'); // Returns correct hash-based URL
 const url = `${basePath}#/about`; // May not work in all environments
 ```
 
+### **Rule 5: NEVER Use Hardcoded Paths in HTML Templates**
+```html
+<!-- ❌ WRONG - Hardcoded paths break staging environment -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta property="og:image" content="/images/social/og-image.svg" />
+<script type="module" src="/src/main.tsx"></script>
+
+<!-- ✅ CORRECT - Relative paths work with Vite's base path -->
+<link rel="icon" type="image/x-icon" href="favicon.ico" />
+<link rel="manifest" href="site.webmanifest" />
+<meta property="og:image" content="images/social/og-image.svg" />
+<script type="module" src="src/main.tsx"></script>
+```
+
 ## 🔧 Implementation Examples
 
 ### **Header Navigation**
@@ -183,6 +198,95 @@ import { getEnvironment } from "@/utils/routingUtils";
 console.log('Environment:', getEnvironment()); // 'development' | 'staging' | 'production'
 ```
 
+## 🚫 **ROUTING DUPLICATION PREVENTION RULES**
+
+### **Rule 6: NEVER Allow Function Call Spam**
+```javascript
+// ❌ WRONG - This causes console spam and performance issues
+export const getBasePath = (): string => {
+  console.log('🔍 Routing Debug:', { hostname, pathname }); // Logs every call
+  // ... routing logic
+};
+
+// ✅ CORRECT - Cache results and log only once
+let cachedBasePath: string | null = null;
+let hasLoggedEnvironment = false;
+
+export const getBasePath = (): string => {
+  if (cachedBasePath !== null) {
+    return cachedBasePath; // Return cached value
+  }
+  
+  if (!hasLoggedEnvironment) {
+    console.log('🔍 Routing Debug:', { hostname, pathname }); // Log only once
+    hasLoggedEnvironment = true;
+  }
+  
+  // ... routing logic with caching
+  cachedBasePath = result;
+  return cachedBasePath;
+};
+```
+
+### **Rule 7: Cache Expensive Routing Operations**
+```javascript
+// ✅ CORRECT - Cache base path calculations
+let cachedBasePath: string | null = null;
+
+// ✅ CORRECT - Cache environment detection
+let cachedEnvironment: string | null = null;
+
+// ✅ CORRECT - One-time logging flags
+let hasLoggedEnvironment = false;
+let urlBuildLogged = false;
+```
+
+### **Rule 8: Prevent Console Spam in Production**
+```javascript
+// ✅ CORRECT - Conditional logging
+if (process.env.NODE_ENV === 'development' && !window.urlBuildLogged) {
+  console.log('🔗 Built URL:', { basePath, cleanPath, finalUrl });
+  window.urlBuildLogged = true;
+}
+
+// ✅ CORRECT - Session-based logging control
+if (!window.environmentInfoLogged) {
+  console.log('🌍 Environment Info:', environmentData);
+  window.environmentInfoLogged = true;
+}
+```
+
+### **Rule 9: Optimize Component Re-renders**
+```javascript
+// ❌ WRONG - Function called on every render
+const MyComponent = () => {
+  const basePath = getBasePath(); // Called every render
+  return <div>{basePath}</div>;
+};
+
+// ✅ CORRECT - Memoize or cache expensive calls
+const MyComponent = () => {
+  const basePath = useMemo(() => getBasePath(), []); // Called once
+  return <div>{basePath}</div>;
+};
+```
+
+### **Rule 10: Prevent Multiple Navigation Calls**
+```javascript
+// ❌ WRONG - Multiple calls to same function
+const handleClick = () => {
+  getBasePath(); // Call 1
+  buildUrl('contact'); // Calls getBasePath() again
+  navigateToContact(); // Calls getBasePath() again
+};
+
+// ✅ CORRECT - Single call with caching
+const handleClick = () => {
+  const basePath = getBasePath(); // Called once, cached
+  // Use cached value for subsequent operations
+};
+```
+
 ## 📝 Code Review Checklist
 
 Before approving any routing-related changes:
@@ -194,6 +298,13 @@ Before approving any routing-related changes:
 - [ ] Tested in all three environments
 - [ ] Console logs show correct URL generation
 - [ ] Hash routing works correctly
+- [ ] **No function call duplication** - routing functions are cached
+- [ ] **No console spam** - debug logs appear only once per session
+- [ ] **Performance optimized** - expensive operations are memoized
+- [ ] **Component re-renders** don't cause repeated function calls
+- [ ] **Window properties** are properly typed for logging flags
+- [ ] **HTML templates use relative paths** - no hardcoded `/favicon.ico` or `/manifest.json`
+- [ ] **Favicon displays correctly** in all environments (dev, staging, production)
 
 ## 🎯 Quick Reference
 
@@ -204,6 +315,27 @@ Before approving any routing-related changes:
 | Navigate to Home | `buildUrl('')` | `navigate('/')` |
 | Check Environment | `getEnvironment()` | Manual hostname checking |
 
+## 🚨 **CRITICAL ISSUE RESOLVED: Console Spam Prevention**
+
+### **Issue Fixed (2025-01-XX)**
+- **Problem 1**: Multiple repeated "Routing Debug" messages in console when clicking "Get In Touch"
+- **Root Cause 1**: `getBasePath()` function called multiple times without caching
+- **Solution 1**: Implemented caching and one-time logging flags
+- **Files Modified 1**: `src/utils/routingUtils.ts`, `src/vite-env.d.ts`
+
+- **Problem 2**: Favicon not displaying in staging environment (showing generic globe icon)
+- **Root Cause 2**: Hardcoded absolute paths in HTML templates (`/favicon.ico`, `/site.webmanifest`)
+- **Solution 2**: Changed to relative paths that work with Vite's base path handling
+- **Files Modified 2**: `index.html`, `docs/index.html`
+
+### **Prevention Measures**
+- All routing functions now use caching to prevent repeated calculations
+- Debug logging is limited to once per session
+- Component re-renders don't trigger repeated function calls
+- Performance is optimized for production environments
+- HTML templates use relative paths that work with Vite's base path handling
+- Favicon and manifest files display correctly in all environments
+
 ---
 
-**Remember**: These rules exist because routing is complex across different environments. Following them prevents 404 errors and broken navigation.
+**Remember**: These rules exist because routing is complex across different environments. Following them prevents 404 errors, broken navigation, and console spam that degrades user experience.

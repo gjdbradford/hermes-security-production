@@ -244,7 +244,10 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                   Country *
                 </label>
                 <Select onValueChange={value => setValue('country', value)}>
-                  <SelectTrigger className={`h-12 ${errors.country ? 'border-red-500' : ''}`}>
+                  <SelectTrigger
+                    id='country'
+                    className={`h-12 ${errors.country ? 'border-red-500' : ''}`}
+                  >
                     <SelectValue placeholder='Select your country' />
                   </SelectTrigger>
                   <SelectContent className='max-h-[300px] overflow-y-auto' position='popper'>
@@ -343,7 +346,10 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                   Company Size *
                 </label>
                 <Select onValueChange={value => setValue('companySize', value)}>
-                  <SelectTrigger className={`h-12 ${errors.companySize ? 'border-red-500' : ''}`}>
+                  <SelectTrigger
+                    id='companySize'
+                    className={`h-12 ${errors.companySize ? 'border-red-500' : ''}`}
+                  >
                     <SelectValue placeholder='Select size' />
                   </SelectTrigger>
                   <SelectContent>
@@ -366,6 +372,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                 </label>
                 <Select onValueChange={value => setValue('serviceUrgency', value)}>
                   <SelectTrigger
+                    id='serviceUrgency'
                     className={`h-12 ${errors.serviceUrgency ? 'border-red-500' : ''}`}
                   >
                     <SelectValue placeholder='Select urgency' />
