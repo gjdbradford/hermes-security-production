@@ -52,10 +52,11 @@
 - **MUST NOT** launch ChatBot (protected CTA)
 
 ### **8. GitHub Pages Deployment Rules**
-- **MUST** never have a `docs/` folder in the repository root (conflicts with GitHub Pages)
-- **MUST** use GitHub Actions deployment instead of docs folder
-- **MUST** ensure `.nojekyll` file is created in dist/ folder
-- **MUST** verify staging serves React app, not documentation
+- **MUST** never use Jekyll (React application only)
+- **MUST** ensure `.nojekyll` files are present in root, dist, and docs folders
+- **MUST** use GitHub Actions deployment with Vite builds
+- **MUST** verify staging serves React app, not Jekyll site
+- **MUST** maintain docs folder structure for Jekyll bypass
 - **MUST** test staging deployment after any folder structure changes
 
 ## 🔧 **Required Components**
@@ -120,8 +121,9 @@ if (ctaFromStorage) {
 - ❌ CTA buttons without source tracking
 - ❌ Contact page without CTA source reading
 - ❌ Hardcoded paths without environment detection
-- ❌ `docs/` folder in repository root (conflicts with GitHub Pages)
-- ❌ GitHub Pages serving documentation instead of React app
+- ❌ **Jekyll or Jekyll-based deployment** (React app only)
+- ❌ **Removing .nojekyll files** (breaks Jekyll bypass)
+- ❌ **Enabling Jekyll in GitHub Pages settings** (use GitHub Actions only)
 
 ## ✅ **Required CTA Components**
 

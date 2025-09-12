@@ -2,11 +2,14 @@
 
 **AI-driven penetration testing with human oversight**
 
-A modern, responsive website for Hermes Security - a European cybersecurity company specializing in AI-accelerated penetration testing with ethical human oversight.
+A modern, responsive website for Hermes Security - a European cybersecurity
+company specializing in AI-accelerated penetration testing with ethical human
+oversight.
 
 ## 🚀 Live Demo
 
-Visit the live website: [https://gjdbradford.github.io/hermes-security-production](https://gjdbradford.github.io/hermes-security-production)
+Visit the live website:
+[https://gjdbradford.github.io/hermes-security-production](https://gjdbradford.github.io/hermes-security-production)
 
 ## ✨ Features
 
@@ -27,6 +30,8 @@ Visit the live website: [https://gjdbradford.github.io/hermes-security-productio
 - **Routing**: React Router DOM
 - **Analytics**: Google Analytics integration
 - **Performance**: Real-time performance monitoring
+- **Deployment**: GitHub Pages (React app, NO Jekyll)
+- **Chat Integration**: Crisp Chat widget
 
 ## 📦 Installation
 
@@ -44,7 +49,13 @@ npm run dev
 
 ## 🚀 Deployment
 
-This project is automatically deployed to GitHub Pages via GitHub Actions. Every push to the `main` branch triggers a new deployment.
+This project is automatically deployed to GitHub Pages via GitHub Actions. Every
+push to the `main` branch triggers a new deployment.
+
+**Important**: This is a React application deployed to GitHub Pages. Jekyll is
+completely disabled and will never be used. The deployment uses a custom GitHub
+Actions workflow that builds the React app with Vite and serves it as static
+files.
 
 ### Manual Deployment
 
@@ -138,4 +149,5 @@ This project is private and proprietary to Hermes Security.
 ---
 
 Built with ❤️ by the Hermes Security team
+
 # Trigger staging deployment test - Thu Sep 11 12:55:49 SAST 2025
