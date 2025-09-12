@@ -1,4 +1,5 @@
 import {} from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const footerLinks = {
   services: [
@@ -56,12 +57,12 @@ export default function Footer() {
             <ul className='space-y-2 text-sm'>
               {footerLinks.services.map(link => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className='text-hero-muted hover:text-hero-foreground transition-colors'
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -73,12 +74,12 @@ export default function Footer() {
             <ul className='space-y-2 text-sm'>
               {footerLinks.company.map(link => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className='text-hero-muted hover:text-hero-foreground transition-colors'
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -90,12 +91,12 @@ export default function Footer() {
             <ul className='space-y-2 text-sm'>
               {footerLinks.legal.map(link => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className='text-hero-muted hover:text-hero-foreground transition-colors'
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
