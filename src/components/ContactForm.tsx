@@ -22,22 +22,19 @@ import { CheckCircle, AlertCircle, Loader2, Shield } from 'lucide-react';
 import { submitContactForm, ContactFormData } from '@/services/contactApi';
 import { useCaptchaVerification } from '@/components/CaptchaVerification';
 import { isCaptchaEnabled, isCaptchaDebugMode } from '@/config/captcha';
-import { allCountries } from '@/data/countries';
+// import { allCountries } from '@/data/countries';
+import CountryPhoneInput, { type CountryPhoneValue } from '@/components/CountryPhoneInput';
 import { getBasePath } from '@/utils/routingUtils';
 
 // Sort countries alphabetically by name for better UX
-const sortedCountries = [...allCountries].sort((a, b) => a.name.localeCompare(b.name));
+// const sortedCountries = [...allCountries].sort((a, b) => a.name.localeCompare(b.name));
 
 // Form validation schema
 const contactFormSchema = z.object({
   firstName: z.string().min(3, 'First name must be at least 3 characters'),
   lastName: z.string().min(3, 'Last name must be at least 3 characters'),
   email: z.string().email('Please enter a valid email address'),
-  country: z.string().min(1, 'Please select your country'),
-  mobileNumber: z
-    .string()
-    .optional()
-    .refine(val => !val || /^[+]?[1-9][\d]{0,15}$/.test(val), 'Please enter a valid mobile number'),
+  userRole: z.string().min(1, 'Please select your role'),
   problemDescription: z
     .string()
     .min(20, 'Please provide a brief description (at least 20 characters)'),
@@ -59,8 +56,7 @@ const defaultFormData = {
   firstName: '',
   lastName: '',
   email: '',
-  country: '',
-  mobileNumber: '',
+  userRole: '',
   problemDescription: '',
   companyName: '',
   companySize: '',
@@ -77,6 +73,11 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [_captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [captchaError, setCaptchaError] = useState<string | null>(null);
+  const [phoneValue, setPhoneValue] = useState<CountryPhoneValue>({
+    country: null,
+    nationalNumber: '',
+    e164: '',
+  });
 
   // CAPTCHA verification hook
   const { verifyCaptcha, isVerifying: isCaptchaVerifying } =
@@ -135,6 +136,35 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
     setCaptchaError(null);
 
     try {
+      // Validate phone number before proceeding
+      if (!phoneValue.country) {
+        setSubmitError('Please select your country');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!phoneValue.nationalNumber || phoneValue.nationalNumber.length < 5) {
+        setSubmitError('Please enter a valid mobile number (at least 5 digits)');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!phoneValue.e164 || !phoneValue.e164.startsWith('+')) {
+        setSubmitError('Please enter a complete international mobile number');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Additional validation: ensure the E.164 format is valid
+      const e164Regex = /^\+[1-9]\d{1,14}$/;
+      if (!e164Regex.test(phoneValue.e164)) {
+        setSubmitError('Please enter a valid international mobile number format');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Phone validation is now handled by CountryPhoneInput component
+
       // Verify CAPTCHA if enabled
       let captchaTokenToUse = null;
       if (captchaEnabled) {
@@ -155,9 +185,11 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
         }
       }
 
-      // Add CTA source and CAPTCHA token to form data
+      // Add phone data and other fields to form data
       const formDataWithSource = {
         ...data,
+        phoneNumber: phoneValue.e164,
+        country: phoneValue.country?.name || '',
         ctaSource: ctaSource,
         captchaToken: captchaTokenToUse,
       };
@@ -222,102 +254,57 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
               </div>
             </div>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-              <div>
-                <label htmlFor='email' className='block text-sm font-medium mb-2'>
-                  Email Address *
-                </label>
-                <Input
-                  id='email'
-                  type='email'
-                  {...register('email')}
-                  placeholder='your.email@company.com'
-                  className={`h-12 ${errors.email ? 'border-red-500' : ''}`}
-                />
-                {errors.email && (
-                  <p className='text-red-500 text-xs mt-2'>{errors.email.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor='country' className='block text-sm font-medium mb-2'>
-                  Country *
-                </label>
-                <Select onValueChange={value => setValue('country', value)}>
-                  <SelectTrigger
-                    id='country'
-                    className={`h-12 ${errors.country ? 'border-red-500' : ''}`}
-                  >
-                    <SelectValue placeholder='Select your country' />
-                  </SelectTrigger>
-                  <SelectContent className='max-h-[300px] overflow-y-auto' position='popper'>
-                    {sortedCountries.map(country => (
-                      <SelectItem
-                        key={country.code}
-                        value={country.code}
-                        className='cursor-pointer focus:bg-accent focus:text-accent-foreground'
-                      >
-                        <span
-                          className='mr-2 flag-emoji'
-                          style={{
-                            fontFamily:
-                              '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", "EmojiOne Mozilla", "Twemoji Mozilla", "Segoe UI Symbol", sans-serif',
-                            fontSize: '1.1em',
-                            display: 'inline-block',
-                            width: '1.2em',
-                            textAlign: 'center',
-                            // Additional inline styles for production compatibility
-                            fontVariantEmoji: 'emoji',
-                            fontFeatureSettings: '"liga" 1, "kern" 1',
-                            WebkitFontFeatureSettings: '"liga" 1, "kern" 1',
-                            MozFontFeatureSettings: '"liga" 1, "kern" 1',
-                            textRendering: 'optimizeLegibility',
-                            WebkitFontSmoothing: 'antialiased',
-                            MozOsxFontSmoothing: 'grayscale',
-                            unicodeBidi: 'bidi-override',
-                            direction: 'ltr',
-                            // fontDisplay: 'block',
-                            fontSynthesis: 'none',
-                            WebkitTextStroke: '0.01em transparent',
-                            fontWeight: 'normal',
-                            fontStyle: 'normal',
-                          }}
-                          title={`${country.name} flag`}
-                          aria-label={`${country.name} flag`}
-                        >
-                          {country.flag || '🏳️'}
-                        </span>
-                        {country.name}
-                      </SelectItem>
-                    ))}
-                    <SelectItem
-                      value='NOT_IN_LIST'
-                      className='text-gray-500 italic border-t pt-2 mt-2'
-                    >
-                      Not in list
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-                {errors.country && (
-                  <p className='text-red-500 text-xs mt-2'>{errors.country.message}</p>
-                )}
-              </div>
-            </div>
-
             <div>
-              <label htmlFor='mobileNumber' className='block text-sm font-medium mb-2'>
-                Mobile Number
+              <label htmlFor='email' className='block text-sm font-medium mb-2'>
+                Email Address *
               </label>
               <Input
-                id='mobileNumber'
-                type='tel'
-                {...register('mobileNumber')}
-                placeholder='+44 7700 900000'
-                className={`h-12 ${errors.mobileNumber ? 'border-red-500' : ''}`}
+                id='email'
+                type='email'
+                {...register('email')}
+                placeholder='your.email@company.com'
+                className={`h-12 ${errors.email ? 'border-red-500' : ''}`}
               />
-              {errors.mobileNumber && (
-                <p className='text-red-500 text-xs mt-2'>{errors.mobileNumber.message}</p>
-              )}
+              {errors.email && <p className='text-red-500 text-xs mt-2'>{errors.email.message}</p>}
+            </div>
+
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
+              <div>
+                <label className='block text-sm font-medium mb-2'>Mobile Number *</label>
+                <CountryPhoneInput
+                  value={phoneValue}
+                  onChange={setPhoneValue}
+                  placeholder='0769004082'
+                />
+              </div>
+
+              <div>
+                <label htmlFor='userRole' className='block text-sm font-medium mb-2'>
+                  Your Role *
+                </label>
+                <Select onValueChange={value => setValue('userRole', value)}>
+                  <SelectTrigger
+                    id='userRole'
+                    className={`h-12 ${errors.userRole ? 'border-red-500' : ''}`}
+                  >
+                    <SelectValue placeholder='Select your role' />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value='CEO'>CEO</SelectItem>
+                    <SelectItem value='CTO'>CTO</SelectItem>
+                    <SelectItem value='CISO'>CISO</SelectItem>
+                    <SelectItem value='IT Director'>IT Director</SelectItem>
+                    <SelectItem value='Security Manager'>Security Manager</SelectItem>
+                    <SelectItem value='Developer'>Developer</SelectItem>
+                    <SelectItem value='DevOps Engineer'>DevOps Engineer</SelectItem>
+                    <SelectItem value='Compliance Officer'>Compliance Officer</SelectItem>
+                    <SelectItem value='Other'>Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.userRole && (
+                  <p className='text-red-500 text-xs mt-2'>{errors.userRole.message}</p>
+                )}
+              </div>
             </div>
           </div>
 
