@@ -7,7 +7,7 @@ import { ContactFormData } from '@/services/contactApi';
 // Declare Crisp global variable
 declare global {
   interface Window {
-    $crisp: any[] & {
+    $crisp: unknown[] & {
       is: (property: string) => boolean;
     };
   }
@@ -26,7 +26,7 @@ export const ChatBotUtils = {
    * @param source - Source of the ChatBot activation
    */
   launchServiceInquiry: (source: string) => {
-    console.log('🤖 ChatBot: Launching service inquiry chat', { source });
+    console.warn('🤖 ChatBot: Launching service inquiry chat', { source });
 
     if (window.$crisp) {
       try {
@@ -44,8 +44,14 @@ export const ChatBotUtils = {
         window.$crisp.push(['set', 'session:data', sessionData]);
 
         // Track analytics event
-        if (typeof window !== 'undefined' && (window as any).analyticsTracker) {
-          (window as any).analyticsTracker.trackEvent({
+        if (
+          typeof window !== 'undefined' &&
+          (window as unknown as { analyticsTracker?: { trackEvent: (event: unknown) => void } })
+            .analyticsTracker
+        ) {
+          (
+            window as unknown as { analyticsTracker: { trackEvent: (event: unknown) => void } }
+          ).analyticsTracker.trackEvent({
             action: 'chatbot_launched',
             category: 'engagement',
             label: 'service_inquiry',
@@ -56,7 +62,7 @@ export const ChatBotUtils = {
           });
         }
 
-        console.log('✅ ChatBot: Service inquiry chat launched successfully');
+        console.warn('✅ ChatBot: Service inquiry chat launched successfully');
       } catch (error) {
         console.error('❌ ChatBot: Error launching service inquiry chat:', error);
       }
@@ -72,7 +78,7 @@ export const ChatBotUtils = {
    * @param ctaSource - Original CTA source that led to form
    */
   launchContactFormChat: (formData: ContactFormData, ctaSource: string) => {
-    console.log('🤖 ChatBot: Launching contact form chat', {
+    console.warn('🤖 ChatBot: Launching contact form chat', {
       ctaSource,
       formData: {
         name: `${formData.firstName} ${formData.lastName}`,
@@ -87,41 +93,93 @@ export const ChatBotUtils = {
         // Open the chat widget
         window.$crisp.push(['do', 'chat:open']);
 
-        // Set comprehensive context data for the chat session
+        // Helper function to sanitize data for Crisp
+        const sanitizeForCrisp = (value: unknown): string => {
+          if (value === null || value === undefined) {
+            return 'Not provided';
+          }
+          // Convert to string and limit length to prevent issues
+          const stringValue = String(value).trim();
+          // Remove any potentially problematic characters and limit length
+          return stringValue.length > 100 ? stringValue.substring(0, 100) + '...' : stringValue;
+        };
+
+        // Set comprehensive context data for the chat session with sanitized values
         const sessionData = [
           ['context', 'contact_form_submission'],
-          ['cta_source', ctaSource],
+          ['cta_source', sanitizeForCrisp(ctaSource)],
           ['timestamp', new Date().toISOString()],
-          ['user_name', `${formData.firstName} ${formData.lastName}`],
-          ['user_email', formData.email],
-          ['user_company', formData.companyName || 'Not provided'],
-          ['service_urgency', formData.serviceUrgency],
-          ['company_size', formData.companySize],
-          ['country', formData.country],
-          ['problem_description', formData.problemDescription],
+          [
+            'user_name',
+            sanitizeForCrisp(`${formData.firstName || ''} ${formData.lastName || ''}`.trim()),
+          ],
+          ['user_email', sanitizeForCrisp(formData.email)],
+          ['user_company', sanitizeForCrisp(formData.companyName)],
+          ['service_urgency', sanitizeForCrisp(formData.serviceUrgency)],
+          ['company_size', sanitizeForCrisp(formData.companySize)],
+          ['country', sanitizeForCrisp(formData.country)],
           ['user_intent', 'contact_form_followup'],
         ];
 
-        window.$crisp.push(['set', 'session:data', sessionData]);
-
-        // Track analytics event
-        if (typeof window !== 'undefined' && (window as any).analyticsTracker) {
-          (window as any).analyticsTracker.trackEvent({
-            action: 'chatbot_launched',
-            category: 'engagement',
-            label: 'contact_form_submission',
-            custom_parameters: {
-              cta_source: ctaSource,
-              context: 'contact_form_submission',
-              urgency: formData.serviceUrgency,
-              company_size: formData.companySize,
-            },
-          });
+        // Only add problem_description if it's not too long and contains valid content
+        if (formData.problemDescription && formData.problemDescription.trim().length > 0) {
+          const sanitizedDescription = sanitizeForCrisp(formData.problemDescription);
+          if (sanitizedDescription.length <= 200) {
+            sessionData.push(['problem_description', sanitizedDescription]);
+          }
         }
 
-        console.log('✅ ChatBot: Contact form chat launched successfully');
+        // Set session data with error handling
+        try {
+          window.$crisp.push(['set', 'session:data', sessionData]);
+          console.warn('✅ ChatBot: Session data set successfully');
+        } catch (sessionError) {
+          console.error('❌ ChatBot: Error setting session data:', sessionError);
+          console.warn('📊 ChatBot: Session data that caused error:', sessionData);
+          // Continue with chat opening even if session data fails
+        }
+
+        // Track analytics event
+        if (
+          typeof window !== 'undefined' &&
+          (window as unknown as { analyticsTracker?: { trackEvent: (event: unknown) => void } })
+            .analyticsTracker
+        ) {
+          try {
+            (
+              window as unknown as { analyticsTracker: { trackEvent: (event: unknown) => void } }
+            ).analyticsTracker.trackEvent({
+              action: 'chatbot_launched',
+              category: 'engagement',
+              label: 'contact_form_submission',
+              custom_parameters: {
+                cta_source: ctaSource,
+                context: 'contact_form_submission',
+                urgency: formData.serviceUrgency,
+                company_size: formData.companySize,
+              },
+            });
+          } catch (analyticsError) {
+            console.error('❌ ChatBot: Error tracking analytics:', analyticsError);
+          }
+        }
+
+        console.warn('✅ ChatBot: Contact form chat launched successfully');
       } catch (error) {
         console.error('❌ ChatBot: Error launching contact form chat:', error);
+        console.warn('📊 ChatBot: Form data that caused error:', {
+          ctaSource,
+          formData: {
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            companyName: formData.companyName,
+            serviceUrgency: formData.serviceUrgency,
+            companySize: formData.companySize,
+            country: formData.country,
+            problemDescription: formData.problemDescription?.substring(0, 100) + '...',
+          },
+        });
       }
     } else {
       console.warn('⚠️ ChatBot: Crisp widget not available');

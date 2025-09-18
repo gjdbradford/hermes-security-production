@@ -6,7 +6,8 @@ export interface ContactFormData {
   lastName: string;
   email: string;
   country: string;
-  mobileNumber?: string;
+  phoneNumber: string;
+  userRole: string;
   problemDescription: string;
   companyName?: string;
   companySize?: string;
@@ -74,17 +75,49 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       captchaToken: formData.captchaToken,
     };
 
+    // Create a flattened structure for better webhook compatibility
+    const webhookPayload = {
+      // Form data
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      country: formData.country,
+      phoneNumber: formData.phoneNumber,
+      userRole: formData.userRole,
+      problemDescription: formData.problemDescription,
+      companyName: formData.companyName,
+      companySize: formData.companySize,
+      serviceUrgency: formData.serviceUrgency,
+      agreeToTerms: formData.agreeToTerms,
+      privacyConsent: formData.privacyConsent,
+      marketingConsent: formData.marketingConsent,
+
+      // Metadata
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      termsConsent: formData.agreeToTerms,
+
+      // reCAPTCHA token - make it easily accessible
+      captchaToken: formData.captchaToken,
+      recaptchaToken: formData.captchaToken, // Alternative name for webhook
+      recaptcha_response: formData.captchaToken, // Google's expected field name
+
+      // Original nested structure for backward compatibility
+      formData: requestData.formData,
+    };
+
     // Log environment information
     logEnvironmentInfo();
-    console.log('🌍 Using webhook URL:', N8N_WEBHOOK_URL);
-    console.log('📊 Form Data:', requestData);
+    console.warn('🌍 Using webhook URL:', N8N_WEBHOOK_URL);
+    console.warn('📊 Form Data:', requestData);
+    console.warn('🔐 reCAPTCHA Token:', formData.captchaToken ? 'Present' : 'Missing');
 
     // Check if we're in development mode and should bypass webhook
     const isDev = getEnvironmentName() === 'development';
     const bypassWebhook = isDev && localStorage.getItem('hermes-bypass-webhook') === 'true';
 
     if (bypassWebhook) {
-      console.log('🚧 Development mode: Bypassing webhook submission');
+      console.warn('🚧 Development mode: Bypassing webhook submission');
       return {
         success: true,
         messageId: new Date().toISOString(),
@@ -105,26 +138,26 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
         'X-Hermes-Environment': getEnvironmentName(),
         'X-Hermes-Version': '1.0.0',
       },
-      body: JSON.stringify(requestData),
+      body: JSON.stringify(webhookPayload),
     });
 
-    console.log(' Response status:', response.status);
-    console.log('📋 Response headers:', Object.fromEntries(response.headers.entries()));
+    console.warn(' Response status:', response.status);
+    console.warn('📋 Response headers:', Object.fromEntries(response.headers.entries()));
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.log('❌ Error response body:', errorText);
+      console.error('❌ Error response body:', errorText);
       throw new Error(`8n8 API Error: ${response.status} ${response.statusText}`);
     }
 
     // Handle empty response
     const responseText = await response.text();
-    console.log('📄 Raw response:', responseText);
+    console.warn('📄 Raw response:', responseText);
 
     let result;
     if (responseText.trim() === '') {
       // If response is empty, create a success response
-      console.log('⚠️ Empty response from webhook, treating as success');
+      console.warn('⚠️ Empty response from webhook, treating as success');
       result = {
         success: true,
         messageId: new Date().toISOString(),
@@ -134,7 +167,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       try {
         result = JSON.parse(responseText);
       } catch (_parseError) {
-        console.log('⚠️ Failed to parse JSON response, treating as success');
+        console.warn('⚠️ Failed to parse JSON response, treating as success');
         result = {
           success: true,
           messageId: new Date().toISOString(),
@@ -143,7 +176,7 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       }
     }
 
-    console.log('✅ 8n8 Response:', result);
+    console.warn('✅ 8n8 Response:', result);
 
     return {
       success: true,

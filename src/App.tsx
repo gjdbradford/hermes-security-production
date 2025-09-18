@@ -7,6 +7,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import Index from './pages/Index';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import CountryPhoneDemo from './pages/CountryPhoneDemo';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
@@ -67,6 +68,7 @@ const App = () => (
               <Route path='/' element={<Index />} />
               <Route path='/about' element={<About />} />
               <Route path='/contact' element={<Contact />} />
+              <Route path='/demo/country-phone' element={<CountryPhoneDemo />} />
               <Route path='/terms' element={<Terms />} />
               <Route path='/privacy' element={<Privacy />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
