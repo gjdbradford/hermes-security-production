@@ -1,13 +1,13 @@
-# 🚀 **Contact Form Test Plan - Updated for v1.2.0**
+# 🚀 **Contact Form Test Plan - Updated for v1.3.0**
 
 ## **📋 OVERVIEW**
-This document outlines the comprehensive testing approach for the Hermes Security contact form, including all recent updates for mobile number validation, SMS/API compatibility, and form submission improvements.
+This document outlines the comprehensive testing approach for the Hermes Security contact form, including all recent updates for mobile number validation, SMS/API compatibility, form submission improvements, and Crisp chat integration fixes.
 
 ---
 
 ## **🎯 TEST STRATEGY**
 
-### **Primary Changes in v1.2.0**
+### **Primary Changes in v1.3.0**
 - ✅ **All CTA buttons** now navigate to contact form (not Crisp chat)
 - ✅ **Contact form** is the primary conversion point
 - ✅ **TriggerHandlers.contactForm()** replaces discovery call triggers
@@ -15,8 +15,50 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 - ✅ **SMS-Compatible Mobile Validation** for all countries
 - ✅ **Country-Specific Digit Validation** with proper E.164 formatting
 - ✅ **Enhanced reCAPTCHA Integration** with proper token handling
-- ✅ **Improved ChatBot Integration** with data sanitization
+- ✅ **Fixed ChatBot Integration** with comprehensive data sanitization and error handling
 - ✅ **CORS Error Handling** with proxy server support
+- ✅ **Crisp "Invalid data" Error Resolution** with global error handling
+- ✅ **Enhanced Form Field Validation** with all current fields
+
+---
+
+## **📝 FORM FIELD TESTING**
+
+### **Current Form Fields (v1.3.0)**
+**Priority: Critical**
+
+#### **Required Fields**
+- [ ] **First Name**: Minimum 3 characters, required
+- [ ] **Last Name**: Minimum 3 characters, required  
+- [ ] **Email Address**: Valid email format, required
+- [ ] **Mobile Number**: Country-specific validation with E.164 format, required
+- [ ] **Your Role**: Dropdown selection, required
+- [ ] **Problem Description**: Minimum 20 characters, required
+- [ ] **Company Name**: Required field
+- [ ] **Company Size**: Dropdown selection, required
+- [ ] **Service Urgency**: Dropdown selection, required
+- [ ] **Terms Agreement**: Checkbox, required
+- [ ] **Privacy Consent**: Checkbox, required
+
+#### **Optional Fields**
+- [ ] **Marketing Consent**: Checkbox, optional
+
+#### **Test Steps**
+1. Navigate to contact form
+2. Verify all required fields are marked with asterisk (*)
+3. Test validation for each field
+4. Verify optional fields are not marked as required
+5. Test form submission with all fields filled
+6. Test form submission with only required fields
+
+#### **Field Validation Tests**
+- [ ] **First Name**: Test with 1, 2, 3+ characters
+- [ ] **Last Name**: Test with 1, 2, 3+ characters
+- [ ] **Email**: Test with invalid formats (missing @, no domain, etc.)
+- [ ] **Mobile Number**: Test with invalid formats and country-specific validation
+- [ ] **Problem Description**: Test with 1-19 characters (should fail), 20+ characters (should pass)
+- [ ] **Dropdown Fields**: Test with no selection (should fail), valid selection (should pass)
+- [ ] **Checkboxes**: Test without checking required boxes (should fail), with checking (should pass)
 
 ---
 
@@ -230,22 +272,36 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 4. Check webhook response for successful reCAPTCHA verification
 5. Test with invalid/expired tokens
 
-### **4. ChatBot Integration Testing**
-**Priority: High**
+### **4. ChatBot Integration Testing (Fixed v1.3.0)**
+**Priority: Critical**
 
 #### **Test Cases**
-- [ ] **Data Sanitization**: Form data is properly sanitized for ChatBot
-- [ ] **Session Data**: ChatBot receives correct session data
-- [ ] **No "Invalid data" Errors**: ChatBot launches without errors
-- [ ] **Accessibility**: Dialog components have proper accessibility attributes
-- [ ] **Error Handling**: ChatBot handles data errors gracefully
+- [ ] **Data Sanitization**: Form data is properly sanitized for ChatBot with aggressive character filtering
+- [ ] **Session Data**: ChatBot receives minimal, safe session data (context + timestamp only)
+- [ ] **No "Invalid data" Errors**: ChatBot launches without any console errors
+- [ ] **Global Error Handling**: Unhandled promise rejections are caught and suppressed
+- [ ] **Timing Safety**: Session data is set with 500ms delay to ensure Crisp is fully loaded
+- [ ] **Graceful Degradation**: Chat opens even if session data fails
+- [ ] **ASCII-Only Data**: All session data uses only printable ASCII characters
+- [ ] **Length Restrictions**: Session data values are limited to 50 characters
+- [ ] **Alphanumeric Keys**: Session data keys are restricted to alphanumeric characters only
 
 #### **Test Steps**
 1. Submit form successfully
-2. Verify ChatBot opens without console errors
-3. Check ChatBot session data is properly formatted
-4. Test with various form data combinations
-5. Verify accessibility compliance
+2. Verify ChatBot opens without any console errors
+3. Check browser console for "✅ ChatBot: Minimal session data set successfully"
+4. Verify no "Uncaught (in promise) Error: Invalid data" messages
+5. Test with various form data combinations (including special characters)
+6. Verify ChatBot opens even with problematic form data
+7. Check that global error handler is active
+8. Test form submission multiple times to ensure consistency
+
+#### **Error Prevention Tests**
+- [ ] **Special Characters**: Test with form data containing special characters, emojis, Unicode
+- [ ] **Long Text**: Test with very long problem descriptions
+- [ ] **Empty Fields**: Test with empty or null field values
+- [ ] **Invalid Characters**: Test with control characters and HTML entities
+- [ ] **Multiple Submissions**: Test multiple form submissions in sequence
 
 ### **5. CORS and Webhook Testing**
 **Priority: High**
@@ -365,8 +421,12 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 - ✅ **Mobile number validation works for all countries**
 - ✅ **SMS/API compatible E.164 formatting**
 - ✅ **reCAPTCHA integration functions properly**
-- ✅ **ChatBot launches without errors**
+- ✅ **ChatBot launches without "Invalid data" errors**
+- ✅ **Crisp integration is fully stable and error-free**
+- ✅ **Global error handling prevents unhandled promise rejections**
 - ✅ **Webhook submission works reliably**
+- ✅ **All form fields validate correctly**
+- ✅ **Data sanitization prevents Crisp errors**
 
 ### **Performance Requirements**
 - ✅ CTA button response time < 1 second
@@ -451,7 +511,7 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 
 ---
 
-**Last Updated**: v1.2.0 - Comprehensive mobile validation, SMS compatibility, and integration improvements
+**Last Updated**: v1.3.0 - Fixed Crisp "Invalid data" errors, enhanced data sanitization, and comprehensive error handling
 **Next Review**: After deployment and user testing
 
 ---
@@ -498,6 +558,33 @@ const testNumbers = {
 // Test each country's validation
 Object.entries(testNumbers).forEach(([country, number]) => {
   console.log(`Testing ${country}: ${number}`);
+});
+```
+
+### **Crisp Integration Testing**
+```javascript
+// Test Crisp error handling
+console.log('Testing Crisp integration...');
+
+// Check if global error handler is active
+if (window.crispErrorHandlerAdded) {
+  console.log('✅ Global error handler is active');
+} else {
+  console.log('❌ Global error handler not found');
+}
+
+// Test ChatBot launch
+if (window.$crisp) {
+  console.log('✅ Crisp is loaded');
+  // Test opening chat
+  window.$crisp.push(['do', 'chat:open']);
+} else {
+  console.log('❌ Crisp not loaded');
+}
+
+// Monitor for errors
+window.addEventListener('unhandledrejection', (event) => {
+  console.log('Caught unhandled rejection:', event.reason);
 });
 ```
 

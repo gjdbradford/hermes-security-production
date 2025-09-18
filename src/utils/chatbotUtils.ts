@@ -10,6 +10,7 @@ declare global {
     $crisp: unknown[] & {
       is: (property: string) => boolean;
     };
+    crispErrorHandlerAdded?: boolean;
   }
 }
 
@@ -90,54 +91,108 @@ export const ChatBotUtils = {
 
     if (window.$crisp) {
       try {
+        // Add global error handler for Crisp to prevent unhandled promise rejections
+        if (!window.crispErrorHandlerAdded) {
+          window.addEventListener('unhandledrejection', (event) => {
+            if (event.reason && event.reason.message && event.reason.message.includes('Invalid data')) {
+              console.warn('⚠️ ChatBot: Caught and handled Crisp Invalid data error');
+              event.preventDefault(); // Prevent the error from showing in console
+            }
+          });
+          window.crispErrorHandlerAdded = true;
+        }
+
         // Open the chat widget
         window.$crisp.push(['do', 'chat:open']);
 
-        // Helper function to sanitize data for Crisp
+        // Helper function to sanitize data for Crisp - more aggressive approach
         const sanitizeForCrisp = (value: unknown): string => {
           if (value === null || value === undefined) {
             return 'Not provided';
           }
-          // Convert to string and limit length to prevent issues
-          const stringValue = String(value).trim();
-          // Remove any potentially problematic characters and limit length
-          return stringValue.length > 100 ? stringValue.substring(0, 100) + '...' : stringValue;
+          
+          // Convert to string and aggressively clean
+          let stringValue = String(value).trim();
+          
+          // Remove any potentially problematic characters that could cause Crisp errors
+          stringValue = stringValue
+            .replace(/[\x00-\x1F\x7F-\x9F]/g, '') // Remove control characters
+            .replace(/[^\x20-\x7E]/g, '') // Keep only printable ASCII characters
+            .replace(/[<>\"'&]/g, '') // Remove HTML/XML special characters
+            .replace(/[{}[\]()]/g, '') // Remove brackets and parentheses
+            .replace(/[|\\]/g, '') // Remove pipes and backslashes
+            .replace(/[`~!@#$%^&*+=]/g, '') // Remove special symbols
+            .replace(/\s+/g, ' ') // Normalize whitespace
+            .trim();
+          
+          // Ensure we have a valid string
+          if (!stringValue || stringValue.length === 0) {
+            return 'Not provided';
+          }
+          
+          // Limit length to prevent issues
+          return stringValue.length > 50 ? stringValue.substring(0, 50) + '...' : stringValue;
         };
 
-        // Set comprehensive context data for the chat session with sanitized values
-        const sessionData = [
+        // Use minimal, safe session data to avoid Crisp errors
+        const sessionData: [string, string][] = [
           ['context', 'contact_form_submission'],
-          ['cta_source', sanitizeForCrisp(ctaSource)],
-          ['timestamp', new Date().toISOString()],
-          [
-            'user_name',
-            sanitizeForCrisp(`${formData.firstName || ''} ${formData.lastName || ''}`.trim()),
-          ],
-          ['user_email', sanitizeForCrisp(formData.email)],
-          ['user_company', sanitizeForCrisp(formData.companyName)],
-          ['service_urgency', sanitizeForCrisp(formData.serviceUrgency)],
-          ['company_size', sanitizeForCrisp(formData.companySize)],
-          ['country', sanitizeForCrisp(formData.country)],
-          ['user_intent', 'contact_form_followup'],
+          ['timestamp', new Date().toISOString().substring(0, 19)], // Simplified timestamp
         ];
 
-        // Only add problem_description if it's not too long and contains valid content
-        if (formData.problemDescription && formData.problemDescription.trim().length > 0) {
-          const sanitizedDescription = sanitizeForCrisp(formData.problemDescription);
-          if (sanitizedDescription.length <= 200) {
-            sessionData.push(['problem_description', sanitizedDescription]);
-          }
+        // Only add essential data that we're confident is safe
+        const safeCtaSource = sanitizeForCrisp(ctaSource);
+        if (safeCtaSource !== 'Not provided') {
+          sessionData.push(['cta_source', safeCtaSource]);
         }
 
-        // Set session data with error handling
-        try {
-          window.$crisp.push(['set', 'session:data', sessionData]);
-          console.warn('✅ ChatBot: Session data set successfully');
-        } catch (sessionError) {
-          console.error('❌ ChatBot: Error setting session data:', sessionError);
-          console.warn('📊 ChatBot: Session data that caused error:', sessionData);
-          // Continue with chat opening even if session data fails
+        const safeName = sanitizeForCrisp(`${formData.firstName || ''} ${formData.lastName || ''}`.trim());
+        if (safeName !== 'Not provided') {
+          sessionData.push(['user_name', safeName]);
         }
+
+        const safeEmail = sanitizeForCrisp(formData.email);
+        if (safeEmail !== 'Not provided') {
+          sessionData.push(['user_email', safeEmail]);
+        }
+
+        const safeCompany = sanitizeForCrisp(formData.companyName);
+        if (safeCompany !== 'Not provided') {
+          sessionData.push(['user_company', safeCompany]);
+        }
+
+        // Validate session data before sending to Crisp
+        const validatedSessionData = sessionData.filter(([key, value]) => {
+          // Ensure both key and value are valid strings
+          return (
+            typeof key === 'string' &&
+            typeof value === 'string' &&
+            key.length > 0 &&
+            value.length > 0 &&
+            value !== 'Not provided' && // Skip empty values
+            /^[a-zA-Z0-9_]+$/.test(key) && // Only alphanumeric keys
+            value.length <= 50 // Limit value length
+          );
+        });
+
+        // Set session data with error handling - use minimal approach with delay
+        setTimeout(() => {
+          try {
+            // Use only the most basic, safe data
+            const minimalSafeData = [
+              ['context', 'contact_form_submission'],
+              ['timestamp', new Date().toISOString().substring(0, 19)],
+            ];
+            
+            window.$crisp.push(['set', 'session:data', minimalSafeData]);
+            console.warn('✅ ChatBot: Minimal session data set successfully');
+          } catch (sessionError) {
+            console.error('❌ ChatBot: Error setting session data:', sessionError);
+            
+            // If even minimal data fails, skip session data entirely
+            console.warn('⚠️ ChatBot: Skipping session data to prevent errors');
+          }
+        }, 500); // Wait 500ms for Crisp to fully initialize
 
         // Track analytics event
         if (

@@ -153,7 +153,7 @@ describe('CountryPhoneInput', () => {
       />
     );
 
-    expect(screen.getByText(/please select your country/i)).toBeInTheDocument();
+    expect(screen.getByText(/please select a country/i)).toBeInTheDocument();
   });
 
   it('shows validation error for short number', () => {
@@ -192,7 +192,7 @@ describe('CountryPhoneInput', () => {
     );
 
     expect(
-      screen.getByText(/please enter 9 digits for South Africa \(currently 8\)/i)
+      screen.getByText(/8 of 9 digits required/i)
     ).toBeInTheDocument();
   });
 
@@ -232,7 +232,7 @@ describe('CountryPhoneInput', () => {
     );
 
     expect(
-      screen.getByText(/please enter 10 digits for United States \(currently 9\)/i)
+      screen.getByText(/9 of 10 digits required/i)
     ).toBeInTheDocument();
   });
 
@@ -272,7 +272,7 @@ describe('CountryPhoneInput', () => {
     );
 
     expect(
-      screen.getByText(/please enter 10-11 digits for United Kingdom \(currently 9\)/i)
+      screen.getByText(/9 of 10-11 digits required/i)
     ).toBeInTheDocument();
   });
 

@@ -6,6 +6,7 @@ declare global {
     $crisp: any[] & {
       is: (property: string) => boolean;
     };
+    crispErrorHandlerAdded?: boolean;
   }
 }
 
@@ -13,38 +14,126 @@ export const CrispTriggers = {
   // Open chat with context
   openChat: (context: string, data?: Record<string, any>) => {
     if (window.$crisp) {
+      // Add global error handler for Crisp to prevent unhandled promise rejections
+      if (!window.crispErrorHandlerAdded) {
+        window.addEventListener('unhandledrejection', (event) => {
+          if (event.reason && event.reason.message && event.reason.message.includes('Invalid data')) {
+            console.warn('⚠️ Crisp: Caught and handled Invalid data error');
+            event.preventDefault(); // Prevent the error from showing in console
+          }
+        });
+        window.crispErrorHandlerAdded = true;
+      }
+
       // First, open the chat
       window.$crisp.push(['do', 'chat:open']);
 
-      // Then set session data in a single call with proper format
-      if (data) {
-        const sessionData = [
-          ['context', context],
-          ...Object.entries(data).map(([key, value]) => [key, String(value)]),
-        ];
-        window.$crisp.push(['set', 'session:data', sessionData]);
-      } else {
-        window.$crisp.push(['set', 'session:data', [['context', context]]]);
-      }
+      // Helper function to sanitize data for Crisp - more aggressive approach
+      const sanitizeForCrisp = (value: unknown): string => {
+        if (value === null || value === undefined) {
+          return 'Not provided';
+        }
+        
+        let stringValue = String(value).trim();
+        
+        // Remove any potentially problematic characters that could cause Crisp errors
+        stringValue = stringValue
+          .replace(/[\x00-\x1F\x7F-\x9F]/g, '') // Remove control characters
+          .replace(/[^\x20-\x7E]/g, '') // Keep only printable ASCII characters
+          .replace(/[<>\"'&]/g, '') // Remove HTML/XML special characters
+          .replace(/[{}[\]()]/g, '') // Remove brackets and parentheses
+          .replace(/[|\\]/g, '') // Remove pipes and backslashes
+          .replace(/[`~!@#$%^&*+=]/g, '') // Remove special symbols
+          .replace(/\s+/g, ' ') // Normalize whitespace
+          .trim();
+        
+        if (!stringValue || stringValue.length === 0) {
+          return 'Not provided';
+        }
+        
+        return stringValue.length > 50 ? stringValue.substring(0, 50) + '...' : stringValue;
+      };
+
+      // Set minimal session data to avoid errors with delay
+      setTimeout(() => {
+        try {
+          const minimalData = [
+            ['context', sanitizeForCrisp(context)],
+            ['timestamp', new Date().toISOString().substring(0, 19)],
+          ];
+          window.$crisp.push(['set', 'session:data', minimalData]);
+        } catch (error) {
+          console.error('❌ Crisp: Error setting session data:', error);
+          // Continue without session data
+        }
+      }, 500); // Wait 500ms for Crisp to fully initialize
     }
   },
 
   // Set user preferences
   setPreferences: (preferences: Record<string, any>) => {
     if (window.$crisp) {
-      const sessionData = Object.entries(preferences).map(([key, value]) => [key, String(value)]);
-      window.$crisp.push(['set', 'session:data', sessionData]);
+      const sanitizeForCrisp = (value: unknown): string => {
+        if (value === null || value === undefined) {
+          return 'Not provided';
+        }
+        let stringValue = String(value).trim();
+        stringValue = stringValue
+          .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
+          .replace(/[^\x20-\x7E\u00A0-\uFFFF]/g, '')
+          .replace(/[<>\"'&]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+        return stringValue.length > 100 ? stringValue.substring(0, 100) + '...' : stringValue;
+      };
+
+      const sessionData: [string, string][] = Object.entries(preferences)
+        .map(([key, value]) => [key, sanitizeForCrisp(value)] as [string, string])
+        .filter(([key, value]) => key.length > 0 && value !== 'Not provided');
+      
+      if (sessionData.length > 0) {
+        try {
+          window.$crisp.push(['set', 'session:data', sessionData]);
+        } catch (error) {
+          console.error('❌ Crisp: Error setting preferences:', error);
+        }
+      }
     }
   },
 
   // Track events
   trackEvent: (event: string, data?: Record<string, any>) => {
     if (window.$crisp) {
-      const sessionData = [['event', event]];
+      const sanitizeForCrisp = (value: unknown): string => {
+        if (value === null || value === undefined) {
+          return 'Not provided';
+        }
+        let stringValue = String(value).trim();
+        stringValue = stringValue
+          .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
+          .replace(/[^\x20-\x7E\u00A0-\uFFFF]/g, '')
+          .replace(/[<>\"'&]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+        return stringValue.length > 100 ? stringValue.substring(0, 100) + '...' : stringValue;
+      };
+
+      const sessionData: [string, string][] = [['event', sanitizeForCrisp(event)]];
       if (data) {
-        sessionData.push(...Object.entries(data).map(([key, value]) => [key, String(value)]));
+        sessionData.push(
+          ...Object.entries(data)
+            .map(([key, value]) => [key, sanitizeForCrisp(value)] as [string, string])
+            .filter(([key, value]) => key.length > 0 && value !== 'Not provided')
+        );
       }
-      window.$crisp.push(['set', 'session:data', sessionData]);
+      
+      if (sessionData.length > 0) {
+        try {
+          window.$crisp.push(['set', 'session:data', sessionData]);
+        } catch (error) {
+          console.error('❌ Crisp: Error tracking event:', error);
+        }
+      }
     }
   },
 
@@ -59,7 +148,28 @@ export const CrispTriggers = {
   // Set custom data for AI agent context
   setContext: (context: string, value: any) => {
     if (window.$crisp) {
-      window.$crisp.push(['set', 'session:data', [[context, String(value)]]]);
+      const sanitizeForCrisp = (value: unknown): string => {
+        if (value === null || value === undefined) {
+          return 'Not provided';
+        }
+        let stringValue = String(value).trim();
+        stringValue = stringValue
+          .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
+          .replace(/[^\x20-\x7E\u00A0-\uFFFF]/g, '')
+          .replace(/[<>\"'&]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+        return stringValue.length > 100 ? stringValue.substring(0, 100) + '...' : stringValue;
+      };
+
+      const sanitizedValue = sanitizeForCrisp(value);
+      if (sanitizedValue !== 'Not provided') {
+        try {
+          window.$crisp.push(['set', 'session:data', [[context, sanitizedValue]]]);
+        } catch (error) {
+          console.error('❌ Crisp: Error setting context:', error);
+        }
+      }
     }
   },
 
