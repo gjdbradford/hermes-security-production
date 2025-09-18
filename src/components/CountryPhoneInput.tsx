@@ -39,13 +39,17 @@ export default function CountryPhoneInput({
   const [national, setNational] = useState<string>(value?.nationalNumber || '');
   const [isDetecting, setIsDetecting] = useState(false);
 
-  // Auto-detect country on component mount
-  useEffect(() => {
-    if (!selected && !isDetecting) {
-      setIsDetecting(true);
-      detectUserCountry();
-    }
-  }, [selected, isDetecting, detectUserCountry]);
+  const emitChange = (country: CountryData | null, nationalNumber: string) => {
+    const cleanDigits = nationalNumber.replace(/\D/g, '').replace(/^0+/, '');
+    const countryCode = country?.phonePrefix?.replace(/[^\d]/g, '') || '';
+
+    const newValue: CountryPhoneValue = {
+      country,
+      nationalNumber: cleanDigits,
+      e164: country && countryCode && cleanDigits ? `+${countryCode}${cleanDigits}` : '',
+    };
+    onChange?.(newValue);
+  };
 
   const detectUserCountry = useCallback(async () => {
     try {
@@ -83,6 +87,14 @@ export default function CountryPhoneInput({
       setIsDetecting(false);
     }
   }, [countries, national, emitChange]);
+
+  // Auto-detect country on component mount
+  useEffect(() => {
+    if (!selected && !isDetecting) {
+      setIsDetecting(true);
+      detectUserCountry();
+    }
+  }, [selected, isDetecting, detectUserCountry]);
 
   const e164 = useMemo(() => {
     if (!selected) return '';
@@ -372,18 +384,6 @@ export default function CountryPhoneInput({
 
     return null;
   }, [national, selected]);
-
-  const emitChange = (country: CountryData | null, nationalNumber: string) => {
-    const cleanDigits = nationalNumber.replace(/\D/g, '').replace(/^0+/, '');
-    const countryCode = country?.phonePrefix?.replace(/[^\d]/g, '') || '';
-
-    const newValue: CountryPhoneValue = {
-      country,
-      nationalNumber: cleanDigits,
-      e164: country && countryCode && cleanDigits ? `+${countryCode}${cleanDigits}` : '',
-    };
-    onChange?.(newValue);
-  };
 
   const handleSelect = (country: CountryData) => {
     setSelected(country);
