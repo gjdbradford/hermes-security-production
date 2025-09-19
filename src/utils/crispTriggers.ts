@@ -3,7 +3,7 @@ import { logEnvironmentInfo, buildUrl } from './routingUtils';
 // Declare Crisp global variable
 declare global {
   interface Window {
-    $crisp: any[] & {
+    $crisp: unknown[] & {
       is: (property: string) => boolean;
     };
     crispErrorHandlerAdded?: boolean;
@@ -12,7 +12,7 @@ declare global {
 
 export const CrispTriggers = {
   // Open chat with context
-  openChat: (context: string, data?: Record<string, any>) => {
+  openChat: (context: string, _data?: Record<string, unknown>) => {
     if (window.$crisp) {
       // Add global error handler for Crisp to prevent unhandled promise rejections
       if (!window.crispErrorHandlerAdded) {
@@ -38,9 +38,9 @@ export const CrispTriggers = {
         
         // Remove any potentially problematic characters that could cause Crisp errors
         stringValue = stringValue
-          .replace(/[\x00-\x1F\x7F-\x9F]/g, '') // Remove control characters
-          .replace(/[^\x20-\x7E]/g, '') // Keep only printable ASCII characters
-          .replace(/[<>\"'&]/g, '') // Remove HTML/XML special characters
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Remove control characters
+          .replace(/[^\u0020-\u007E]/g, '') // Keep only printable ASCII characters
+          .replace(/[<>"'&]/g, '') // Remove HTML/XML special characters
           .replace(/[{}[\]()]/g, '') // Remove brackets and parentheses
           .replace(/[|\\]/g, '') // Remove pipes and backslashes
           .replace(/[`~!@#$%^&*+=]/g, '') // Remove special symbols
@@ -71,7 +71,7 @@ export const CrispTriggers = {
   },
 
   // Set user preferences
-  setPreferences: (preferences: Record<string, any>) => {
+  setPreferences: (preferences: Record<string, unknown>) => {
     if (window.$crisp) {
       const sanitizeForCrisp = (value: unknown): string => {
         if (value === null || value === undefined) {
@@ -79,9 +79,9 @@ export const CrispTriggers = {
         }
         let stringValue = String(value).trim();
         stringValue = stringValue
-          .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
-          .replace(/[^\x20-\x7E\u00A0-\uFFFF]/g, '')
-          .replace(/[<>\"'&]/g, '')
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+          .replace(/[^\u0020-\u007E\u00A0-\uFFFF]/g, '')
+          .replace(/[<>"'&]/g, '')
           .replace(/\s+/g, ' ')
           .trim();
         return stringValue.length > 100 ? stringValue.substring(0, 100) + '...' : stringValue;
@@ -102,7 +102,7 @@ export const CrispTriggers = {
   },
 
   // Track events
-  trackEvent: (event: string, data?: Record<string, any>) => {
+  trackEvent: (event: string, data?: Record<string, unknown>) => {
     if (window.$crisp) {
       const sanitizeForCrisp = (value: unknown): string => {
         if (value === null || value === undefined) {
@@ -110,9 +110,9 @@ export const CrispTriggers = {
         }
         let stringValue = String(value).trim();
         stringValue = stringValue
-          .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
-          .replace(/[^\x20-\x7E\u00A0-\uFFFF]/g, '')
-          .replace(/[<>\"'&]/g, '')
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+          .replace(/[^\u0020-\u007E\u00A0-\uFFFF]/g, '')
+          .replace(/[<>"'&]/g, '')
           .replace(/\s+/g, ' ')
           .trim();
         return stringValue.length > 100 ? stringValue.substring(0, 100) + '...' : stringValue;
@@ -146,7 +146,7 @@ export const CrispTriggers = {
   },
 
   // Set custom data for AI agent context
-  setContext: (context: string, value: any) => {
+  setContext: (context: string, value: unknown) => {
     if (window.$crisp) {
       const sanitizeForCrisp = (value: unknown): string => {
         if (value === null || value === undefined) {
@@ -154,9 +154,9 @@ export const CrispTriggers = {
         }
         let stringValue = String(value).trim();
         stringValue = stringValue
-          .replace(/[\x00-\x1F\x7F-\x9F]/g, '')
-          .replace(/[^\x20-\x7E\u00A0-\uFFFF]/g, '')
-          .replace(/[<>\"'&]/g, '')
+          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+          .replace(/[^\u0020-\u007E\u00A0-\uFFFF]/g, '')
+          .replace(/[<>"'&]/g, '')
           .replace(/\s+/g, ' ')
           .trim();
         return stringValue.length > 100 ? stringValue.substring(0, 100) + '...' : stringValue;
@@ -193,21 +193,21 @@ export const TriggerHandlers = {
   // Contact form trigger with CTA source
   contactForm: (ctaSource?: string) => {
     try {
-      console.log('🚀 TriggerHandlers.contactForm called with CTA source:', ctaSource);
+      console.warn('🚀 TriggerHandlers.contactForm called with CTA source:', ctaSource);
 
       // Log environment info for debugging
       logEnvironmentInfo();
 
       // Store CTA source in sessionStorage for the contact form to access
       if (ctaSource) {
-        console.log('💾 Setting CTA source in sessionStorage:', ctaSource);
+        console.warn('💾 Setting CTA source in sessionStorage:', ctaSource);
         sessionStorage.setItem('cta-source', ctaSource);
 
         // Verify it was set
         const verifySource = sessionStorage.getItem('cta-source');
-        console.log('✅ Verified CTA source in sessionStorage:', verifySource);
+        console.warn('✅ Verified CTA source in sessionStorage:', verifySource);
       } else {
-        console.log('⚠️ No CTA source provided');
+        console.warn('⚠️ No CTA source provided');
       }
 
       // Check if we're already on the contact page
@@ -216,7 +216,7 @@ export const TriggerHandlers = {
       const isOnContactPage = currentPath.includes('/contact') || currentHash.includes('/contact');
 
       if (isOnContactPage) {
-        console.log('🔄 Already on contact page, reloading form');
+        console.warn('🔄 Already on contact page, reloading form');
         // If already on contact page, reload the page to trigger form reset
         window.location.reload();
         return;
@@ -224,12 +224,12 @@ export const TriggerHandlers = {
 
       // Use React Router navigation if available, otherwise fallback to buildUrl
       if (_navigateFunction) {
-        console.log('🧭 Using React Router navigation to /contact');
+        console.warn('🧭 Using React Router navigation to /contact');
         _navigateFunction('/contact');
       } else {
         // Fallback: use buildUrl for proper routing
         const contactUrl = buildUrl('contact');
-        console.log('🧭 Using buildUrl for contact navigation:', contactUrl);
+        console.warn('🧭 Using buildUrl for contact navigation:', contactUrl);
         window.location.href = contactUrl;
       }
     } catch (error) {
@@ -486,7 +486,7 @@ export const AnalyticsTracking = {
   },
 
   // Track chat engagement
-  trackChatEngagement: (action: string, data?: Record<string, any>) => {
+  trackChatEngagement: (action: string, data?: Record<string, unknown>) => {
     CrispTriggers.trackEvent('chat_engagement', {
       action,
       timestamp: new Date().toISOString(),

@@ -116,9 +116,9 @@ export const ChatBotUtils = {
           
           // Remove any potentially problematic characters that could cause Crisp errors
           stringValue = stringValue
-            .replace(/[\x00-\x1F\x7F-\x9F]/g, '') // Remove control characters
-            .replace(/[^\x20-\x7E]/g, '') // Keep only printable ASCII characters
-            .replace(/[<>\"'&]/g, '') // Remove HTML/XML special characters
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Remove control characters
+            .replace(/[^\u0020-\u007E]/g, '') // Keep only printable ASCII characters
+            .replace(/[<>"'&]/g, '') // Remove HTML/XML special characters
             .replace(/[{}[\]()]/g, '') // Remove brackets and parentheses
             .replace(/[|\\]/g, '') // Remove pipes and backslashes
             .replace(/[`~!@#$%^&*+=]/g, '') // Remove special symbols

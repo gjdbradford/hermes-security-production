@@ -61,7 +61,7 @@ const detectEnvironment = (): EnvironmentConfig => {
     };
   }
 
-  // Local development
+  // Local development (uses staging database)
   if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
     return {
       name: 'development',
@@ -69,7 +69,7 @@ const detectEnvironment = (): EnvironmentConfig => {
       cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
       apiBaseUrl: 'http://localhost:8080',
       isProduction: false,
-      isStaging: false,
+      isStaging: true, // Local development now uses staging database
       isDevelopment: true
     };
   }
