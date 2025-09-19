@@ -55,9 +55,9 @@ const getBackupApiUrl = (): string => {
     return 'https://hermessecurity.io/api/backup-lead';
   }
 
-  // Staging: gjdbradford.github.io/hermes-security-production/
+  // Staging: gjdbradford.github.io/hermes-security-production/ - use 8n8 webhook since GitHub Pages doesn't support API endpoints
   if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
-    return 'https://gjdbradford.github.io/hermes-security-production/api/backup-lead';
+    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
 
   // Local development - use CORS proxy if available
@@ -79,7 +79,30 @@ const BACKUP_API_URL = getBackupApiUrl();
 
 export const submitContactForm = async (formData: ContactFormData): Promise<ContactApiResponse> => {
   try {
-    const requestData: ContactApiRequest = {
+    // Check if we're using the 8n8 webhook (staging) or API endpoint
+    const isWebhook = BACKUP_API_URL.includes('n8n.cloud');
+    
+    const requestData = isWebhook ? {
+      // 8n8 webhook format
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      country: formData.country,
+      phoneNumber: formData.phoneNumber,
+      userRole: formData.userRole,
+      problemDescription: formData.problemDescription,
+      companyName: formData.companyName,
+      companySize: formData.companySize,
+      serviceUrgency: formData.serviceUrgency,
+      agreeToTerms: formData.agreeToTerms,
+      privacyConsent: formData.privacyConsent,
+      marketingConsent: formData.marketingConsent,
+      captchaToken: formData.captchaToken,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      termsConsent: formData.agreeToTerms,
+    } : {
+      // API endpoint format
       formData,
       timestamp: new Date().toISOString(),
       userAgent: navigator.userAgent,
@@ -172,29 +195,35 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
       };
     }
 
-    // Parse response
-    const result = await response.json();
-    console.warn('✅ Backup API Response:', result);
+    // Parse response - handle both API and webhook responses
+    let result;
+    try {
+      result = await response.json();
+    } catch (parseError) {
+      // If response is not JSON (empty or plain text), treat as success
+      result = { success: true, messageId: new Date().toISOString() };
+    }
+    console.warn('✅ API Response:', result);
 
     // Enhanced response with database and 8n8 information
     const enhancedResponse: ContactApiResponse = {
-      success: result.success,
+      success: result.success !== false, // Default to true unless explicitly false
       messageId: result.n8nResponse?.messageId || result.messageId || new Date().toISOString(),
       timestamp: result.timestamp || new Date().toISOString(),
       leadId: result.leadId,
       backupId: result.backupId,
       databaseBackup: {
-        success: true, // If we got here, database backup succeeded
+        success: result.backupId ? true : false, // Only true if we have a backup ID
         backupId: result.backupId
       },
       n8nIntegration: {
-        success: result.n8nResponse?.success || false,
+        success: result.n8nResponse?.success || isWebhook, // If webhook, assume success
         messageId: result.n8nResponse?.messageId,
         error: result.n8nResponse?.error
       },
       nextSteps: result.nextSteps || [
         "We've received your enquiry and will respond within 24 hours",
-        'Your information has been securely backed up to our database',
+        isWebhook ? 'Your information has been processed by our system' : 'Your information has been securely backed up to our database',
         'Check your email for a confirmation',
         'Our AI agent is processing your request',
       ],
