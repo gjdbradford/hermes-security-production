@@ -19,7 +19,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle, AlertCircle, Loader2, Shield } from 'lucide-react';
-import { submitContactForm, ContactFormData } from '@/services/contactApi';
+import { submitContactForm, ContactFormData } from '@/services/contactApiWithDatabase';
 import { useCaptchaVerification } from '@/components/CaptchaVerification';
 import { isCaptchaEnabled, isCaptchaDebugMode } from '@/config/captcha';
 // import { allCountries } from '@/data/countries';
