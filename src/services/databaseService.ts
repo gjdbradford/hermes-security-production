@@ -1,5 +1,5 @@
 // Database service for Hermes Security leads management
-import { Pool, PoolClient } from 'pg';
+import { Pool } from 'pg';
 import { ContactFormData } from './contactApi';
 
 // Database configuration
@@ -101,17 +101,17 @@ export class DatabaseService {
   // Health check method
   async healthCheck(): Promise<{ status: string; responseTime: number; error?: string }> {
     const startTime = Date.now();
-    
+
     try {
       const client = await this.pool.connect();
-      
+
       try {
         await client.query('SELECT 1');
         const responseTime = Date.now() - startTime;
-        
+
         return {
           status: 'healthy',
-          responseTime
+          responseTime,
         };
       } finally {
         client.release();
@@ -120,7 +120,7 @@ export class DatabaseService {
       return {
         status: 'unhealthy',
         responseTime: Date.now() - startTime,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       };
     }
   }
@@ -128,10 +128,10 @@ export class DatabaseService {
   // Create a new lead record
   async createLead(data: CreateLeadData): Promise<LeadRecord> {
     const client = await this.pool.connect();
-    
+
     try {
       await client.query('BEGIN');
-      
+
       const query = `
         INSERT INTO hermes_leads (
           lead_id, first_name, last_name, email, country, phone_number,
@@ -141,7 +141,7 @@ export class DatabaseService {
         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
         RETURNING *
       `;
-      
+
       const values = [
         data.leadId,
         data.formData.firstName,
@@ -160,17 +160,19 @@ export class DatabaseService {
         data.captchaToken,
         data.userAgent,
         data.ipAddress,
-        'hermes-website'
+        'hermes-website',
       ];
-      
+
       const result = await client.query(query, values);
-      
+
       await client.query('COMMIT');
-      
+
       return this.mapRowToLeadRecord(result.rows[0]);
     } catch (error) {
       await client.query('ROLLBACK');
-      throw new Error(`Failed to create lead: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to create lead: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -179,18 +181,20 @@ export class DatabaseService {
   // Get lead by ID
   async getLeadById(id: number): Promise<LeadRecord | null> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT * FROM hermes_leads WHERE id = $1';
       const result = await client.query(query, [id]);
-      
+
       if (result.rows.length === 0) {
         return null;
       }
-      
+
       return this.mapRowToLeadRecord(result.rows[0]);
     } catch (error) {
-      throw new Error(`Failed to get lead by ID: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get lead by ID: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -199,18 +203,20 @@ export class DatabaseService {
   // Get lead by lead ID
   async getLeadByLeadId(leadId: string): Promise<LeadRecord | null> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT * FROM hermes_leads WHERE lead_id = $1';
       const result = await client.query(query, [leadId]);
-      
+
       if (result.rows.length === 0) {
         return null;
       }
-      
+
       return this.mapRowToLeadRecord(result.rows[0]);
     } catch (error) {
-      throw new Error(`Failed to get lead by lead ID: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get lead by lead ID: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -219,18 +225,20 @@ export class DatabaseService {
   // Get lead by email
   async getLeadByEmail(email: string): Promise<LeadRecord | null> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT * FROM hermes_leads WHERE email = $1 ORDER BY created_at DESC LIMIT 1';
       const result = await client.query(query, [email.toLowerCase()]);
-      
+
       if (result.rows.length === 0) {
         return null;
       }
-      
+
       return this.mapRowToLeadRecord(result.rows[0]);
     } catch (error) {
-      throw new Error(`Failed to get lead by email: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get lead by email: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -239,14 +247,21 @@ export class DatabaseService {
   // Update lead status
   async updateLeadStatus(data: UpdateLeadStatusData): Promise<boolean> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT update_lead_status($1, $2, $3, $4)';
-      const result = await client.query(query, [data.leadId, data.status, data.assignedTo, data.notes]);
-      
+      const result = await client.query(query, [
+        data.leadId,
+        data.status,
+        data.assignedTo,
+        data.notes,
+      ]);
+
       return result.rows[0].update_lead_status;
     } catch (error) {
-      throw new Error(`Failed to update lead status: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to update lead status: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -255,14 +270,21 @@ export class DatabaseService {
   // Update 8n8 response
   async updateN8nResponse(data: UpdateN8nResponseData): Promise<boolean> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT update_n8n_response($1, $2, $3, $4)';
-      const result = await client.query(query, [data.leadId, data.success, JSON.stringify(data.responseData), data.errorMessage]);
-      
+      const result = await client.query(query, [
+        data.leadId,
+        data.success,
+        JSON.stringify(data.responseData),
+        data.errorMessage,
+      ]);
+
       return result.rows[0].update_n8n_response;
     } catch (error) {
-      throw new Error(`Failed to update 8n8 response: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to update 8n8 response: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -271,7 +293,7 @@ export class DatabaseService {
   // Mark 8n8 webhook as sent
   async markN8nWebhookSent(leadId: string): Promise<boolean> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = `
         UPDATE hermes_leads 
@@ -280,10 +302,12 @@ export class DatabaseService {
         RETURNING id
       `;
       const result = await client.query(query, [leadId]);
-      
+
       return result.rows.length > 0;
     } catch (error) {
-      throw new Error(`Failed to mark 8n8 webhook as sent: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to mark 8n8 webhook as sent: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -292,14 +316,16 @@ export class DatabaseService {
   // Increment retry count for failed 8n8 calls
   async incrementN8nRetry(leadId: string): Promise<boolean> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT increment_n8n_retry($1)';
       const result = await client.query(query, [leadId]);
-      
+
       return result.rows[0].increment_n8n_retry;
     } catch (error) {
-      throw new Error(`Failed to increment 8n8 retry: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to increment 8n8 retry: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -308,7 +334,7 @@ export class DatabaseService {
   // Get leads by status
   async getLeadsByStatus(status: string, limit: number = 100): Promise<LeadRecord[]> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = `
         SELECT * FROM hermes_leads 
@@ -317,10 +343,12 @@ export class DatabaseService {
         LIMIT $2
       `;
       const result = await client.query(query, [status, limit]);
-      
+
       return result.rows.map(row => this.mapRowToLeadRecord(row));
     } catch (error) {
-      throw new Error(`Failed to get leads by status: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get leads by status: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -329,14 +357,16 @@ export class DatabaseService {
   // Get high priority leads
   async getHighPriorityLeads(): Promise<LeadRecord[]> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT * FROM high_priority_leads';
       const result = await client.query(query);
-      
+
       return result.rows.map(row => this.mapRowToLeadRecord(row));
     } catch (error) {
-      throw new Error(`Failed to get high priority leads: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get high priority leads: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -345,14 +375,16 @@ export class DatabaseService {
   // Get failed 8n8 leads
   async getFailedN8nLeads(): Promise<LeadRecord[]> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT * FROM failed_n8n_leads';
       const result = await client.query(query);
-      
+
       return result.rows.map(row => this.mapRowToLeadRecord(row));
     } catch (error) {
-      throw new Error(`Failed to get failed 8n8 leads: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get failed 8n8 leads: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -361,11 +393,11 @@ export class DatabaseService {
   // Get lead statistics
   async getLeadStatistics(): Promise<LeadStatistics> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT * FROM get_lead_statistics()';
       const result = await client.query(query);
-      
+
       const stats = result.rows[0];
       return {
         totalLeads: parseInt(stats.total_leads) || 0,
@@ -375,10 +407,12 @@ export class DatabaseService {
         totalEstimatedValue: parseFloat(stats.total_estimated_value) || 0,
         conversionRate: parseFloat(stats.conversion_rate) || 0,
         n8nSuccessRate: parseFloat(stats.n8n_success_rate) || 0,
-        failedN8nLeads: parseInt(stats.failed_n8n_leads) || 0
+        failedN8nLeads: parseInt(stats.failed_n8n_leads) || 0,
       };
     } catch (error) {
-      throw new Error(`Failed to get lead statistics: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get lead statistics: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -387,14 +421,16 @@ export class DatabaseService {
   // Get total lead count
   async getLeadCount(): Promise<number> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT COUNT(*) as count FROM hermes_leads';
       const result = await client.query(query);
-      
+
       return parseInt(result.rows[0].count) || 0;
     } catch (error) {
-      throw new Error(`Failed to get lead count: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to get lead count: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -403,7 +439,7 @@ export class DatabaseService {
   // Update Brevo contact ID
   async updateBrevoContactId(leadId: string, brevoContactId: string): Promise<boolean> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = `
         UPDATE hermes_leads 
@@ -412,10 +448,12 @@ export class DatabaseService {
         RETURNING id
       `;
       const result = await client.query(query, [leadId, brevoContactId]);
-      
+
       return result.rows.length > 0;
     } catch (error) {
-      throw new Error(`Failed to update Brevo contact ID: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to update Brevo contact ID: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -424,14 +462,16 @@ export class DatabaseService {
   // Clean up old leads (GDPR compliance)
   async cleanupOldLeads(): Promise<number> {
     const client = await this.pool.connect();
-    
+
     try {
       const query = 'SELECT cleanup_old_leads()';
       const result = await client.query(query);
-      
+
       return parseInt(result.rows[0].cleanup_old_leads) || 0;
     } catch (error) {
-      throw new Error(`Failed to cleanup old leads: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to cleanup old leads: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     } finally {
       client.release();
     }
@@ -483,7 +523,7 @@ export class DatabaseService {
       tags: row.tags,
       aiAnalysis: row.ai_analysis,
       estimatedValue: row.estimated_value,
-      recommendedResponseTime: row.recommended_response_time
+      recommendedResponseTime: row.recommended_response_time,
     };
   }
 }
@@ -491,5 +531,4 @@ export class DatabaseService {
 // Create singleton instance
 export const databaseService = new DatabaseService();
 
-// Export types for use in other modules
-export type { LeadRecord, CreateLeadData, UpdateLeadStatusData, UpdateN8nResponseData, LeadStatistics };
+// Types are already exported as interfaces above

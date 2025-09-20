@@ -15,21 +15,20 @@ export const getEnvironmentName = (): string => {
   }
 
   const hostname = window.location.hostname;
-  const pathname = window.location.pathname;
 
   // Production environments
   if (hostname === 'www.hermessecurity.io' || hostname === 'hermessecurity.io') {
     return 'production';
   }
 
-  // Vercel production deployments
-  if (hostname.includes('hermes-security-production') && hostname.includes('vercel.app')) {
-    return 'production';
+  // Vercel staging environment
+  if (hostname === 'hermes-security-staging.vercel.app') {
+    return 'staging';
   }
 
-  // GitHub Pages staging
-  if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
-    return 'staging';
+  // Vercel production deployments (fallback)
+  if (hostname.includes('hermes-security-production') && hostname.includes('vercel.app')) {
+    return 'production';
   }
 
   // Local development
@@ -65,27 +64,30 @@ export const getEnvironmentConfig = () => {
   switch (env) {
     case 'production':
       return {
-        webhookUrl: 'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629',
+        webhookUrl:
+          'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629',
         cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
         apiBaseUrl: 'https://api.hermessecurity.io',
-        logLevel: 'error'
+        logLevel: 'error',
       };
 
     case 'staging':
       return {
-        webhookUrl: 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
+        webhookUrl:
+          'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
         cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
-        apiBaseUrl: 'https://staging-api.hermessecurity.io',
-        logLevel: 'warn'
+        apiBaseUrl: 'https://hermes-security-staging.vercel.app/api',
+        logLevel: 'warn',
       };
 
     case 'development':
     default:
       return {
-        webhookUrl: 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
+        webhookUrl:
+          'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
         cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
         apiBaseUrl: 'http://localhost:8080',
-        logLevel: 'log'
+        logLevel: 'log',
       };
   }
 };

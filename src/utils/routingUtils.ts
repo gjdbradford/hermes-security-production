@@ -24,54 +24,18 @@ export const getBasePath = (): string => {
   }
 
   const hostname = window.location.hostname;
-  const pathname = window.location.pathname;
 
   // Only log once per session to prevent spam
   if (!hasLoggedEnvironment) {
-    console.log('🔍 Routing Debug:', { hostname, pathname });
+    console.log('🔍 Routing Debug:', { hostname });
     hasLoggedEnvironment = true;
   }
 
-  // Check if we're in a staging environment
-  if (pathname.includes('/hermes-security-production/')) {
-    if (!hasLoggedEnvironment) {
-      console.log('🏗️ Detected staging environment');
-    }
-    cachedBasePath = '/hermes-security-production/';
-    return cachedBasePath;
-  }
-
-  // Check if we're in development
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    if (!hasLoggedEnvironment) {
-      console.log('💻 Detected development environment');
-    }
-    cachedBasePath = '/';
-    return cachedBasePath;
-  }
-
-  // Check if we're on GitHub Pages staging domain
-  if (hostname === 'gjdbradford.github.io') {
-    if (!hasLoggedEnvironment) {
-      console.log('🏗️ Detected GitHub Pages staging environment');
-    }
-    cachedBasePath = '/hermes-security-production/';
-    return cachedBasePath;
-  }
-
-  // Check if we're on Vercel production domain
-  if (hostname === 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app') {
-    if (!hasLoggedEnvironment) {
-      console.log('🚀 Detected Vercel production environment');
-    }
-    cachedBasePath = '/';
-    return cachedBasePath;
-  }
-
-  // Default to root for production
+  // All environments now use root path
   if (!hasLoggedEnvironment) {
-    console.log('🚀 Detected production environment');
+    console.log('🌍 Detected environment:', hostname);
   }
+
   cachedBasePath = '/';
   return cachedBasePath;
 };
@@ -101,23 +65,16 @@ export const buildUrl = (path: string): string => {
 // Get the current environment type
 export const getEnvironment = (): 'development' | 'staging' | 'production' => {
   const hostname = window.location.hostname;
-  const pathname = window.location.pathname;
 
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
     return 'development';
   }
 
-  if (
-    pathname.includes('/hermes-security-production/') ||
-    (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/'))
-  ) {
+  if (hostname === 'hermes-security-staging.vercel.app') {
     return 'staging';
   }
 
-  if (hostname === 'hermes-security-production-o1yyi3yd1-gjdbradford-5891s-projects.vercel.app') {
-    return 'production';
-  }
-
+  // All other environments are production
   return 'production';
 };
 

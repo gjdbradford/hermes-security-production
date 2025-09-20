@@ -37,26 +37,31 @@ export interface CaptchaConfig {
  */
 const CAPTCHA_CONFIGS: Record<string, CaptchaConfig> = {
   production: {
-    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_PRODUCTION || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
+    siteKey:
+      import.meta.env.VITE_RECAPTCHA_SITE_KEY_PRODUCTION ||
+      '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
     secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_PRODUCTION || 'YOUR_PRODUCTION_SECRET_KEY',
     threshold: 0.5, // Higher threshold for production security
     enabled: true,
-    debug: false
+    debug: false,
   },
   staging: {
-    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_STAGING || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
+    siteKey:
+      import.meta.env.VITE_RECAPTCHA_SITE_KEY_STAGING || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
     secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_STAGING || 'YOUR_STAGING_SECRET_KEY',
     threshold: 0.3, // Lower threshold for testing
     enabled: true,
-    debug: true
+    debug: true,
   },
   development: {
-    siteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY_DEVELOPMENT || '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
+    siteKey:
+      import.meta.env.VITE_RECAPTCHA_SITE_KEY_DEVELOPMENT ||
+      '6LdvzKUrAAAAAALYd3dIR0PLgmBUD-iLLtwngCic',
     secretKey: import.meta.env.VITE_RECAPTCHA_SECRET_KEY_DEVELOPMENT || 'YOUR_DEV_SECRET_KEY',
     threshold: 0.1, // Very low threshold for development
     enabled: true, // Set to false to bypass CAPTCHA in development
-    debug: false // Set to true for verbose logging
-  }
+    debug: false, // Set to true for verbose logging
+  },
 };
 
 /**
@@ -73,7 +78,7 @@ export const getCaptchaConfig = (): CaptchaConfig => {
       siteKey: config.siteKey.substring(0, 10) + '...',
       threshold: config.threshold,
       enabled: config.enabled,
-      debug: config.debug
+      debug: config.debug,
     });
     window.captchaConfigLogged = true;
   }
@@ -86,9 +91,12 @@ export const getCaptchaConfig = (): CaptchaConfig => {
  */
 export const isCaptchaEnabled = (): boolean => {
   const config = getCaptchaConfig();
-  return config.enabled && config.siteKey !== 'YOUR_PRODUCTION_SITE_KEY' &&
-         config.siteKey !== 'YOUR_STAGING_SITE_KEY' &&
-         config.siteKey !== 'YOUR_DEV_SITE_KEY';
+  return (
+    config.enabled &&
+    config.siteKey !== 'YOUR_PRODUCTION_SITE_KEY' &&
+    config.siteKey !== 'YOUR_STAGING_SITE_KEY' &&
+    config.siteKey !== 'YOUR_DEV_SITE_KEY'
+  );
 };
 
 /**
@@ -123,7 +131,9 @@ export const validateCaptchaScore = (score: number): boolean => {
   const isValid = score >= threshold;
 
   if (isCaptchaDebugMode()) {
-    console.log(`🔐 CAPTCHA Score Validation: ${score} >= ${threshold} = ${isValid ? '✅ PASS' : '❌ FAIL'}`);
+    console.log(
+      `🔐 CAPTCHA Score Validation: ${score} >= ${threshold} = ${isValid ? '✅ PASS' : '❌ FAIL'}`
+    );
   }
 
   return isValid;
@@ -139,14 +149,15 @@ export const getCaptchaConfigSummary = () => {
   return {
     environment,
     enabled: isCaptchaEnabled(),
-    siteKeyConfigured: config.siteKey !== 'YOUR_PRODUCTION_SITE_KEY' &&
-                      config.siteKey !== 'YOUR_STAGING_SITE_KEY' &&
-                      config.siteKey !== 'YOUR_DEV_SITE_KEY',
+    siteKeyConfigured:
+      config.siteKey !== 'YOUR_PRODUCTION_SITE_KEY' &&
+      config.siteKey !== 'YOUR_STAGING_SITE_KEY' &&
+      config.siteKey !== 'YOUR_DEV_SITE_KEY',
     threshold: config.threshold,
     debug: config.debug,
     isProduction: isProduction(),
     isStaging: isStaging(),
-    isDevelopment: isDevelopment()
+    isDevelopment: isDevelopment(),
   };
 };
 
@@ -165,8 +176,8 @@ export const getCaptchaSetupInstructions = () => {
         '3. Add domains: hermessecurity.io, www.hermessecurity.io',
         '4. Copy the Site Key and Secret Key',
         '5. Set environment variables: VITE_RECAPTCHA_SITE_KEY_PROD and VITE_RECAPTCHA_SECRET_KEY_PROD',
-        '6. Deploy with production keys'
-      ]
+        '6. Deploy with production keys',
+      ],
     },
     staging: {
       title: 'Staging CAPTCHA Setup',
@@ -174,8 +185,8 @@ export const getCaptchaSetupInstructions = () => {
         '1. Use the same reCAPTCHA site as production',
         '2. Add staging domain: gjdbradford.github.io',
         '3. Set environment variables: VITE_RECAPTCHA_SITE_KEY_STAGING and VITE_RECAPTCHA_SECRET_KEY_STAGING',
-        '4. Test with staging deployment'
-      ]
+        '4. Test with staging deployment',
+      ],
     },
     development: {
       title: 'Development CAPTCHA Setup',
@@ -183,9 +194,9 @@ export const getCaptchaSetupInstructions = () => {
         '1. Use the same reCAPTCHA site as staging',
         '2. Add local domains: localhost, 127.0.0.1',
         '3. Set environment variables: VITE_RECAPTCHA_SITE_KEY_DEV and VITE_RECAPTCHA_SECRET_KEY_DEV',
-        '4. Or set enabled: false to bypass CAPTCHA in development'
-      ]
-    }
+        '4. Or set enabled: false to bypass CAPTCHA in development',
+      ],
+    },
   };
 
   return instructions[environment] || instructions.development;

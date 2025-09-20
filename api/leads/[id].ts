@@ -1,5 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { databaseService } from '../../../src/services/databaseService';
+import { databaseService } from '../../src/services/databaseService';
 
 interface LeadResponse {
   success: boolean;
@@ -49,7 +49,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({
       success: false,
       error: 'Method not allowed',
-      message: 'Only GET requests are supported'
+      message: 'Only GET requests are supported',
     });
   }
 
@@ -62,7 +62,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         success: false,
         error: 'Invalid lead ID',
         message: 'Lead ID is required and must be a string',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
 
@@ -71,7 +71,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Try to get lead by numeric ID first, then by lead ID
     let lead;
     const numericId = parseInt(id);
-    
+
     if (!isNaN(numericId)) {
       lead = await databaseService.getLeadById(numericId);
     } else {
@@ -83,7 +83,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         success: false,
         error: 'Lead not found',
         message: `No lead found with ID: ${id}`,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
 
@@ -114,22 +114,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         n8nRetryCount: lead.n8nRetryCount,
         leadScore: lead.leadScore,
         priority: lead.priority,
-        tags: lead.tags
+        tags: lead.tags,
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     console.log(`✅ Lead ${id} retrieved successfully`);
 
     return res.status(200).json(response);
-
   } catch (error) {
     console.error('❌ Error retrieving lead:', error);
 
     const errorResponse: LeadResponse = {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     return res.status(500).json(errorResponse);

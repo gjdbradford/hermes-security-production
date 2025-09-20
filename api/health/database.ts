@@ -1,5 +1,6 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { databaseService } from '../../../src/services/databaseService';
+import { authenticateRequest, requireAuth, logApiRequest } from '../_auth.js';
+import { databaseService } from '../../src/services/databaseService';
 
 interface HealthResponse {
   status: 'healthy' | 'unhealthy' | 'degraded';
@@ -20,14 +21,11 @@ interface HealthResponse {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  const authRequest = authenticateRequest(req, res);
+  logApiRequest(authRequest, '/api/health/database');
 
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+  if (!requireAuth(authRequest, res)) {
+    return;
   }
 
   // Only allow GET requests
@@ -35,7 +33,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({
       status: 'unhealthy',
       error: 'Method not allowed',
-      message: 'Only GET requests are supported'
+      message: 'Only GET requests are supported',
     });
   }
 
@@ -46,7 +44,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Test database connection
     console.log('🏥 Performing database health check...');
     const dbHealth = await databaseService.healthCheck();
-    
+
     const response: HealthResponse = {
       status: 'healthy',
       timestamp: new Date().toISOString(),
@@ -54,8 +52,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       database: {
         connected: dbHealth.status === 'healthy',
         responseTime: dbHealth.responseTime,
-        error: dbHealth.error
-      }
+        error: dbHealth.error,
+      },
     };
 
     // If database is unhealthy, mark overall status as unhealthy
@@ -71,7 +69,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         totalLeads: stats.totalLeads,
         newLeads: stats.newLeads,
         n8nSuccessRate: stats.n8nSuccessRate,
-        failedN8nLeads: stats.failedN8nLeads
+        failedN8nLeads: stats.failedN8nLeads,
       };
 
       // Check for concerning statistics
@@ -84,7 +82,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         errors.push(`Low 8n8 success rate: ${stats.n8nSuccessRate.toFixed(1)}%`);
         response.status = response.status === 'healthy' ? 'degraded' : response.status;
       }
-
     } catch (statsError) {
       console.warn('⚠️ Failed to get statistics:', statsError);
       errors.push('Could not retrieve database statistics');
@@ -99,11 +96,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log(`✅ Database health check completed: ${response.status}`);
 
     // Return appropriate status code
-    const statusCode = response.status === 'healthy' ? 200 : 
-                      response.status === 'degraded' ? 200 : 503;
+    const statusCode =
+      response.status === 'healthy' ? 200 : response.status === 'degraded' ? 200 : 503;
 
     return res.status(statusCode).json(response);
-
   } catch (error) {
     console.error('❌ Database health check failed:', error);
 
@@ -114,9 +110,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       database: {
         connected: false,
         responseTime: 0,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       },
-      errors: ['Database health check failed']
+      errors: ['Database health check failed'],
     };
 
     return res.status(503).json(errorResponse);

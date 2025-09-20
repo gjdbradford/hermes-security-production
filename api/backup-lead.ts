@@ -1,4 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import { authenticateRequest, requireAuth, logApiRequest } from './_auth.js';
 import { databaseService, CreateLeadData } from '../src/services/databaseService';
 import { ContactFormData } from '../src/services/contactApi';
 
@@ -34,7 +35,10 @@ function generateLeadId(): string {
 }
 
 // Forward data to 8n8 webhook
-async function forwardToN8n(formData: ContactFormData, leadId: string): Promise<{
+async function forwardToN8n(
+  formData: ContactFormData,
+  leadId: string
+): Promise<{
   success: boolean;
   messageId?: string;
   error?: string;
@@ -43,24 +47,24 @@ async function forwardToN8n(formData: ContactFormData, leadId: string): Promise<
     // Get webhook URL based on environment
     const getWebhookUrl = (): string => {
       const hostname = process.env.VERCEL_URL || 'localhost';
-      
+
       // Production
       if (hostname.includes('hermessecurity.io')) {
         return 'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629';
       }
-      
+
       // Staging or development
       return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
     };
 
     const webhookUrl = getWebhookUrl();
-    
+
     // Create webhook payload with lead ID
     const webhookPayload = {
       // Lead ID for tracking
       leadId: leadId,
       backupId: leadId, // For backward compatibility
-      
+
       // Form data
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -127,7 +131,7 @@ async function forwardToN8n(formData: ContactFormData, leadId: string): Promise<
       try {
         result = JSON.parse(responseText);
         result.success = true;
-      } catch (parseError) {
+      } catch (_parseError) {
         console.warn('⚠️ Failed to parse 8n8 JSON response, treating as success');
         result = {
           success: true,
@@ -136,35 +140,31 @@ async function forwardToN8n(formData: ContactFormData, leadId: string): Promise<
       }
     }
 
-    console.log(`✅ 8n8 Response processed:`, result);
+    console.log('✅ 8n8 Response processed:', result);
     return result;
-
   } catch (error) {
     console.error('❌ 8n8 Forwarding Error:', error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  const authRequest = authenticateRequest(req, res);
+  logApiRequest(authRequest, '/api/backup-lead');
 
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+  if (!requireAuth(authRequest, res)) {
+    return;
   }
 
   // Only allow POST requests
   if (req.method !== 'POST') {
-    return res.status(405).json({ 
+    return res.status(405).json({
       success: false,
       error: 'Method not allowed',
-      message: 'Only POST requests are supported'
+      message: 'Only POST requests are supported',
     });
   }
 
@@ -176,7 +176,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({
         success: false,
         error: 'Missing required field: formData',
-        message: 'Form data is required'
+        message: 'Form data is required',
       });
     }
 
@@ -184,9 +184,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Validate required form fields
     const requiredFields = [
-      'firstName', 'lastName', 'email', 'country', 
-      'phoneNumber', 'problemDescription', 'serviceUrgency',
-      'agreeToTerms', 'privacyConsent'
+      'firstName',
+      'lastName',
+      'email',
+      'country',
+      'phoneNumber',
+      'problemDescription',
+      'serviceUrgency',
+      'agreeToTerms',
+      'privacyConsent',
     ];
 
     const missingFields = requiredFields.filter(field => !formData[field as keyof ContactFormData]);
@@ -194,13 +200,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({
         success: false,
         error: `Missing required fields: ${missingFields.join(', ')}`,
-        message: 'All required form fields must be provided'
+        message: 'All required form fields must be provided',
       });
     }
 
     // Generate unique lead ID
     const leadId = generateLeadId();
-    
+
     console.log(`🚀 Processing lead backup: ${leadId}`);
 
     // 1. First, backup to database
@@ -208,8 +214,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       leadId,
       formData,
       userAgent: metadata.userAgent || req.headers['user-agent'],
-      ipAddress: metadata.ipAddress || req.headers['x-forwarded-for'] as string || req.connection.remoteAddress,
-      captchaToken: metadata.captchaToken || formData.captchaToken
+      ipAddress:
+        metadata.ipAddress ||
+        (req.headers['x-forwarded-for'] as string) ||
+        req.connection.remoteAddress,
+      captchaToken: metadata.captchaToken || formData.captchaToken,
     };
 
     console.log(`💾 Backing up lead ${leadId} to database...`);
@@ -228,7 +237,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       leadId,
       success: n8nResult.success,
       responseData: n8nResult,
-      errorMessage: n8nResult.error
+      errorMessage: n8nResult.error,
     });
 
     // 5. If 8n8 failed, increment retry count
@@ -248,37 +257,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         success: n8nResult.success,
         messageId: n8nResult.messageId,
         error: n8nResult.error,
-        retryCount: !n8nResult.success ? 1 : 0
+        retryCount: !n8nResult.success ? 1 : 0,
       },
       nextSteps: [
-        "Lead successfully backed up to database",
-        n8nResult.success 
-          ? "Data forwarded to 8n8 successfully" 
-          : "8n8 forwarding failed - will retry automatically",
-        "You can link this lead to Brevo using the leadId",
-        "Check database for complete lead information"
-      ]
+        'Lead successfully backed up to database',
+        n8nResult.success
+          ? 'Data forwarded to 8n8 successfully'
+          : '8n8 forwarding failed - will retry automatically',
+        'You can link this lead to Brevo using the leadId',
+        'Check database for complete lead information',
+      ],
     };
 
     // Return success response (even if 8n8 failed, database backup succeeded)
     return res.status(200).json(response);
-
   } catch (error) {
     console.error('❌ Backup API Error:', error);
 
     // Determine if this is a database error or other error
-    const isDatabaseError = error instanceof Error && 
-      (error.message.includes('database') || 
-       error.message.includes('connection') ||
-       error.message.includes('query'));
+    const isDatabaseError =
+      error instanceof Error &&
+      (error.message.includes('database') ||
+        error.message.includes('connection') ||
+        error.message.includes('query'));
 
     const errorResponse = {
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
       timestamp: new Date().toISOString(),
-      message: isDatabaseError 
+      message: isDatabaseError
         ? 'Database backup failed - please try again'
-        : 'Lead processing failed - please try again'
+        : 'Lead processing failed - please try again',
     };
 
     // Return appropriate status code

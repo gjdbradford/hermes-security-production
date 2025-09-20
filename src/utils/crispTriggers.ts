@@ -16,8 +16,12 @@ export const CrispTriggers = {
     if (window.$crisp) {
       // Add global error handler for Crisp to prevent unhandled promise rejections
       if (!window.crispErrorHandlerAdded) {
-        window.addEventListener('unhandledrejection', (event) => {
-          if (event.reason && event.reason.message && event.reason.message.includes('Invalid data')) {
+        window.addEventListener('unhandledrejection', event => {
+          if (
+            event.reason &&
+            event.reason.message &&
+            event.reason.message.includes('Invalid data')
+          ) {
             console.warn('⚠️ Crisp: Caught and handled Invalid data error');
             event.preventDefault(); // Prevent the error from showing in console
           }
@@ -33,12 +37,14 @@ export const CrispTriggers = {
         if (value === null || value === undefined) {
           return 'Not provided';
         }
-        
+
         let stringValue = String(value).trim();
-        
+
         // Remove any potentially problematic characters that could cause Crisp errors
         stringValue = stringValue
-          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Remove control characters
+
+          // eslint-disable-next-line no-control-regex
+          .replace(/[\u0000-\u001f\u007f-\u009f]/g, '') // Remove control characters
           .replace(/[^\u0020-\u007E]/g, '') // Keep only printable ASCII characters
           .replace(/[<>"'&]/g, '') // Remove HTML/XML special characters
           .replace(/[{}[\]()]/g, '') // Remove brackets and parentheses
@@ -46,11 +52,11 @@ export const CrispTriggers = {
           .replace(/[`~!@#$%^&*+=]/g, '') // Remove special symbols
           .replace(/\s+/g, ' ') // Normalize whitespace
           .trim();
-        
+
         if (!stringValue || stringValue.length === 0) {
           return 'Not provided';
         }
-        
+
         return stringValue.length > 50 ? stringValue.substring(0, 50) + '...' : stringValue;
       };
 
@@ -79,7 +85,8 @@ export const CrispTriggers = {
         }
         let stringValue = String(value).trim();
         stringValue = stringValue
-          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+          // eslint-disable-next-line no-control-regex
+          .replace(/[\u0000-\u001f\u007f-\u009f]/g, '')
           .replace(/[^\u0020-\u007E\u00A0-\uFFFF]/g, '')
           .replace(/[<>"'&]/g, '')
           .replace(/\s+/g, ' ')
@@ -90,7 +97,7 @@ export const CrispTriggers = {
       const sessionData: [string, string][] = Object.entries(preferences)
         .map(([key, value]) => [key, sanitizeForCrisp(value)] as [string, string])
         .filter(([key, value]) => key.length > 0 && value !== 'Not provided');
-      
+
       if (sessionData.length > 0) {
         try {
           window.$crisp.push(['set', 'session:data', sessionData]);
@@ -110,7 +117,8 @@ export const CrispTriggers = {
         }
         let stringValue = String(value).trim();
         stringValue = stringValue
-          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+          // eslint-disable-next-line no-control-regex
+          .replace(/[\u0000-\u001f\u007f-\u009f]/g, '')
           .replace(/[^\u0020-\u007E\u00A0-\uFFFF]/g, '')
           .replace(/[<>"'&]/g, '')
           .replace(/\s+/g, ' ')
@@ -126,7 +134,7 @@ export const CrispTriggers = {
             .filter(([key, value]) => key.length > 0 && value !== 'Not provided')
         );
       }
-      
+
       if (sessionData.length > 0) {
         try {
           window.$crisp.push(['set', 'session:data', sessionData]);
@@ -154,7 +162,8 @@ export const CrispTriggers = {
         }
         let stringValue = String(value).trim();
         stringValue = stringValue
-          .replace(/[\u0000-\u001F\u007F-\u009F]/g, '')
+          // eslint-disable-next-line no-control-regex
+          .replace(/[\u0000-\u001f\u007f-\u009f]/g, '')
           .replace(/[^\u0020-\u007E\u00A0-\uFFFF]/g, '')
           .replace(/[<>"'&]/g, '')
           .replace(/\s+/g, ' ')
