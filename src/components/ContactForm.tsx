@@ -19,7 +19,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { CheckCircle, AlertCircle, Loader2, Shield } from 'lucide-react';
-import { submitContactForm, ContactFormData } from '@/services/contactApiWithDatabase';
+import { submitContactForm, ContactFormData } from '@/services/contactForm';
 import { useCaptchaVerification } from '@/components/CaptchaVerification';
 import { isCaptchaEnabled, isCaptchaDebugMode } from '@/config/captcha';
 // import { allCountries } from '@/data/countries';
@@ -195,16 +195,16 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
       };
 
       const result = await submitContactForm(formDataWithSource);
-      // console.log('📡 Webhook response:', result);
+      console.log('📡 8n8 webhook response:', result);
 
       if (result.success) {
-        // console.log('✅ Webhook successful!');
+        console.log('✅ 8n8 webhook successful!');
         // Launch ChatBot with comprehensive context data
         ChatBotUtils.launchContactFormChat(formDataWithSource, ctaSource);
         onSuccess(formDataWithSource);
       } else {
-        // console.log('❌ Webhook failed:', result);
-        setSubmitError('Failed to submit form. Please try again.');
+        console.log('❌ 8n8 webhook failed:', result);
+        setSubmitError(result.message || 'Failed to submit form. Please try again.');
       }
     } catch (error) {
       console.error('❌ Form submission error:', error);
