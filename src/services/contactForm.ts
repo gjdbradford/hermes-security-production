@@ -28,21 +28,21 @@ const getWebhookUrl = (): string => {
 
   // Production: www.hermessecurity.io or hermessecurity.io
   if (hostname === 'www.hermessecurity.io' || hostname === 'hermessecurity.io') {
-    return 'https://your-production-8n8-webhook-url';
+    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
 
   // Staging: hermes-security-staging.vercel.app
   if (hostname === 'hermes-security-staging.vercel.app') {
-    return 'https://your-staging-8n8-webhook-url';
+    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
 
   // Local development
   if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return 'https://your-staging-8n8-webhook-url'; // Use staging for local dev
+    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
 
   // Default to staging
-  return 'https://your-staging-8n8-webhook-url';
+  return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
 };
 
 const WEBHOOK_URL = getWebhookUrl();
