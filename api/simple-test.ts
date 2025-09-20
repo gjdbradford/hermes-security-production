@@ -17,5 +17,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     method: req.method,
     url: req.url,
     environment: process.env.VERCEL_ENV || 'unknown',
+    vercelUrl: process.env.VERCEL_URL || 'localhost',
+    nodeEnv: process.env.NODE_ENV || 'development',
   });
 }

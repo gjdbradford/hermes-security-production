@@ -6,39 +6,15 @@
       "develop": false
     }
   },
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "@vercel/node@3"
+    },
+    "api/**/*.js": {
+      "runtime": "@vercel/node@3"
+    }
+  },
   "builds": [
-    {
-      "src": "api/_middleware.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/_auth.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/send-email.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/test.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/simple-test.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/backup-lead.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/health/database.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/leads/[id].ts",
-      "use": "@vercel/node"
-    },
     {
       "src": "package.json",
       "use": "@vercel/static-build",
