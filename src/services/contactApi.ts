@@ -142,7 +142,10 @@ export const submitContactForm = async (formData: ContactFormData): Promise<Cont
     });
 
     console.warn(' Response status:', response.status);
-    console.warn('📋 Response headers:', Object.fromEntries(response.headers.entries()));
+    console.warn(
+      '📋 Response headers:',
+      Object.fromEntries(Array.from(response.headers.entries()))
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
