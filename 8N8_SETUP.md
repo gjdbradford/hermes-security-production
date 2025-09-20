@@ -11,11 +11,16 @@ The contact form has been simplified to submit directly to 8n8 webhooks. All API
 The webhook URLs are already configured in `src/services/contactForm.ts`:
 
 ```typescript
-// All environments use the same webhook URL
+// Production webhook URL
+return 'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629';
+
+// Staging/Local webhook URL (for testing)
 return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
 ```
 
-**Note**: Currently all environments (production, staging, local) use the same webhook URL. You can differentiate between environments in your 8n8 workflow using the `source` field or hostname detection.
+**Environment Detection**:
+- **Production** (`www.hermessecurity.io` or `hermessecurity.io`): Uses production webhook
+- **Staging/Local** (`hermes-security-staging.vercel.app`, `localhost`): Uses test webhook
 
 ### 2. 8n8 Workflow Setup
 
@@ -83,12 +88,13 @@ The form automatically detects the environment and uses the appropriate webhook 
 
 ## Next Steps
 
-1. ✅ **Webhook URL configured** - Already set to your 8n8 webhook
+1. ✅ **Webhook URLs configured** - Production and staging webhooks set
 2. **Create your 8n8 workflow** to handle form submissions
 3. **Test the contact form submission** 
 4. **Deploy to staging/production**
 
-The contact form is ready to submit to your 8n8 webhook at:
-`https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629`
+The contact form will submit to:
+- **Production**: `https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629`
+- **Staging/Local**: `https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629`
 
 The contact form is now much simpler and more reliable!

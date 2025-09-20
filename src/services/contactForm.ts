@@ -28,7 +28,7 @@ const getWebhookUrl = (): string => {
 
   // Production: www.hermessecurity.io or hermessecurity.io
   if (hostname === 'www.hermessecurity.io' || hostname === 'hermessecurity.io') {
-    return 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629';
+    return 'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629';
   }
 
   // Staging: hermes-security-staging.vercel.app

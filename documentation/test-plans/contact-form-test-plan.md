@@ -1,14 +1,19 @@
-# 🚀 **Contact Form Test Plan - Updated for v1.3.0**
+# 🚀 **Contact Form Test Plan - Updated for v2.0.0 (8n8 Integration)**
 
 ## **📋 OVERVIEW**
-This document outlines the comprehensive testing approach for the Hermes Security contact form, including all recent updates for mobile number validation, SMS/API compatibility, form submission improvements, and Crisp chat integration fixes.
+This document outlines the comprehensive testing approach for the Hermes Security contact form with the new simplified architecture. The contact form now submits directly to 8n8 webhooks, removing all complex API logic and database integration from the frontend.
 
 ---
 
 ## **🎯 TEST STRATEGY**
 
-### **Primary Changes in v1.3.0**
-- ✅ **All CTA buttons** now navigate to contact form (not Crisp chat)
+### **Primary Changes in v2.0.0**
+- ✅ **Simplified Architecture** - Contact form submits directly to 8n8 webhooks
+- ✅ **No API Functions** - Removed all complex API logic and database integration
+- ✅ **8n8 Integration** - Direct webhook submission to 8n8 for all data processing
+- ✅ **Environment Detection** - Automatic webhook URL selection based on environment
+- ✅ **Static Site Deployment** - Vercel configuration simplified to static site only
+- ✅ **All CTA buttons** navigate to contact form (not Crisp chat)
 - ✅ **Contact form** is the primary conversion point
 - ✅ **TriggerHandlers.contactForm()** replaces discovery call triggers
 - ✅ **Navigation** uses `window.location.href = '/#/contact'`
@@ -16,7 +21,6 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 - ✅ **Country-Specific Digit Validation** with proper E.164 formatting
 - ✅ **Enhanced reCAPTCHA Integration** with proper token handling
 - ✅ **Fixed ChatBot Integration** with comprehensive data sanitization and error handling
-- ✅ **CORS Error Handling** with proxy server support
 - ✅ **Crisp "Invalid data" Error Resolution** with global error handling
 - ✅ **Enhanced Form Field Validation** with all current fields
 
@@ -222,6 +226,96 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 
 ---
 
+## **🔗 8N8 WEBHOOK INTEGRATION TESTING**
+
+### **1. Webhook URL Configuration**
+**Priority: Critical**
+
+#### **Test Cases**
+- [ ] **Production Webhook**: Form submits to production 8n8 webhook on production domains
+- [ ] **Staging Webhook**: Form submits to test 8n8 webhook on staging/local domains
+- [ ] **Environment Detection**: Correct webhook URL selected based on hostname
+- [ ] **Fallback Handling**: Default webhook URL used for unknown environments
+
+#### **Test Steps**
+1. Test on production domain (`www.hermessecurity.io` or `hermessecurity.io`)
+2. Verify form submits to: `https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629`
+3. Test on staging domain (`hermes-security-staging.vercel.app`)
+4. Verify form submits to: `https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629`
+5. Test on localhost
+6. Verify form submits to staging webhook URL
+
+### **2. Webhook Data Format**
+**Priority: Critical**
+
+#### **Test Cases**
+- [ ] **Complete Data Structure**: All form fields included in webhook payload
+- [ ] **Data Types**: Correct data types for all fields
+- [ ] **Required Fields**: All required fields present
+- [ ] **Optional Fields**: Optional fields included when provided
+- [ ] **Metadata**: Timestamp, userAgent, source fields included
+
+#### **Expected Webhook Payload**
+```json
+{
+  "firstName": "string",
+  "lastName": "string", 
+  "email": "string",
+  "country": "string",
+  "phoneNumber": "string",
+  "userRole": "string",
+  "problemDescription": "string",
+  "companyName": "string",
+  "companySize": "string", 
+  "serviceUrgency": "string",
+  "agreeToTerms": "boolean",
+  "privacyConsent": "boolean",
+  "marketingConsent": "boolean",
+  "captchaToken": "string",
+  "ctaSource": "string",
+  "timestamp": "string",
+  "userAgent": "string",
+  "source": "hermes-security-website"
+}
+```
+
+### **3. Webhook Response Handling**
+**Priority: High**
+
+#### **Test Cases**
+- [ ] **Success Response**: Form shows success message on webhook success
+- [ ] **Error Response**: Form shows error message on webhook failure
+- [ ] **Timeout Handling**: Form handles webhook timeout gracefully
+- [ ] **Network Errors**: Form handles network connectivity issues
+- [ ] **Invalid Response**: Form handles malformed webhook responses
+
+#### **Test Steps**
+1. Submit form with valid data
+2. Verify success message displayed
+3. Test with 8n8 webhook disabled/failing
+4. Verify error message displayed
+5. Test with slow network connection
+6. Verify timeout handling
+
+### **4. 8n8 Workflow Integration**
+**Priority: High**
+
+#### **Test Cases**
+- [ ] **Data Reception**: 8n8 workflow receives form data correctly
+- [ ] **Database Integration**: 8n8 saves data to Supabase successfully
+- [ ] **Email Notifications**: 8n8 sends email notifications
+- [ ] **Response Format**: 8n8 returns proper success/error response
+- [ ] **Error Handling**: 8n8 handles errors gracefully
+
+#### **Test Steps**
+1. Submit test form data
+2. Check 8n8 workflow execution logs
+3. Verify data appears in Supabase database
+4. Check email notifications sent
+5. Verify response returned to frontend
+
+---
+
 ## **🔧 TECHNICAL TESTING**
 
 ### **1. TriggerHandlers.contactForm() Function**
@@ -412,6 +506,12 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 ## **✅ SUCCESS CRITERIA**
 
 ### **Functional Requirements**
+- ✅ **8n8 webhook integration works correctly**
+- ✅ **Environment detection selects correct webhook URL**
+- ✅ **Form data submitted to 8n8 in correct format**
+- ✅ **8n8 workflow processes data successfully**
+- ✅ **Database integration handled by 8n8**
+- ✅ **Email notifications sent by 8n8**
 - ✅ All CTA buttons navigate to contact form
 - ✅ No Crisp chat opens from CTA buttons
 - ✅ Contact form loads correctly
@@ -424,7 +524,6 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 - ✅ **ChatBot launches without "Invalid data" errors**
 - ✅ **Crisp integration is fully stable and error-free**
 - ✅ **Global error handling prevents unhandled promise rejections**
-- ✅ **Webhook submission works reliably**
 - ✅ **All form fields validate correctly**
 - ✅ **Data sanitization prevents Crisp errors**
 
@@ -511,8 +610,8 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 
 ---
 
-**Last Updated**: v1.3.0 - Fixed Crisp "Invalid data" errors, enhanced data sanitization, and comprehensive error handling
-**Next Review**: After deployment and user testing
+**Last Updated**: v2.0.0 - Simplified architecture with direct 8n8 webhook integration, removed API functions
+**Next Review**: After 8n8 workflow setup and testing
 
 ---
 
@@ -523,14 +622,9 @@ This document outlines the comprehensive testing approach for the Hermes Securit
 # Start development server
 npm run dev
 
-# Test CORS proxy server
-npm run cors-proxy
-
-# Enable webhook bypass for testing
-localStorage.setItem('hermes-bypass-webhook', 'true')
-
-# Enable CORS proxy for testing
-localStorage.setItem('hermes-use-cors-proxy', 'true')
+# Test 8n8 webhook integration
+# Form will automatically submit to staging webhook on localhost
+# Check browser console for webhook submission logs
 ```
 
 ### **Production Testing**
@@ -559,6 +653,49 @@ const testNumbers = {
 Object.entries(testNumbers).forEach(([country, number]) => {
   console.log(`Testing ${country}: ${number}`);
 });
+```
+
+### **8n8 Webhook Testing**
+```javascript
+// Test webhook URL detection
+console.log('Testing 8n8 webhook configuration...');
+
+// Check current webhook URL
+const hostname = window.location.hostname;
+console.log('Current hostname:', hostname);
+
+// Test webhook submission
+const testFormData = {
+  firstName: 'Test',
+  lastName: 'User',
+  email: 'test@example.com',
+  country: 'South Africa',
+  phoneNumber: '+27769004082',
+  userRole: 'CTO',
+  problemDescription: 'Testing webhook integration',
+  companyName: 'Test Company',
+  companySize: '11-50',
+  serviceUrgency: 'Not urgent',
+  agreeToTerms: true,
+  privacyConsent: true,
+  marketingConsent: false,
+  ctaSource: 'test',
+  timestamp: new Date().toISOString(),
+  userAgent: navigator.userAgent,
+  source: 'hermes-security-website'
+};
+
+// Test webhook submission
+fetch('https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(testFormData)
+})
+.then(response => response.json())
+.then(data => console.log('✅ Webhook test successful:', data))
+.catch(error => console.error('❌ Webhook test failed:', error));
 ```
 
 ### **Crisp Integration Testing**
