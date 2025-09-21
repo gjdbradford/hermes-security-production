@@ -89,8 +89,21 @@ export const submitContactForm = async (
       throw new Error(`8n8 webhook error: ${response.status} ${response.statusText}`);
     }
 
-    const result = await response.json();
-    console.log('✅ 8n8 webhook success:', result);
+    // Handle empty response body (common with 8n8 webhooks)
+    let result;
+    try {
+      const responseText = await response.text();
+      if (responseText.trim()) {
+        result = JSON.parse(responseText);
+        console.log('✅ 8n8 webhook success with response:', result);
+      } else {
+        console.log('✅ 8n8 webhook success (no response body)');
+        result = { success: true };
+      }
+    } catch (_parseError) {
+      console.log('✅ 8n8 webhook success (non-JSON response)');
+      result = { success: true };
+    }
 
     return {
       success: true,
