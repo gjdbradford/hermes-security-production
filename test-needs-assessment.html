@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Needs Assessment Form Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .test-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .pass { border-left: 4px solid #28a745; }
+        .fail { border-left: 4px solid #dc3545; }
+        .pending { border-left: 4px solid #ffc107; }
+        h1 { color: #333; }
+        h2 { color: #007bff; }
+        h3 { color: #6c757d; }
+        .status { font-weight: bold; }
+        .pass .status { color: #28a745; }
+        .fail .status { color: #dc3545; }
+        .pending .status { color: #ffc107; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Needs Assessment Form Test Plan</h1>
+    
+    <div class="test-section">
+        <h2>📋 Test Overview</h2>
+        <p>This document outlines comprehensive testing for the Needs Assessment form to ensure all functionality works correctly.</p>
+        <p><strong>Test Environment:</strong> Development server running on localhost</p>
+        <p><strong>Test Date:</strong> <span id="testDate"></span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>🔗 Routing & Navigation Tests</h2>
+        
+        <div class="test-item pending">
+            <h3>Test 1: Direct URL Access</h3>
+            <p><strong>Action:</strong> Navigate to <code>/needs-assessment</code> directly</p>
+            <p><strong>Expected:</strong> Form loads without errors</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 2: Email Parameter Handling</h3>
+            <p><strong>Action:</strong> Navigate to <code>/needs-assessment?email=test@example.com</code></p>
+            <p><strong>Expected:</strong> Email field is pre-filled and email header shows</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 3: Contact Page Integration</h3>
+            <p><strong>Action:</strong> Fill out contact form and click "Complete Needs Assessment"</p>
+            <p><strong>Expected:</strong> Redirects to needs assessment with email parameter</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Form Step Tests</h2>
+        
+        <div class="test-item pending">
+            <h3>Test 4: Step 1 - Basic Information</h3>
+            <p><strong>Fields to test:</strong></p>
+            <ul>
+                <li>Pentest Type selection (radio buttons)</li>
+                <li>Production Environment checkbox</li>
+                <li>Staging Environment checkbox</li>
+                <li>Preferred Time dropdown</li>
+                <li>Monitoring Systems checkbox</li>
+                <li>Additional Info textarea</li>
+            </ul>
+            <p><strong>Expected:</strong> All fields accept input, validation works</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 5: Step 2 - Service Selection</h3>
+            <p><strong>Fields to test:</strong></p>
+            <ul>
+                <li>Web Applications checkbox</li>
+                <li>Mobile Applications checkbox</li>
+                <li>API Endpoints checkbox</li>
+                <li>Network Infrastructure checkbox</li>
+                <li>Infrastructure checkbox</li>
+            </ul>
+            <p><strong>Expected:</strong> Multiple selections allowed, dynamic steps appear</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 6: Step 3 - Web Applications</h3>
+            <p><strong>Condition:</strong> Only appears if "Web Applications" selected</p>
+            <p><strong>Fields to test:</strong></p>
+            <ul>
+                <li>Application count dropdown</li>
+                <li>Technology checkboxes</li>
+                <li>Vulnerability focus checkboxes</li>
+                <li>Concerns textarea</li>
+            </ul>
+            <p><strong>Expected:</strong> All fields functional, validation works</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 7: Step 4 - Mobile Applications</h3>
+            <p><strong>Condition:</strong> Only appears if "Mobile Applications" selected</p>
+            <p><strong>Fields to test:</strong></p>
+            <ul>
+                <li>Platform checkboxes (iOS, Android)</li>
+                <li>Application count dropdown</li>
+                <li>Framework checkboxes</li>
+                <li>Feature checkboxes</li>
+            </ul>
+            <p><strong>Expected:</strong> All fields functional, validation works</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 8: Step 5 - API Endpoints</h3>
+            <p><strong>Condition:</strong> Only appears if "API Endpoints" selected</p>
+            <p><strong>Fields to test:</strong></p>
+            <ul>
+                <li>API type checkboxes</li>
+                <li>Endpoint count dropdown</li>
+                <li>Authentication method checkboxes</li>
+                <li>Sensitive data checkboxes</li>
+            </ul>
+            <p><strong>Expected:</strong> All fields functional, validation works</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 9: Step 6 - Network/Infrastructure</h3>
+            <p><strong>Condition:</strong> Only appears if "Network" or "Infrastructure" selected</p>
+            <p><strong>Fields to test:</strong></p>
+            <ul>
+                <li>Component checkboxes</li>
+                <li>Cloud platform checkboxes</li>
+                <li>Operating system checkboxes</li>
+                <li>Concerns textarea</li>
+            </ul>
+            <p><strong>Expected:</strong> All fields functional, validation works</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 10: Step 7 - Summary</h3>
+            <p><strong>Expected:</strong> Shows comprehensive summary of all entered data</p>
+            <p><strong>Features to verify:</strong></p>
+            <ul>
+                <li>Basic information display</li>
+                <li>Selected services display</li>
+                <li>Conditional sections (only show selected services)</li>
+                <li>Assessment ID display</li>
+                <li>Current date display</li>
+            </ul>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Navigation & Validation Tests</h2>
+        
+        <div class="test-item pending">
+            <h3>Test 11: Step Navigation</h3>
+            <p><strong>Actions to test:</strong></p>
+            <ul>
+                <li>Next button functionality</li>
+                <li>Previous button functionality</li>
+                <li>Step validation before proceeding</li>
+                <li>Progress bar updates</li>
+                <li>Step indicators update</li>
+            </ul>
+            <p><strong>Expected:</strong> Smooth navigation, proper validation</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 12: Form Validation</h3>
+            <p><strong>Validation scenarios:</strong></p>
+            <ul>
+                <li>Empty required fields prevent progression</li>
+                <li>Step-specific validation rules work</li>
+                <li>Dynamic step validation based on service selection</li>
+                <li>Visual feedback for validation errors</li>
+            </ul>
+            <p><strong>Expected:</strong> Proper validation prevents invalid submissions</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 13: Dynamic Step Calculation</h3>
+            <p><strong>Scenarios to test:</strong></p>
+            <ul>
+                <li>Select only "Web Applications" → Steps 1,2,3,7</li>
+                <li>Select "Web" + "Mobile" → Steps 1,2,3,4,7</li>
+                <li>Select all services → Steps 1,2,3,4,5,6,7</li>
+                <li>Change service selection mid-form</li>
+            </ul>
+            <p><strong>Expected:</strong> Steps appear/disappear based on selections</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📤 Submission Tests</h2>
+        
+        <div class="test-item pending">
+            <h3>Test 14: Form Submission</h3>
+            <p><strong>Actions:</strong> Complete full form and submit</p>
+            <p><strong>Expected behavior:</strong></p>
+            <ul>
+                <li>Loading state shows during submission</li>
+                <li>Success page displays after submission</li>
+                <li>All form data is captured correctly</li>
+                <li>Assessment ID is generated</li>
+            </ul>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 15: Success Page</h3>
+            <p><strong>Features to verify:</strong></p>
+            <ul>
+                <li>Success message displays</li>
+                <li>Return to Home button works</li>
+                <li>Proper styling and layout</li>
+            </ul>
+            <p><strong>Expected:</strong> Professional success page with clear next steps</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎨 UI/UX Tests</h2>
+        
+        <div class="test-item pending">
+            <h3>Test 16: Responsive Design</h3>
+            <p><strong>Screen sizes to test:</strong></p>
+            <ul>
+                <li>Desktop (1920x1080)</li>
+                <li>Tablet (768x1024)</li>
+                <li>Mobile (375x667)</li>
+            </ul>
+            <p><strong>Expected:</strong> Form adapts to all screen sizes</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+
+        <div class="test-item pending">
+            <h3>Test 17: Accessibility</h3>
+            <p><strong>Features to verify:</strong></p>
+            <ul>
+                <li>Proper form labels</li>
+                <li>Keyboard navigation</li>
+                <li>Screen reader compatibility</li>
+                <li>Color contrast compliance</li>
+            </ul>
+            <p><strong>Expected:</strong> Form is accessible to all users</p>
+            <p><strong>Status:</strong> <span class="status">PENDING</span></p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Test Results Summary</h2>
+        <div id="testSummary">
+            <p><strong>Total Tests:</strong> 17</p>
+            <p><strong>Passed:</strong> <span id="passedCount">0</span></p>
+            <p><strong>Failed:</strong> <span id="failedCount">0</span></p>
+            <p><strong>Pending:</strong> <span id="pendingCount">17</span></p>
+            <p><strong>Success Rate:</strong> <span id="successRate">0%</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('testDate').textContent = new Date().toLocaleDateString();
+        
+        // Test result tracking
+        let testResults = {
+            passed: 0,
+            failed: 0,
+            pending: 17
+        };
+        
+        function updateTestSummary() {
+            const total = testResults.passed + testResults.failed + testResults.pending;
+            const successRate = total > 0 ? Math.round((testResults.passed / (testResults.passed + testResults.failed)) * 100) : 0;
+            
+            document.getElementById('passedCount').textContent = testResults.passed;
+            document.getElementById('failedCount').textContent = testResults.failed;
+            document.getElementById('pendingCount').textContent = testResults.pending;
+            document.getElementById('successRate').textContent = successRate + '%';
+        }
+        
+        // Function to mark test as passed
+        function markTestPassed(testNumber) {
+            const testElement = document.querySelector(`.test-item:nth-child(${testNumber})`);
+            if (testElement) {
+                testElement.className = 'test-item pass';
+                testElement.querySelector('.status').textContent = 'PASSED';
+                testResults.passed++;
+                testResults.pending--;
+                updateTestSummary();
+            }
+        }
+        
+        // Function to mark test as failed
+        function markTestFailed(testNumber, reason) {
+            const testElement = document.querySelector(`.test-item:nth-child(${testNumber})`);
+            if (testElement) {
+                testElement.className = 'test-item fail';
+                testElement.querySelector('.status').textContent = 'FAILED';
+                if (reason) {
+                    testElement.innerHTML += `<p><strong>Reason:</strong> ${reason}</p>`;
+                }
+                testResults.failed++;
+                testResults.pending--;
+                updateTestSummary();
+            }
+        }
+        
+        // Initialize summary
+        updateTestSummary();
+    </script>
+</body>
+</html>

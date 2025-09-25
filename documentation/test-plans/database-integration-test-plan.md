@@ -1,8 +1,17 @@
-# Database Integration Test Plan
-## Hermes Security Contact Form Backup System
+# Database Integration Test Plan - DEPRECATED
+## Hermes Security Contact Form - Legacy API Architecture
 
-### Overview
-This test plan provides comprehensive testing strategies for the PostgreSQL database integration, ensuring data integrity, performance, security, and reliability of the contact form backup system.
+### ⚠️ **IMPORTANT NOTICE**
+**This test plan is DEPRECATED as of v2.0.0**
+
+The contact form architecture has been simplified to submit directly to 8n8 webhooks. All database integration and API logic has been removed from the frontend. 
+
+**Please refer to:**
+- `8n8-integration-test-plan.md` - For current testing approach
+- `contact-form-test-plan.md` - For updated contact form testing
+
+### Overview (Legacy)
+This test plan provided comprehensive testing strategies for the PostgreSQL database integration, ensuring data integrity, performance, security, and reliability of the contact form backup system. This approach has been replaced with direct 8n8 webhook integration.
 
 ### Test Environment Setup
 

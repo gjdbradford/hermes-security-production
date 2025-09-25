@@ -23,7 +23,7 @@ export const allCountries: CountryData[] = [
   ...asianCountries,
   ...africanCountries,
   ...oceaniaCountries,
-  ...otherCountries
+  ...otherCountries,
 ];
 
 // Helper functions
@@ -66,5 +66,5 @@ export {
   asianCountries,
   africanCountries,
   oceaniaCountries,
-  otherCountries
+  otherCountries,
 };

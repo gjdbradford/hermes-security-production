@@ -28,7 +28,7 @@ const AnalyticsTracker = () => {
       window.gtag('event', 'page_view', {
         page_title: document.title,
         page_location: window.location.href,
-        page_type: 'home'
+        page_type: 'home',
       });
     }
   }, []);
@@ -40,7 +40,7 @@ const AnalyticsTracker = () => {
         event_category: event.category,
         event_label: event.label,
         value: event.value,
-        ...event.custom_parameters
+        ...event.custom_parameters,
       });
     }
   }, []);
@@ -51,7 +51,7 @@ const AnalyticsTracker = () => {
       window.gtag('event', conversion.event_name, {
         value: conversion.value,
         currency: conversion.currency || 'EUR',
-        items: conversion.items
+        items: conversion.items,
       });
     }
   }, []);
@@ -63,7 +63,7 @@ const AnalyticsTracker = () => {
         engagement_type: engagementType,
         engagement_details: details,
         page_title: document.title,
-        page_location: window.location.href
+        page_location: window.location.href,
       });
     }
   }, []);
@@ -125,7 +125,7 @@ const AnalyticsTracker = () => {
         trackEvent({
           action: 'form_interaction',
           category: 'engagement',
-          label: target.tagName === 'FORM' ? 'form_submit' : 'form_field_interaction'
+          label: target.tagName === 'FORM' ? 'form_submit' : 'form_field_interaction',
         });
       }
     };
@@ -148,7 +148,7 @@ const AnalyticsTracker = () => {
         trackEvent({
           action: 'button_click',
           category: 'engagement',
-          label: buttonText
+          label: buttonText,
         });
       }
     };
@@ -162,7 +162,7 @@ const AnalyticsTracker = () => {
     const trackLinkClick = (event: Event) => {
       const target = event.target as HTMLElement;
       if (target.tagName === 'A' || target.closest('a')) {
-        const link = target.tagName === 'A' ? target : target.closest('a') as HTMLAnchorElement;
+        const link = target.tagName === 'A' ? target : (target.closest('a') as HTMLAnchorElement);
         const linkText = link.textContent?.trim() || 'unknown_link';
         const linkHref = link.href || 'unknown_url';
 
@@ -171,8 +171,8 @@ const AnalyticsTracker = () => {
           category: 'engagement',
           label: linkText,
           custom_parameters: {
-            link_url: linkHref
-          }
+            link_url: linkHref,
+          },
         });
       }
     };
@@ -187,7 +187,7 @@ const AnalyticsTracker = () => {
       (window as any).analyticsTracker = {
         trackEvent,
         trackConversion,
-        trackEngagement
+        trackEngagement,
       };
     }
   }, [trackEvent, trackConversion, trackEngagement]);
@@ -196,4 +196,3 @@ const AnalyticsTracker = () => {
 };
 
 export default AnalyticsTracker;
-

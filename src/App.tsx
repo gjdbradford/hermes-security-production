@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 import CountryPhoneDemo from './pages/CountryPhoneDemo';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
+import NeedsAssessment from './pages/NeedsAssessment';
 import NotFound from './pages/NotFound';
 import SEOOptimizer from './components/SEOOptimizer';
 import AnalyticsTracker from './components/AnalyticsTracker';
@@ -71,6 +72,7 @@ const App = () => (
               <Route path='/demo/country-phone' element={<CountryPhoneDemo />} />
               <Route path='/terms' element={<Terms />} />
               <Route path='/privacy' element={<Privacy />} />
+              <Route path='/needs-assessment' element={<NeedsAssessment />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path='*' element={<NotFound />} />
             </Routes>

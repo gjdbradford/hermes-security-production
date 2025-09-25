@@ -10,6 +10,8 @@ Our quality gates ensure that:
 - ✅ Performance is maintained
 - ✅ All environments work correctly
 - ✅ Deployments are reliable and safe
+- ✅ **8n8 webhook integration works correctly**
+- ✅ **Static site deployment is optimized**
 
 ## 🔧 Quality Gate Components
 
@@ -48,6 +50,19 @@ npm run format:check  # Prettier formatting check
 - ❌ Any ESLint errors
 - ❌ TypeScript compilation errors
 - ❌ Code formatting inconsistencies
+
+### **Rule 1.1: 8n8 Integration Standards**
+```bash
+# 8n8 webhook integration must pass these checks:
+npm run test:8n8      # 8n8 integration tests
+npm run test:e2e      # End-to-end form submission tests
+```
+
+**Failure Criteria:**
+- ❌ Webhook URL detection fails
+- ❌ Form data submission fails
+- ❌ 8n8 webhook response handling fails
+- ❌ Environment detection incorrect
 - ❌ Unused variables or imports
 
 ### **Rule 2: Security Requirements**

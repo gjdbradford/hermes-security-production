@@ -93,8 +93,12 @@ export const ChatBotUtils = {
       try {
         // Add global error handler for Crisp to prevent unhandled promise rejections
         if (!window.crispErrorHandlerAdded) {
-          window.addEventListener('unhandledrejection', (event) => {
-            if (event.reason && event.reason.message && event.reason.message.includes('Invalid data')) {
+          window.addEventListener('unhandledrejection', event => {
+            if (
+              event.reason &&
+              event.reason.message &&
+              event.reason.message.includes('Invalid data')
+            ) {
               console.warn('⚠️ ChatBot: Caught and handled Crisp Invalid data error');
               event.preventDefault(); // Prevent the error from showing in console
             }
@@ -110,13 +114,14 @@ export const ChatBotUtils = {
           if (value === null || value === undefined) {
             return 'Not provided';
           }
-          
+
           // Convert to string and aggressively clean
           let stringValue = String(value).trim();
-          
+
           // Remove any potentially problematic characters that could cause Crisp errors
           stringValue = stringValue
-            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Remove control characters
+            // eslint-disable-next-line no-control-regex
+            .replace(/[\u0000-\u001f\u007f-\u009f]/g, '') // Remove control characters
             .replace(/[^\u0020-\u007E]/g, '') // Keep only printable ASCII characters
             .replace(/[<>"'&]/g, '') // Remove HTML/XML special characters
             .replace(/[{}[\]()]/g, '') // Remove brackets and parentheses
@@ -124,12 +129,12 @@ export const ChatBotUtils = {
             .replace(/[`~!@#$%^&*+=]/g, '') // Remove special symbols
             .replace(/\s+/g, ' ') // Normalize whitespace
             .trim();
-          
+
           // Ensure we have a valid string
           if (!stringValue || stringValue.length === 0) {
             return 'Not provided';
           }
-          
+
           // Limit length to prevent issues
           return stringValue.length > 50 ? stringValue.substring(0, 50) + '...' : stringValue;
         };
@@ -146,7 +151,9 @@ export const ChatBotUtils = {
           sessionData.push(['cta_source', safeCtaSource]);
         }
 
-        const safeName = sanitizeForCrisp(`${formData.firstName || ''} ${formData.lastName || ''}`.trim());
+        const safeName = sanitizeForCrisp(
+          `${formData.firstName || ''} ${formData.lastName || ''}`.trim()
+        );
         if (safeName !== 'Not provided') {
           sessionData.push(['user_name', safeName]);
         }
@@ -162,7 +169,7 @@ export const ChatBotUtils = {
         }
 
         // Validate session data before sending to Crisp
-        const validatedSessionData = sessionData.filter(([key, value]) => {
+        const _validatedSessionData = sessionData.filter(([key, value]) => {
           // Ensure both key and value are valid strings
           return (
             typeof key === 'string' &&
@@ -183,12 +190,12 @@ export const ChatBotUtils = {
               ['context', 'contact_form_submission'],
               ['timestamp', new Date().toISOString().substring(0, 19)],
             ];
-            
+
             window.$crisp.push(['set', 'session:data', minimalSafeData]);
             console.warn('✅ ChatBot: Minimal session data set successfully');
           } catch (sessionError) {
             console.error('❌ ChatBot: Error setting session data:', sessionError);
-            
+
             // If even minimal data fails, skip session data entirely
             console.warn('⚠️ ChatBot: Skipping session data to prevent errors');
           }

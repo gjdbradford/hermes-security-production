@@ -4,14 +4,8 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Determine base path based on environment
-  let base = '/';
-
-  if (mode === 'production') {
-    // Check if we're deploying to staging or production
-    const isStaging = process.env.VITE_DEPLOY_ENV === 'staging';
-    base = isStaging ? '/hermes-security-production/' : '/';
-  }
+  // All environments now use root path
+  const base = '/';
 
   return {
     base,

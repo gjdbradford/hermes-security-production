@@ -18,14 +18,14 @@ export interface EmailHeaders {
   'X-Mailer': string;
   'X-Priority': string;
   'X-MSMail-Priority': string;
-  'Importance': string;
+  Importance: string;
   'X-Hermes-Source': string;
   'X-Hermes-Form-Type': string;
   'X-Hermes-Urgency': string;
   'X-Hermes-Company': string;
   'X-Hermes-Country': string;
   'Message-ID': string;
-  'Date': string;
+  Date: string;
   'MIME-Version': string;
   'Content-Type': string;
   'Content-Transfer-Encoding': string;
@@ -58,33 +58,43 @@ export interface ContactFormEmailData {
  */
 export const generateEmailHeaders = (formData: ContactFormEmailData): EmailHeaders => {
   const messageId = `<hermes-${Date.now()}-${Math.random().toString(36).substr(2, 9)}@hermessecurity.io>`;
-  const priority = formData.serviceUrgency === 'Super urgent' ? '1' :
-    formData.serviceUrgency === 'Urgent' ? '2' : '3';
+  const priority =
+    formData.serviceUrgency === 'Super urgent'
+      ? '1'
+      : formData.serviceUrgency === 'Urgent'
+        ? '2'
+        : '3';
 
   return {
     'X-Mailer': 'Hermes Security Contact Form v1.0',
     'X-Priority': priority,
     'X-MSMail-Priority': priority === '1' ? 'High' : priority === '2' ? 'Normal' : 'Low',
-    'Importance': priority === '1' ? 'high' : 'normal',
+    Importance: priority === '1' ? 'high' : 'normal',
     'X-Hermes-Source': 'website-contact-form',
     'X-Hermes-Form-Type': 'security-consultation-request',
     'X-Hermes-Urgency': formData.serviceUrgency.toLowerCase().replace(' ', '-'),
     'X-Hermes-Company': formData.companyName || 'not-provided',
     'X-Hermes-Country': formData.country,
     'Message-ID': messageId,
-    'Date': new Date().toUTCString(),
+    Date: new Date().toUTCString(),
     'MIME-Version': '1.0',
     'Content-Type': 'text/html; charset=UTF-8',
-    'Content-Transfer-Encoding': '8bit'
+    'Content-Transfer-Encoding': '8bit',
   };
 };
 
 /**
  * Generate HTML email body for contact form submissions
  */
-export const generateEmailBody = (formData: ContactFormEmailData): { html: string; text: string } => {
-  const urgencyColor = formData.serviceUrgency === 'Super urgent' ? '#dc2626' :
-    formData.serviceUrgency === 'Urgent' ? '#ea580c' : '#059669';
+export const generateEmailBody = (
+  formData: ContactFormEmailData
+): { html: string; text: string } => {
+  const urgencyColor =
+    formData.serviceUrgency === 'Super urgent'
+      ? '#dc2626'
+      : formData.serviceUrgency === 'Urgent'
+        ? '#ea580c'
+        : '#059669';
 
   const html = `
 <!DOCTYPE html>
@@ -180,12 +190,16 @@ export const generateEmailBody = (formData: ContactFormEmailData): { html: strin
                 <span class="label">User Agent:</span>
                 <span class="value" style="font-size: 11px; word-break: break-all;">${formData.userAgent}</span>
             </div>
-            ${formData.ipAddress ? `
+            ${
+              formData.ipAddress
+                ? `
             <div class="field">
                 <span class="label">IP Address:</span>
                 <span class="value">${formData.ipAddress}</span>
             </div>
-            ` : ''}
+            `
+                : ''
+            }
         </div>
 
         <div style="text-align: center; margin-top: 25px;">
@@ -248,31 +262,32 @@ export const sendEmail = async (emailData: EmailData): Promise<boolean> => {
   try {
     // Use Vercel API route
     const apiUrl = import.meta.env.PROD
-      ? '/api/send-email'  // Production: use Vercel API route
+      ? '/api/send-email' // Production: use Vercel API route
       : 'http://localhost:3000/api/send-email'; // Development: local API
 
     const response = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Email-Service': 'hermes-contact-form'
+        'X-Email-Service': 'hermes-contact-form',
       },
       body: JSON.stringify({
         ...emailData,
         // Convert headers object to array format for some email services
-        headersArray: Object.entries(emailData.headers).map(([key, value]) => ({ key, value }))
-      })
+        headersArray: Object.entries(emailData.headers).map(([key, value]) => ({ key, value })),
+      }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(`Email service error: ${response.status} ${errorData.error || response.statusText}`);
+      throw new Error(
+        `Email service error: ${response.status} ${errorData.error || response.statusText}`
+      );
     }
 
     const result = await response.json();
     console.log('📧 Email sent successfully:', result);
     return true;
-
   } catch (error) {
     console.error('❌ Email sending failed:', error);
 
@@ -299,7 +314,7 @@ const sendEmailViaEmailJS = async (emailData: EmailData): Promise<boolean> => {
       subject: emailData.subject,
       message: emailData.textBody,
       html_message: emailData.htmlBody,
-      headers: JSON.stringify(emailData.headers)
+      headers: JSON.stringify(emailData.headers),
     };
 
     const result = await emailjs.send(
@@ -311,7 +326,6 @@ const sendEmailViaEmailJS = async (emailData: EmailData): Promise<boolean> => {
 
     console.log(' EmailJS email sent:', result);
     return true;
-
   } catch (error) {
     console.error('❌ EmailJS fallback failed:', error);
     return false;
@@ -332,7 +346,7 @@ export const sendContactFormEmail = async (formData: ContactFormEmailData): Prom
     subject: `🔒 ${formData.firstName} ${formData.lastName} from ${formData.companyName || 'No Company'} - Security Consultation Request [${formData.serviceUrgency}]`,
     htmlBody: html,
     textBody: text,
-    headers
+    headers,
   };
 
   return await sendEmail(emailData);

@@ -8,22 +8,6 @@
   },
   "builds": [
     {
-      "src": "api/send-email.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/backup-lead.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/health/database.ts",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/leads/[id].ts",
-      "use": "@vercel/node"
-    },
-    {
       "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
@@ -32,10 +16,6 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
     {
       "src": "/favicon\\.(ico|svg)",
       "dest": "/favicon.$1"

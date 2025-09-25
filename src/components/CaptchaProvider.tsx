@@ -41,7 +41,7 @@ export const CaptchaProvider: React.FC<CaptchaProviderProps> = ({ children }) =>
       if (currentConfig.debug && !window.captchaProviderLogged) {
         console.log('🔐 CAPTCHA Provider initialized:', {
           enabled,
-          config: currentConfig
+          config: currentConfig,
         });
         window.captchaProviderLogged = true;
       }
@@ -68,7 +68,7 @@ export const CaptchaProvider: React.FC<CaptchaProviderProps> = ({ children }) =>
           async: true,
           defer: true,
           appendTo: 'head',
-          nonce: undefined
+          nonce: undefined,
         }}
         useRecaptchaNet={false}
         useEnterprise={false}
@@ -76,8 +76,8 @@ export const CaptchaProvider: React.FC<CaptchaProviderProps> = ({ children }) =>
           element: undefined,
           parameters: {
             badge: 'bottomright',
-            theme: 'light'
-          }
+            theme: 'light',
+          },
         }}
       >
         {children}

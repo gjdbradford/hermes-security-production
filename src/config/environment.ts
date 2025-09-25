@@ -16,11 +16,10 @@ export interface EnvironmentConfig {
 }
 
 /**
- * Detect current environment based on hostname and pathname
+ * Detect current environment based on hostname
  */
 const detectEnvironment = (): EnvironmentConfig => {
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
 
   // Production environments
   if (hostname === 'www.hermessecurity.io' || hostname === 'hermessecurity.io') {
@@ -31,33 +30,34 @@ const detectEnvironment = (): EnvironmentConfig => {
       apiBaseUrl: 'https://api.hermessecurity.io',
       isProduction: true,
       isStaging: false,
-      isDevelopment: false
+      isDevelopment: false,
     };
   }
 
-  // Vercel production deployments
+  // Vercel staging environment
+  if (hostname === 'hermes-security-staging.vercel.app') {
+    return {
+      name: 'staging',
+      webhookUrl:
+        'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
+      cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
+      apiBaseUrl: 'https://hermes-security-staging.vercel.app/api',
+      isProduction: false,
+      isStaging: true,
+      isDevelopment: false,
+    };
+  }
+
+  // Vercel production deployments (fallback)
   if (hostname.includes('hermes-security-production') && hostname.includes('vercel.app')) {
     return {
-      name: 'vercel-production',
+      name: 'production',
       webhookUrl: 'https://ilovemylife.app.n8n.cloud/webhook/a57cf53e-c2d6-4e59-8e38-44b774355629',
       cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
       apiBaseUrl: 'https://api.hermessecurity.io',
       isProduction: true,
       isStaging: false,
-      isDevelopment: false
-    };
-  }
-
-  // GitHub Pages staging
-  if (hostname === 'gjdbradford.github.io' && pathname.includes('/hermes-security-production/')) {
-    return {
-      name: 'github-staging',
-      webhookUrl: 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
-      cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
-      apiBaseUrl: 'https://staging-api.hermessecurity.io',
-      isProduction: false,
-      isStaging: true,
-      isDevelopment: false
+      isDevelopment: false,
     };
   }
 
@@ -65,24 +65,26 @@ const detectEnvironment = (): EnvironmentConfig => {
   if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
     return {
       name: 'development',
-      webhookUrl: 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
+      webhookUrl:
+        'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
       cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
       apiBaseUrl: 'http://localhost:8080',
       isProduction: false,
       isStaging: true, // Local development now uses staging database
-      isDevelopment: true
+      isDevelopment: true,
     };
   }
 
-  // Default fallback (test environment)
+  // Default fallback (staging environment)
   return {
-    name: 'unknown',
-    webhookUrl: 'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
+    name: 'staging',
+    webhookUrl:
+      'https://ilovemylife.app.n8n.cloud/webhook-test/a57cf53e-c2d6-4e59-8e38-44b774355629',
     cdnBaseUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com',
-    apiBaseUrl: 'https://test-api.hermessecurity.io',
+    apiBaseUrl: 'https://hermes-security-staging.vercel.app/api',
     isProduction: false,
-    isStaging: false,
-    isDevelopment: false
+    isStaging: true,
+    isDevelopment: false,
   };
 };
 

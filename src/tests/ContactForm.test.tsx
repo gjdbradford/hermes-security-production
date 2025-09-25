@@ -191,9 +191,7 @@ describe('CountryPhoneInput', () => {
       />
     );
 
-    expect(
-      screen.getByText(/8 of 9 digits required/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/8 of 9 digits required/i)).toBeInTheDocument();
   });
 
   it('shows success indicator for valid South African number', () => {
@@ -231,9 +229,7 @@ describe('CountryPhoneInput', () => {
       />
     );
 
-    expect(
-      screen.getByText(/9 of 10 digits required/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/9 of 10 digits required/i)).toBeInTheDocument();
   });
 
   it('shows success indicator for valid US number', () => {
@@ -271,9 +267,7 @@ describe('CountryPhoneInput', () => {
       />
     );
 
-    expect(
-      screen.getByText(/9 of 10-11 digits required/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/9 of 10-11 digits required/i)).toBeInTheDocument();
   });
 
   it('handles number input changes', () => {
