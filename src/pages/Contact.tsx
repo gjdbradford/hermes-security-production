@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, ArrowLeft } from 'lucide-react';
-import { ContactFormData } from '@/services/contactApi';
+import { ContactFormData } from '@/services/contactForm';
 
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -117,9 +117,22 @@ export default function Contact() {
                       We are connecting you to our security expert team, who will be in touch as
                       soon as possible.
                     </p>
-                    <p className='text-blue-800'>
+                    <p className='text-blue-800 mb-3'>
                       Feel free to engage with our AI Bot, ask it anything you can think of.
                     </p>
+                    <div className='bg-white p-3 rounded border border-blue-200'>
+                      <p className='text-blue-900 font-semibold mb-2'>
+                        Speed up your interaction with Hermes!
+                      </p>
+                      <p className='text-blue-800 text-sm mb-3'>
+                        Take 3 minutes to complete our needs assessment form to get a more detailed and accurate quote.
+                      </p>
+                      <Button asChild className='w-full'>
+                        <Link to={`/needs-assessment?email=${encodeURIComponent(formData.email)}`}>
+                          Complete Needs Assessment
+                        </Link>
+                      </Button>
+                    </div>
                   </div>
 
                   <div className='bg-gray-50 p-4 rounded-lg'>
