@@ -57,7 +57,9 @@
     "db:health:dev": "NODE_ENV=development npx tsx scripts/database-health-check.ts",
     "db:health:staging": "NODE_ENV=staging npx tsx scripts/database-health-check.ts",
     "db:health:production": "NODE_ENV=production npx tsx scripts/database-health-check.ts",
-    "db:seed": "npx tsx scripts/seed-database.ts"
+    "db:seed": "npx tsx scripts/seed-database.ts",
+    "db:setup:production": "NODE_ENV=production npx tsx scripts/setup-production-database.ts",
+    "webhook:test:production": "npx tsx scripts/test-production-webhook.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

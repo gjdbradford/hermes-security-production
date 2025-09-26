@@ -8,6 +8,7 @@ import { submitNeedsAssessment } from '../services/needsAssessmentService';
 import type { NeedsAssessmentData } from '../services/needsAssessmentService';
 import { useCaptchaVerification } from '@/components/CaptchaVerification';
 import { isCaptchaEnabled, isCaptchaDebugMode } from '@/config/captcha';
+import NeedsAssessmentHeader from '@/components/NeedsAssessmentHeader';
 import {
   ChevronLeft,
   ChevronRight,
@@ -2101,262 +2102,269 @@ const NeedsAssessment = () => {
   }
 
   return (
-    <section className='py-20 bg-background min-h-screen'>
-      <div className='container mx-auto px-4 max-w-4xl'>
-        {/* Email Banner - always show */}
-        {hasEmailFromUrl || (localEmail && !emailError && isValidEmail(localEmail)) ? (
-          <div className='bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6'>
-            <div className='flex items-center space-x-2'>
-              <Mail className='h-5 w-5 text-blue-600' />
-              <span className='font-semibold text-blue-900'>
-                Assessment for: {hasEmailFromUrl ? emailFromUrl : localEmail}
-              </span>
-            </div>
-            <p className='text-sm text-blue-700 mt-1'>
-              This assessment will be linked to your contact information
-            </p>
-          </div>
-        ) : (
-          <div className='bg-red-50 border border-red-200 rounded-lg p-4 mb-6'>
-            <div className='flex items-center space-x-2'>
-              <AlertTriangle className='h-5 w-5 text-red-600' />
-              <span className='font-semibold text-red-900'>Email Address Required</span>
-            </div>
-            <p className='text-sm text-red-700 mt-1'>
-              Please provide a valid email address to continue with the assessment
-            </p>
-          </div>
-        )}
-
-        {/* Edit Mode Banner */}
-        {isEditMode && (
-          <div className='bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6'>
-            <div className='flex items-center space-x-2'>
-              <AlertTriangle className='h-5 w-5 text-orange-600' />
-              <span className='font-semibold text-orange-900'>Edit Mode</span>
-            </div>
-            <p className='text-sm text-orange-700 mt-1'>
-              You are editing your assessment. Click "Update" to save changes and return to the
-              summary.
-            </p>
-          </div>
-        )}
-
-        {/* Progress Header */}
-        <div className='mb-8'>
-          <div className='flex items-center justify-between mb-4'>
-            <h2 className='text-3xl font-bold text-primary'>Needs Assessment</h2>
-            <Badge variant='outline' className='text-sm'>
-              {isEditMode ? 'Edit Mode' : `Step ${currentStep} of ${STEPS.length}`}
-            </Badge>
-          </div>
-
-          <div className='mb-6'>
-            <Progress
-              value={progress}
-              className={`mb-2 ${progress === 100 ? 'progress-complete' : ''}`}
-            />
-            {progress === 100 && currentStep === 8 && (
-              <div className='text-center'>
-                <div className='inline-flex items-center space-x-2 text-green-600 font-semibold'>
-                  <CheckCircle className='h-4 w-4' />
-                  <span className='text-sm'>Assessment Complete!</span>
-                </div>
+    <>
+      <NeedsAssessmentHeader />
+      <section className='pt-24 pb-20 bg-background min-h-screen'>
+        <div className='container mx-auto px-4 max-w-4xl'>
+          {/* Email Banner - always show */}
+          {hasEmailFromUrl || (localEmail && !emailError && isValidEmail(localEmail)) ? (
+            <div className='bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6'>
+              <div className='flex items-center space-x-2'>
+                <Mail className='h-5 w-5 text-blue-600' />
+                <span className='font-semibold text-blue-900'>
+                  Assessment for: {hasEmailFromUrl ? emailFromUrl : localEmail}
+                </span>
               </div>
-            )}
-          </div>
+              <p className='text-sm text-blue-700 mt-1'>
+                This assessment will be linked to your contact information
+              </p>
+            </div>
+          ) : (
+            <div className='bg-red-50 border border-red-200 rounded-lg p-4 mb-6'>
+              <div className='flex items-center space-x-2'>
+                <AlertTriangle className='h-5 w-5 text-red-600' />
+                <span className='font-semibold text-red-900'>Email Address Required</span>
+              </div>
+              <p className='text-sm text-red-700 mt-1'>
+                Please provide a valid email address to continue with the assessment
+              </p>
+            </div>
+          )}
 
-          <div className='flex items-center justify-between text-sm'>
-            {STEPS.map(step => {
-              const Icon = step.icon;
-              const isCompleted = isStepCompleted(step.id);
-              const isCurrentStep = step.id === currentStep;
-              const isFutureStep = step.id > currentStep;
+          {/* Edit Mode Banner */}
+          {isEditMode && (
+            <div className='bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6'>
+              <div className='flex items-center space-x-2'>
+                <AlertTriangle className='h-5 w-5 text-orange-600' />
+                <span className='font-semibold text-orange-900'>Edit Mode</span>
+              </div>
+              <p className='text-sm text-orange-700 mt-1'>
+                You are editing your assessment. Click "Update" to save changes and return to the
+                summary.
+              </p>
+            </div>
+          )}
 
-              // Check if this step is enabled based on service selection
-              let isStepEnabled = true;
-              if (step.condition) {
-                isStepEnabled = selectedServices.includes(step.condition);
-              }
+          {/* Progress Header */}
+          <div className='mb-8'>
+            <div className='flex items-center justify-between mb-4'>
+              <h2 className='text-3xl font-bold text-primary'>Needs Assessment</h2>
+              <Badge variant='outline' className='text-sm'>
+                {isEditMode ? 'Edit Mode' : `Step ${currentStep} of ${STEPS.length}`}
+              </Badge>
+            </div>
 
-              // For service steps, show as active (not disabled) if service is selected
-              const isServiceStep = step.condition !== undefined;
-              const isServiceSelected = isServiceStep
-                ? selectedServices.includes(step.condition)
-                : true;
+            <div className='mb-6'>
+              <Progress
+                value={progress}
+                className={`mb-2 ${progress === 100 ? 'progress-complete' : ''}`}
+              />
+              {progress === 100 && currentStep === 8 && (
+                <div className='text-center'>
+                  <div className='inline-flex items-center space-x-2 text-green-600 font-semibold'>
+                    <CheckCircle className='h-4 w-4' />
+                    <span className='text-sm'>Assessment Complete!</span>
+                  </div>
+                </div>
+              )}
+            </div>
 
-              // Determine the visual state
-              let stepState = 'disabled';
-              if (isStepEnabled && isCompleted) {
-                stepState = 'completed';
-              } else if (isStepEnabled && isCurrentStep) {
-                stepState = 'current';
-              } else if (isStepEnabled && isFutureStep) {
-                stepState = 'future';
-              } else if (isServiceStep && isServiceSelected) {
-                stepState = 'active';
-              }
+            <div className='flex items-center justify-between text-sm'>
+              {STEPS.map(step => {
+                const Icon = step.icon;
+                const isCompleted = isStepCompleted(step.id);
+                const isCurrentStep = step.id === currentStep;
+                const isFutureStep = step.id > currentStep;
 
-              return (
-                <div
-                  key={step.id}
-                  className={`flex flex-col items-center space-y-1 ${
-                    stepState === 'disabled'
-                      ? 'text-gray-400 opacity-50'
-                      : stepState === 'completed'
-                        ? 'text-green-600'
-                        : stepState === 'current'
-                          ? 'text-primary'
-                          : stepState === 'future'
-                            ? 'text-primary'
-                            : stepState === 'active'
-                              ? 'text-primary'
-                              : 'text-muted-foreground'
-                  } ${
-                    (stepState === 'active' || stepState === 'completed') && currentStep === 8
-                      ? 'cursor-pointer hover:text-primary transition-colors'
-                      : ''
-                  }`}
-                  onClick={() => {
-                    // Only allow clicking when on summary step and step is active/completed
-                    if (
-                      currentStep === 8 &&
-                      (stepState === 'active' || stepState === 'completed')
-                    ) {
-                      navigateToStepForEdit(step.id);
-                    }
-                  }}
-                >
+                // Check if this step is enabled based on service selection
+                let isStepEnabled = true;
+                if (step.condition) {
+                  isStepEnabled = selectedServices.includes(step.condition);
+                }
+
+                // For service steps, show as active (not disabled) if service is selected
+                const isServiceStep = step.condition !== undefined;
+                const isServiceSelected = isServiceStep
+                  ? selectedServices.includes(step.condition)
+                  : true;
+
+                // Determine the visual state
+                let stepState = 'disabled';
+                if (isStepEnabled && isCompleted) {
+                  stepState = 'completed';
+                } else if (isStepEnabled && isCurrentStep) {
+                  stepState = 'current';
+                } else if (isStepEnabled && isFutureStep) {
+                  stepState = 'future';
+                } else if (isServiceStep && isServiceSelected) {
+                  stepState = 'active';
+                }
+
+                return (
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    key={step.id}
+                    className={`flex flex-col items-center space-y-1 ${
                       stepState === 'disabled'
-                        ? 'bg-gray-200 text-gray-400'
+                        ? 'text-gray-400 opacity-50'
                         : stepState === 'completed'
-                          ? 'bg-green-600 text-white'
+                          ? 'text-green-600'
                           : stepState === 'current'
-                            ? 'bg-primary text-white'
+                            ? 'text-primary'
                             : stepState === 'future'
-                              ? 'bg-primary/20 text-primary border-2 border-primary'
+                              ? 'text-primary'
                               : stepState === 'active'
-                                ? 'bg-primary/20 text-primary border-2 border-primary'
-                                : 'bg-muted'
+                                ? 'text-primary'
+                                : 'text-muted-foreground'
                     } ${
                       (stepState === 'active' || stepState === 'completed') && currentStep === 8
-                        ? 'hover:bg-primary/20 hover:border-primary hover:border-2 transition-all'
+                        ? 'cursor-pointer hover:text-primary transition-colors'
                         : ''
                     }`}
+                    onClick={() => {
+                      // Only allow clicking when on summary step and step is active/completed
+                      if (
+                        currentStep === 8 &&
+                        (stepState === 'active' || stepState === 'completed')
+                      ) {
+                        navigateToStepForEdit(step.id);
+                      }
+                    }}
                   >
-                    {stepState === 'completed' ? (
-                      <Check className='h-4 w-4' />
-                    ) : (
-                      <Icon className='h-4 w-4' />
-                    )}
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        stepState === 'disabled'
+                          ? 'bg-gray-200 text-gray-400'
+                          : stepState === 'completed'
+                            ? 'bg-green-600 text-white'
+                            : stepState === 'current'
+                              ? 'bg-primary text-white'
+                              : stepState === 'future'
+                                ? 'bg-primary/20 text-primary border-2 border-primary'
+                                : stepState === 'active'
+                                  ? 'bg-primary/20 text-primary border-2 border-primary'
+                                  : 'bg-muted'
+                      } ${
+                        (stepState === 'active' || stepState === 'completed') && currentStep === 8
+                          ? 'hover:bg-primary/20 hover:border-primary hover:border-2 transition-all'
+                          : ''
+                      }`}
+                    >
+                      {stepState === 'completed' ? (
+                        <Check className='h-4 w-4' />
+                      ) : (
+                        <Icon className='h-4 w-4' />
+                      )}
+                    </div>
+                    <span className='hidden md:block text-xs text-center max-w-16'>
+                      {step.title}
+                    </span>
                   </div>
-                  <span className='hidden md:block text-xs text-center max-w-16'>{step.title}</span>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Step Content */}
-        <Card className='mb-8'>
-          <CardContent className='p-8'>{renderStepContent()}</CardContent>
-        </Card>
+          {/* Step Content */}
+          <Card className='mb-8'>
+            <CardContent className='p-8'>{renderStepContent()}</CardContent>
+          </Card>
 
-        {/* Navigation */}
-        <div className='flex justify-between'>
-          <Button
-            variant='outline'
-            onClick={prevStep}
-            disabled={!findPreviousEnabledStep(currentStep)}
-            className='flex items-center space-x-2'
-          >
-            <ChevronLeft className='h-4 w-4' />
-            <span>Previous</span>
-          </Button>
-
-          {findNextEnabledStep(currentStep) ? (
+          {/* Navigation */}
+          <div className='flex justify-between'>
             <Button
-              onClick={nextStep}
-              disabled={!canProceedToNext()}
-              className={`flex items-center space-x-2 ${
-                updateSuccess ? 'bg-green-600 hover:bg-green-700' : ''
-              }`}
+              variant='outline'
+              onClick={prevStep}
+              disabled={!findPreviousEnabledStep(currentStep)}
+              className='flex items-center space-x-2'
             >
-              {updateSuccess ? (
-                <>
-                  <Check className='h-4 w-4' />
-                  <span>Updated!</span>
-                </>
-              ) : isEditMode ? (
-                <>
-                  <span>Update</span>
-                  <Check className='h-4 w-4' />
-                </>
-              ) : (
-                <>
-                  <span>Next</span>
-                  <ChevronRight className='h-4 w-4' />
-                </>
-              )}
+              <ChevronLeft className='h-4 w-4' />
+              <span>Previous</span>
             </Button>
-          ) : (
-            <div className='space-y-4'>
-              {/* CAPTCHA Status Indicator */}
-              {captchaEnabled && (
-                <div className='flex items-center justify-center space-x-2 text-sm text-gray-600 mb-4'>
-                  <Shield className='h-4 w-4' />
-                  <span>Protected by reCAPTCHA v3</span>
-                </div>
-              )}
 
-              {/* CAPTCHA Error Alert */}
-              {captchaError && (
-                <Alert variant='destructive'>
-                  <Shield className='h-4 w-4' />
-                  <AlertDescription>Security verification failed: {captchaError}</AlertDescription>
-                </Alert>
-              )}
-
-              {/* General Error Alert */}
-              {error && (
-                <div className='bg-red-50 border border-red-200 rounded-lg p-3'>
-                  <div className='flex items-center space-x-2 text-red-800'>
-                    <AlertTriangle className='h-4 w-4' />
-                    <span className='font-medium'>Submission Error:</span>
-                  </div>
-                  <p className='text-red-700 text-sm mt-1'>{error}</p>
-                </div>
-              )}
-
+            {findNextEnabledStep(currentStep) ? (
               <Button
-                onClick={onSubmit}
-                disabled={!canProceedToNext() || isSubmitting || isCaptchaVerifying}
-                className='flex items-center space-x-2 w-full'
-                size='lg'
+                onClick={nextStep}
+                disabled={!canProceedToNext()}
+                className={`flex items-center space-x-2 ${
+                  updateSuccess ? 'bg-green-600 hover:bg-green-700' : ''
+                }`}
               >
-                {isSubmitting || isCaptchaVerifying ? (
+                {updateSuccess ? (
                   <>
-                    <Loader2 className='h-4 w-4 animate-spin' />
-                    <span>{isCaptchaVerifying ? 'Verifying security...' : 'Submitting...'}</span>
+                    <Check className='h-4 w-4' />
+                    <span>Updated!</span>
+                  </>
+                ) : isEditMode ? (
+                  <>
+                    <span>Update</span>
+                    <Check className='h-4 w-4' />
                   </>
                 ) : (
                   <>
-                    {captchaEnabled ? (
-                      <Shield className='mr-2 h-5 w-5' />
-                    ) : (
-                      <CheckCircle className='mr-2 h-5 w-5' />
-                    )}
-                    <span>Submit Assessment</span>
+                    <span>Next</span>
+                    <ChevronRight className='h-4 w-4' />
                   </>
                 )}
               </Button>
-            </div>
-          )}
+            ) : (
+              <div className='space-y-4'>
+                {/* CAPTCHA Status Indicator */}
+                {captchaEnabled && (
+                  <div className='flex items-center justify-center space-x-2 text-sm text-gray-600 mb-4'>
+                    <Shield className='h-4 w-4' />
+                    <span>Protected by reCAPTCHA v3</span>
+                  </div>
+                )}
+
+                {/* CAPTCHA Error Alert */}
+                {captchaError && (
+                  <Alert variant='destructive'>
+                    <Shield className='h-4 w-4' />
+                    <AlertDescription>
+                      Security verification failed: {captchaError}
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                {/* General Error Alert */}
+                {error && (
+                  <div className='bg-red-50 border border-red-200 rounded-lg p-3'>
+                    <div className='flex items-center space-x-2 text-red-800'>
+                      <AlertTriangle className='h-4 w-4' />
+                      <span className='font-medium'>Submission Error:</span>
+                    </div>
+                    <p className='text-red-700 text-sm mt-1'>{error}</p>
+                  </div>
+                )}
+
+                <Button
+                  onClick={onSubmit}
+                  disabled={!canProceedToNext() || isSubmitting || isCaptchaVerifying}
+                  className='flex items-center space-x-2 w-full'
+                  size='lg'
+                >
+                  {isSubmitting || isCaptchaVerifying ? (
+                    <>
+                      <Loader2 className='h-4 w-4 animate-spin' />
+                      <span>{isCaptchaVerifying ? 'Verifying security...' : 'Submitting...'}</span>
+                    </>
+                  ) : (
+                    <>
+                      {captchaEnabled ? (
+                        <Shield className='mr-2 h-5 w-5' />
+                      ) : (
+                        <CheckCircle className='mr-2 h-5 w-5' />
+                      )}
+                      <span>Submit Assessment</span>
+                    </>
+                  )}
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
