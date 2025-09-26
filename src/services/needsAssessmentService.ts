@@ -5,37 +5,41 @@ export interface NeedsAssessmentData {
   productionEnvironment: string;
   stagingEnvironment: string;
   preferredTime: string;
+  timezone: string;
   additionalInfo?: string;
   selectedServices: string[];
-  
+
   // Web Applications data
   selectedWebCount?: string;
   selectedWebTechnologies?: string[];
   selectedWebVulnerabilities?: string[];
-  
+  webConcernsText?: string;
+
   // Mobile Applications data
   selectedMobileCount?: string;
   selectedMobilePlatforms?: string[];
   selectedMobileFrameworks?: string[];
   selectedMobileFeatures?: string[];
-  
+  mobileConcernsText?: string;
+
   // API Endpoints data
   selectedApiCount?: string;
   selectedApiTypes?: string[];
   selectedApiAuthMethods?: string[];
   selectedApiSensitiveData?: string[];
-  
+  apiConcernsText?: string;
+
   // Network data
   selectedNetworkComponents?: string[];
   selectedNetworkProtocols?: string[];
-  networkConcernsText?: string;
-  
+  network_concerns?: string;
+
   // Infrastructure data
   selectedInfrastructureComponents?: string[];
   selectedCloudPlatforms?: string[];
   selectedOperatingSystems?: string[];
-  infrastructureConcernsText?: string;
-  
+  infrastructure_concerns?: string;
+
   captchaToken?: string;
   assessmentId?: string;
   submittedAt?: string;
@@ -91,47 +95,51 @@ export const submitNeedsAssessment = async (
         productionEnvironment: formData.productionEnvironment,
         stagingEnvironment: formData.stagingEnvironment,
         preferredTime: formData.preferredTime,
+        timezone: formData.timezone,
         additionalInfo: formData.additionalInfo,
         selectedServices: formData.selectedServices,
-        
+
         // Web Applications
         webApplications: {
           count: formData.selectedWebCount,
           technologies: formData.selectedWebTechnologies,
           vulnerabilities: formData.selectedWebVulnerabilities,
+          web_concerns: formData.webConcernsText,
         },
-        
+
         // Mobile Applications
         mobileApplications: {
           count: formData.selectedMobileCount,
           platforms: formData.selectedMobilePlatforms,
           frameworks: formData.selectedMobileFrameworks,
           features: formData.selectedMobileFeatures,
+          mobile_concerns: formData.mobileConcernsText,
         },
-        
+
         // API Endpoints
         apiEndpoints: {
           count: formData.selectedApiCount,
           types: formData.selectedApiTypes,
           authMethods: formData.selectedApiAuthMethods,
           sensitiveData: formData.selectedApiSensitiveData,
+          api_concerns: formData.apiConcernsText,
         },
-        
+
         // Network
         network: {
           components: formData.selectedNetworkComponents,
           protocols: formData.selectedNetworkProtocols,
-          concerns: formData.networkConcernsText,
+          network_concerns: formData.network_concerns,
         },
-        
+
         // Infrastructure
         infrastructure: {
           components: formData.selectedInfrastructureComponents,
           cloudPlatforms: formData.selectedCloudPlatforms,
           operatingSystems: formData.selectedOperatingSystems,
-          concerns: formData.infrastructureConcernsText,
+          infrastructure_concerns: formData.infrastructure_concerns,
         },
-        
+
         // Security and metadata
         captchaToken: formData.captchaToken,
         assessmentId: formData.assessmentId,
