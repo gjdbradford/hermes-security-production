@@ -2,8 +2,8 @@
   "version": 2,
   "git": {
     "deploymentEnabled": {
-      "main": false,
-      "develop": false
+      "main": true,
+      "develop": true
     }
   },
   "builds": [
