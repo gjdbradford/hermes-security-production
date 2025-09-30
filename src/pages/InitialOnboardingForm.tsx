@@ -411,87 +411,84 @@ const InitialOnboardingForm = () => {
     >
       <div className='space-y-8'>
         <div className='text-center mb-6'>
-          <h3 className='text-2xl font-bold text-primary mb-2'>
+          <h3 className='text-2xl font-bold text-primary mb-2'>Timing & Urgency</h3>
+          <p className='text-muted-foreground'>Tell us about your timeline requirements</p>
+        </div>
+
+        <div>
+          <label className='text-lg font-semibold block mb-3'>
             * When do you need our services to start?
-          </h3>
-          <p className='text-muted-foreground'>
-            Select your preferred timeline for service delivery
-          </p>
-        </div>
-
-        <div className='grid gap-4'>
-          {TIMELINE_OPTIONS.map(option => (
-            <Card
-              key={option.value}
-              className={`cursor-pointer transition-all hover:shadow-md ${
-                formData.serviceStartTimeline === option.value
-                  ? 'ring-2 ring-primary bg-primary/5'
-                  : 'hover:bg-muted/50'
-              }`}
-              onClick={() => {
-                updateFormData('serviceStartTimeline', option.value);
-              }}
-            >
-              <CardContent className='p-6'>
-                <div className='flex items-center space-x-3'>
-                  <input
-                    type='radio'
-                    name='serviceStartTimeline'
-                    value={option.value}
-                    checked={formData.serviceStartTimeline === option.value}
-                    onChange={() => updateFormData('serviceStartTimeline', option.value)}
-                    className='w-4 h-4 pointer-events-none'
-                    tabIndex={-1}
-                  />
-                  <div className='flex-1'>
-                    <h4 className='font-semibold text-lg'>{option.label}</h4>
+          </label>
+          <div className='grid gap-4'>
+            {TIMELINE_OPTIONS.map(option => (
+              <Card
+                key={option.value}
+                className={`cursor-pointer transition-all hover:shadow-md ${
+                  formData.serviceStartTimeline === option.value
+                    ? 'ring-2 ring-primary bg-primary/5'
+                    : 'hover:bg-muted/50'
+                }`}
+                onClick={() => {
+                  updateFormData('serviceStartTimeline', option.value);
+                }}
+              >
+                <CardContent className='p-6'>
+                  <div className='flex items-center space-x-3'>
+                    <input
+                      type='radio'
+                      name='serviceStartTimeline'
+                      value={option.value}
+                      checked={formData.serviceStartTimeline === option.value}
+                      onChange={() => updateFormData('serviceStartTimeline', option.value)}
+                      className='w-4 h-4 pointer-events-none'
+                      tabIndex={-1}
+                    />
+                    <div className='flex-1'>
+                      <h4 className='font-semibold text-lg'>{option.label}</h4>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div className='space-y-8'>
-        <div className='text-center mb-6'>
-          <h3 className='text-2xl font-bold text-primary mb-2'>
+        <div>
+          <label className='text-lg font-semibold block mb-3'>
             * What is your timeframe for making a decision?
-          </h3>
-          <p className='text-muted-foreground'>Select your decision-making timeline</p>
-        </div>
-
-        <div className='grid gap-4'>
-          {DECISION_TIMELINE_OPTIONS.map(option => (
-            <Card
-              key={option.value}
-              className={`cursor-pointer transition-all hover:shadow-md ${
-                formData.decisionTimeline === option.value
-                  ? 'ring-2 ring-primary bg-primary/5'
-                  : 'hover:bg-muted/50'
-              }`}
-              onClick={() => {
-                updateFormData('decisionTimeline', option.value);
-              }}
-            >
-              <CardContent className='p-6'>
-                <div className='flex items-center space-x-3'>
-                  <input
-                    type='radio'
-                    name='decisionTimeline'
-                    value={option.value}
-                    checked={formData.decisionTimeline === option.value}
-                    onChange={() => updateFormData('decisionTimeline', option.value)}
-                    className='w-4 h-4 pointer-events-none'
-                    tabIndex={-1}
-                  />
-                  <div className='flex-1'>
-                    <h4 className='font-semibold text-lg'>{option.label}</h4>
+          </label>
+          <div className='grid gap-4'>
+            {DECISION_TIMELINE_OPTIONS.map(option => (
+              <Card
+                key={option.value}
+                className={`cursor-pointer transition-all hover:shadow-md ${
+                  formData.decisionTimeline === option.value
+                    ? 'ring-2 ring-primary bg-primary/5'
+                    : 'hover:bg-muted/50'
+                }`}
+                onClick={() => {
+                  updateFormData('decisionTimeline', option.value);
+                }}
+              >
+                <CardContent className='p-6'>
+                  <div className='flex items-center space-x-3'>
+                    <input
+                      type='radio'
+                      name='decisionTimeline'
+                      value={option.value}
+                      checked={formData.decisionTimeline === option.value}
+                      onChange={() => updateFormData('decisionTimeline', option.value)}
+                      className='w-4 h-4 pointer-events-none'
+                      tabIndex={-1}
+                    />
+                    <div className='flex-1'>
+                      <h4 className='font-semibold text-lg'>{option.label}</h4>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </motion.div>
