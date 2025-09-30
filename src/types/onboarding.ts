@@ -15,6 +15,8 @@ export interface OnboardingFormData {
 
   // Decision Process
   projectLead: string;
+  projectLeadRole: string;
+  projectLeadRoleOther: string;
   decisionFactors: string[];
 
   // Source
@@ -118,5 +120,17 @@ export const SOURCE_OPTIONS = [
   { value: 'search', label: 'Search engine' },
   { value: 'conference', label: 'Conference' },
   { value: 'advertisement', label: 'Advertisement' },
+  { value: 'other', label: 'Other' },
+];
+
+export const ROLE_OPTIONS = [
+  { value: 'ceo', label: 'CEO' },
+  { value: 'cto', label: 'CTO' },
+  { value: 'ciso', label: 'CISO' },
+  { value: 'it-director', label: 'IT Director' },
+  { value: 'security-manager', label: 'Security Manager' },
+  { value: 'developer', label: 'Developer' },
+  { value: 'devops-engineer', label: 'DevOps Engineer' },
+  { value: 'compliance-officer', label: 'Compliance Officer' },
   { value: 'other', label: 'Other' },
 ];

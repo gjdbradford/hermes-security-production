@@ -40,6 +40,7 @@ import {
   BUDGET_RANGES,
   DECISION_FACTORS,
   SOURCE_OPTIONS,
+  ROLE_OPTIONS,
 } from '@/types/onboarding';
 
 const TOTAL_STEPS = 6;
@@ -77,6 +78,8 @@ const InitialOnboardingForm = () => {
     currency: 'USD',
     budgetRange: '',
     projectLead: '',
+    projectLeadRole: '',
+    projectLeadRoleOther: '',
     decisionFactors: [],
     howDidYouHear: '',
     howDidYouHearOther: '',
@@ -158,8 +161,18 @@ const InitialOnboardingForm = () => {
         return formData.serviceStartTimeline !== '' && formData.decisionTimeline !== '';
       case 3: // Budget - if hasBudget is true, budgetRange is mandatory
         return formData.hasBudget ? formData.budgetRange !== '' : true;
-      case 4: // Decision Process - projectLead and decisionFactors are mandatory
-        return formData.projectLead !== '' && formData.decisionFactors.length > 0;
+      case 4: {
+        // Decision Process - projectLead, projectLeadRole and decisionFactors are mandatory
+        const roleValid = formData.projectLeadRole !== '';
+        const roleOtherValid =
+          formData.projectLeadRole !== 'other' || formData.projectLeadRoleOther !== '';
+        return (
+          formData.projectLead !== '' &&
+          roleValid &&
+          roleOtherValid &&
+          formData.decisionFactors.length > 0
+        );
+      }
       case 5: // Source - howDidYouHear is mandatory
         return formData.howDidYouHear !== '';
       case 6: // Summary
@@ -645,15 +658,42 @@ const InitialOnboardingForm = () => {
       className='space-y-6'
     >
       <div>
-        <Label htmlFor='projectLead' className='text-lg font-semibold mb-4 block'>
+        <label className='text-lg font-semibold block mb-3'>
           * Who is the lead on this project?
-        </Label>
+        </label>
         <Input
           id='projectLead'
           placeholder='Enter project lead name...'
           value={formData.projectLead}
           onChange={e => updateFormData('projectLead', e.target.value)}
         />
+      </div>
+
+      <div>
+        <label className='text-lg font-semibold block mb-3'>* Their role</label>
+        <Select
+          value={formData.projectLeadRole}
+          onValueChange={value => updateFormData('projectLeadRole', value)}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder='Select your role' />
+          </SelectTrigger>
+          <SelectContent>
+            {ROLE_OPTIONS.map(option => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        {formData.projectLeadRole === 'other' && (
+          <Input
+            placeholder='Please specify *'
+            value={formData.projectLeadRoleOther}
+            onChange={e => updateFormData('projectLeadRoleOther', e.target.value)}
+            className='mt-3'
+          />
+        )}
       </div>
 
       <div className='space-y-8'>
@@ -911,6 +951,13 @@ const InitialOnboardingForm = () => {
           <CardContent className='space-y-2'>
             <div>
               <span className='font-medium'>Project Lead:</span> {formData.projectLead}
+            </div>
+            <div>
+              <span className='font-medium'>Role:</span>{' '}
+              {ROLE_OPTIONS.find(r => r.value === formData.projectLeadRole)?.label}
+              {formData.projectLeadRole === 'other' && formData.projectLeadRoleOther && (
+                <span> - {formData.projectLeadRoleOther}</span>
+              )}
             </div>
             <div>
               <span className='font-medium'>Decision Factors:</span>
