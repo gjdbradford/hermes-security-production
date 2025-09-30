@@ -11,6 +11,7 @@ import CountryPhoneDemo from './pages/CountryPhoneDemo';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import NeedsAssessment from './pages/NeedsAssessment';
+import InitialOnboardingForm from './pages/InitialOnboardingForm';
 import NotFound from './pages/NotFound';
 import SEOOptimizer from './components/SEOOptimizer';
 import AnalyticsTracker from './components/AnalyticsTracker';
@@ -73,6 +74,7 @@ const App = () => (
               <Route path='/terms' element={<Terms />} />
               <Route path='/privacy' element={<Privacy />} />
               <Route path='/needs-assessment' element={<NeedsAssessment />} />
+              <Route path='/initial-onboarding-form' element={<InitialOnboardingForm />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path='*' element={<NotFound />} />
             </Routes>

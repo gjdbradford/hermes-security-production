@@ -106,3 +106,4 @@ curl -X POST https://ilovemylife.app.n8n.cloud/webhook/needs-assessment-producti
 1. Check execution history
 2. Verify Supabase node is working
 3. Monitor error logs
+
