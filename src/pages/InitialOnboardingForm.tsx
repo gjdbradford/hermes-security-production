@@ -797,6 +797,55 @@ const InitialOnboardingForm = () => {
                 className={`mb-2 ${progressPercentage === 100 ? 'progress-complete' : ''}`}
               />
             </div>
+
+            {/* Step Icons */}
+            <div className='flex items-center justify-between text-sm'>
+              {STEPS.map(step => {
+                const Icon = step.icon;
+                const isCompleted = currentStep > step.id;
+                const isCurrentStep = step.id === currentStep;
+
+                // Determine the visual state
+                let stepState = 'future';
+                if (isCompleted) {
+                  stepState = 'completed';
+                } else if (isCurrentStep) {
+                  stepState = 'current';
+                }
+
+                return (
+                  <div
+                    key={step.id}
+                    className={`flex flex-col items-center space-y-1 ${
+                      stepState === 'completed'
+                        ? 'text-green-600'
+                        : stepState === 'current'
+                          ? 'text-primary'
+                          : 'text-muted-foreground'
+                    }`}
+                  >
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        stepState === 'completed'
+                          ? 'bg-green-600 text-white'
+                          : stepState === 'current'
+                            ? 'bg-primary text-white'
+                            : 'bg-primary/20 text-primary border-2 border-primary'
+                      }`}
+                    >
+                      {stepState === 'completed' ? (
+                        <CheckCircle className='h-4 w-4' />
+                      ) : (
+                        <Icon className='h-4 w-4' />
+                      )}
+                    </div>
+                    <span className='hidden md:block text-xs text-center max-w-16'>
+                      {step.title}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {/* Error Alert */}
