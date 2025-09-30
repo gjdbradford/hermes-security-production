@@ -252,145 +252,151 @@ const InitialOnboardingForm = () => {
     >
       <div className='space-y-8'>
         <div className='text-center mb-6'>
-          <h3 className='text-2xl font-bold text-primary mb-2'>
+          <h3 className='text-2xl font-bold text-primary mb-2'>Service Needs</h3>
+          <p className='text-muted-foreground'>Tell us about your service requirements</p>
+        </div>
+
+        <div>
+          <label className='text-lg font-semibold block mb-3'>
             * What type of pentest would you like to conduct?
-          </h3>
-          <p className='text-muted-foreground'>Select the type of penetration testing you need</p>
-        </div>
-
-        <div className='grid gap-4'>
-          {[
-            {
-              value: 'white-box',
-              label: 'White Box Pentest',
-              description: 'Full knowledge of system architecture and code',
-            },
-            {
-              value: 'gray-box',
-              label: 'Gray Box Pentest',
-              description: 'Partial knowledge of system architecture',
-            },
-            {
-              value: 'black-box',
-              label: 'Black Box Pentest',
-              description: 'No prior knowledge of system architecture',
-            },
-            { value: 'all', label: 'All Types', description: 'Comprehensive testing approach' },
-          ].map(option => (
-            <Card
-              key={option.value}
-              className={`cursor-pointer transition-all hover:shadow-md ${
-                formData.serviceType === option.value
-                  ? 'ring-2 ring-primary bg-primary/5'
-                  : 'hover:bg-muted/50'
-              }`}
-              onClick={() => {
-                updateFormData('serviceType', option.value);
-              }}
-            >
-              <CardContent className='p-6'>
-                <div className='flex items-center space-x-3'>
-                  <input
-                    type='radio'
-                    name='serviceType'
-                    value={option.value}
-                    checked={formData.serviceType === option.value}
-                    onChange={() => updateFormData('serviceType', option.value)}
-                    className='w-4 h-4 pointer-events-none'
-                    tabIndex={-1}
-                  />
-                  <div className='flex-1'>
-                    <h4 className='font-semibold text-lg'>{option.label}</h4>
-                    <p className='text-sm text-muted-foreground'>{option.description}</p>
+          </label>
+          <div className='grid gap-4'>
+            {[
+              {
+                value: 'white-box',
+                label: 'White Box Pentest',
+                description: 'Full knowledge of system architecture and code',
+              },
+              {
+                value: 'gray-box',
+                label: 'Gray Box Pentest',
+                description: 'Partial knowledge of system architecture',
+              },
+              {
+                value: 'black-box',
+                label: 'Black Box Pentest',
+                description: 'No prior knowledge of system architecture',
+              },
+              { value: 'all', label: 'All Types', description: 'Comprehensive testing approach' },
+            ].map(option => (
+              <Card
+                key={option.value}
+                className={`cursor-pointer transition-all hover:shadow-md ${
+                  formData.serviceType === option.value
+                    ? 'ring-2 ring-primary bg-primary/5'
+                    : 'hover:bg-muted/50'
+                }`}
+                onClick={() => {
+                  updateFormData('serviceType', option.value);
+                }}
+              >
+                <CardContent className='p-6'>
+                  <div className='flex items-center space-x-3'>
+                    <input
+                      type='radio'
+                      name='serviceType'
+                      value={option.value}
+                      checked={formData.serviceType === option.value}
+                      onChange={() => updateFormData('serviceType', option.value)}
+                      className='w-4 h-4 pointer-events-none'
+                      tabIndex={-1}
+                    />
+                    <div className='flex-1'>
+                      <h4 className='font-semibold text-lg'>{option.label}</h4>
+                      <p className='text-sm text-muted-foreground'>{option.description}</p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      <div className='space-y-8'>
-        <div className='text-center mb-6'>
-          <h3 className='text-2xl font-bold text-primary mb-2'>
-            * What outcomes are you expecting from our penetration testing/security services?
-          </h3>
-          <p className='text-muted-foreground'>Select all outcomes that apply to your needs</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
 
-        <div className='grid gap-4'>
-          {EXPECTED_OUTCOMES.map(option => (
-            <Card
-              key={option.value}
-              className={`cursor-pointer transition-all hover:shadow-md ${
-                formData.expectedOutcomes.includes(option.value)
-                  ? 'ring-2 ring-primary bg-primary/5'
-                  : 'hover:bg-muted/50'
-              }`}
-              onClick={() => {
-                const isSelected = formData.expectedOutcomes.includes(option.value);
-                if (isSelected) {
-                  updateFormData(
-                    'expectedOutcomes',
-                    formData.expectedOutcomes.filter(item => item !== option.value)
-                  );
-                } else {
-                  updateFormData('expectedOutcomes', [...formData.expectedOutcomes, option.value]);
-                }
-              }}
-            >
-              <CardContent className='p-6'>
-                <div className='flex items-center space-x-3'>
-                  <input
-                    type='checkbox'
-                    id={option.value}
-                    checked={formData.expectedOutcomes.includes(option.value)}
-                    onChange={e => {
-                      if (e.target.checked) {
-                        updateFormData('expectedOutcomes', [
-                          ...formData.expectedOutcomes,
-                          option.value,
-                        ]);
-                      } else {
-                        updateFormData(
-                          'expectedOutcomes',
-                          formData.expectedOutcomes.filter(item => item !== option.value)
-                        );
-                      }
-                    }}
-                    className='w-4 h-4 pointer-events-none'
-                    tabIndex={-1}
-                  />
-                  <div className='flex-1'>
-                    <h4 className='font-semibold text-lg'>{option.label}</h4>
+        <div className='space-y-8'>
+          <div className='text-center mb-6'>
+            <h3 className='text-2xl font-bold text-primary mb-2'>
+              * What outcomes are you expecting from our penetration testing/security services?
+            </h3>
+            <p className='text-muted-foreground'>Select all outcomes that apply to your needs</p>
+          </div>
+
+          <div className='grid gap-4'>
+            {EXPECTED_OUTCOMES.map(option => (
+              <Card
+                key={option.value}
+                className={`cursor-pointer transition-all hover:shadow-md ${
+                  formData.expectedOutcomes.includes(option.value)
+                    ? 'ring-2 ring-primary bg-primary/5'
+                    : 'hover:bg-muted/50'
+                }`}
+                onClick={() => {
+                  const isSelected = formData.expectedOutcomes.includes(option.value);
+                  if (isSelected) {
+                    updateFormData(
+                      'expectedOutcomes',
+                      formData.expectedOutcomes.filter(item => item !== option.value)
+                    );
+                  } else {
+                    updateFormData('expectedOutcomes', [
+                      ...formData.expectedOutcomes,
+                      option.value,
+                    ]);
+                  }
+                }}
+              >
+                <CardContent className='p-6'>
+                  <div className='flex items-center space-x-3'>
+                    <input
+                      type='checkbox'
+                      id={option.value}
+                      checked={formData.expectedOutcomes.includes(option.value)}
+                      onChange={e => {
+                        if (e.target.checked) {
+                          updateFormData('expectedOutcomes', [
+                            ...formData.expectedOutcomes,
+                            option.value,
+                          ]);
+                        } else {
+                          updateFormData(
+                            'expectedOutcomes',
+                            formData.expectedOutcomes.filter(item => item !== option.value)
+                          );
+                        }
+                      }}
+                      className='w-4 h-4 pointer-events-none'
+                      tabIndex={-1}
+                    />
+                    <div className='flex-1'>
+                      <h4 className='font-semibold text-lg'>{option.label}</h4>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          {formData.expectedOutcomes.includes('other') && (
+            <Input
+              placeholder='Please specify other outcomes...'
+              value={formData.howDidYouHearOther || ''}
+              onChange={e => updateFormData('howDidYouHearOther', e.target.value)}
+              className='mt-3'
+            />
+          )}
         </div>
-        {formData.expectedOutcomes.includes('other') && (
-          <Input
-            placeholder='Please specify other outcomes...'
-            value={formData.howDidYouHearOther || ''}
-            onChange={e => updateFormData('howDidYouHearOther', e.target.value)}
-            className='mt-3'
+
+        <div>
+          <Label htmlFor='challenges' className='text-lg font-semibold mb-4 block'>
+            What challenges or problems are you currently facing? (Optional)
+          </Label>
+          <Textarea
+            id='challenges'
+            placeholder='Describe your current security challenges...'
+            value={formData.currentChallenges}
+            onChange={e => updateFormData('currentChallenges', e.target.value)}
+            rows={4}
+            className='resize-none'
           />
-        )}
-      </div>
-
-      <div>
-        <Label htmlFor='challenges' className='text-lg font-semibold mb-4 block'>
-          What challenges or problems are you currently facing? (Optional)
-        </Label>
-        <Textarea
-          id='challenges'
-          placeholder='Describe your current security challenges...'
-          value={formData.currentChallenges}
-          onChange={e => updateFormData('currentChallenges', e.target.value)}
-          rows={4}
-          className='resize-none'
-        />
+        </div>
       </div>
     </motion.div>
   );
