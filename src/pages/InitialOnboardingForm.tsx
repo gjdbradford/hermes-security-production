@@ -61,6 +61,11 @@ const InitialOnboardingForm = () => {
   const [emailFromUrl, setEmailFromUrl] = useState<string>('');
   const [localEmail, setLocalEmail] = useState<string>('');
 
+  // Edit mode state
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [_editTargetStep, setEditTargetStep] = useState<number | null>(null);
+  const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
+
   // Form data state
   const [formData, setFormData] = useState<OnboardingFormData>({
     serviceType: '',
@@ -164,8 +169,41 @@ const InitialOnboardingForm = () => {
     }
   };
 
+  // Function to navigate to a specific step for editing
+  const navigateToStepForEdit = (stepNumber: number) => {
+    setIsEditMode(true);
+    setEditTargetStep(stepNumber);
+    setCurrentStep(stepNumber);
+    setUpdateSuccess(false);
+    // Scroll to top when navigating
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  // Function to handle update when in edit mode
+  const handleUpdateStep = () => {
+    if (isStepValid(currentStep)) {
+      setUpdateSuccess(true);
+      // Reset update success after 2 seconds
+      setTimeout(() => {
+        setUpdateSuccess(false);
+        setIsEditMode(false);
+        setEditTargetStep(null);
+        // Navigate back to summary
+        setCurrentStep(6); // Summary step
+      }, 2000);
+    }
+  };
+
   const handleNext = () => {
     if (isStepValid(currentStep)) {
+      // If in edit mode, handle update instead of navigation
+      if (isEditMode) {
+        handleUpdateStep();
+        return;
+      }
+
       setCurrentStep(prev => Math.min(prev + 1, TOTAL_STEPS));
       setError(null);
     } else {
@@ -176,10 +214,6 @@ const InitialOnboardingForm = () => {
   const handlePrevious = () => {
     setCurrentStep(prev => Math.max(prev - 1, 1));
     setError(null);
-  };
-
-  const handleEditStep = (step: number) => {
-    setCurrentStep(step);
   };
 
   const handleSubmit = async () => {
@@ -769,7 +803,7 @@ const InitialOnboardingForm = () => {
             <Button
               variant='outline'
               size='sm'
-              onClick={() => handleEditStep(1)}
+              onClick={() => navigateToStepForEdit(1)}
               className='flex items-center gap-2'
             >
               <Edit className='h-4 w-4' />
@@ -805,7 +839,7 @@ const InitialOnboardingForm = () => {
             <Button
               variant='outline'
               size='sm'
-              onClick={() => handleEditStep(2)}
+              onClick={() => navigateToStepForEdit(2)}
               className='flex items-center gap-2'
             >
               <Edit className='h-4 w-4' />
@@ -831,7 +865,7 @@ const InitialOnboardingForm = () => {
             <Button
               variant='outline'
               size='sm'
-              onClick={() => handleEditStep(3)}
+              onClick={() => navigateToStepForEdit(3)}
               className='flex items-center gap-2'
             >
               <Edit className='h-4 w-4' />
@@ -864,7 +898,7 @@ const InitialOnboardingForm = () => {
             <Button
               variant='outline'
               size='sm'
-              onClick={() => handleEditStep(4)}
+              onClick={() => navigateToStepForEdit(4)}
               className='flex items-center gap-2'
             >
               <Edit className='h-4 w-4' />
@@ -893,7 +927,7 @@ const InitialOnboardingForm = () => {
             <Button
               variant='outline'
               size='sm'
-              onClick={() => handleEditStep(5)}
+              onClick={() => navigateToStepForEdit(5)}
               className='flex items-center gap-2'
             >
               <Edit className='h-4 w-4' />
@@ -973,7 +1007,7 @@ const InitialOnboardingForm = () => {
             <div className='flex items-center justify-between mb-4'>
               <h2 className='text-3xl font-bold text-primary'>Initial Onboarding Form</h2>
               <Badge variant='outline' className='text-sm'>
-                Step {currentStep} of {TOTAL_STEPS}
+                {isEditMode ? 'Edit Mode' : `Step ${currentStep} of ${TOTAL_STEPS}`}
               </Badge>
             </div>
             <div className='mb-6'>
@@ -982,6 +1016,20 @@ const InitialOnboardingForm = () => {
                 className={`mb-2 ${progressPercentage === 100 ? 'progress-complete' : ''}`}
               />
             </div>
+
+            {/* Edit Mode Alert */}
+            {isEditMode && (
+              <div className='bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6'>
+                <div className='flex items-center space-x-2'>
+                  <AlertTriangle className='h-5 w-5 text-orange-600' />
+                  <span className='font-semibold text-orange-900'>Edit Mode</span>
+                </div>
+                <p className='text-sm text-orange-700 mt-1'>
+                  You are editing your assessment. Click "Update" to save changes and return to the
+                  summary.
+                </p>
+              </div>
+            )}
 
             {/* Step Icons */}
             <div className='flex items-center justify-between text-sm'>
@@ -1070,10 +1118,26 @@ const InitialOnboardingForm = () => {
               <Button
                 onClick={handleNext}
                 disabled={!isStepValid(currentStep)}
-                className='flex items-center gap-2'
+                className={`flex items-center gap-2 ${
+                  updateSuccess ? 'bg-green-600 hover:bg-green-700' : ''
+                }`}
               >
-                Next
-                <ChevronRight className='h-4 w-4' />
+                {updateSuccess ? (
+                  <>
+                    <CheckCircle className='h-4 w-4' />
+                    Updated!
+                  </>
+                ) : isEditMode ? (
+                  <>
+                    Update
+                    <CheckCircle className='h-4 w-4' />
+                  </>
+                ) : (
+                  <>
+                    Next
+                    <ChevronRight className='h-4 w-4' />
+                  </>
+                )}
               </Button>
             ) : (
               <Button
