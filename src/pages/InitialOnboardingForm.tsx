@@ -227,7 +227,10 @@ const InitialOnboardingForm = () => {
         </Label>
         <div className='space-y-3'>
           {EXPECTED_OUTCOMES.map(option => (
-            <div key={option.value} className='flex items-center space-x-2'>
+            <div
+              key={option.value}
+              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+            >
               <Checkbox
                 id={option.value}
                 checked={formData.expectedOutcomes.includes(option.value)}
@@ -245,7 +248,7 @@ const InitialOnboardingForm = () => {
                   }
                 }}
               />
-              <Label htmlFor={option.value} className='text-base'>
+              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
                 {option.label}
               </Label>
             </div>
@@ -428,7 +431,10 @@ const InitialOnboardingForm = () => {
         </Label>
         <div className='space-y-3'>
           {DECISION_FACTORS.map(option => (
-            <div key={option.value} className='flex items-center space-x-2'>
+            <div
+              key={option.value}
+              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+            >
               <Checkbox
                 id={option.value}
                 checked={formData.decisionFactors.includes(option.value)}
@@ -443,7 +449,7 @@ const InitialOnboardingForm = () => {
                   }
                 }}
               />
-              <Label htmlFor={option.value} className='text-base'>
+              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
                 {option.label}
               </Label>
             </div>
