@@ -202,26 +202,55 @@ const InitialOnboardingForm = () => {
       className='space-y-6'
     >
       <div>
-        <Label className='text-lg font-semibold mb-4 block'>
-          Which of our services are you interested in? *
-        </Label>
-        <RadioGroup
-          value={formData.serviceType}
-          onValueChange={value => updateFormData('serviceType', value)}
-          className='space-y-3'
-        >
-          {SERVICE_TYPES.map(option => (
-            <div
+        <label className='text-lg font-semibold block mb-3'>
+          * What type of pentest would you like to conduct?
+        </label>
+        <div className='grid gap-3'>
+          {[
+            {
+              value: 'white-box',
+              label: 'White Box Pentest',
+              description: 'Full knowledge of system architecture and code',
+            },
+            {
+              value: 'gray-box',
+              label: 'Gray Box Pentest',
+              description: 'Partial knowledge of system architecture',
+            },
+            {
+              value: 'black-box',
+              label: 'Black Box Pentest',
+              description: 'No prior knowledge of system architecture',
+            },
+            { value: 'all', label: 'All Types', description: 'Comprehensive testing approach' },
+          ].map(option => (
+            <Card
               key={option.value}
-              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+              className='cursor-pointer transition-all hover:shadow-md hover:bg-muted/50'
+              onClick={() => {
+                updateFormData('serviceType', option.value);
+              }}
             >
-              <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
-                {option.label}
-              </Label>
-            </div>
+              <CardContent className='p-4'>
+                <div className='flex items-center space-x-3'>
+                  <input
+                    type='radio'
+                    name='serviceType'
+                    value={option.value}
+                    checked={formData.serviceType === option.value}
+                    onChange={() => updateFormData('serviceType', option.value)}
+                    className='w-4 h-4 pointer-events-none'
+                    tabIndex={-1}
+                  />
+                  <div className='flex-1'>
+                    <h4 className='font-semibold'>{option.label}</h4>
+                    <p className='text-sm text-muted-foreground'>{option.description}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
-        </RadioGroup>
+        </div>
       </div>
 
       <div>
