@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -368,52 +367,92 @@ const InitialOnboardingForm = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className='space-y-6'
+      className='space-y-8'
     >
-      <div>
-        <Label className='text-lg font-semibold mb-4 block'>
-          * When do you need our services to start?
-        </Label>
-        <RadioGroup
-          value={formData.serviceStartTimeline}
-          onValueChange={value => updateFormData('serviceStartTimeline', value)}
-          className='space-y-3'
-        >
+      <div className='space-y-8'>
+        <div className='text-center mb-6'>
+          <h3 className='text-2xl font-bold text-primary mb-2'>
+            * When do you need our services to start?
+          </h3>
+          <p className='text-muted-foreground'>
+            Select your preferred timeline for service delivery
+          </p>
+        </div>
+
+        <div className='grid gap-4'>
           {TIMELINE_OPTIONS.map(option => (
-            <div
+            <Card
               key={option.value}
-              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+              className={`cursor-pointer transition-all hover:shadow-md ${
+                formData.serviceStartTimeline === option.value
+                  ? 'ring-2 ring-primary bg-primary/5'
+                  : 'hover:bg-muted/50'
+              }`}
+              onClick={() => {
+                updateFormData('serviceStartTimeline', option.value);
+              }}
             >
-              <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
-                {option.label}
-              </Label>
-            </div>
+              <CardContent className='p-6'>
+                <div className='flex items-center space-x-3'>
+                  <input
+                    type='radio'
+                    name='serviceStartTimeline'
+                    value={option.value}
+                    checked={formData.serviceStartTimeline === option.value}
+                    onChange={() => updateFormData('serviceStartTimeline', option.value)}
+                    className='w-4 h-4 pointer-events-none'
+                    tabIndex={-1}
+                  />
+                  <div className='flex-1'>
+                    <h4 className='font-semibold text-lg'>{option.label}</h4>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
-        </RadioGroup>
+        </div>
       </div>
 
-      <div>
-        <Label className='text-lg font-semibold mb-4 block'>
-          * What is your timeframe for making a decision?
-        </Label>
-        <RadioGroup
-          value={formData.decisionTimeline}
-          onValueChange={value => updateFormData('decisionTimeline', value)}
-          className='space-y-3'
-        >
+      <div className='space-y-8'>
+        <div className='text-center mb-6'>
+          <h3 className='text-2xl font-bold text-primary mb-2'>
+            * What is your timeframe for making a decision?
+          </h3>
+          <p className='text-muted-foreground'>Select your decision-making timeline</p>
+        </div>
+
+        <div className='grid gap-4'>
           {DECISION_TIMELINE_OPTIONS.map(option => (
-            <div
+            <Card
               key={option.value}
-              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+              className={`cursor-pointer transition-all hover:shadow-md ${
+                formData.decisionTimeline === option.value
+                  ? 'ring-2 ring-primary bg-primary/5'
+                  : 'hover:bg-muted/50'
+              }`}
+              onClick={() => {
+                updateFormData('decisionTimeline', option.value);
+              }}
             >
-              <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
-                {option.label}
-              </Label>
-            </div>
+              <CardContent className='p-6'>
+                <div className='flex items-center space-x-3'>
+                  <input
+                    type='radio'
+                    name='decisionTimeline'
+                    value={option.value}
+                    checked={formData.decisionTimeline === option.value}
+                    onChange={() => updateFormData('decisionTimeline', option.value)}
+                    className='w-4 h-4 pointer-events-none'
+                    tabIndex={-1}
+                  />
+                  <div className='flex-1'>
+                    <h4 className='font-semibold text-lg'>{option.label}</h4>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
-        </RadioGroup>
+        </div>
       </div>
     </motion.div>
   );
@@ -424,30 +463,71 @@ const InitialOnboardingForm = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className='space-y-6'
+      className='space-y-8'
     >
-      <div>
-        <Label className='text-lg font-semibold mb-4 block'>
-          * Do you have a budget allocated?
-        </Label>
-        <RadioGroup
-          value={formData.hasBudget ? 'yes' : 'no'}
-          onValueChange={value => updateFormData('hasBudget', value === 'yes')}
-          className='space-y-3'
-        >
-          <div className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'>
-            <RadioGroupItem value='yes' id='budget-yes' />
-            <Label htmlFor='budget-yes' className='text-base cursor-pointer flex-1'>
-              Yes
-            </Label>
-          </div>
-          <div className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'>
-            <RadioGroupItem value='no' id='budget-no' />
-            <Label htmlFor='budget-no' className='text-base cursor-pointer flex-1'>
-              No
-            </Label>
-          </div>
-        </RadioGroup>
+      <div className='space-y-8'>
+        <div className='text-center mb-6'>
+          <h3 className='text-2xl font-bold text-primary mb-2'>
+            * Do you have a budget allocated?
+          </h3>
+          <p className='text-muted-foreground'>Select whether you have a budget for this project</p>
+        </div>
+
+        <div className='grid gap-4'>
+          <Card
+            className={`cursor-pointer transition-all hover:shadow-md ${
+              formData.hasBudget === true ? 'ring-2 ring-primary bg-primary/5' : 'hover:bg-muted/50'
+            }`}
+            onClick={() => {
+              updateFormData('hasBudget', true);
+            }}
+          >
+            <CardContent className='p-6'>
+              <div className='flex items-center space-x-3'>
+                <input
+                  type='radio'
+                  name='hasBudget'
+                  value='yes'
+                  checked={formData.hasBudget === true}
+                  onChange={() => updateFormData('hasBudget', true)}
+                  className='w-4 h-4 pointer-events-none'
+                  tabIndex={-1}
+                />
+                <div className='flex-1'>
+                  <h4 className='font-semibold text-lg'>Yes</h4>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card
+            className={`cursor-pointer transition-all hover:shadow-md ${
+              formData.hasBudget === false
+                ? 'ring-2 ring-primary bg-primary/5'
+                : 'hover:bg-muted/50'
+            }`}
+            onClick={() => {
+              updateFormData('hasBudget', false);
+            }}
+          >
+            <CardContent className='p-6'>
+              <div className='flex items-center space-x-3'>
+                <input
+                  type='radio'
+                  name='hasBudget'
+                  value='no'
+                  checked={formData.hasBudget === false}
+                  onChange={() => updateFormData('hasBudget', false)}
+                  className='w-4 h-4 pointer-events-none'
+                  tabIndex={-1}
+                />
+                <div className='flex-1'>
+                  <h4 className='font-semibold text-lg'>No</h4>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
       {formData.hasBudget && (
@@ -471,27 +551,48 @@ const InitialOnboardingForm = () => {
             </Select>
           </div>
 
-          <div>
-            <Label className='text-lg font-semibold mb-4 block'>* Budget Range</Label>
-            <RadioGroup
-              value={formData.budgetRange}
-              onValueChange={value => updateFormData('budgetRange', value)}
-              className='space-y-3'
-            >
+          <div className='space-y-8'>
+            <div className='text-center mb-6'>
+              <h3 className='text-2xl font-bold text-primary mb-2'>* Budget Range</h3>
+              <p className='text-muted-foreground'>Select your budget range for this project</p>
+            </div>
+
+            <div className='grid gap-4'>
               {BUDGET_RANGES.map(option => (
-                <div
+                <Card
                   key={option.value}
-                  className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+                  className={`cursor-pointer transition-all hover:shadow-md ${
+                    formData.budgetRange === option.value
+                      ? 'ring-2 ring-primary bg-primary/5'
+                      : 'hover:bg-muted/50'
+                  }`}
+                  onClick={() => {
+                    updateFormData('budgetRange', option.value);
+                  }}
                 >
-                  <RadioGroupItem value={option.value} id={option.value} />
-                  <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
-                    {option.label}{' '}
-                    {formData.currency &&
-                      CURRENCY_OPTIONS.find(c => c.value === formData.currency)?.symbol}
-                  </Label>
-                </div>
+                  <CardContent className='p-6'>
+                    <div className='flex items-center space-x-3'>
+                      <input
+                        type='radio'
+                        name='budgetRange'
+                        value={option.value}
+                        checked={formData.budgetRange === option.value}
+                        onChange={() => updateFormData('budgetRange', option.value)}
+                        className='w-4 h-4 pointer-events-none'
+                        tabIndex={-1}
+                      />
+                      <div className='flex-1'>
+                        <h4 className='font-semibold text-lg'>
+                          {option.label}{' '}
+                          {formData.currency &&
+                            CURRENCY_OPTIONS.find(c => c.value === formData.currency)?.symbol}
+                        </h4>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               ))}
-            </RadioGroup>
+            </div>
           </div>
         </>
       )}
@@ -595,27 +696,46 @@ const InitialOnboardingForm = () => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className='space-y-6'
+      className='space-y-8'
     >
-      <div>
-        <Label className='text-lg font-semibold mb-4 block'>* How did you hear about us?</Label>
-        <RadioGroup
-          value={formData.howDidYouHear}
-          onValueChange={value => updateFormData('howDidYouHear', value)}
-          className='space-y-3'
-        >
+      <div className='space-y-8'>
+        <div className='text-center mb-6'>
+          <h3 className='text-2xl font-bold text-primary mb-2'>* How did you hear about us?</h3>
+          <p className='text-muted-foreground'>Select how you discovered our services</p>
+        </div>
+
+        <div className='grid gap-4'>
           {SOURCE_OPTIONS.map(option => (
-            <div
+            <Card
               key={option.value}
-              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+              className={`cursor-pointer transition-all hover:shadow-md ${
+                formData.howDidYouHear === option.value
+                  ? 'ring-2 ring-primary bg-primary/5'
+                  : 'hover:bg-muted/50'
+              }`}
+              onClick={() => {
+                updateFormData('howDidYouHear', option.value);
+              }}
             >
-              <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
-                {option.label}
-              </Label>
-            </div>
+              <CardContent className='p-6'>
+                <div className='flex items-center space-x-3'>
+                  <input
+                    type='radio'
+                    name='howDidYouHear'
+                    value={option.value}
+                    checked={formData.howDidYouHear === option.value}
+                    onChange={() => updateFormData('howDidYouHear', option.value)}
+                    className='w-4 h-4 pointer-events-none'
+                    tabIndex={-1}
+                  />
+                  <div className='flex-1'>
+                    <h4 className='font-semibold text-lg'>{option.label}</h4>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           ))}
-        </RadioGroup>
+        </div>
         {formData.howDidYouHear === 'other' && (
           <Input
             placeholder='Please specify how you heard about us...'
