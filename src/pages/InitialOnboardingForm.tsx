@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
   SelectContent,
@@ -29,6 +28,8 @@ import {
   MessageSquare,
   CheckCircle,
   AlertCircle,
+  Mail,
+  AlertTriangle,
 } from 'lucide-react';
 import type { OnboardingFormData } from '@/types/onboarding';
 import {
@@ -48,6 +49,8 @@ const InitialOnboardingForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [emailFromUrl, setEmailFromUrl] = useState<string>('');
+  const [localEmail, setLocalEmail] = useState<string>('');
 
   // Form data state
   const [formData, setFormData] = useState<OnboardingFormData>({
@@ -73,6 +76,9 @@ const InitialOnboardingForm = () => {
     const email = urlParams.get('email') || '';
     const country = urlParams.get('country') || '';
 
+    setEmailFromUrl(email);
+    setLocalEmail(email);
+
     // Auto-detect currency based on country
     const currency = getCurrencyFromCountry(country);
 
@@ -83,6 +89,15 @@ const InitialOnboardingForm = () => {
       currency,
     }));
   }, []);
+
+  // Email validation function
+  const isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const hasEmailFromUrl = emailFromUrl && isValidEmail(emailFromUrl);
+  const hasValidEmail = hasEmailFromUrl || (localEmail && isValidEmail(localEmail));
 
   const getCurrencyFromCountry = (country: string): string => {
     const currencyMap: Record<string, string> = {
@@ -259,15 +274,13 @@ const InitialOnboardingForm = () => {
         </Label>
         <div className='space-y-3'>
           {EXPECTED_OUTCOMES.map(option => (
-            <div
-              key={option.value}
-              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
-            >
-              <Checkbox
+            <div key={option.value} className='flex items-center space-x-2'>
+              <input
+                type='checkbox'
                 id={option.value}
                 checked={formData.expectedOutcomes.includes(option.value)}
-                onCheckedChange={checked => {
-                  if (checked) {
+                onChange={e => {
+                  if (e.target.checked) {
                     updateFormData('expectedOutcomes', [
                       ...formData.expectedOutcomes,
                       option.value,
@@ -279,10 +292,11 @@ const InitialOnboardingForm = () => {
                     );
                   }
                 }}
+                className='w-4 h-4'
               />
-              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
+              <label htmlFor={option.value} className='text-base'>
                 {option.label}
-              </Label>
+              </label>
             </div>
           ))}
         </div>
@@ -472,15 +486,13 @@ const InitialOnboardingForm = () => {
         </Label>
         <div className='space-y-3'>
           {DECISION_FACTORS.map(option => (
-            <div
-              key={option.value}
-              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
-            >
-              <Checkbox
+            <div key={option.value} className='flex items-center space-x-2'>
+              <input
+                type='checkbox'
                 id={option.value}
                 checked={formData.decisionFactors.includes(option.value)}
-                onCheckedChange={checked => {
-                  if (checked) {
+                onChange={e => {
+                  if (e.target.checked) {
                     updateFormData('decisionFactors', [...formData.decisionFactors, option.value]);
                   } else {
                     updateFormData(
@@ -489,10 +501,11 @@ const InitialOnboardingForm = () => {
                     );
                   }
                 }}
+                className='w-4 h-4'
               />
-              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
+              <label htmlFor={option.value} className='text-base'>
                 {option.label}
-              </Label>
+              </label>
             </div>
           ))}
         </div>
@@ -742,15 +755,45 @@ const InitialOnboardingForm = () => {
 
       <div className='pt-20 pb-8'>
         <div className='container mx-auto px-4 max-w-4xl'>
-          {/* Progress Indicator */}
+          {/* Email Block */}
+          {hasValidEmail ? (
+            <div className='bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6'>
+              <div className='flex items-center space-x-2'>
+                <Mail className='h-5 w-5 text-blue-600' />
+                <span className='font-semibold text-blue-900'>
+                  Assessment for: {hasEmailFromUrl ? emailFromUrl : localEmail}
+                </span>
+              </div>
+              <p className='text-sm text-blue-700 mt-1'>
+                This assessment will be linked to your contact information
+              </p>
+            </div>
+          ) : (
+            <div className='bg-red-50 border border-red-200 rounded-lg p-4 mb-6'>
+              <div className='flex items-center space-x-2'>
+                <AlertTriangle className='h-5 w-5 text-red-600' />
+                <span className='font-semibold text-red-900'>Email Required</span>
+              </div>
+              <p className='text-sm text-red-700 mt-1'>
+                Please provide a valid email address to continue
+              </p>
+            </div>
+          )}
+
+          {/* Progress Header */}
           <div className='mb-8'>
             <div className='flex items-center justify-between mb-4'>
-              <h1 className='text-2xl font-bold text-gray-900'>Initial Onboarding Form</h1>
-              <Badge variant='secondary' className='text-sm'>
+              <h2 className='text-3xl font-bold text-primary'>Initial Onboarding Form</h2>
+              <Badge variant='outline' className='text-sm'>
                 Step {currentStep} of {TOTAL_STEPS}
               </Badge>
             </div>
-            <Progress value={progressPercentage} className='h-2' />
+            <div className='mb-6'>
+              <Progress
+                value={progressPercentage}
+                className={`mb-2 ${progressPercentage === 100 ? 'progress-complete' : ''}`}
+              />
+            </div>
           </div>
 
           {/* Error Alert */}
