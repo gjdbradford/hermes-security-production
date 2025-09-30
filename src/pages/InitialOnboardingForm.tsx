@@ -211,9 +211,12 @@ const InitialOnboardingForm = () => {
           className='space-y-3'
         >
           {SERVICE_TYPES.map(option => (
-            <div key={option.value} className='flex items-center space-x-2'>
+            <div
+              key={option.value}
+              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+            >
               <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value} className='text-base'>
+              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
                 {option.label}
               </Label>
             </div>
@@ -298,9 +301,12 @@ const InitialOnboardingForm = () => {
           className='space-y-3'
         >
           {TIMELINE_OPTIONS.map(option => (
-            <div key={option.value} className='flex items-center space-x-2'>
+            <div
+              key={option.value}
+              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+            >
               <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value} className='text-base'>
+              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
                 {option.label}
               </Label>
             </div>
@@ -318,9 +324,12 @@ const InitialOnboardingForm = () => {
           className='space-y-3'
         >
           {DECISION_TIMELINE_OPTIONS.map(option => (
-            <div key={option.value} className='flex items-center space-x-2'>
+            <div
+              key={option.value}
+              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+            >
               <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value} className='text-base'>
+              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
                 {option.label}
               </Label>
             </div>
@@ -345,15 +354,15 @@ const InitialOnboardingForm = () => {
           onValueChange={value => updateFormData('hasBudget', value === 'yes')}
           className='space-y-3'
         >
-          <div className='flex items-center space-x-2'>
+          <div className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'>
             <RadioGroupItem value='yes' id='budget-yes' />
-            <Label htmlFor='budget-yes' className='text-base'>
+            <Label htmlFor='budget-yes' className='text-base cursor-pointer flex-1'>
               Yes
             </Label>
           </div>
-          <div className='flex items-center space-x-2'>
+          <div className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'>
             <RadioGroupItem value='no' id='budget-no' />
-            <Label htmlFor='budget-no' className='text-base'>
+            <Label htmlFor='budget-no' className='text-base cursor-pointer flex-1'>
               No
             </Label>
           </div>
@@ -389,9 +398,12 @@ const InitialOnboardingForm = () => {
               className='space-y-3'
             >
               {BUDGET_RANGES.map(option => (
-                <div key={option.value} className='flex items-center space-x-2'>
+                <div
+                  key={option.value}
+                  className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+                >
                   <RadioGroupItem value={option.value} id={option.value} />
-                  <Label htmlFor={option.value} className='text-base'>
+                  <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
                     {option.label}{' '}
                     {formData.currency &&
                       CURRENCY_OPTIONS.find(c => c.value === formData.currency)?.symbol}
@@ -483,9 +495,12 @@ const InitialOnboardingForm = () => {
           className='space-y-3'
         >
           {SOURCE_OPTIONS.map(option => (
-            <div key={option.value} className='flex items-center space-x-2'>
+            <div
+              key={option.value}
+              className='flex items-center space-x-3 p-2 rounded-md hover:bg-gray-50 transition-colors'
+            >
               <RadioGroupItem value={option.value} id={option.value} />
-              <Label htmlFor={option.value} className='text-base'>
+              <Label htmlFor={option.value} className='text-base cursor-pointer flex-1'>
                 {option.label}
               </Label>
             </div>
