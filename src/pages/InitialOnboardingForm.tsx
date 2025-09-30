@@ -45,6 +45,16 @@ import {
 
 const TOTAL_STEPS = 6;
 
+// Step definitions with icons and names
+const STEPS = [
+  { id: 1, title: 'Service Needs', icon: Target },
+  { id: 2, title: 'Timing & Urgency', icon: Clock },
+  { id: 3, title: 'Budget', icon: DollarSign },
+  { id: 4, title: 'Decision Process', icon: User },
+  { id: 5, title: 'Source', icon: MessageSquare },
+  { id: 6, title: 'Summary', icon: CheckCircle },
+];
+
 const InitialOnboardingForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -138,15 +148,15 @@ const InitialOnboardingForm = () => {
 
   const isStepValid = (step: number): boolean => {
     switch (step) {
-      case 1: // Service Needs
+      case 1: // Service Needs - serviceType and expectedOutcomes are mandatory
         return formData.serviceType !== '' && formData.expectedOutcomes.length > 0;
-      case 2: // Timing & Urgency
+      case 2: // Timing & Urgency - both timelines are mandatory
         return formData.serviceStartTimeline !== '' && formData.decisionTimeline !== '';
-      case 3: // Budget
+      case 3: // Budget - if hasBudget is true, budgetRange is mandatory
         return formData.hasBudget ? formData.budgetRange !== '' : true;
-      case 4: // Decision Process
+      case 4: // Decision Process - projectLead and decisionFactors are mandatory
         return formData.projectLead !== '' && formData.decisionFactors.length > 0;
-      case 5: // Source
+      case 5: // Source - howDidYouHear is mandatory
         return formData.howDidYouHear !== '';
       case 6: // Summary
         return true;
@@ -191,21 +201,12 @@ const InitialOnboardingForm = () => {
     }
   };
 
-  const getStepIcon = (step: number) => {
-    const icons = [User, Target, DollarSign, Clock, MessageSquare, CheckCircle];
-    return icons[step - 1] || CheckCircle;
+  const getStepTitle = (step: number) => {
+    return STEPS.find(s => s.id === step)?.title || 'Unknown';
   };
 
-  const getStepTitle = (step: number) => {
-    const titles = [
-      'Service Needs',
-      'Timing & Urgency',
-      'Budget',
-      'Decision Process',
-      'Source',
-      'Summary',
-    ];
-    return titles[step - 1] || 'Unknown';
+  const getStepIcon = (step: number) => {
+    return STEPS.find(s => s.id === step)?.icon || CheckCircle;
   };
 
   const renderServiceNeedsStep = () => (
@@ -270,7 +271,7 @@ const InitialOnboardingForm = () => {
 
       <div>
         <Label className='text-lg font-semibold mb-4 block'>
-          What outcomes are you expecting from our penetration testing/security services? *
+          * What outcomes are you expecting from our penetration testing/security services?
         </Label>
         <div className='space-y-3'>
           {EXPECTED_OUTCOMES.map(option => (
@@ -312,7 +313,7 @@ const InitialOnboardingForm = () => {
 
       <div>
         <Label htmlFor='challenges' className='text-lg font-semibold mb-4 block'>
-          What challenges or problems are you currently facing?
+          What challenges or problems are you currently facing? (Optional)
         </Label>
         <Textarea
           id='challenges'
@@ -336,7 +337,7 @@ const InitialOnboardingForm = () => {
     >
       <div>
         <Label className='text-lg font-semibold mb-4 block'>
-          When do you need our services to start? *
+          * When do you need our services to start?
         </Label>
         <RadioGroup
           value={formData.serviceStartTimeline}
@@ -359,7 +360,7 @@ const InitialOnboardingForm = () => {
 
       <div>
         <Label className='text-lg font-semibold mb-4 block'>
-          What is your timeframe for making a decision? *
+          * What is your timeframe for making a decision?
         </Label>
         <RadioGroup
           value={formData.decisionTimeline}
@@ -391,7 +392,9 @@ const InitialOnboardingForm = () => {
       className='space-y-6'
     >
       <div>
-        <Label className='text-lg font-semibold mb-4 block'>Do you have a budget allocated?</Label>
+        <Label className='text-lg font-semibold mb-4 block'>
+          * Do you have a budget allocated?
+        </Label>
         <RadioGroup
           value={formData.hasBudget ? 'yes' : 'no'}
           onValueChange={value => updateFormData('hasBudget', value === 'yes')}
@@ -434,7 +437,7 @@ const InitialOnboardingForm = () => {
           </div>
 
           <div>
-            <Label className='text-lg font-semibold mb-4 block'>Budget Range *</Label>
+            <Label className='text-lg font-semibold mb-4 block'>* Budget Range</Label>
             <RadioGroup
               value={formData.budgetRange}
               onValueChange={value => updateFormData('budgetRange', value)}
@@ -470,7 +473,7 @@ const InitialOnboardingForm = () => {
     >
       <div>
         <Label htmlFor='projectLead' className='text-lg font-semibold mb-4 block'>
-          Who is the lead on this project? *
+          * Who is the lead on this project?
         </Label>
         <Input
           id='projectLead'
@@ -482,7 +485,7 @@ const InitialOnboardingForm = () => {
 
       <div>
         <Label className='text-lg font-semibold mb-4 block'>
-          What factors are most important in your decision? *
+          * What factors are most important in your decision?
         </Label>
         <div className='space-y-3'>
           {DECISION_FACTORS.map(option => (
@@ -530,7 +533,7 @@ const InitialOnboardingForm = () => {
       className='space-y-6'
     >
       <div>
-        <Label className='text-lg font-semibold mb-4 block'>How did you hear about us? *</Label>
+        <Label className='text-lg font-semibold mb-4 block'>* How did you hear about us?</Label>
         <RadioGroup
           value={formData.howDidYouHear}
           onValueChange={value => updateFormData('howDidYouHear', value)}
