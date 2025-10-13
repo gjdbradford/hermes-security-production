@@ -48,6 +48,7 @@ import {
 } from '@/services/onboardingService';
 import { useCaptchaVerification } from '@/components/CaptchaVerification';
 import { isCaptchaEnabled, isCaptchaDebugMode } from '@/config/captcha';
+import { navigateToNeedsAssessment, navigateToHome } from '@/utils/routingUtils';
 
 const TOTAL_STEPS = 6;
 
@@ -899,9 +900,7 @@ const InitialOnboardingForm = () => {
         </p>
         <div className='space-y-4'>
           <Button
-            onClick={() =>
-              (window.location.href = `/needs-assessment?email=${encodeURIComponent(formData.email)}`)
-            }
+            onClick={() => navigateToNeedsAssessment(formData.email)}
             className='bg-accent-security hover:bg-accent-security/90 text-white px-8 py-3 text-lg'
           >
             Complete Needs Assessment Form
@@ -909,7 +908,7 @@ const InitialOnboardingForm = () => {
           <div>
             <Button
               variant='outline'
-              onClick={() => (window.location.href = '/')}
+              onClick={() => navigateToHome()}
               className='text-gray-600 hover:text-gray-800'
             >
               Go back to home

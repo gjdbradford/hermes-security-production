@@ -7,7 +7,18 @@ export default defineConfig(({ mode }) => {
   // All environments now use root path
   const base = '/';
 
+  // Environment-specific base paths for staging
+  const _stagingBasePaths = [
+    'hermes-security-production',
+    'hermes-security-staging',
+    'staging.hermessecurity.io',
+  ];
+
   return {
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(mode),
+      'process.env.VITE_DEPLOY_ENV': JSON.stringify(mode),
+    },
     base,
     publicDir: 'public',
     assetsInclude: ['**/*.svg', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'],

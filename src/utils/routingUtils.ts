@@ -70,12 +70,40 @@ export const getEnvironment = (): 'development' | 'staging' | 'production' => {
     return 'development';
   }
 
-  if (hostname === 'hermes-security-staging.vercel.app') {
+  if (
+    hostname === 'hermes-security-staging.vercel.app' ||
+    hostname.includes('staging') ||
+    hostname === 'hermes-security-production.vercel.app'
+  ) {
+    return 'staging';
+  }
+
+  if (hostname === 'gjdbradford.github.io') {
     return 'staging';
   }
 
   // All other environments are production
   return 'production';
+};
+
+// Navigate to a path using proper routing
+export const navigateTo = (path: string): void => {
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  // Use proper navigation method instead of direct href assignment
+  if (typeof window !== 'undefined' && window.location) {
+    window.location.assign(cleanPath);
+  }
+};
+
+// Navigate to needs assessment with email parameter
+export const navigateToNeedsAssessment = (email: string): void => {
+  const encodedEmail = encodeURIComponent(email);
+  navigateTo(`/needs-assessment?email=${encodedEmail}`);
+};
+
+// Navigate to home page
+export const navigateToHome = (): void => {
+  navigateTo('/');
 };
 
 // Log environment info for debugging (only once per session)
