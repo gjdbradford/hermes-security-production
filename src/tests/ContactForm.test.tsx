@@ -8,8 +8,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import ContactForm from '@/components/ContactForm';
 import CountryPhoneInput from '@/components/CountryPhoneInput';
 
-// Mock the contact API
-vi.mock('@/services/contactApi', () => ({
+// Mock the contact form service
+vi.mock('@/services/contactForm', () => ({
   submitContactForm: vi.fn(),
 }));
 
@@ -319,7 +319,7 @@ describe('Mobile Number Validation Integration', () => {
 
 describe('Form Submission Integration', () => {
   it('prevents submission with invalid mobile number', async () => {
-    const { submitContactForm } = await import('@/services/contactApi');
+    const { submitContactForm } = await import('@/services/contactForm');
     const mockSubmitContactForm = vi.mocked(submitContactForm);
 
     render(<ContactForm onSuccess={vi.fn()} ctaSource='test' />);

@@ -31,7 +31,13 @@ export const getBasePath = (): string => {
     hasLoggedEnvironment = true;
   }
 
-  // All environments now use root path
+  // Check for GitHub Pages staging environment
+  if (hostname === 'gjdbradford.github.io') {
+    cachedBasePath = '/hermes-security-production/';
+    return cachedBasePath;
+  }
+
+  // All other environments use root path
   if (!hasLoggedEnvironment) {
     console.log('🌍 Detected environment:', hostname);
   }
