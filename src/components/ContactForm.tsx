@@ -285,7 +285,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                 <Select onValueChange={value => setValue('userRole', value)}>
                   <SelectTrigger
                     id='userRole'
-                    className={`h-12 ${errors.userRole ? 'border-red-500' : ''}`}
+                    className={`h-12 border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 ${errors.userRole ? 'border-red-500' : ''}`}
                   >
                     <SelectValue placeholder='Select your role' />
                   </SelectTrigger>
@@ -335,7 +335,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                 <Select onValueChange={value => setValue('companySize', value)}>
                   <SelectTrigger
                     id='companySize'
-                    className={`h-12 ${errors.companySize ? 'border-red-500' : ''}`}
+                    className={`h-12 border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 ${errors.companySize ? 'border-red-500' : ''}`}
                   >
                     <SelectValue placeholder='Select size' />
                   </SelectTrigger>
@@ -360,7 +360,7 @@ export default function ContactForm({ onSuccess, ctaSource }: ContactFormProps) 
                 <Select onValueChange={value => setValue('serviceUrgency', value)}>
                   <SelectTrigger
                     id='serviceUrgency'
-                    className={`h-12 ${errors.serviceUrgency ? 'border-red-500' : ''}`}
+                    className={`h-12 border-2 border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 ${errors.serviceUrgency ? 'border-red-500' : ''}`}
                   >
                     <SelectValue placeholder='Select urgency' />
                   </SelectTrigger>

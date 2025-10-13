@@ -74,7 +74,7 @@ const App = () => (
               <Route path='/terms' element={<Terms />} />
               <Route path='/privacy' element={<Privacy />} />
               <Route path='/needs-assessment' element={<NeedsAssessment />} />
-              <Route path='/initial-onboarding-form' element={<InitialOnboardingForm />} />
+              <Route path='/client-introduction' element={<InitialOnboardingForm />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path='*' element={<NotFound />} />
             </Routes>

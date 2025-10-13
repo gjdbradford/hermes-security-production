@@ -53,7 +53,6 @@ const NeedsAssessment = () => {
   const [emailFromUrl, setEmailFromUrl] = useState<string>('');
   const [localEmail, setLocalEmail] = useState<string>('');
   const [emailError, setEmailError] = useState<string>('');
-  const [selectedPentestType, setSelectedPentestType] = useState<string>('');
   const [selectedProductionEnvironment, setSelectedProductionEnvironment] =
     useState<boolean>(false);
   const [selectedStagingEnvironment, setSelectedStagingEnvironment] = useState<boolean>(false);
@@ -263,7 +262,6 @@ const NeedsAssessment = () => {
       switch (step) {
         case 1:
           return (
-            !!selectedPentestType &&
             (selectedProductionEnvironment || selectedStagingEnvironment) &&
             !!selectedPreferredTime &&
             !!selectedTimezone
@@ -305,7 +303,6 @@ const NeedsAssessment = () => {
       }
     },
     [
-      selectedPentestType,
       selectedProductionEnvironment,
       selectedStagingEnvironment,
       selectedPreferredTime,
@@ -392,7 +389,6 @@ const NeedsAssessment = () => {
 
     console.log('Step validation:', {
       currentStep,
-      selectedPentestType,
       selectedProductionEnvironment,
       selectedStagingEnvironment,
       selectedPreferredTime,
@@ -517,7 +513,7 @@ const NeedsAssessment = () => {
       // Build comprehensive data from all state variables
       const assessmentData: NeedsAssessmentData = {
         email: hasEmailFromUrl ? emailFromUrl : localEmail,
-        pentestType: selectedPentestType,
+        pentestType: '', // Removed - now handled in Client Introduction form
         productionEnvironment: selectedProductionEnvironment ? 'Yes' : 'No',
         stagingEnvironment: selectedStagingEnvironment ? 'Yes' : 'No',
         preferredTime: selectedPreferredTime,
@@ -592,58 +588,6 @@ const NeedsAssessment = () => {
       </div>
 
       <div className='space-y-6'>
-        <div>
-          <label className='text-lg font-semibold block mb-3'>
-            * What type of pentest would you like to conduct?
-          </label>
-          <div className='grid gap-3'>
-            {[
-              {
-                value: 'white-box',
-                label: 'White Box Pentest',
-                description: 'Full knowledge of system architecture and code',
-              },
-              {
-                value: 'gray-box',
-                label: 'Gray Box Pentest',
-                description: 'Partial knowledge of system architecture',
-              },
-              {
-                value: 'black-box',
-                label: 'Black Box Pentest',
-                description: 'No prior knowledge of system architecture',
-              },
-              { value: 'all', label: 'All Types', description: 'Comprehensive testing approach' },
-            ].map(option => (
-              <Card
-                key={option.value}
-                className='cursor-pointer transition-all hover:shadow-md hover:bg-muted/50'
-                onClick={() => {
-                  setSelectedPentestType(option.value);
-                }}
-              >
-                <CardContent className='p-4'>
-                  <div className='flex items-center space-x-3'>
-                    <input
-                      type='radio'
-                      name='pentestType'
-                      value={option.value}
-                      checked={selectedPentestType === option.value}
-                      onChange={() => setSelectedPentestType(option.value)}
-                      className='w-4 h-4 pointer-events-none'
-                      tabIndex={-1}
-                    />
-                    <div className='flex-1'>
-                      <h4 className='font-semibold'>{option.label}</h4>
-                      <p className='text-sm text-muted-foreground'>{option.description}</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
         <div>
           <label className='text-lg font-semibold block mb-3'>
             * Will this testing be done in a production environment?
@@ -1561,9 +1505,6 @@ const NeedsAssessment = () => {
             <CardContent className='space-y-2'>
               <p>
                 <strong>Email:</strong> {hasEmailFromUrl ? emailFromUrl : localEmail}
-              </p>
-              <p>
-                <strong>Pentest Type:</strong> {selectedPentestType}
               </p>
               <p>
                 <strong>Preferred Time:</strong> {selectedPreferredTime}

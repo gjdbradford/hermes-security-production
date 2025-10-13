@@ -42,6 +42,12 @@ import {
   SOURCE_OPTIONS,
   ROLE_OPTIONS,
 } from '@/types/onboarding';
+import {
+  submitOnboardingForm,
+  OnboardingFormData as ServiceOnboardingData,
+} from '@/services/onboardingService';
+import { useCaptchaVerification } from '@/components/CaptchaVerification';
+import { isCaptchaEnabled, isCaptchaDebugMode } from '@/config/captcha';
 
 const TOTAL_STEPS = 6;
 
@@ -58,14 +64,22 @@ const STEPS = [
 const InitialOnboardingForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [emailFromUrl, setEmailFromUrl] = useState<string>('');
   const [localEmail, setLocalEmail] = useState<string>('');
+  const [captchaError, setCaptchaError] = useState<string | null>(null);
 
   // Edit mode state
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const [_editTargetStep, setEditTargetStep] = useState<number | null>(null);
   const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
+
+  // CAPTCHA verification hook
+  const { verifyCaptcha, isVerifying: isCaptchaVerifying } = useCaptchaVerification(
+    'client_introduction_submit'
+  );
+  const captchaEnabled = isCaptchaEnabled();
 
   // Form data state
   const [formData, setFormData] = useState<OnboardingFormData>({
@@ -231,27 +245,63 @@ const InitialOnboardingForm = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
+    setError(null);
+    setCaptchaError(null);
+
     try {
-      // For now, just log the data
-      console.log('Form submission data:', JSON.stringify(formData, null, 2));
+      // Verify CAPTCHA if enabled
+      let captchaTokenToUse = null;
+      if (captchaEnabled) {
+        if (isCaptchaDebugMode()) {
+          console.log('🔐 CAPTCHA verification required for client introduction');
+        }
 
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+        const captchaResult = await verifyCaptcha();
+        if (!captchaResult.success) {
+          setCaptchaError(captchaResult.error || 'CAPTCHA verification failed');
+          setIsSubmitting(false);
+          return;
+        }
 
-      // Here you would typically send the data to your API
-      console.log('Form submitted successfully! Check console for data.');
-    } catch (_err) {
-      setError('Failed to submit form. Please try again.');
+        captchaTokenToUse = captchaResult.token || null;
+        if (isCaptchaDebugMode()) {
+          console.log('🔐 CAPTCHA verification successful for client introduction');
+        }
+      }
+
+      // Prepare data for 8n8 webhook
+      const onboardingData: ServiceOnboardingData = {
+        ...formData,
+        captchaToken: captchaTokenToUse,
+        onboardingId: `onboarding_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        submittedAt: new Date().toISOString(),
+      };
+
+      console.log('🚀 Submitting client introduction form:', onboardingData);
+
+      const result = await submitOnboardingForm(onboardingData);
+      console.log('📡 8n8 webhook response:', result);
+
+      if (result.success) {
+        console.log('✅ Client introduction form submitted successfully!');
+        setIsSubmitted(true);
+      } else {
+        console.log('❌ 8n8 webhook failed:', result);
+        setError(result.message || 'Failed to submit form. Please try again.');
+      }
+    } catch (error) {
+      console.error('❌ Form submission error:', error);
+      setError('An error occurred while submitting the form. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const getStepTitle = (step: number) => {
+  const _getStepTitle = (step: number) => {
     return STEPS.find(s => s.id === step)?.title || 'Unknown';
   };
 
-  const getStepIcon = (step: number) => {
+  const _getStepIcon = (step: number) => {
     return STEPS.find(s => s.id === step)?.icon || CheckCircle;
   };
 
@@ -264,7 +314,7 @@ const InitialOnboardingForm = () => {
       className='space-y-6'
     >
       <div className='space-y-8'>
-        <div className='text-center mb-6'>
+        <div className='text-center mb-6 pt-6'>
           <h3 className='text-2xl font-bold text-primary mb-2'>Service Needs</h3>
           <p className='text-muted-foreground'>Tell us about your service requirements</p>
         </div>
@@ -326,7 +376,7 @@ const InitialOnboardingForm = () => {
         </div>
 
         <div className='space-y-8'>
-          <div className='text-center mb-6'>
+          <div className='text-center mb-6 pt-6'>
             <h3 className='text-2xl font-bold text-primary mb-2'>
               * What outcomes are you expecting from our penetration testing/security services?
             </h3>
@@ -423,7 +473,7 @@ const InitialOnboardingForm = () => {
       className='space-y-8'
     >
       <div className='space-y-8'>
-        <div className='text-center mb-6'>
+        <div className='text-center mb-6 pt-6'>
           <h3 className='text-2xl font-bold text-primary mb-2'>Timing & Urgency</h3>
           <p className='text-muted-foreground'>Tell us about your timeline requirements</p>
         </div>
@@ -516,7 +566,7 @@ const InitialOnboardingForm = () => {
       className='space-y-8'
     >
       <div className='space-y-8'>
-        <div className='text-center mb-6'>
+        <div className='text-center mb-6 pt-6'>
           <h3 className='text-2xl font-bold text-primary mb-2'>
             * Do you have a budget allocated?
           </h3>
@@ -588,7 +638,7 @@ const InitialOnboardingForm = () => {
               value={formData.currency}
               onValueChange={value => updateFormData('currency', value)}
             >
-              <SelectTrigger>
+              <SelectTrigger className='!border-2 !border-gray-300 focus:!border-primary focus:!ring-2 focus:!ring-primary/20'>
                 <SelectValue placeholder='Select currency' />
               </SelectTrigger>
               <SelectContent>
@@ -602,7 +652,7 @@ const InitialOnboardingForm = () => {
           </div>
 
           <div className='space-y-8'>
-            <div className='text-center mb-6'>
+            <div className='text-center mb-6 pt-6'>
               <h3 className='text-2xl font-bold text-primary mb-2'>* Budget Range</h3>
               <p className='text-muted-foreground'>Select your budget range for this project</p>
             </div>
@@ -657,6 +707,11 @@ const InitialOnboardingForm = () => {
       transition={{ duration: 0.3 }}
       className='space-y-6'
     >
+      <div className='text-center mb-6 pt-6'>
+        <h3 className='text-2xl font-bold text-primary mb-2'>Decision Process</h3>
+        <p className='text-muted-foreground'>Tell us about your decision-making process</p>
+      </div>
+
       <div>
         <label className='text-lg font-semibold block mb-3'>
           * Who is the lead on this project?
@@ -675,7 +730,7 @@ const InitialOnboardingForm = () => {
           value={formData.projectLeadRole}
           onValueChange={value => updateFormData('projectLeadRole', value)}
         >
-          <SelectTrigger>
+          <SelectTrigger className='!border-2 !border-gray-300 focus:!border-primary focus:!ring-2 focus:!ring-primary/20'>
             <SelectValue placeholder='Select your role' />
           </SelectTrigger>
           <SelectContent>
@@ -697,7 +752,7 @@ const InitialOnboardingForm = () => {
       </div>
 
       <div className='space-y-8'>
-        <div className='text-center mb-6'>
+        <div className='text-center mb-6 pt-6'>
           <h3 className='text-2xl font-bold text-primary mb-2'>
             * What factors are most important in your decision?
           </h3>
@@ -776,7 +831,7 @@ const InitialOnboardingForm = () => {
       className='space-y-8'
     >
       <div className='space-y-8'>
-        <div className='text-center mb-6'>
+        <div className='text-center mb-6 pt-6'>
           <h3 className='text-2xl font-bold text-primary mb-2'>* How did you hear about us?</h3>
           <p className='text-muted-foreground'>Select how you discovered our services</p>
         </div>
@@ -825,6 +880,46 @@ const InitialOnboardingForm = () => {
     </motion.div>
   );
 
+  const renderThankYouMessage = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className='text-center space-y-8'
+    >
+      <div className='bg-green-50 border border-green-200 rounded-lg p-8'>
+        <div className='w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6'>
+          <CheckCircle className='h-8 w-8 text-green-600' />
+        </div>
+        <h2 className='text-3xl font-bold text-green-900 mb-4'>Thank You!</h2>
+        <p className='text-lg text-green-800 mb-6'>
+          Thank you for letting us know your initial requirements. To help us process you quicker
+          and provide an excellent service, please feel free to complete the entire needs assessment
+          form. This won't take more than 5 minutes.
+        </p>
+        <div className='space-y-4'>
+          <Button
+            onClick={() =>
+              (window.location.href = `/needs-assessment?email=${encodeURIComponent(formData.email)}`)
+            }
+            className='bg-accent-security hover:bg-accent-security/90 text-white px-8 py-3 text-lg'
+          >
+            Complete Needs Assessment Form
+          </Button>
+          <div>
+            <Button
+              variant='outline'
+              onClick={() => (window.location.href = '/')}
+              className='text-gray-600 hover:text-gray-800'
+            >
+              Go back to home
+            </Button>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+
   const renderSummaryStep = () => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -833,7 +928,7 @@ const InitialOnboardingForm = () => {
       transition={{ duration: 0.3 }}
       className='space-y-6'
     >
-      <div className='text-center mb-8'>
+      <div className='text-center mb-8 pt-6'>
         <h2 className='text-2xl font-bold text-gray-900 mb-2'>Review Your Information</h2>
         <p className='text-gray-600'>Please review your responses before submitting.</p>
       </div>
@@ -1055,7 +1150,7 @@ const InitialOnboardingForm = () => {
           {/* Progress Header */}
           <div className='mb-8'>
             <div className='flex items-center justify-between mb-4'>
-              <h2 className='text-3xl font-bold text-primary'>Initial Onboarding Form</h2>
+              <h2 className='text-3xl font-bold text-primary'>Client Introduction</h2>
               <Badge variant='outline' className='text-sm'>
                 {isEditMode ? 'Edit Mode' : `Step ${currentStep} of ${TOTAL_STEPS}`}
               </Badge>
@@ -1139,76 +1234,82 @@ const InitialOnboardingForm = () => {
             </Alert>
           )}
 
+          {/* CAPTCHA Error Alert */}
+          {captchaError && (
+            <Alert className='mb-6' variant='destructive'>
+              <AlertCircle className='h-4 w-4' />
+              <AlertDescription>Security verification failed: {captchaError}</AlertDescription>
+            </Alert>
+          )}
+
           {/* Form Content */}
           <Card className='mb-8'>
-            <CardHeader>
-              <CardTitle className='flex items-center gap-2'>
-                {React.createElement(getStepIcon(currentStep), { className: 'h-5 w-5' })}
-                {getStepTitle(currentStep)}
-              </CardTitle>
-            </CardHeader>
             <CardContent>
-              <AnimatePresence mode='wait'>{renderCurrentStep()}</AnimatePresence>
+              <AnimatePresence mode='wait'>
+                {isSubmitted ? renderThankYouMessage() : renderCurrentStep()}
+              </AnimatePresence>
             </CardContent>
           </Card>
 
           {/* Navigation Buttons */}
-          <div className='flex justify-between'>
-            <Button
-              variant='outline'
-              onClick={handlePrevious}
-              disabled={currentStep === 1}
-              className='flex items-center gap-2'
-            >
-              <ChevronLeft className='h-4 w-4' />
-              Previous
-            </Button>
-
-            {currentStep < TOTAL_STEPS ? (
+          {!isSubmitted && (
+            <div className='flex justify-between'>
               <Button
-                onClick={handleNext}
-                disabled={!isStepValid(currentStep)}
-                className={`flex items-center gap-2 ${
-                  updateSuccess ? 'bg-green-600 hover:bg-green-700' : ''
-                }`}
-              >
-                {updateSuccess ? (
-                  <>
-                    <CheckCircle className='h-4 w-4' />
-                    Updated!
-                  </>
-                ) : isEditMode ? (
-                  <>
-                    Update
-                    <CheckCircle className='h-4 w-4' />
-                  </>
-                ) : (
-                  <>
-                    Next
-                    <ChevronRight className='h-4 w-4' />
-                  </>
-                )}
-              </Button>
-            ) : (
-              <Button
-                onClick={handleSubmit}
-                disabled={isSubmitting}
+                variant='outline'
+                onClick={handlePrevious}
+                disabled={currentStep === 1}
                 className='flex items-center gap-2'
               >
-                {isSubmitting ? (
-                  <>
-                    <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white'></div>
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle className='h-4 w-4' />
-                    Submit Form
-                  </>
-                )}
+                <ChevronLeft className='h-4 w-4' />
+                Previous
               </Button>
-            )}
-          </div>
+
+              {currentStep < TOTAL_STEPS ? (
+                <Button
+                  onClick={handleNext}
+                  disabled={!isStepValid(currentStep)}
+                  className={`flex items-center gap-2 ${
+                    updateSuccess ? 'bg-green-600 hover:bg-green-700' : ''
+                  }`}
+                >
+                  {updateSuccess ? (
+                    <>
+                      <CheckCircle className='h-4 w-4' />
+                      Updated!
+                    </>
+                  ) : isEditMode ? (
+                    <>
+                      Update
+                      <CheckCircle className='h-4 w-4' />
+                    </>
+                  ) : (
+                    <>
+                      Next
+                      <ChevronRight className='h-4 w-4' />
+                    </>
+                  )}
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting || isCaptchaVerifying}
+                  className='flex items-center gap-2'
+                >
+                  {isSubmitting || isCaptchaVerifying ? (
+                    <>
+                      <div className='animate-spin rounded-full h-4 w-4 border-b-2 border-white'></div>
+                      {isCaptchaVerifying ? 'Verifying security...' : 'Submitting...'}
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className='h-4 w-4' />
+                      Submit Form
+                    </>
+                  )}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

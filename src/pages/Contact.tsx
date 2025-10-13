@@ -114,8 +114,9 @@ export default function Contact() {
                 <CardContent className='space-y-6'>
                   <div className='bg-blue-50 p-4 rounded-lg'>
                     <p className='text-blue-800 mb-3'>
-                      We are connecting you to our security expert team, who will be in touch as
-                      soon as possible.
+                      Thank you for reaching out. To save us time please take 1-minute to fill in
+                      our client introduction form, this will help us process this enquiry much
+                      faster.
                     </p>
                     <p className='text-blue-800 mb-3'>
                       Feel free to engage with our AI Bot, ask it anything you can think of.
@@ -125,12 +126,18 @@ export default function Contact() {
                         Speed up your interaction with Hermes!
                       </p>
                       <p className='text-blue-800 text-sm mb-3'>
-                        Take 3 minutes to complete our needs assessment form to get a more detailed and accurate quote.
+                        Take 1 minute to complete our client introduction form to get a more
+                        detailed and accurate quote.
                       </p>
-                      <Button asChild className='w-full'>
-                        <Link to={`/needs-assessment?email=${encodeURIComponent(formData.email)}`}>
-                          Complete Needs Assessment
+                      <Button asChild className='w-full mb-3'>
+                        <Link
+                          to={`/client-introduction?email=${encodeURIComponent(formData.email)}`}
+                        >
+                          Complete Client Introduction Form
                         </Link>
+                      </Button>
+                      <Button asChild variant='outline' className='w-full'>
+                        <Link to='/'>Go back to home</Link>
                       </Button>
                     </div>
                   </div>
