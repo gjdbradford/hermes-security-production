@@ -8,7 +8,7 @@ export default function OurStoryHeroSection() {
   const navigate = useNavigate();
 
   const handleCTAClick = () => {
-    navigateToContact(navigate, 'our-story-hero');
+    navigateToContact(navigate, 'Get In Touch');
   };
 
   return (

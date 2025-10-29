@@ -1,4 +1,4 @@
-import { Shield, Target, Zap } from 'lucide-react';
+import { Target, Zap } from 'lucide-react';
 import { getImagePath } from '@/utils/imageUtils';
 
 export default function ManifestoSection() {
@@ -45,12 +45,6 @@ export default function ManifestoSection() {
         <div className='max-w-5xl mx-auto text-center'>
           {/* Manifesto Header */}
           <div className='mb-16'>
-            <div className='flex justify-center mb-8'>
-              <div className='w-24 h-24 bg-accent-security/20 rounded-full flex items-center justify-center border-2 border-accent-security/30'>
-                <Shield className='w-12 h-12 text-accent-security' />
-              </div>
-            </div>
-
             <h2 className='text-5xl md:text-6xl font-bold mb-6'>
               The <span className='text-accent-security'>Hermes</span> Manifesto
             </h2>

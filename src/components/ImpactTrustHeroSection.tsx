@@ -1,8 +1,16 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { navigateToContact } from '@/utils/ctaNavigation';
 
 export default function ImpactTrustHeroSection() {
+  const navigate = useNavigate();
+
+  const handleCTAClick = () => {
+    navigateToContact(navigate, 'Book Your Pen Test Today');
+  };
+
   return (
     <section className='relative min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-950 flex items-center justify-center overflow-hidden'>
       {/* Background Pattern */}
@@ -63,6 +71,7 @@ export default function ImpactTrustHeroSection() {
           <Button
             size='lg'
             className='bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105'
+            onClick={handleCTAClick}
           >
             Book Your Pen Test Today
             <ArrowRight className='ml-2 h-5 w-5' />
