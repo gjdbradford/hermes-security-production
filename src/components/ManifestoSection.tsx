@@ -76,7 +76,7 @@ export default function ManifestoSection() {
               </p>
 
               <p className='text-hero-muted'>
-                <span className='text-accent-security font-semibold'>We recognize</span> that in the
+                <span className='text-accent-security font-semibold'>We recognise</span> that in the
                 wrong hands, technology becomes a weapon. We stand against those who would use AI to
                 harm, exploit, or control others.
               </p>

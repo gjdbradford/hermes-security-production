@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Shield, Zap, Users, Target, ArrowRight } from 'lucide-react';
+import { Shield, Zap, Target, ArrowRight } from 'lucide-react';
 import { getImagePath } from '@/utils/imageUtils';
 import { useNavigate } from 'react-router-dom';
 import { navigateToContact } from '@/utils/ctaNavigation';
@@ -20,47 +20,28 @@ const heroContent = [
   {
     id: 1,
     subtitle: 'The Core Offer',
-    title: "Don't Be in Tomorrow's News.",
-    description:
-      'Fast, ethical, and actionable security testing. Hermes combines **AI speed with human expertise** to uncover exploitable risks.',
-    cta: 'Book Your Pen Test Today',
+    title: 'Our Hackers Rank Top 20 Globally!',
+    description: 'Authorise Us To Attack. See The Truth. Action Not Talk.',
+    cta: 'Book Your Pen Test Todayy',
     icon: Target,
   },
   {
     id: 2,
-    subtitle: 'Old vs New',
-    title: 'Stuck Doing it the Old Way?',
-    description:
-      'Traditional pentests are slow, expensive, and point-in-time. Hermes delivers **continuous, AI-accelerated testing with expert oversight,** aligned to your security lifecycle: Initiate · Discover · Attack · Prioritise.',
+    subtitle: 'Old Ways vs New',
+    title: 'We Will Get In Safely.',
+    description: "You Decide Our Value, Let's Do Business Together.",
     cta: 'Book Your Pen Test Today',
     icon: Shield,
   },
   {
     id: 3,
-    subtitle: 'Actionable Results',
-    title: 'From Alerts to Action.',
+    subtitle: 'Ethical Hacking',
+    title: 'We Are The Top Certified Hackers.',
     description:
-      'Cut through the noise. Hermes provides **prioritised, board-ready reports** that help your team focus on the vulnerabilities attackers would exploit first.',
+      'We are a team of TOP certified ethical hackers who are passionate about helping businesses stay secure.',
     cta: 'Book Your Pen Test Today',
+
     icon: Zap,
-  },
-  {
-    id: 4,
-    subtitle: 'Impact & Trust',
-    title: 'AI + Human Expertise = Impact.',
-    description:
-      'Our hybrid approach validates real attack paths, confirms fixes, and strengthens your security posture — so you stay **compliant, secure, and breach-free.**',
-    cta: 'Book Your Pen Test Today',
-    icon: Users,
-  },
-  {
-    id: 5,
-    subtitle: 'Defense & Stay Ahead',
-    title: 'Strengthen Your Defenses.',
-    description:
-      'Every enterprise faces thousands of attacks each week. Hermes Security helps you stay ahead with **penetration testing as a service** that combines machine efficiency with expert ethical hackers.',
-    cta: 'Book Your Pen Test Today',
-    icon: Target,
   },
 ];
 

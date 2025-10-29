@@ -20,7 +20,7 @@ const visionMissionData = [
     icon: Globe,
     title: 'Why It Matters',
     content:
-      "In today's interconnected world, the security of one organization affects us all. AI threats don't discriminate - they target any vulnerability they can find. Our work protects not just our clients, but the entire digital ecosystem.",
+      "In today's interconnected world, the security of one organisation affects us all. AI threats don't discriminate - they target any vulnerability they can find. Our work protects not just our clients, but the entire digital ecosystem.",
     highlight: 'Security for all',
   },
 ];

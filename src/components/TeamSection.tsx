@@ -40,7 +40,7 @@ const _securityExperts = [
     name: 'Marcus Rodriguez',
     role: 'Cloud Security Expert',
     photo: '/images/team/marcus.jpg',
-    bio: 'Cloud security specialist with deep knowledge of AWS, Azure, and GCP security. Marcus has helped organizations secure their cloud infrastructure and prevent data breaches.',
+    bio: 'Cloud security specialist with deep knowledge of AWS, Azure, and GCP security. Marcus has helped organisations secure their cloud infrastructure and prevent data breaches.',
     expertise: ['Cloud Security', 'AWS/Azure/GCP', 'DevSecOps', 'Infrastructure Security'],
     certifications: ['AWS Security', 'Azure Security', 'CCSP'],
     icon: Network,

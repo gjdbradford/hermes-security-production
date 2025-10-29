@@ -4,7 +4,7 @@
  * This file manages all static assets (images, documents, etc.) for the application.
  * Assets are stored in a CDN and referenced by their full URLs for optimal performance.
  *
- * Last updated: 2025-09-09T09:44:33.444Z
+ * Last updated: 2025-10-29T07:34:04.224Z
  */
 
 export interface AssetConfig {
@@ -169,6 +169,30 @@ export const ASSET_CONFIG: AssetConfig[] = [
     lastUpdated: '2025-08-31T12:36:20.272Z',
     description: 'Visualization of network security testing scenarios',
     cdnUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com/network-security.svg',
+  },
+  {
+    id: 'profile-graham',
+    name: 'Graham John Profile',
+    category: 'icon',
+    localPath: 'images/profiles/graham-john.jpg',
+    alt: 'Graham John - Co-Founder & CEO',
+    width: 300,
+    height: 300,
+    lastUpdated: '2025-10-29T07:34:04.221Z',
+    description: 'Professional headshot of Graham John, Co-Founder & CEO',
+    cdnUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com/graham-john.jpg',
+  },
+  {
+    id: 'profile-artem',
+    name: 'Artem Profile',
+    category: 'icon',
+    localPath: 'images/profiles/artem-pasechnik.jpg',
+    alt: 'Artem - Co-Founder & CTO',
+    width: 300,
+    height: 300,
+    lastUpdated: '2025-10-29T07:34:04.224Z',
+    description: 'Professional headshot of Artem, Co-Founder & CTO',
+    cdnUrl: 'https://fiwymn5e6h2iyex9.public.blob.vercel-storage.com/artem-pasechnik.jpg',
   },
 ];
 

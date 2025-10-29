@@ -4,28 +4,30 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 // Lazy load components for better performance
-const AboutHeroSection = lazy(() => import('@/components/AboutHeroSection'));
-const VisionMissionSection = lazy(() => import('@/components/VisionMissionSection'));
-const ValuesSection = lazy(() => import('@/components/ValuesSection'));
-const ManifestoSection = lazy(() => import('@/components/ManifestoSection'));
-const WhyChooseSection = lazy(() => import('@/components/WhyChooseSection'));
-const AboutCTASection = lazy(() => import('@/components/AboutCTASection'));
+const OurStoryHeroSection = lazy(() => import('@/components/OurStoryHeroSection'));
+const DestinyPhilosophySection = lazy(() => import('@/components/DestinyPhilosophySection'));
+const IntentionallyPickySection = lazy(() => import('@/components/IntentionallyPickySection'));
+const StrongFocusedDiscreetSection = lazy(
+  () => import('@/components/StrongFocusedDiscreetSection')
+);
+const TeamProfilesSection = lazy(() => import('@/components/TeamProfilesSection'));
+const OurStoryCTASection = lazy(() => import('@/components/OurStoryCTASection'));
 
-export default function About() {
+export default function OurStory() {
   return (
     <>
       <Helmet>
-        <title>About Us - Hermes Security | Defending the Light in a Digital World</title>
+        <title>Our Story - Hermes Security | Driven by Philosophy</title>
         <meta
           name='description'
-          content="Learn about Hermes Security's mission to protect the digital realm. Founded by Graham and Artem, we combine AI speed with human expertise to defend against emerging threats."
+          content='Discover the story behind Hermes Security. Founded by Graham and Artem, we combine over 50 years of experience with a philosophy of love, respect, and the highest intention in cybersecurity.'
         />
         <meta
           name='keywords'
-          content='about us, Hermes Security, cybersecurity, AI security, founders, Graham John, Artem, digital protection, ethical security'
+          content='our story, Hermes Security founders, Graham John, Artem, cybersecurity philosophy, company story, team profiles, cybersecurity experience'
         />
         <meta name='robots' content='index, follow' />
-        <link rel='canonical' href='https://www.hermessecurity.io/about' />
+        <link rel='canonical' href='https://www.hermessecurity.io/our-story' />
       </Helmet>
 
       <div className='min-h-screen bg-gradient-to-br from-slate-50 to-slate-100'>
@@ -41,21 +43,10 @@ export default function About() {
               </div>
             }
           >
-            <AboutHeroSection />
+            <OurStoryHeroSection />
           </Suspense>
 
-          {/* Vision & Mission Section */}
-          <Suspense
-            fallback={
-              <div className='py-24 bg-hero flex items-center justify-center'>
-                <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security'></div>
-              </div>
-            }
-          >
-            <VisionMissionSection />
-          </Suspense>
-
-          {/* Values Section */}
+          {/* Destiny Philosophy Section */}
           <Suspense
             fallback={
               <div className='py-24 bg-background flex items-center justify-center'>
@@ -63,10 +54,10 @@ export default function About() {
               </div>
             }
           >
-            <ValuesSection />
+            <DestinyPhilosophySection />
           </Suspense>
 
-          {/* Manifesto Section */}
+          {/* Intentionally Picky Section */}
           <Suspense
             fallback={
               <div className='py-24 bg-hero flex items-center justify-center'>
@@ -74,10 +65,21 @@ export default function About() {
               </div>
             }
           >
-            <ManifestoSection />
+            <IntentionallyPickySection />
           </Suspense>
 
-          {/* Why Choose Section */}
+          {/* Strong Focused Discreet Section */}
+          <Suspense
+            fallback={
+              <div className='py-24 bg-background flex items-center justify-center'>
+                <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security'></div>
+              </div>
+            }
+          >
+            <StrongFocusedDiscreetSection />
+          </Suspense>
+
+          {/* Team Profiles Section */}
           <Suspense
             fallback={
               <div className='py-24 bg-hero flex items-center justify-center'>
@@ -85,7 +87,7 @@ export default function About() {
               </div>
             }
           >
-            <WhyChooseSection />
+            <TeamProfilesSection />
           </Suspense>
 
           {/* CTA Section */}
@@ -96,7 +98,7 @@ export default function About() {
               </div>
             }
           >
-            <AboutCTASection />
+            <OurStoryCTASection />
           </Suspense>
         </main>
 

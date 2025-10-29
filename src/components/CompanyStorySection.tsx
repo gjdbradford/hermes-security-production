@@ -5,7 +5,7 @@ const storySteps = [
     icon: Users,
     title: 'The Beginning',
     description:
-      'Graham and Artem, two cybersecurity veterans with decades of combined experience, recognized a growing threat in the digital landscape. They saw AI being weaponized by malicious actors, creating unprecedented security challenges for organizations worldwide.',
+      'Graham and Artem, two cybersecurity veterans with decades of combined experience, recognised a growing threat in the digital landscape. They saw AI being weaponized by malicious actors, creating unprecedented security challenges for organisations worldwide.',
     highlight: 'Two experts, one vision',
   },
   {
@@ -26,7 +26,7 @@ const storySteps = [
     icon: Zap,
     title: 'The Mission',
     description:
-      'Today, we stand as guardians of the digital realm, protecting organizations from AI threats while ensuring technology remains a force for good. Our mission is clear: defend the light in a world of digital darkness.',
+      'Today, we stand as guardians of the digital realm, protecting organisations from AI threats while ensuring technology remains a force for good. Our mission is clear: defend the light in a world of digital darkness.',
     highlight: 'Protecting what matters most',
   },
 ];

@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import Index from './pages/Index';
 import About from './pages/About';
+import OurStory from './pages/OurStory';
 import Contact from './pages/Contact';
 import CountryPhoneDemo from './pages/CountryPhoneDemo';
 import Terms from './pages/Terms';
@@ -69,6 +70,7 @@ const App = () => (
             <Routes>
               <Route path='/' element={<Index />} />
               <Route path='/about' element={<About />} />
+              <Route path='/our-story' element={<OurStory />} />
               <Route path='/contact' element={<Contact />} />
               <Route path='/demo/country-phone' element={<CountryPhoneDemo />} />
               <Route path='/terms' element={<Terms />} />

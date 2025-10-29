@@ -1,7 +1,14 @@
-import { Shield, Zap, Heart, Award, Users, Clock, CheckCircle } from 'lucide-react';
+import { Shield, Zap, Heart, Award, Users, Clock, CheckCircle, Trophy } from 'lucide-react';
 import { getImagePath } from '@/utils/imageUtils';
 
 const reasons = [
+  {
+    icon: Trophy,
+    title: 'Top 20 Globally Ranked Hackers',
+    description:
+      "Our cybersecurity experts are ranked among the top 20 hackers globally, bringing elite-level offensive security skills to every engagement. When you work with Hermes, you're working with the best of the best.",
+    highlight: 'Elite global ranking',
+  },
   {
     icon: Shield,
     title: 'Decades of Combined Expertise',
@@ -13,7 +20,7 @@ const reasons = [
     icon: Zap,
     title: 'AI-Powered Innovation',
     description:
-      "We don't just use AI - we pioneer it. Our proprietary AI systems detect threats faster, analyze vulnerabilities deeper, and provide insights that human analysts alone could never achieve.",
+      "We don't just use AI - we pioneer it. Our proprietary AI systems detect threats faster, analyse vulnerabilities deeper, and provide insights that human analysts alone could never achieve.",
     highlight: 'Cutting-edge AI technology',
   },
   {
@@ -27,7 +34,7 @@ const reasons = [
     icon: Award,
     title: 'Proven Track Record',
     description:
-      "We've protected organizations from the smallest startups to the largest enterprises. Our clients trust us because we deliver results - measurable improvements in security posture and risk reduction.",
+      "We've protected organisations from the smallest startups to the largest enterprises. Our clients trust us because we deliver results - measurable improvements in security posture and risk reduction.",
     highlight: 'Proven results',
   },
 ];

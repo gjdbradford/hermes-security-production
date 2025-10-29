@@ -61,7 +61,7 @@ export default function AboutCTASection() {
               </div>
               <h3 className='text-xl font-semibold mb-2 text-foreground'>Proven Protection</h3>
               <p className='text-muted-foreground'>
-                Our AI-powered security solutions have protected organizations worldwide from
+                Our AI-powered security solutions have protected organisations worldwide from
                 emerging threats.
               </p>
             </div>
@@ -96,7 +96,7 @@ export default function AboutCTASection() {
                 Ready to Make a Difference?
               </h3>
               <p className='text-muted-foreground leading-relaxed mb-6'>
-                Every organization we protect makes the digital world a little safer. Every threat
+                Every organisation we protect makes the digital world a little safer. Every threat
                 we neutralize strengthens the collective security of our online ecosystem. Join us
                 in building a future where technology serves humanity, not threatens it.
               </p>

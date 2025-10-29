@@ -7,6 +7,7 @@ const Header = lazy(() => import('@/components/Header'));
 const HeroSection = lazy(() => import('@/components/HeroSection'));
 const IdentifyAndEliminateSection = lazy(() => import('@/components/IdentifyAndEliminateSection'));
 const ValueProposition = lazy(() => import('@/components/ValueProposition'));
+const ImpactTrustHeroSection = lazy(() => import('@/components/ImpactTrustHeroSection'));
 const MethodologySection = lazy(() => import('@/components/MethodologySection'));
 const FromPentestToProof = lazy(() => import('@/components/FromPentestToProof'));
 const ServicesSection = lazy(() => import('@/components/ServicesSection'));
@@ -89,6 +90,16 @@ export default function Index() {
           }
         >
           <ValueProposition />
+        </Suspense>
+
+        <Suspense
+          fallback={
+            <div className='py-24 bg-hero flex items-center justify-center'>
+              <div className='animate-spin rounded-full h-32 w-32 border-b-2 border-accent-security'></div>
+            </div>
+          }
+        >
+          <ImpactTrustHeroSection />
         </Suspense>
 
         <Suspense

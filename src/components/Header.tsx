@@ -30,6 +30,7 @@ const navigation = [
   { name: 'Services', href: '#services', type: 'anchor' },
   { name: 'Methodology', href: '#methodology', type: 'anchor' },
   { name: 'About', href: '/about', type: 'route' },
+  { name: 'Our Story', href: '/our-story', type: 'route' },
 ];
 
 export default function Header() {
