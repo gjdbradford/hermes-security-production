@@ -87,6 +87,7 @@ export const TIMELINE_OPTIONS = [
 ];
 
 export const DECISION_TIMELINE_OPTIONS = [
+  { value: '1-week', label: '1-2 weeks' },
   { value: '1-month', label: '1 month' },
   { value: '3-months', label: '3 months' },
   { value: '6-plus-months', label: '6+ months' },
